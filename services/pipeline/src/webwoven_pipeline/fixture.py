@@ -7,11 +7,11 @@ from pathlib import Path
 from typing import Any
 
 from .compiler import compile_graph
+from .fixture_catalog import SMOKE_STORIES, FixtureEntitySpec, FixtureFactSpec, FixtureStory
 from .manifest import build_manifest, write_manifest
 from .models import Edge, Entity, Round
 from .registry import RelationRegistry
 from .rounds import generate_rounds
-from .taxonomy import CATEGORIES, CATEGORY_LABELS
 
 FIXTURE_CREATED_AT = "2026-07-13T00:00:00Z"
 
@@ -46,7 +46,10 @@ def generate_smoke_fixture(
         {
             "version": 1,
             "fixture_only": True,
-            "notice": "The synthetic smoke graph contains no external media.",
+            "notice": (
+                "All names, descriptions, and facts are invented for local testing; "
+                "the synthetic smoke graph contains no external media."
+            ),
             "records": [],
         },
     )
@@ -70,39 +73,79 @@ def generate_smoke_fixture(
 
 
 def build_smoke_graph() -> tuple[tuple[Entity, ...], tuple[Edge, ...]]:
-    """Build four isolated bidirectional rings with known shortest paths."""
+    """Build four readable fictional stories as isolated bidirectional rings."""
     entities: list[Entity] = []
     edges: list[Edge] = []
-    for category in CATEGORIES:
-        category_entities = tuple(_fixture_entity(category, index) for index in range(1, 13))
+    for story in SMOKE_STORIES:
+        category_entities = tuple(
+            _fixture_entity(story, index, spec)
+            for index, spec in enumerate(story.entities, start=1)
+        )
         entities.extend(category_entities)
-        for index, source in enumerate(category_entities):
-            target = category_entities[(index + 1) % len(category_entities)]
-            edges.append(_fixture_edge(source.id, target.id))
-            edges.append(_fixture_edge(target.id, source.id))
+        for fact_index, fact in enumerate(story.facts, start=1):
+            source = category_entities[fact.source_index - 1]
+            target = category_entities[fact.target_index - 1]
+            edges.extend(_fixture_edges(story, fact_index, fact, source.id, target.id))
     return tuple(entities), tuple(sorted(edges, key=lambda item: item.id))
 
 
-def _fixture_entity(category: str, index: int) -> Entity:
-    category_label = CATEGORY_LABELS[category]
+def _fixture_entity(story: FixtureStory, index: int, spec: FixtureEntitySpec) -> Entity:
     return Entity(
-        id=f"fixture:{category}:{index:02d}",
-        label=f"{category_label} waypoint {index:02d}",
-        description="Synthetic smoke-test waypoint; not production knowledge data.",
-        entity_type="fixture_item",
-        category=category,
+        id=f"fixture:{story.category}:{index:02d}",
+        label=spec.label,
+        description=spec.description,
+        entity_type=spec.entity_type,
+        category=story.category,
     )
 
 
-def _fixture_edge(source_id: str, target_id: str) -> Edge:
-    digest = hashlib.sha256(f"{source_id}\0P361\0{target_id}".encode()).hexdigest()[:24]
+def _fixture_edges(
+    story: FixtureStory,
+    fact_index: int,
+    fact: FixtureFactSpec,
+    source_id: str,
+    target_id: str,
+) -> tuple[Edge, Edge]:
+    statement_id = f"fixture-statement-{story.category}-{fact_index:02d}"
+    explanation = f"Fictional fixture fact: {fact.statement}"
+    return (
+        _fixture_edge(
+            source_id,
+            target_id,
+            fact.relation_key,
+            statement_id,
+            explanation,
+            inverse=False,
+        ),
+        _fixture_edge(
+            target_id,
+            source_id,
+            fact.relation_key,
+            statement_id,
+            explanation,
+            inverse=True,
+        ),
+    )
+
+
+def _fixture_edge(
+    source_id: str,
+    target_id: str,
+    relation_key: str,
+    statement_id: str,
+    explanation: str,
+    *,
+    inverse: bool,
+) -> Edge:
+    digest = hashlib.sha256(f"{source_id}\0{relation_key}\0{target_id}".encode()).hexdigest()[:24]
     return Edge(
         id=digest,
         source_id=source_id,
         target_id=target_id,
-        relation_key="P361",
-        statement_id=f"fixture-statement-{digest}",
-        explanation="part of",
+        relation_key=relation_key,
+        statement_id=statement_id,
+        explanation=explanation,
+        inverse=inverse,
     )
 
 

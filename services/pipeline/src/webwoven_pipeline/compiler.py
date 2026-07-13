@@ -11,7 +11,7 @@ from .models import Edge, Entity, GeneratedContent, Round
 from .registry import RelationRegistry
 from .rounds import shortest_distances_to_target
 
-GRAPH_SCHEMA_VERSION = 1
+GRAPH_SCHEMA_VERSION = 2
 
 SCHEMA = """
 PRAGMA foreign_keys = ON;
@@ -41,6 +41,7 @@ CREATE TABLE edges (
     relation_key TEXT NOT NULL REFERENCES relation_types(key),
     statement_id TEXT NOT NULL,
     explanation TEXT NOT NULL,
+    inverse INTEGER NOT NULL CHECK (inverse IN (0, 1)),
     playable INTEGER NOT NULL CHECK (playable IN (0, 1))
 ) WITHOUT ROWID;
 CREATE TABLE rounds (
@@ -208,7 +209,7 @@ def _insert_entities(connection: sqlite3.Connection, entities: tuple[Entity, ...
 
 def _insert_edges(connection: sqlite3.Connection, edges: tuple[Edge, ...]) -> None:
     connection.executemany(
-        "INSERT INTO edges VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO edges VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         [
             (
                 item.id,
@@ -217,6 +218,7 @@ def _insert_edges(connection: sqlite3.Connection, edges: tuple[Edge, ...]) -> No
                 item.relation_key,
                 item.statement_id,
                 item.explanation,
+                int(item.inverse),
                 int(item.playable),
             )
             for item in edges

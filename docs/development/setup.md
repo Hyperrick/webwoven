@@ -21,3 +21,7 @@ pnpm dev
 Replace the example signing secrets locally. The application and its Compose stack are completely
 independent of AI credentials; approved Codex-assisted content is ordinary versioned
 data in the build.
+
+For the complete credential-free stack, run `docker compose up -d --build` and open
+`http://localhost`. Compose uses its same-origin Caddy address independently of the `:5173` and
+`:8000` origins used by the split Vite/API development workflow above.

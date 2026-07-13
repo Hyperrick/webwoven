@@ -9,6 +9,7 @@ def test_versioned_follow_is_idempotent_and_stale_returns_snapshot(client: TestC
     created = client.post("/api/v1/sessions", headers=headers, json={"mode": "solo"})
     assert created.status_code == 201
     session = created.json()
+    assert session["optimal_distance"] == 3
     edge_token = session["relation_groups"][0]["edges"][0]["edge_token"]
     command = {
         "type": "follow_edge",

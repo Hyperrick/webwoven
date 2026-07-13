@@ -547,12 +547,13 @@ export interface components {
         RelationGroupResponse: {
             /**
              * Direction
-             * @default outgoing
-             * @constant
+             * @enum {string}
              */
-            direction: "outgoing";
+            direction: "outgoing" | "incoming";
             /** Edges */
             edges: components["schemas"]["EdgeTargetResponse"][];
+            /** Group Id */
+            group_id: string;
             /** Label */
             label: string;
             /** Property Id */
@@ -661,6 +662,8 @@ export interface components {
             moves: number;
             /** Navigation Stack */
             navigation_stack: components["schemas"]["EntityResponse"][];
+            /** Optimal Distance */
+            optimal_distance: number;
             /** Relation Groups */
             relation_groups: components["schemas"]["RelationGroupResponse"][];
             /** Round Id */

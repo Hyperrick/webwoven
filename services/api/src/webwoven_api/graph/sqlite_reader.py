@@ -1,4 +1,4 @@
-"""Read-only adapter for the pipeline-owned SQLite v1 graph schema."""
+"""Read-only adapter for the pipeline-owned SQLite v2 graph schema."""
 
 import sqlite3
 from collections.abc import Generator
@@ -8,6 +8,8 @@ from pathlib import Path
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import Entity, GraphEdge, Round
 
+GRAPH_SCHEMA_VERSION = "2"
+
 
 class SQLiteGraphReader:
     """Query an immutable graph bundle without mutating or migrating it."""
@@ -16,7 +18,14 @@ class SQLiteGraphReader:
         self._path = path.resolve()
         if not self._path.is_file():
             raise FileNotFoundError(f"Graph bundle not found: {self._path}")
-        self._graph_version = self._read_graph_version()
+        metadata = self._read_metadata()
+        schema_version = metadata.get("schema_version")
+        if schema_version != GRAPH_SCHEMA_VERSION:
+            raise ValueError(
+                "Unsupported graph schema version: "
+                f"expected {GRAPH_SCHEMA_VERSION}, received {schema_version or 'missing'}"
+            )
+        self._graph_version = _graph_version(metadata)
 
     @property
     def graph_version(self) -> str:
@@ -26,7 +35,15 @@ class SQLiteGraphReader:
         try:
             with self._connect() as connection:
                 row = connection.execute("PRAGMA quick_check").fetchone()
-                return row is not None and row[0] == "ok"
+                schema_row = connection.execute(
+                    "SELECT value FROM metadata WHERE key = 'schema_version'"
+                ).fetchone()
+                return (
+                    row is not None
+                    and row[0] == "ok"
+                    and schema_row is not None
+                    and str(schema_row[0]) == GRAPH_SCHEMA_VERSION
+                )
         except sqlite3.Error:
             return False
 
@@ -91,7 +108,7 @@ class SQLiteGraphReader:
             ).fetchone()
         return int(row[0]) if row is not None else None
 
-    def _read_graph_version(self) -> str:
+    def _read_metadata(self) -> dict[str, str]:
         with self._connect() as connection:
             rows = connection.execute(
                 """
@@ -99,13 +116,7 @@ class SQLiteGraphReader:
                 WHERE key IN ('graph_version', 'graph_build_id', 'build_id', 'schema_version')
                 """
             ).fetchall()
-        metadata = {str(row[0]): str(row[1]) for row in rows}
-        return (
-            metadata.get("graph_version")
-            or metadata.get("graph_build_id")
-            or metadata.get("build_id")
-            or "schema-v1"
-        )
+        return {str(row[0]): str(row[1]) for row in rows}
 
     @contextmanager
     def _connect(self) -> Generator[sqlite3.Connection]:
@@ -120,7 +131,11 @@ class SQLiteGraphReader:
 
 _EDGE_SELECT = """
 SELECT e.id, e.source_id, e.target_id, e.relation_key,
-       rt.forward_label AS relation_label, e.statement_id, e.explanation,
+       CASE WHEN e.inverse = 1
+            THEN COALESCE(rt.inverse_label, rt.forward_label)
+            ELSE rt.forward_label
+       END AS relation_label,
+       e.inverse, e.statement_id, e.explanation,
        target.id AS target_entity_id, target.label AS target_label,
        target.description AS target_description, target.entity_type AS target_type,
        target.category AS target_category, target.image_path AS target_image_path,
@@ -135,6 +150,15 @@ SELECT id, start_id, target_id, category, difficulty,
        optimal_distance, time_window, published
 FROM rounds
 """
+
+
+def _graph_version(metadata: dict[str, str]) -> str:
+    return (
+        metadata.get("graph_version")
+        or metadata.get("graph_build_id")
+        or metadata.get("build_id")
+        or f"schema-v{GRAPH_SCHEMA_VERSION}"
+    )
 
 
 def _entity_from_row(row: sqlite3.Row) -> Entity:
@@ -178,6 +202,7 @@ def _edge_from_row(row: sqlite3.Row) -> GraphEdge:
         statement_id=str(row["statement_id"]),
         explanation=str(row["explanation"]),
         target=target,
+        direction="incoming" if bool(row["inverse"]) else "outgoing",
     )
 
 

@@ -65,7 +65,7 @@ def select_hint(
             penalty=HINT_PENALTIES[hint_type],
             relation_key=selected_relation_key,
             entity_id=None,
-            message=f"Compass: {selected_relation_key} looks {direction}.",
+            message=f"Compass: that kind of connection looks {direction}.",
         )
 
     if hint_type is HintType.LENS:
@@ -74,7 +74,7 @@ def select_hint(
             penalty=HINT_PENALTIES[hint_type],
             relation_key=best.relation_key,
             entity_id=None,
-            message=f"Lens: inspect the {best.relation_key} relationship group.",
+            message="Lens: a connection on a near-optimal route is now marked.",
         )
 
     return HintResult(

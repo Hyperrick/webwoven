@@ -12,6 +12,7 @@ describe("demo navigation", () => {
     const wave = followEdge(initial, "demo:Q5586:P800:Q149116");
     const returned = moveBack(wave);
 
+    expect(initial.snapshot.difficulty).toBe("normal");
     expect(initial.snapshot.current.qid).toBe("Q5586");
     expect(returned.snapshot.current.qid).toBe("Q5586");
     expect(returned.stack).toEqual(["Q5586"]);

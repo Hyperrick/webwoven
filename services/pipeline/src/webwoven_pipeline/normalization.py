@@ -6,6 +6,7 @@ from typing import Any, cast
 
 from .models import Edge, Entity, MediaRecord
 from .registry import Relation, RelationRegistry
+from .relation_sentences import format_relation_sentence
 
 
 def normalize_entities(
@@ -42,6 +43,7 @@ def normalize_edges(
     registry: RelationRegistry,
 ) -> tuple[Edge, ...]:
     known_qids = frozenset(raw_entities)
+    labels = {qid: _language_value(raw, "labels") or qid for qid, raw in raw_entities.items()}
     edges: dict[tuple[str, str, str], Edge] = {}
     for source_id, raw in sorted(raw_entities.items(), key=lambda item: _qid_number(item[0])):
         claims_value = raw.get("claims")
@@ -55,10 +57,26 @@ def normalize_edges(
             statements = cast(list[Any], statements_value)
             targets = _valid_targets(statements, relation.max_targets, known_qids)
             for target_id, statement_id in targets:
-                forward = _make_edge(source_id, target_id, relation, statement_id, inverse=False)
+                forward = _make_edge(
+                    source_id,
+                    target_id,
+                    labels[source_id],
+                    labels[target_id],
+                    relation,
+                    statement_id,
+                    inverse=False,
+                )
                 edges.setdefault((source_id, target_id, relation.key), forward)
                 if relation.inverse_label:
-                    inverse = _make_edge(source_id, target_id, relation, statement_id, inverse=True)
+                    inverse = _make_edge(
+                        source_id,
+                        target_id,
+                        labels[source_id],
+                        labels[target_id],
+                        relation,
+                        statement_id,
+                        inverse=True,
+                    )
                     edges.setdefault((target_id, source_id, relation.key), inverse)
     return tuple(sorted(edges.values(), key=lambda edge: edge.id))
 
@@ -118,6 +136,8 @@ def _statement_target(value: Any) -> tuple[str, str] | None:
 def _make_edge(
     source_id: str,
     target_id: str,
+    source_label: str,
+    target_label: str,
     relation: Relation,
     statement_id: str,
     *,
@@ -125,11 +145,11 @@ def _make_edge(
 ) -> Edge:
     if inverse:
         edge_source, edge_target = target_id, source_id
-        label = relation.inverse_label or relation.forward_label
+        edge_source_label, edge_target_label = target_label, source_label
         direction = "inverse"
     else:
         edge_source, edge_target = source_id, target_id
-        label = relation.forward_label
+        edge_source_label, edge_target_label = source_label, target_label
         direction = "forward"
     return Edge(
         id=_digest(edge_source, relation.key, edge_target, direction),
@@ -137,7 +157,13 @@ def _make_edge(
         target_id=edge_target,
         relation_key=relation.key,
         statement_id=statement_id,
-        explanation=label,
+        explanation=format_relation_sentence(
+            relation.key,
+            edge_source_label,
+            edge_target_label,
+            inverse=inverse,
+        ),
+        inverse=inverse,
         playable=relation.playable,
     )
 

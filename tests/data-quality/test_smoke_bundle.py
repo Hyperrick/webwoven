@@ -40,8 +40,16 @@ def _json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _json_list(path: Path) -> list[dict[str, Any]]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    assert isinstance(value, list)
+    assert all(isinstance(item, dict) for item in value)
+    return value
+
+
 def test_manifest_checksums_cover_every_fixture_artifact() -> None:
     manifest = _json(FIXTURE / "manifest.json")
+    assert manifest["graph_schema_version"] == 2
     entries = manifest["artifacts"]
     assert isinstance(entries, list)
     assert {entry["path"] for entry in entries} == {
@@ -82,6 +90,31 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
     )
 
 
+def test_fixture_entities_and_edges_are_readable_but_unmistakably_fictional() -> None:
+    entities = _json_list(FIXTURE / "entities.json")
+    edges = _json_list(FIXTURE / "edges.json")
+    labels = {entity["id"]: entity["label"] for entity in entities}
+
+    assert len(entities) == 48
+    assert len(labels) == 48
+    assert len(set(labels.values())) == 48
+    assert all("waypoint" not in label.casefold() for label in labels.values())
+    assert all(entity["description"].startswith("Fictional fixture ") for entity in entities)
+    assert all(entity["entity_type"].startswith("fictional_") for entity in entities)
+    assert Counter(entity["category"] for entity in entities) == Counter(
+        {category: 12 for category in CATEGORIES}
+    )
+
+    assert len(edges) == 96
+    assert {edge["relation_key"] for edge in edges} == PLAYABLE_PROPERTIES
+    assert set(Counter(edge["source_id"] for edge in edges).values()) == {2}
+    assert set(Counter(edge["target_id"] for edge in edges).values()) == {2}
+    assert set(Counter(edge["statement_id"] for edge in edges).values()) == {2}
+    assert all(edge["explanation"].startswith("Fictional fixture fact: ") for edge in edges)
+    assert len({edge["explanation"] for edge in edges}) == 48
+    assert Counter(edge["inverse"] for edge in edges) == Counter({False: 48, True: 48})
+
+
 def test_relation_registry_is_locked_and_has_explicit_inverses() -> None:
     registry = _json(ROOT / "data" / "relation-registry" / "relations.v1.json")
     relations = registry["relations"]
@@ -108,4 +141,5 @@ def test_anchor_catalog_has_forty_unique_qids_per_category() -> None:
 def test_fixture_carries_no_external_media_without_attribution() -> None:
     attribution = _json(FIXTURE / "attribution.json")
     assert attribution["fixture_only"] is True
+    assert "invented for local testing" in attribution["notice"]
     assert attribution["records"] == []

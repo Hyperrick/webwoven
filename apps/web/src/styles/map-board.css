@@ -1,0 +1,72 @@
+@layer game {
+  .map-board-renderer {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-sheet);
+    background: color-mix(in srgb, var(--color-paper) 94%, var(--color-ochre));
+    contain: strict;
+    isolation: isolate;
+    pointer-events: none;
+  }
+
+  .map-board-renderer canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-board-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-board-fallback__link {
+    stroke: var(--color-cartographic);
+    stroke-width: 2;
+    stroke-opacity: 0.55;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .map-board-fallback__link--trail {
+    stroke: var(--color-moss);
+    stroke-width: 3;
+    stroke-opacity: 0.8;
+  }
+
+  .map-board-fallback__node {
+    fill: var(--color-muted-ink);
+    stroke: var(--color-paper);
+    stroke-width: 5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .map-board-fallback__node--trail {
+    fill: var(--color-moss);
+  }
+
+  .map-board-fallback__node--choice {
+    fill: var(--color-cartographic);
+  }
+
+  .map-board-fallback__node--goal {
+    fill: var(--color-ochre);
+  }
+
+  .map-board-fallback__node--current {
+    fill: var(--color-signal);
+    stroke: var(--color-signal);
+    stroke-width: 8;
+  }
+
+  html[data-contrast="high"] .map-board-renderer {
+    border-color: var(--color-ink);
+    background: var(--color-paper);
+  }
+}

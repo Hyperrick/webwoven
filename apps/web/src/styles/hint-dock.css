@@ -1,0 +1,207 @@
+.hint-dock {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2) var(--space-4);
+  align-items: center;
+  padding: var(--space-3);
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper);
+}
+
+.hint-dock__heading {
+  display: grid;
+  align-content: center;
+  min-width: 6.5rem;
+  padding-inline: var(--space-2);
+}
+
+.hint-dock__heading h2 {
+  font-family: var(--font-interface);
+  font-size: var(--text-14);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hint-dock__heading p {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.hint-dock__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(9rem, 1fr));
+  gap: var(--space-2);
+}
+
+.hint-dock__actions button {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5rem 1.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3.25rem;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--color-ochre) 8%, var(--color-paper));
+  text-align: left;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    transform var(--motion-fast) ease;
+}
+
+.hint-dock__actions button:not(:disabled):hover {
+  color: var(--color-paper);
+  background: var(--color-ink);
+  transform: translateY(-1px);
+}
+
+.hint-dock__slot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid currentcolor;
+  border-radius: 2px;
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.hint-dock__tool-copy {
+  display: grid;
+  min-width: 0;
+  line-height: 1.15;
+}
+
+.hint-dock__tool-copy strong {
+  overflow: hidden;
+  font-size: var(--text-12);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hint-dock__tool-copy small {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.hint-dock__actions button:hover .hint-dock__tool-copy small {
+  color: var(--color-paper);
+}
+
+.hint-dock__tool-state {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hint-dock__tool--used {
+  text-decoration: line-through;
+}
+
+.hint-dock__message {
+  grid-column: 2;
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-ochre);
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-ochre) 11%, var(--color-paper));
+  font-size: var(--text-14);
+}
+
+.hint-dock__message strong {
+  flex: none;
+  color: var(--color-ochre);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hint-dock__message span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (width <= 68rem) {
+  .hint-dock {
+    grid-template-columns: 1fr;
+  }
+
+  .hint-dock__heading {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 0;
+  }
+
+  .hint-dock__message {
+    grid-column: 1;
+  }
+}
+
+@media (width <= 50rem) {
+  .hint-dock {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-2);
+  }
+
+  .hint-dock__actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hint-dock__actions button {
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: center;
+    min-height: 3.75rem;
+    padding-inline: var(--space-2);
+    text-align: center;
+  }
+
+  .hint-dock__slot,
+  .hint-dock__tool-state {
+    display: none;
+  }
+
+  .hint-dock__tool-copy strong,
+  .hint-dock__tool-copy small {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .hint-dock__message {
+    font-size: var(--text-12);
+  }
+}
+
+@media (width <= 32rem) {
+  .hint-dock__actions button {
+    grid-template-columns: 1fr;
+  }
+
+  .hint-dock__tool-copy strong {
+    font-size: 0.7rem;
+  }
+
+  .hint-dock__message {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .hint-dock__message span {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+}

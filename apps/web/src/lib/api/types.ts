@@ -1,14 +1,17 @@
 export type GameMode = "solo" | "daily";
 export type SessionStatus = "active" | "completed" | "abandoned" | "expired";
 export type HintType = "compass" | "lens" | "map_fragment";
+export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
   "history_people" | "nature_science" | "arts_culture" | "places";
+export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
 
 export interface EntitySummary {
   qid: string;
   label: string;
   description: string;
   category: Category;
+  source_kind: EntitySourceKind;
   fact?: string;
   source_url?: string;
 }
@@ -20,6 +23,7 @@ export interface RelationEdge {
 }
 
 export interface RelationGroup {
+  group_id: string;
   property_id: string;
   label: string;
   direction: "outgoing" | "incoming";
@@ -44,6 +48,7 @@ export interface UsedHint {
 export interface SessionSnapshot {
   id: string;
   mode: GameMode;
+  difficulty: Difficulty;
   start: EntitySummary;
   target: EntitySummary;
   current: EntitySummary;
@@ -83,7 +88,7 @@ export interface DailyRound {
   round_id: string;
   date: string;
   category: Category;
-  difficulty: "easy" | "normal" | "hard";
+  difficulty: Difficulty;
   optimal_distance: number;
   completed: boolean;
 }

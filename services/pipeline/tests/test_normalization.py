@@ -34,7 +34,17 @@ def test_normalizer_filters_claims_and_materializes_configured_inverse(registry)
     edges = normalize_edges(raw, registry)
 
     assert [item.label for item in entities] == ["One", "Two", "Three"]
-    assert {(item.source_id, item.target_id, item.explanation) for item in edges} == {
-        ("Q1", "Q2", "born in"),
-        ("Q2", "Q1", "birthplace of"),
+    assert {(item.source_id, item.target_id, item.explanation, item.inverse) for item in edges} == {
+        (
+            "Q1",
+            "Q2",
+            "One was born in Two.",
+            False,
+        ),
+        (
+            "Q2",
+            "Q1",
+            "One was born in Two.",
+            True,
+        ),
     }

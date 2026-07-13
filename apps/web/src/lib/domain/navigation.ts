@@ -56,6 +56,7 @@ export function createNavigationState(
     snapshot: {
       id,
       mode,
+      difficulty: "normal",
       start,
       target: DEMO_ENTITIES.Q145,
       current: start,

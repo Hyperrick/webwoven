@@ -3,7 +3,9 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+from collections import Counter
 
+import pytest
 from webwoven_pipeline.fixture import build_smoke_graph, generate_smoke_fixture
 from webwoven_pipeline.manifest import verify_manifest
 from webwoven_pipeline.rounds import generate_rounds
@@ -25,6 +27,45 @@ def test_round_generator_locks_candidate_and_publication_distribution() -> None:
         assert _counts(selected, published=True) == {"easy": 4, "normal": 4, "hard": 2}
 
 
+def test_smoke_graph_is_a_readable_fictional_catalog(registry) -> None:
+    entities, edges = build_smoke_graph()
+    labels = {entity.id: entity.label for entity in entities}
+
+    assert len(entities) == 48
+    assert len(labels) == 48
+    assert all("waypoint" not in label.casefold() for label in labels.values())
+    assert all(entity.description.startswith("Fictional fixture ") for entity in entities)
+    assert all(entity.entity_type.startswith("fictional_") for entity in entities)
+    assert Counter(entity.category for entity in entities) == Counter(
+        {category: 12 for category in CATEGORIES}
+    )
+
+    assert len(edges) == 96
+    assert {edge.relation_key for edge in edges} == registry.playable_keys
+    assert set(Counter(edge.source_id for edge in edges).values()) == {2}
+    assert set(Counter(edge.target_id for edge in edges).values()) == {2}
+    assert set(Counter(edge.statement_id for edge in edges).values()) == {2}
+    assert all(edge.explanation.startswith("Fictional fixture fact: ") for edge in edges)
+    assert len({edge.explanation for edge in edges}) == 48
+    assert {
+        edge.explanation
+        for edge in edges
+        if edge.relation_key == "P737" and labels[edge.source_id] == "Tobin Rill"
+    } == {"Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments."}
+    assert Counter(edge.inverse for edge in edges) == Counter({False: 48, True: 48})
+    assert all(
+        {edge.inverse for edge in edges if edge.statement_id == statement_id} == {False, True}
+        for statement_id in {edge.statement_id for edge in edges}
+    )
+
+    readable_edges = {
+        (labels[edge.source_id], edge.relation_key, labels[edge.target_id]) for edge in edges
+    }
+    assert ("Elian Voss", "P19", "Gannet Hollow") in readable_edges
+    assert ("Ochre Door", "P161", "Kei Moss") in readable_edges
+    assert ("Republic of Avenmark", "P36", "Calder City") in readable_edges
+
+
 def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, registry) -> None:
     first = tmp_path / "first"
     second = tmp_path / "second"
@@ -39,12 +80,20 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
     with sqlite3.connect(first / "graph.sqlite3") as connection:
         metadata = dict(connection.execute("SELECT key, value FROM metadata"))
         assert metadata["graph_build_id"] == first_build
-        assert metadata["schema_version"] == "1"
+        assert metadata["schema_version"] == "2"
         assert metadata["round_count"] == "100"
         assert metadata["published_round_count"] == "40"
         assert connection.execute("SELECT COUNT(*) FROM entities").fetchone() == (48,)
+        assert connection.execute("SELECT COUNT(*) FROM edges").fetchone() == (96,)
+        assert connection.execute("SELECT COUNT(*) FROM edges WHERE inverse = 1").fetchone() == (
+            48,
+        )
         assert connection.execute("SELECT COUNT(*) FROM relation_types").fetchone() == (20,)
         assert connection.execute("SELECT COUNT(*) FROM distances").fetchone()[0] > 100
+        with pytest.raises(sqlite3.IntegrityError):
+            connection.execute(
+                "UPDATE edges SET inverse = 2 WHERE id = (SELECT id FROM edges LIMIT 1)"
+            )
     reviews = json.loads((first / "fixture-review-decisions.json").read_text())
     assert sum(item["decision"] == "approved" for item in reviews["decisions"]) == 40
 

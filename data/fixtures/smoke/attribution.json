@@ -1,6 +1,6 @@
 {
   "fixture_only": true,
-  "notice": "The synthetic smoke graph contains no external media.",
+  "notice": "All names, descriptions, and facts are invented for local testing; the synthetic smoke graph contains no external media.",
   "records": [],
   "version": 1
 }

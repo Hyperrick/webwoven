@@ -26,6 +26,12 @@ snapshot. `POST /api/v1/sessions/{id}/commands` accepts one of three commands:
 Duplicate `client_command_id` values return the original result. A stale
 `expected_state_version` returns `409` with the latest authoritative snapshot.
 
+Session snapshots expose the round's `optimal_distance` so clients present the same par used by
+server scoring. Each relation group retains its semantic Wikidata `property_id` and also receives a
+stable `group_id` derived from property, direction, and label; clients use `group_id` for interface
+identity and `property_id` for graph and hint semantics. Direction is explicitly `outgoing` or
+`incoming`.
+
 ## Rooms
 
 Rooms use six-character Crockford Base32 codes and accept two to four guests. The lifecycle API

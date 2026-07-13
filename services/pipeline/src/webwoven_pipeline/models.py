@@ -39,6 +39,7 @@ class Edge:
     relation_key: str
     statement_id: str
     explanation: str
+    inverse: bool = False
     playable: bool = True
 
     def to_dict(self) -> dict[str, Any]:

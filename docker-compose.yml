@@ -32,7 +32,8 @@ services:
       dockerfile: infra/compose/api.Dockerfile
     environment:
       WEBWOVEN_ENV: ${WEBWOVEN_ENV:-development}
-      WEBWOVEN_ORIGIN: ${WEBWOVEN_ORIGIN:-http://localhost}
+      WEBWOVEN_ORIGIN: ${WEBWOVEN_COMPOSE_ORIGIN:-http://localhost}
+      WEBWOVEN_API_ORIGIN: ${WEBWOVEN_COMPOSE_API_ORIGIN:-http://localhost}
       WEBWOVEN_DATABASE_URL: postgresql+asyncpg://webwoven:${POSTGRES_PASSWORD:-webwoven}@postgres:5432/webwoven
       WEBWOVEN_VALKEY_URL: redis://valkey:6379/0
       WEBWOVEN_GRAPH_PATH: /app/data/graph.sqlite3

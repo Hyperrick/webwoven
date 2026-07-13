@@ -12,33 +12,6 @@
     grid-column: 2;
   }
 
-  .game-spread {
-    grid-template-columns: 12rem minmax(0, 1fr);
-    gap: var(--space-6);
-  }
-
-  .entity-stage {
-    grid-template-columns: 1fr;
-  }
-
-  .entity-stage__visual {
-    min-height: 18rem;
-    border-right: 0;
-    border-bottom: 1px solid var(--color-ink);
-  }
-
-  .entity-stage__copy {
-    min-height: 18rem;
-  }
-
-  .hint-dock {
-    grid-template-columns: 1fr;
-  }
-
-  .cartographer-note {
-    grid-column: 1;
-  }
-
   .result-hero {
     grid-template-columns: 7rem 1fr;
   }
@@ -131,114 +104,6 @@
   }
 
   .site-footer > p {
-    display: none;
-  }
-
-  .game-page__utility {
-    padding-block: var(--space-2);
-  }
-
-  .back-action kbd {
-    display: none;
-  }
-
-  .route-ribbon {
-    grid-template-columns: 1fr;
-    gap: var(--space-3);
-  }
-
-  .game-spread {
-    grid-template-columns: 1fr;
-    padding-top: var(--space-5);
-  }
-
-  .destination-brief {
-    position: relative;
-    top: auto;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--space-2) var(--space-4);
-    align-items: end;
-    padding-bottom: var(--space-4);
-    border-bottom: 1px solid var(--color-ink);
-  }
-
-  .destination-brief .eyebrow,
-  .destination-brief__index,
-  .destination-brief__par {
-    margin: 0;
-  }
-
-  .destination-brief h2 {
-    font-size: var(--text-28);
-  }
-
-  .destination-brief > p:not(.eyebrow, .destination-brief__par),
-  .destination-brief__rule {
-    display: none;
-  }
-
-  .game-metrics div {
-    display: grid;
-    gap: var(--space-1);
-    padding-inline: var(--space-2);
-  }
-
-  .entity-stage {
-    min-height: auto;
-  }
-
-  .entity-stage__visual {
-    min-height: 15rem;
-  }
-
-  .entity-stage__copy {
-    min-height: auto;
-    padding: var(--space-5);
-  }
-
-  .connection-note {
-    grid-template-columns: 1fr;
-  }
-
-  .relation-group__toggle {
-    grid-template-columns: 2.75rem minmax(0, 1fr) 1.5rem;
-    gap: var(--space-3);
-  }
-
-  .relation-group__glyph {
-    width: 2.6rem;
-    height: 2.6rem;
-  }
-
-  .relation-group__hint,
-  .relation-group__count {
-    display: none;
-  }
-
-  .relation-group__edges {
-    padding-left: 0;
-  }
-
-  .hint-dock {
-    position: sticky;
-    z-index: 10;
-    bottom: 0;
-    padding: var(--space-4);
-    border: 1px solid var(--color-ink);
-    box-shadow: var(--shadow-paper);
-  }
-
-  .hint-dock > div:first-child {
-    display: none;
-  }
-
-  .hint-dock__actions button {
-    justify-content: center;
-    padding-inline: var(--space-2);
-  }
-
-  .hint-dock__actions span {
     display: none;
   }
 
@@ -369,10 +234,6 @@
     width: 1.2rem;
   }
 
-  .entity-mark__index {
-    font-size: var(--text-64);
-  }
-
   .cartographer-recap {
     grid-template-columns: 6rem minmax(0, 1fr);
     gap: var(--space-4);
@@ -381,14 +242,6 @@
   .cartographer-recap blockquote {
     margin-block: var(--space-4);
     font-size: var(--text-20);
-  }
-
-  .game-metrics dt {
-    font-size: var(--text-12);
-  }
-
-  .relation-index__heading > p {
-    display: none;
   }
 
   .roster li {
