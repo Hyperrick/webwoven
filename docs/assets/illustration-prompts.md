@@ -1,11 +1,19 @@
 # Illustration prompts and review state
 
-These prompts were passed verbatim to Codex image generation on 2026-07-13. The resulting plates
-are original allegorical illustrations, not documentary images for real entities. They remain
-`draft_pending_human_review` until a human reviewer records approval in the asset manifest. Drafts
-live under `data/drafts/illustrations/` and are excluded from the production web bundle.
+These prompts were passed verbatim through the Codex `imagegen` tool on 2026-07-13. The generator
+is recorded truthfully as `codex`; model metadata was unavailable and is not inferred. The
+resulting plates are original allegorical illustrations, not documentary images for real entities.
 
-## Cartographer
+The project owner approved the four category plates and the replacement Cartographer on
+2026-07-13. Their immutable WebP derivatives and approval manifest live under
+`apps/web/public/illustrations/`. Production serves those reviewed files directly: it performs no
+AI calls and needs no AI provider credentials.
+
+## Cartographer v1 — rejected
+
+The first Cartographer was rejected during human review because the upright, outward-facing map
+made its orientation and the character's interaction with it spatially ambiguous. It is retained
+here only as provenance for the superseded attempt and is not shipped.
 
 ```text
 Use case: stylized-concept
@@ -19,6 +27,24 @@ Color palette: paper #F3EBDD, ink #16211D, signal vermilion #C84A32, moss #3F6B5
 Materials/textures: physical paper tooth, ink feathering, matte gouache, subtle halftone only where useful.
 Text: none.
 Constraints: one finished original illustration only; coherent editorial atlas style; no fake text, letters, numerals, symbols resembling logos, signature, or watermark; no purple; no gradients; no glossy 3D; no neon; no surreal AI motifs; no UI screenshot; no brand marks; no documentary depiction of a real person or entity.
+```
+
+## Cartographer replacement — approved
+
+```text
+Use case: stylized-concept
+Asset type: replacement Webwoven game-guide character plate, 3:4 portrait
+Input images: Image 1 is a style, palette, medium, and character-role reference only. Create an entirely new composition; do not preserve the map-holding pose.
+Primary request: Create a new original fictional Cartographer whose interaction with the map is spatially unambiguous. Place a large unfolded route map flat on a waist-high, slightly tilted field drafting table. The Cartographer stands beside and leans gently over the table, clearly looking down at the same inner map surface that the viewer can see from a three-quarter overhead viewpoint. Both gloved hands rest naturally on separate table or map edges to keep the sheet flat. The map must not be held upright or face outward like a shield.
+Scene/backdrop: warm uncoated paper field with faint deckled fibers and a few restrained registration marks; no written labels.
+Subject: anonymous, non-identifiable field cartographer in practical work clothes, shoulder satchel, boots, and broad hat; grounded and welcoming rather than mysterious or threatening.
+Style/medium: match Image 1's restrained editorial atlas language—hand-inked contours, opaque matte gouache blocks, visible dry-brush edges, subtle print misregistration, tactile physical-paper texture, sophisticated independent-publishing character.
+Composition/framing: 3:4 portrait, full figure and complete drafting table visible, asymmetrical print composition, generous breathing room, strong readable silhouette. View the table from high three-quarter angle so the character's gaze, hands, tabletop, paper folds, and visible route surface all agree in perspective.
+Lighting/mood: quiet curiosity, lucid and inviting, flat print light with no digital glow.
+Color palette: Paper #F3EBDD and Ink #16211D dominant; restrained Signal Vermilion #C84A32, Moss #3F6B54, Ochre #B68532, and Cartographic Blue #2D6574. No purple.
+Map design: only abstract hand-drawn nodes and connecting routes, visually subtle and correctly printed on the upward-facing inside surface; no geography, names, letters, numerals, compass labels, or fake writing.
+Text: none.
+Constraints: one finished original illustration only; anatomically plausible hands and arms; physically plausible paper folds and table perspective; no map held toward the viewer; no marks appearing on the back of the paper; no extra fingers or limbs; no recognizable person, place, flag, monument, logo, signature, watermark, documentary subject, glossy 3D, neon, gradient, surreal AI motif, or UI screenshot.
 ```
 
 ## History and People

@@ -373,6 +373,16 @@
     font-size: var(--text-64);
   }
 
+  .cartographer-recap {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .cartographer-recap blockquote {
+    margin-block: var(--space-4);
+    font-size: var(--text-20);
+  }
+
   .game-metrics dt {
     font-size: var(--text-12);
   }

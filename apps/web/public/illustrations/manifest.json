@@ -5,8 +5,12 @@
   "model_metadata": "unavailable",
   "generation_started_at": "2026-07-13T16:59:07Z",
   "prompt_document": "docs/assets/illustration-prompts.md",
-  "prompt_document_sha256": "4577b591f18b109e0d7db32f13e22be89a1f0e6fe90bbab038103008feab20b0",
-  "review_policy": "Human editorial approval is required before release use.",
+  "prompt_document_sha256": "3627fcc00576e06cfdbf8f5d8b7397d752381c050e43b8f4ca290b1e3dabb8e4",
+  "review_policy": "Only assets approved by a human editor may ship in the production bundle.",
+  "human_approval": {
+    "approved_by": "project_owner",
+    "approved_at": "2026-07-13T18:08:10Z"
+  },
   "processing": {
     "tool": "ImageMagick 7.1.2-26",
     "operation": "Strip metadata and encode WebP at quality 84 without resizing.",
@@ -17,18 +21,24 @@
     {
       "id": "cartographer",
       "role": "fictional_game_guide",
-      "prompt_section": "Cartographer",
-      "generated_at": "2026-07-13T17:01:35Z",
-      "source_artifact_id": "exec-705cb2f7-e641-4f4f-9230-7c36b8526d5f",
-      "source_sha256": "921131f3910c241dca07b25c34d9875257f0a586752fda4fcad5e81cc37a5184",
+      "prompt_section": "Cartographer replacement",
+      "generated_at": "2026-07-13T17:59:47Z",
+      "source_artifact_id": "exec-61704045-ff26-4151-8de8-ec9b7efdf32b",
+      "source_sha256": "707cc27ba330bd2eeb0905ae7f6d3affec1a1c7f38b8daee47da2d6909037eb8",
       "source_dimensions": "1086x1448",
       "derivative_path": "cartographer.webp",
-      "derivative_sha256": "f89ae33e2bc622efc6e9521a6b3e8114ed8987f280f71971c8c2855c76663822",
-      "approval_status": "draft_pending_human_review",
+      "derivative_sha256": "79d3bbf9afbf0024cf575ae84b3532b8dc5d1be831d09baebc9ad74b169b81c0",
+      "approval_status": "approved",
+      "approved_by": "project_owner",
+      "approved_at": "2026-07-13T18:08:10Z",
+      "supersedes": {
+        "source_artifact_id": "exec-705cb2f7-e641-4f4f-9230-7c36b8526d5f",
+        "rejection_reason": "The first composition made the outward-facing map surface spatially ambiguous."
+      },
       "validation_results": [
         "derivative_hash:passed",
         "format:webp:passed",
-        "editorial_review:pending"
+        "editorial_review:passed"
       ],
       "documentary_use_allowed": false
     },
@@ -42,11 +52,13 @@
       "source_dimensions": "1448x1086",
       "derivative_path": "history-people.webp",
       "derivative_sha256": "d761fbb091cf53806d0b15eabb5b40fdb023c9596fec568f45def9e21d8610cc",
-      "approval_status": "draft_pending_human_review",
+      "approval_status": "approved",
+      "approved_by": "project_owner",
+      "approved_at": "2026-07-13T18:08:10Z",
       "validation_results": [
         "derivative_hash:passed",
         "format:webp:passed",
-        "editorial_review:pending"
+        "editorial_review:passed"
       ],
       "documentary_use_allowed": false
     },
@@ -60,11 +72,13 @@
       "source_dimensions": "1448x1086",
       "derivative_path": "nature-science.webp",
       "derivative_sha256": "0743d871cbde68f4799ea2b8ced59d92102c75cb7454af89215cb347e51c3a00",
-      "approval_status": "draft_pending_human_review",
+      "approval_status": "approved",
+      "approved_by": "project_owner",
+      "approved_at": "2026-07-13T18:08:10Z",
       "validation_results": [
         "derivative_hash:passed",
         "format:webp:passed",
-        "editorial_review:pending"
+        "editorial_review:passed"
       ],
       "documentary_use_allowed": false
     },
@@ -78,11 +92,13 @@
       "source_dimensions": "1448x1086",
       "derivative_path": "arts-culture.webp",
       "derivative_sha256": "c4413026a45374bcbd6a087f2ac25b61d120f78c983c71808bf7d9c5f6f17663",
-      "approval_status": "draft_pending_human_review",
+      "approval_status": "approved",
+      "approved_by": "project_owner",
+      "approved_at": "2026-07-13T18:08:10Z",
       "validation_results": [
         "derivative_hash:passed",
         "format:webp:passed",
-        "editorial_review:pending"
+        "editorial_review:passed"
       ],
       "documentary_use_allowed": false
     },
@@ -96,11 +112,13 @@
       "source_dimensions": "1448x1086",
       "derivative_path": "places.webp",
       "derivative_sha256": "197969aeccf534da45d33ec4713e4f2183698b60e46ce278d07c79493b23187e",
-      "approval_status": "draft_pending_human_review",
+      "approval_status": "approved",
+      "approved_by": "project_owner",
+      "approved_at": "2026-07-13T18:08:10Z",
       "validation_results": [
         "derivative_hash:passed",
         "format:webp:passed",
-        "editorial_review:pending"
+        "editorial_review:passed"
       ],
       "documentary_use_allowed": false
     }

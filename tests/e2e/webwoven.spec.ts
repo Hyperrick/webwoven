@@ -49,6 +49,14 @@ test("Solo preserves visible history and guards browser Back", async ({
   await expect(
     page.getByRole("heading", { name: "Hokusai", exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: /No reviewed documentary image is available for Hokusai, so a branded Arts & Culture category illustration is shown/i,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.locator('img[src="/illustrations/arts-culture.webp"]'),
+  ).toBeVisible();
 
   await followTo(page, "The Great Wave off Kanagawa");
   await page.goBack();
@@ -88,6 +96,11 @@ test("Solo completes the four-move route and renders results", async ({
     "United Kingdom",
   );
   await expect(page.getByText("Cartographer’s note")).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: /fictional Cartographer studying a map laid flat on a field table/i,
+    }),
+  ).toHaveAttribute("src", "/illustrations/cartographer.webp");
 });
 
 test("Daily and Live Relay expose their complete entry states", async ({
