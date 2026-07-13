@@ -35,6 +35,10 @@ export class DemoApi implements WebwovenApi {
     return structuredClone(this.#guest);
   }
 
+  async getGuest(): Promise<Guest> {
+    return structuredClone(this.#guest);
+  }
+
   async updateGuest(displayName: string): Promise<Guest> {
     return this.createGuest(displayName);
   }

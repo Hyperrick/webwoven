@@ -61,6 +61,12 @@ export class HttpApi implements WebwovenApi {
     return guest;
   }
 
+  async getGuest(): Promise<Guest> {
+    const guest = await this.#request<Guest>("/api/v1/guests/me");
+    this.#csrfToken = guest.csrf_token ?? "";
+    return guest;
+  }
+
   async updateGuest(displayName: string): Promise<Guest> {
     const guest = await this.#request<Guest>("/api/v1/guests/me", {
       method: "PATCH",

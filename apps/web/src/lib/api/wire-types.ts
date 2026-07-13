@@ -9,6 +9,26 @@ export interface WireEntity {
   image_path: string | null;
 }
 
+export interface WireDecisionChoice {
+  id: string;
+  target: WireEntity;
+  relation: {
+    property_id: string;
+    label: string;
+    direction: "outgoing" | "incoming";
+  };
+  statement: string;
+}
+
+export interface WireDecisionStage {
+  index: number;
+  source: WireEntity;
+  destination: WireEntity;
+  action: "follow" | "back";
+  choices: WireDecisionChoice[];
+  selected_choice_id: string | null;
+}
+
 export interface WireSession {
   id: string;
   mode: GameMode;
@@ -23,6 +43,8 @@ export interface WireSession {
   current: WireEntity;
   navigation_stack: WireEntity[];
   trail: WireEntity[];
+  /** Optional only while reading pre-history fixtures or cached development responses. */
+  decision_history?: WireDecisionStage[];
   moves: number;
   hints_used: Array<{
     hint_type: HintType;

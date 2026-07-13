@@ -29,6 +29,27 @@ const session: WireSession = {
   current: entity("Q1", "Start"),
   navigation_stack: [entity("Q1", "Start")],
   trail: [entity("Q1", "Start")],
+  decision_history: [
+    {
+      index: 0,
+      source: entity("Q1", "Start"),
+      destination: entity("Q2", "Middle"),
+      action: "follow",
+      choices: [
+        {
+          id: "decision:0:Q1:Q2",
+          target: entity("Q2", "Middle"),
+          relation: {
+            property_id: "P170",
+            label: "created by",
+            direction: "outgoing",
+          },
+          statement: "A made B.",
+        },
+      ],
+      selected_choice_id: "decision:0:Q1:Q2",
+    },
+  ],
   moves: 0,
   hints_used: [],
   hint_penalty: 0,
@@ -72,6 +93,24 @@ describe("API wire adapters", () => {
     expect(mapped.score).toBeNull();
     expect(mapped.difficulty).toBe("normal");
     expect(mapped.shortest_distance).toBe(3);
+    expect(mapped.navigation_stack?.map(({ qid }) => qid)).toEqual(["Q1"]);
+    expect(mapped.decision_history).toEqual([
+      expect.objectContaining({
+        index: 0,
+        action: "follow",
+        selected_choice_id: "decision:0:Q1:Q2",
+        choices: [
+          expect.objectContaining({
+            id: "decision:0:Q1:Q2",
+            statement: "A made B.",
+            relation: expect.objectContaining({
+              property_id: "P170",
+              glyph: "work",
+            }),
+          }),
+        ],
+      }),
+    ]);
     expect(mapped.relation_groups[0].glyph).toBe("work");
     expect(mapped.relation_groups[0].edges[0].statement).toBe("A made B.");
     expect(mapped.relation_groups.map((group) => group.property_id)).toEqual([

@@ -7,6 +7,7 @@ from enum import StrEnum
 from webwoven_api.domain.hints import HintResult, HintType
 from webwoven_api.domain.navigation import NavigationState
 from webwoven_api.graph.contracts import Round
+from webwoven_api.sessions.exploration import DecisionFrame
 
 
 class SessionMode(StrEnum):
@@ -43,6 +44,7 @@ class GameSession:
     status: SessionStatus
     state_version: int
     started_at: datetime
+    decision_history: tuple[DecisionFrame, ...] = ()
     hints: tuple[HintUse, ...] = ()
     completed_at: datetime | None = None
     final_score: int | None = None

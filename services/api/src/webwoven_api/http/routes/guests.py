@@ -40,6 +40,16 @@ async def create_guest(
     return GuestResponse(id=guest.id, display_name=guest.display_name, csrf_token=guest.csrf_token)
 
 
+@router.get("/me", response_model=GuestResponse)
+async def get_guest(guest: GuestDependency) -> GuestResponse:
+    """Resume the signed guest identity without replacing its cookie."""
+    return GuestResponse(
+        id=guest.id,
+        display_name=guest.display_name,
+        csrf_token=guest.csrf_token,
+    )
+
+
 @router.patch("/me", response_model=GuestResponse)
 async def update_guest(
     body: GuestUpdateRequest,

@@ -24,6 +24,11 @@
     type AppRoute,
   } from "./lib/navigation/router";
   import {
+    clearActiveSession,
+    loadActiveSessionId,
+    persistActiveSession,
+  } from "./lib/navigation/active-session";
+  import {
     DEFAULT_PREFERENCES,
     loadPreferences,
     persistPreferences,
@@ -80,7 +85,11 @@
   });
 
   async function initialize(): Promise<void> {
-    await api.createGuest();
+    try {
+      await api.getGuest();
+    } catch {
+      await api.createGuest();
+    }
     const config = await api.getConfig();
     graphBuild = config.graph_build;
     await hydrateRoute(route);
@@ -88,7 +97,7 @@
 
   async function hydrateRoute(next: AppRoute): Promise<void> {
     if ((next.name === "solo" || next.name === "daily") && !session) {
-      await startSession(next.name);
+      await restoreOrStartSession(next.name);
     }
     if (next.name === "race" && (!room || room.code !== next.code)) {
       await run(async () => {
@@ -113,23 +122,47 @@
   }
 
   function begin(mode: "solo" | "daily"): void {
+    clearActiveSession(mode);
     session = undefined;
     navigate(`/play/${mode}`);
   }
 
-  async function startSession(mode: "solo" | "daily"): Promise<void> {
+  async function restoreOrStartSession(mode: "solo" | "daily"): Promise<void> {
     await run(async () => {
-      const round = mode === "daily" ? await api.getDaily() : undefined;
-      session = await games.start(mode, round?.round_id);
-      if (round)
-        session = { ...session, shortest_distance: round.optimal_distance };
+      const storedId = loadActiveSessionId(mode);
+      if (storedId) {
+        try {
+          const restored = await games.resume(storedId);
+          if (restored.mode === mode && restored.status === "active") {
+            session = restored;
+            persistActiveSession(restored);
+            return;
+          }
+        } catch {
+          // A removed or graph-incompatible session starts cleanly below.
+        }
+        clearActiveSession(mode);
+      }
+      session = await createNewSession(mode);
+      persistActiveSession(session);
     });
+  }
+
+  async function createNewSession(
+    mode: "solo" | "daily",
+  ): Promise<SessionSnapshot> {
+    const round = mode === "daily" ? await api.getDaily() : undefined;
+    const created = await games.start(mode, round?.round_id);
+    return round
+      ? { ...created, shortest_distance: round.optimal_distance }
+      : created;
   }
 
   async function follow(edgeToken: string): Promise<void> {
     if (!session) return;
     await run(async () => {
       session = await games.follow(session!, edgeToken);
+      persistActiveSession(session);
       if (session.status === "completed") {
         if (session.mode === "daily")
           leaderboard = await api.getDailyLeaderboard();
@@ -142,6 +175,7 @@
     if (!session) return;
     await run(async () => {
       session = await games.back(session!);
+      persistActiveSession(session);
     });
   }
 
@@ -149,6 +183,7 @@
     if (!session) return;
     await run(async () => {
       session = await games.hint(session!, type, propertyId);
+      persistActiveSession(session);
     });
   }
 
@@ -214,8 +249,10 @@
   }
 
   function confirmExit(): void {
-    if (session?.status === "active")
+    if (session?.status === "active") {
+      clearActiveSession(session.mode);
       session = { ...session, status: "abandoned" };
+    }
     exitOpen = false;
     router.confirmPending();
   }

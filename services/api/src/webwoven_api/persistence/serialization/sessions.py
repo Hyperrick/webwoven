@@ -18,6 +18,12 @@ from webwoven_api.persistence.serialization.values import (
     require_object,
     require_string,
 )
+from webwoven_api.sessions.exploration import (
+    DecisionAction,
+    DecisionFrame,
+    backed_frame,
+    followed_frame,
+)
 from webwoven_api.sessions.models import (
     CommandExecution,
     GameSession,
@@ -42,6 +48,7 @@ def session_to_dict(session: GameSession) -> dict[str, object]:
             "trail": list(session.navigation.trail),
             "moves": session.navigation.moves,
         },
+        "decision_history": [_decision_frame_to_dict(frame) for frame in session.decision_history],
         "status": session.status.value,
         "state_version": session.state_version,
         "started_at": session.started_at.isoformat(),
@@ -64,6 +71,10 @@ def session_from_dict(value: object) -> GameSession:
     hints = tuple(
         _hint_use_from_dict(item) for item in require_list(data.get("hints"), "session.hints")
     )
+    decision_history = tuple(
+        _decision_frame_from_dict(item)
+        for item in require_list(data.get("decision_history", []), "session.decision_history")
+    )
     return GameSession(
         id=require_string(data.get("id"), "session.id"),
         guest_id=require_string(data.get("guest_id"), "session.guest_id"),
@@ -78,6 +89,7 @@ def session_from_dict(value: object) -> GameSession:
         status=SessionStatus(require_string(data.get("status"), "session.status")),
         state_version=require_int(data.get("state_version"), "session.state_version"),
         started_at=require_datetime(data.get("started_at"), "session.started_at"),
+        decision_history=decision_history,
         hints=hints,
         completed_at=optional_datetime(data.get("completed_at"), "session.completed_at"),
         final_score=optional_int(data.get("final_score"), "session.final_score"),
@@ -105,6 +117,42 @@ def command_execution_from_dict(value: object) -> CommandExecution:
         applied=require_bool(data.get("applied"), "command_execution.applied"),
         duplicate=require_bool(data.get("duplicate"), "command_execution.duplicate"),
         hint=_hint_result_from_dict(hint_value) if hint_value is not None else None,
+    )
+
+
+def _decision_frame_to_dict(frame: DecisionFrame) -> dict[str, object]:
+    return {
+        "source_id": frame.source_id,
+        "destination_id": frame.destination_id,
+        "action": frame.action.value,
+        "visible_edge_ids": list(frame.visible_edge_ids),
+        "selected_edge_id": frame.selected_edge_id,
+    }
+
+
+def _decision_frame_from_dict(value: object) -> DecisionFrame:
+    data = require_object(value, "session.decision_history[]")
+    source_id = require_string(data.get("source_id"), "decision_frame.source_id")
+    destination_id = require_string(data.get("destination_id"), "decision_frame.destination_id")
+    visible_edge_ids = _string_tuple(
+        data.get("visible_edge_ids"), "decision_frame.visible_edge_ids"
+    )
+    action = DecisionAction(require_string(data.get("action"), "decision_frame.action"))
+    if action is DecisionAction.FOLLOW:
+        return followed_frame(
+            source_id=source_id,
+            destination_id=destination_id,
+            visible_edge_ids=visible_edge_ids,
+            selected_edge_id=require_string(
+                data.get("selected_edge_id"), "decision_frame.selected_edge_id"
+            ),
+        )
+    if data.get("selected_edge_id") is not None:
+        raise ValueError("Back decision frames cannot select an edge")
+    return backed_frame(
+        source_id=source_id,
+        destination_id=destination_id,
+        visible_edge_ids=visible_edge_ids,
     )
 
 

@@ -79,7 +79,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Get Guest
+         * @description Resume the signed guest identity without replacing its cookie.
+         */
+        get: operations["get_guest_api_v1_guests_me_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -411,6 +415,43 @@ export interface components {
             /** Time Window */
             time_window: number;
         };
+        /** DecisionChoiceResponse */
+        DecisionChoiceResponse: {
+            /** Id */
+            id: string;
+            relation: components["schemas"]["DecisionRelationResponse"];
+            /** Statement */
+            statement: string;
+            target: components["schemas"]["EntityResponse"];
+        };
+        /** DecisionRelationResponse */
+        DecisionRelationResponse: {
+            /**
+             * Direction
+             * @enum {string}
+             */
+            direction: "outgoing" | "incoming";
+            /** Label */
+            label: string;
+            /** Property Id */
+            property_id: string;
+        };
+        /** DecisionStageResponse */
+        DecisionStageResponse: {
+            /**
+             * Action
+             * @enum {string}
+             */
+            action: "follow" | "back";
+            /** Choices */
+            choices: components["schemas"]["DecisionChoiceResponse"][];
+            destination: components["schemas"]["EntityResponse"];
+            /** Index */
+            index: number;
+            /** Selected Choice Id */
+            selected_choice_id?: string | null;
+            source: components["schemas"]["EntityResponse"];
+        };
         /**
          * Difficulty
          * @enum {string}
@@ -646,6 +687,8 @@ export interface components {
             current: components["schemas"]["EntityResponse"];
             /** Daily Day */
             daily_day: string | null;
+            /** Decision History */
+            decision_history: components["schemas"]["DecisionStageResponse"][];
             difficulty: components["schemas"]["Difficulty"];
             /** Final Score */
             final_score: number | null;
@@ -837,6 +880,26 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_guest_api_v1_guests_me_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GuestResponse"];
                 };
             };
         };

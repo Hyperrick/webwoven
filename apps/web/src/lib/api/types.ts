@@ -39,6 +39,30 @@ export interface TrailEntry {
   revisited?: boolean;
 }
 
+export interface DecisionRelation {
+  property_id: string;
+  label: string;
+  direction: RelationGroup["direction"];
+  glyph: RelationGroup["glyph"];
+}
+
+export interface DecisionChoice {
+  /** Stable semantic identity; historical choices never retain signed tokens. */
+  id: string;
+  target: EntitySummary;
+  relation: DecisionRelation;
+  statement: string;
+}
+
+export interface DecisionStage {
+  index: number;
+  source: EntitySummary;
+  destination: EntitySummary;
+  action: "follow" | "back";
+  choices: DecisionChoice[];
+  selected_choice_id?: string;
+}
+
 export interface UsedHint {
   type: HintType;
   penalty: number;
@@ -53,6 +77,10 @@ export interface SessionSnapshot {
   target: EntitySummary;
   current: EntitySummary;
   trail: TrailEntry[];
+  /** Present for server snapshots; optional for legacy deterministic fixtures. */
+  navigation_stack?: EntitySummary[];
+  /** Resolved historical frontiers. Only the current relation groups carry tokens. */
+  decision_history?: DecisionStage[];
   moves: number;
   hints_used: UsedHint[];
   score: number | null;
@@ -140,6 +168,7 @@ export interface ContentReportInput {
 
 export interface WebwovenApi {
   createGuest(displayName?: string): Promise<Guest>;
+  getGuest(): Promise<Guest>;
   updateGuest(displayName: string): Promise<Guest>;
   getConfig(): Promise<AppConfig>;
   getDaily(): Promise<DailyRound>;

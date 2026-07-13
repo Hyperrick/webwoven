@@ -35,6 +35,37 @@ const wireSession: WireSession = {
 };
 
 describe("HTTP API adapter", () => {
+  it("resumes a guest and uses its bound CSRF token", async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "guest",
+            display_name: "Guest",
+            csrf_token: "csrf-resumed",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(wireSession), {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        }),
+      );
+    const api = new HttpApi({ fetch: fetchMock });
+
+    await api.getGuest();
+    await api.createSession({ mode: "solo" });
+
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/v1/guests/me");
+    const sessionRequest = fetchMock.mock.calls[1][1] as RequestInit;
+    expect(new Headers(sessionRequest.headers).get("X-CSRF-Token")).toBe(
+      "csrf-resumed",
+    );
+  });
+
   it("persists the guest CSRF token and maps command response wrappers", async () => {
     const fetchMock = vi
       .fn<typeof fetch>()

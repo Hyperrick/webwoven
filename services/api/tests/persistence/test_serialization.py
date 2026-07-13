@@ -17,6 +17,7 @@ from webwoven_api.persistence.serialization import (
 )
 from webwoven_api.persistence.serialization.values import PersistenceDataError
 from webwoven_api.rooms.models import Participant, Room, RoomEvent, RoomState
+from webwoven_api.sessions.exploration import followed_frame
 from webwoven_api.sessions.models import (
     CommandExecution,
     GameSession,
@@ -35,6 +36,13 @@ def test_session_and_command_round_trip() -> None:
     hint = HintResult(HintType.LENS, 150, "P19", None, "Inspect birthplace.")
     result = CommandExecution(session=session, applied=True, hint=hint)
     assert command_execution_from_dict(command_execution_to_dict(result)) == result
+
+
+def test_session_deserialization_accepts_pre_history_documents() -> None:
+    document = session_to_dict(_session())
+    document.pop("decision_history")
+
+    assert session_from_dict(document).decision_history == ()
 
 
 def test_room_round_trip_preserves_reconnect_state_and_events() -> None:
@@ -107,6 +115,14 @@ def _session() -> GameSession:
         status=SessionStatus.ACTIVE,
         state_version=3,
         started_at=NOW,
+        decision_history=(
+            followed_frame(
+                source_id="Q1",
+                destination_id="Q3",
+                visible_edge_ids=("edge-1", "edge-4"),
+                selected_edge_id="edge-1",
+            ),
+        ),
         hints=(hint,),
         room_code=None,
         daily_day=date(2026, 7, 13),

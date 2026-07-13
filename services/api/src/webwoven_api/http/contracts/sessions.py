@@ -77,6 +77,28 @@ class HintResponse(ApiModel):
     message: str
 
 
+class DecisionRelationResponse(ApiModel):
+    property_id: str
+    label: str
+    direction: RelationDirection
+
+
+class DecisionChoiceResponse(ApiModel):
+    id: str
+    target: EntityResponse
+    relation: DecisionRelationResponse
+    statement: str
+
+
+class DecisionStageResponse(ApiModel):
+    index: int = Field(ge=0)
+    source: EntityResponse
+    destination: EntityResponse
+    action: Literal["follow", "back"]
+    choices: list[DecisionChoiceResponse]
+    selected_choice_id: str | None = None
+
+
 class SessionSnapshot(ApiModel):
     id: str
     mode: SessionMode
@@ -91,6 +113,7 @@ class SessionSnapshot(ApiModel):
     current: EntityResponse
     navigation_stack: list[EntityResponse]
     trail: list[EntityResponse]
+    decision_history: list[DecisionStageResponse]
     moves: int
     hints_used: list[HintUseResponse]
     hint_penalty: int
