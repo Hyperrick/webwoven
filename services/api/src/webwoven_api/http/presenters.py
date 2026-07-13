@@ -22,6 +22,7 @@ from webwoven_api.http.contracts.sessions import (
     SessionSnapshot,
 )
 from webwoven_api.rooms.models import Room
+from webwoven_api.sessions.choices import select_visible_edges
 from webwoven_api.sessions.models import GameSession
 from webwoven_api.sessions.service import SessionService
 
@@ -41,7 +42,18 @@ class SessionPresenter:
             defaultdict(list)
         )
         if session.status.value == "active":
-            for edge in self._graph.get_edges(session.navigation.current_id):
+            available_edges = self._graph.get_edges(session.navigation.current_id)
+            target_ids = tuple(edge.target_id for edge in available_edges)
+            distances = self._graph.distances_to_target(session.round.id, target_ids)
+            current_distance = self._graph.distance_to_target(
+                session.round.id, session.navigation.current_id
+            )
+            visible_edges = select_visible_edges(
+                available_edges,
+                distances,
+                current_distance=current_distance,
+            )
+            for edge in visible_edges:
                 grouped[(edge.relation_key, edge.direction, edge.relation_label)].append(
                     EdgeTargetResponse(
                         edge_token=self._sessions.issue_edge_token(session, edge.id),

@@ -72,7 +72,7 @@
       onBlockedNavigation: () => (exitOpen = true),
     });
     const stop = router.start();
-    void initialize();
+    void run(initialize);
     return () => {
       stop();
       roomEvents.stop();
@@ -205,7 +205,7 @@
   }
 
   function connectRoomEvents(code: string): void {
-    if (import.meta.env.DEV && import.meta.env.VITE_API_MODE !== "live") return;
+    if (import.meta.env.VITE_API_MODE === "demo") return;
     roomEvents.connect(code, {
       onStatus: (status) => (relayConnection = status),
       onEvent: () => {

@@ -67,6 +67,7 @@ def generate_smoke_fixture(
         ),
         graph_build_id=graph_build_id,
         created_at=FIXTURE_CREATED_AT,
+        bundle_kind="test_fixture",
     )
     write_manifest(destination / "manifest.json", manifest)
     return graph_build_id

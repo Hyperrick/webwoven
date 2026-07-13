@@ -49,6 +49,7 @@ def _json_list(path: Path) -> list[dict[str, Any]]:
 
 def test_manifest_checksums_cover_every_fixture_artifact() -> None:
     manifest = _json(FIXTURE / "manifest.json")
+    assert manifest["bundle_kind"] == "test_fixture"
     assert manifest["graph_schema_version"] == 2
     entries = manifest["artifacts"]
     assert isinstance(entries, list)

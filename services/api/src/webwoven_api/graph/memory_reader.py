@@ -50,9 +50,16 @@ class MemoryGraphReader:
     def distance_to_target(self, round_id: str, entity_id: str) -> int | None:
         return self.distances.get((round_id, entity_id))
 
+    def distances_to_target(self, round_id: str, entity_ids: tuple[str, ...]) -> dict[str, int]:
+        return {
+            entity_id: distance
+            for entity_id in entity_ids
+            if (distance := self.distances.get((round_id, entity_id))) is not None
+        }
+
     @classmethod
     def demo(cls) -> "MemoryGraphReader":
-        """Return a deterministic offline graph so local API boot never needs the network."""
+        """Return a deterministic graph for the explicit testing environment."""
         entities = {
             "Q1": Entity("Q1", "Ada Lovelace", "English mathematician", "person", "history"),
             "Q2": Entity("Q2", "Charles Babbage", "English polymath", "person", "history"),

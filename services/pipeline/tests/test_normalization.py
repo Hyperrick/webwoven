@@ -21,17 +21,23 @@ def test_normalizer_filters_claims_and_materializes_configured_inverse(registry)
             "descriptions": {"en": {"value": "First"}},
             "claims": {
                 "P19": [
+                    _statement("Q1", "Q1$self"),
                     _statement("Q2", "Q1$valid"),
                     _statement("Q3", "Q1$deprecated", rank="deprecated"),
+                    _statement("Q4", "Q1$unlabelled"),
                 ]
             },
         },
         "Q2": {"labels": {"en": {"value": "Two"}}, "claims": {}},
         "Q3": {"labels": {"en": {"value": "Three"}}, "claims": {}},
+        "Q4": {"claims": {}},
     }
 
-    entities = normalize_entities(raw, {"Q1": "history_people", "Q2": "places", "Q3": "places"})
-    edges = normalize_edges(raw, registry)
+    entities = normalize_entities(
+        raw,
+        {"Q1": "history_people", "Q2": "places", "Q3": "places", "Q4": "places"},
+    )
+    edges = normalize_edges(raw, registry, allowed_qids=(item.id for item in entities))
 
     assert [item.label for item in entities] == ["One", "Two", "Three"]
     assert {(item.source_id, item.target_id, item.explanation, item.inverse) for item in edges} == {

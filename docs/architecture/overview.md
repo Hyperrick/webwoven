@@ -23,3 +23,7 @@ interface permits a later CSR implementation without changing game rules or HTTP
 No runtime process queries Wikidata, Wikimedia Commons, or an AI service, and production performs
 no AI calls. A session pins its graph, round-generator, scoring, and content versions so it can be
 replayed exactly.
+
+Normal development and production also fail closed on graph loading. They require the configured
+immutable SQLite bundle; only the explicit `testing` environment may construct the in-memory test
+graph, and browser demo data requires the test-only `VITE_API_MODE=demo` flag.

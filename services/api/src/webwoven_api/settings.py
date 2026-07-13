@@ -26,8 +26,8 @@ class Settings(BaseSettings):
     api_origin: str = "http://localhost:8000"
     database_url: str = "postgresql+asyncpg://webwoven:webwoven@localhost:5432/webwoven"
     valkey_url: str = "redis://localhost:6379/0"
-    graph_path: Path = Path("data/fixtures/smoke/graph.sqlite3")
-    graph_manifest_path: Path = Path("data/fixtures/smoke/manifest.json")
+    graph_path: Path = Path("data/builds/current/graph.sqlite3")
+    graph_manifest_path: Path = Path("data/builds/current/manifest.json")
     session_secret: str = Field(default=_DEVELOPMENT_SECRET, min_length=32)
     edge_secret: str = Field(default="development-edge-change-me-32-bytes", min_length=32)
     cookie_secure: bool = False
@@ -35,7 +35,6 @@ class Settings(BaseSettings):
     csrf_cookie_name: str = "ww_csrf"
     edge_token_ttl_seconds: int = Field(default=300, ge=30, le=3600)
     use_memory_persistence: bool = True
-    allow_demo_graph: bool = True
     auto_create_schema: bool = True
     room_active_ttl_seconds: int = Field(default=3600, ge=300, le=86400)
     room_completed_ttl_seconds: int = Field(default=600, ge=300, le=86400)

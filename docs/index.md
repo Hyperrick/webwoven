@@ -18,5 +18,6 @@ provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 
 ## Current milestone
 
-The repository is in the Build Week implementation phase. The deterministic smoke graph is the
-first runnable target; larger graph builds and reviewed content are release artifacts.
+The repository is in the Build Week implementation phase. Normal local gameplay now runs against
+an immutable two-hop Wikidata playtest bundle. The synthetic smoke graph is test-only; reviewed
+round decisions, compliant Commons media, and public release bundles are the next data milestones.

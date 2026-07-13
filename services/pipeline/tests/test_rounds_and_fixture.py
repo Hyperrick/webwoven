@@ -27,6 +27,15 @@ def test_round_generator_locks_candidate_and_publication_distribution() -> None:
         assert _counts(selected, published=True) == {"easy": 4, "normal": 4, "hard": 2}
 
 
+def test_round_endpoints_can_be_restricted_to_reviewed_ids() -> None:
+    entities, edges = build_smoke_graph()
+    allowed = {entity.id for entity in entities if not entity.id.endswith(("01", "07"))}
+
+    rounds = generate_rounds(entities, edges, endpoint_ids=allowed)
+
+    assert all(item.start_id in allowed and item.target_id in allowed for item in rounds)
+
+
 def test_smoke_graph_is_a_readable_fictional_catalog(registry) -> None:
     entities, edges = build_smoke_graph()
     labels = {entity.id: entity.label for entity in entities}

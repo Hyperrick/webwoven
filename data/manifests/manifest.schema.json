@@ -39,12 +39,18 @@
       "format": "date-time",
       "type": "string"
     },
+    "bundle_kind": {
+      "enum": [
+        "wikidata",
+        "test_fixture"
+      ]
+    },
     "graph_build_id": {
       "pattern": "^[a-f0-9]{64}$",
       "type": "string"
     },
     "graph_schema_version": {
-      "const": 1
+      "const": 2
     },
     "manifest_version": {
       "const": 1
@@ -60,6 +66,7 @@
     "manifest_version",
     "graph_schema_version",
     "graph_build_id",
+    "bundle_kind",
     "created_at",
     "artifacts",
     "source_batches"

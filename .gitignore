@@ -19,6 +19,8 @@ coverage/
 backups/
 playwright-report/
 test-results/
+.playwright-cli/
+output/
 *.log
 
 # Immutable source snapshots and production graph bundles are release artifacts.

@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sqlite3
 from collections.abc import Iterable, Mapping
 from pathlib import Path
-from typing import Any, cast
+from typing import Any, Literal, cast
 
 from .compiler import GRAPH_SCHEMA_VERSION
 
@@ -19,6 +20,7 @@ def build_manifest(
     *,
     graph_build_id: str,
     created_at: str,
+    bundle_kind: Literal["wikidata", "test_fixture"],
     source_batches: Iterable[Mapping[str, Any]] = (),
 ) -> dict[str, Any]:
     artifact_values: list[dict[str, Any]] = []
@@ -42,6 +44,7 @@ def build_manifest(
         "manifest_version": 1,
         "graph_schema_version": GRAPH_SCHEMA_VERSION,
         "graph_build_id": graph_build_id,
+        "bundle_kind": bundle_kind,
         "created_at": created_at,
         "artifacts": artifact_values,
         "source_batches": sorted(
@@ -65,10 +68,23 @@ def verify_manifest(path: Path) -> None:
     payload = cast(dict[str, Any], value)
     if payload.get("manifest_version") != 1:
         raise ManifestError("unsupported manifest")
+    if payload.get("graph_schema_version") != GRAPH_SCHEMA_VERSION:
+        raise ManifestError("unsupported graph schema version")
+    bundle_kind = payload.get("bundle_kind")
+    if bundle_kind not in {"wikidata", "test_fixture"}:
+        raise ManifestError("unsupported bundle kind")
+    source_batches = payload.get("source_batches")
+    if not isinstance(source_batches, list):
+        raise ManifestError("source_batches must be a list")
+    if bundle_kind == "wikidata" and not source_batches:
+        raise ManifestError("Wikidata bundles require source batches")
+    if bundle_kind == "test_fixture" and source_batches:
+        raise ManifestError("test fixtures cannot declare external source batches")
     artifacts_value = payload.get("artifacts")
     if not isinstance(artifacts_value, list) or not artifacts_value:
         raise ManifestError("manifest has no artifacts")
     artifacts = cast(list[Any], artifacts_value)
+    compiled_graphs: list[Path] = []
     for artifact in artifacts:
         if not isinstance(artifact, dict):
             raise ManifestError("artifact record must be an object")
@@ -89,6 +105,26 @@ def verify_manifest(path: Path) -> None:
             raise ManifestError(f"artifact is missing: {relative}")
         if artifact_path.stat().st_size != expected_size or _sha256(artifact_path) != expected_hash:
             raise ManifestError(f"artifact does not match manifest: {relative}")
+        if artifact_object.get("role") == "compiled_graph":
+            compiled_graphs.append(artifact_path)
+    if len(compiled_graphs) != 1:
+        raise ManifestError("manifest must contain exactly one compiled graph")
+    _verify_graph_identity(compiled_graphs[0], payload)
+
+
+def _verify_graph_identity(graph_path: Path, manifest: Mapping[str, Any]) -> None:
+    try:
+        with sqlite3.connect(f"file:{graph_path.as_posix()}?mode=ro", uri=True) as connection:
+            rows = connection.execute(
+                "SELECT key, value FROM metadata WHERE key IN ('graph_build_id', 'schema_version')"
+            ).fetchall()
+    except sqlite3.Error as exc:
+        raise ManifestError("compiled graph metadata is unreadable") from exc
+    metadata = {str(key): str(value) for key, value in rows}
+    if metadata.get("graph_build_id") != manifest.get("graph_build_id"):
+        raise ManifestError("compiled graph build ID does not match manifest")
+    if metadata.get("schema_version") != str(manifest.get("graph_schema_version")):
+        raise ManifestError("compiled graph schema does not match manifest")
 
 
 def _sha256(path: Path) -> str:
