@@ -285,6 +285,112 @@
         "title": "DailyResponse",
         "type": "object"
       },
+      "DecisionChoiceResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "relation": {
+            "$ref": "#/components/schemas/DecisionRelationResponse"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityResponse"
+          }
+        },
+        "required": [
+          "id",
+          "target",
+          "relation",
+          "statement"
+        ],
+        "title": "DecisionChoiceResponse",
+        "type": "object"
+      },
+      "DecisionRelationResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "direction": {
+            "enum": [
+              "outgoing",
+              "incoming"
+            ],
+            "title": "Direction",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "property_id": {
+            "title": "Property Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "property_id",
+          "label",
+          "direction"
+        ],
+        "title": "DecisionRelationResponse",
+        "type": "object"
+      },
+      "DecisionStageResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "follow",
+              "back"
+            ],
+            "title": "Action",
+            "type": "string"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionChoiceResponse"
+            },
+            "title": "Choices",
+            "type": "array"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "index": {
+            "minimum": 0.0,
+            "title": "Index",
+            "type": "integer"
+          },
+          "selected_choice_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Choice Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/EntityResponse"
+          }
+        },
+        "required": [
+          "index",
+          "source",
+          "destination",
+          "action",
+          "choices"
+        ],
+        "title": "DecisionStageResponse",
+        "type": "object"
+      },
       "Difficulty": {
         "enum": [
           "easy",
@@ -989,6 +1095,13 @@
             ],
             "title": "Daily Day"
           },
+          "decision_history": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionStageResponse"
+            },
+            "title": "Decision History",
+            "type": "array"
+          },
           "difficulty": {
             "$ref": "#/components/schemas/Difficulty"
           },
@@ -1091,6 +1204,7 @@
           "current",
           "navigation_stack",
           "trail",
+          "decision_history",
           "moves",
           "hints_used",
           "hint_penalty",
@@ -1355,6 +1469,26 @@
       }
     },
     "/api/v1/guests/me": {
+      "get": {
+        "description": "Resume the signed guest identity without replacing its cookie.",
+        "operationId": "get_guest_api_v1_guests_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Guest",
+        "tags": [
+          "guests"
+        ]
+      },
       "patch": {
         "operationId": "update_guest_api_v1_guests_me_patch",
         "requestBody": {

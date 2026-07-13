@@ -1,4 +1,11 @@
-import type { GameMode, HintType, SessionSnapshot } from "../api/types";
+import type {
+  DecisionChoice,
+  DecisionStage,
+  GameMode,
+  HintType,
+  RelationGroup,
+  SessionSnapshot,
+} from "../api/types";
 import {
   DEMO_ENTITIES,
   relationGroupsFor,
@@ -45,6 +52,54 @@ function withTiming(
   };
 }
 
+function decisionChoiceId(group: RelationGroup, targetQid: string): string {
+  return [group.property_id, group.direction, targetQid].join(":");
+}
+
+function decisionChoices(snapshot: SessionSnapshot): DecisionChoice[] {
+  return snapshot.relation_groups.flatMap((group) =>
+    group.edges.map((edge) => ({
+      id: decisionChoiceId(group, edge.target.qid),
+      target: edge.target,
+      relation: {
+        property_id: group.property_id,
+        label: group.label,
+        direction: group.direction,
+        glyph: group.glyph,
+      },
+      statement: edge.statement,
+    })),
+  );
+}
+
+function resolvedStage(
+  snapshot: SessionSnapshot,
+  destination: SessionSnapshot["current"],
+  action: DecisionStage["action"],
+  selectedEdgeToken?: string,
+): DecisionStage {
+  const selected = selectedEdgeToken
+    ? snapshot.relation_groups
+        .flatMap((group) => group.edges.map((edge) => ({ group, edge })))
+        .find(({ edge }) => edge.edge_token === selectedEdgeToken)
+    : undefined;
+  return {
+    index: snapshot.decision_history?.length ?? 0,
+    source: snapshot.current,
+    destination,
+    action,
+    choices: decisionChoices(snapshot),
+    ...(selected
+      ? {
+          selected_choice_id: decisionChoiceId(
+            selected.group,
+            selected.edge.target.qid,
+          ),
+        }
+      : {}),
+  };
+}
+
 export function createNavigationState(
   id: string,
   mode: GameMode,
@@ -61,6 +116,8 @@ export function createNavigationState(
       target: DEMO_ENTITIES.Q145,
       current: start,
       trail: [{ qid: start.qid, label: start.label }],
+      navigation_stack: [start],
+      decision_history: [],
       moves: 0,
       hints_used: [],
       score: 1000,
@@ -85,12 +142,15 @@ export function followEdge(
 
   const entity = DEMO_ENTITIES[resolved.target];
   const completed = entity.qid === state.snapshot.target.qid;
+  const decision = resolvedStage(state.snapshot, entity, "follow", edgeToken);
   const next: NavigationState = {
     ...state,
     stack: [...state.stack, entity.qid],
     snapshot: {
       ...state.snapshot,
       current: entity,
+      navigation_stack: [...(state.snapshot.navigation_stack ?? []), entity],
+      decision_history: [...(state.snapshot.decision_history ?? []), decision],
       trail: [
         ...state.snapshot.trail,
         { qid: entity.qid, label: entity.label, relation: resolved.statement },
@@ -110,12 +170,15 @@ export function moveBack(state: NavigationState): NavigationState {
     return state;
   const stack = state.stack.slice(0, -1);
   const entity = DEMO_ENTITIES[stack.at(-1) ?? state.snapshot.start.qid];
+  const decision = resolvedStage(state.snapshot, entity, "back");
   const next: NavigationState = {
     ...state,
     stack,
     snapshot: {
       ...state.snapshot,
       current: entity,
+      navigation_stack: stack.map((qid) => DEMO_ENTITIES[qid]),
+      decision_history: [...(state.snapshot.decision_history ?? []), decision],
       trail: [
         ...state.snapshot.trail,
         {

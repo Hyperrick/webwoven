@@ -6,13 +6,14 @@ last observed.
 
 ## Identity and discovery
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/v1/guests` | Create a signed guest session. |
-| `PATCH` | `/api/v1/guests/me` | Update the guest display name. |
-| `GET` | `/api/v1/config` | Read public gameplay and graph versions. |
-| `GET` | `/api/v1/daily` | Read the current UTC Daily assignment. |
-| `GET` | `/api/v1/leaderboards/daily` | Read the pseudonymous Daily board. |
+| Method  | Path                         | Purpose                                  |
+| ------- | ---------------------------- | ---------------------------------------- |
+| `POST`  | `/api/v1/guests`             | Create a signed guest session.           |
+| `GET`   | `/api/v1/guests/me`          | Resume the current signed guest.         |
+| `PATCH` | `/api/v1/guests/me`          | Update the guest display name.           |
+| `GET`   | `/api/v1/config`             | Read public gameplay and graph versions. |
+| `GET`   | `/api/v1/daily`              | Read the current UTC Daily assignment.   |
+| `GET`   | `/api/v1/leaderboards/daily` | Read the pseudonymous Daily board.       |
 
 ## Sessions
 
@@ -34,6 +35,14 @@ identity and `property_id` for graph and hint semantics. Direction is explicitly
 pure route-safe selector uses precompiled distances to retain progress toward the target while
 varying the visible relation types; it never changes graph truth or accepts a move that is not a
 stored edge.
+
+Snapshots also expose `navigation_stack` and `decision_history`. The navigation stack is the
+current reversible route. Decision history is the immutable exploration record used by the
+ever-widening map. Each zero-based stage contains its source, destination, `follow` or `back`
+action, the exact visible choices, and an optional selected choice ID. Historical choices include
+entity, relationship, and statement data but never an edge token; only the current
+`relation_groups` are actionable. Old serialized sessions without this field load with an empty
+history, while new sessions round-trip it through persistence and reconnect.
 
 ## Rooms
 

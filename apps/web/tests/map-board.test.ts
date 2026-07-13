@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type {
+  DecisionStage,
   EntitySummary,
   RelationGroup,
   SessionSnapshot,
@@ -44,6 +45,7 @@ function snapshot(
     current?: EntitySummary;
     trail?: TrailEntry[];
     goal?: EntitySummary;
+    decisionHistory?: DecisionStage[];
   } = {},
 ): SessionSnapshot {
   const current = options.current ?? start;
@@ -55,6 +57,7 @@ function snapshot(
     target: options.goal ?? target,
     current,
     trail: options.trail ?? [{ qid: current.qid, label: current.label }],
+    decision_history: options.decisionHistory ?? [],
     moves: 0,
     hints_used: [],
     score: null,
@@ -291,7 +294,7 @@ describe("deterministic map board", () => {
     expect(currentNode?.roles).toEqual(["start", "trail", "current"]);
   });
 
-  it("uses fixed vertical lanes for nine onward choices", () => {
+  it("uses fixed vertical lanes for every onward choice", () => {
     const destinations = Array.from({ length: 9 }, (_, index) =>
       entity(
         `fixture:places:${String(index + 1).padStart(2, "0")}`,
@@ -315,26 +318,29 @@ describe("deterministic map board", () => {
       ]),
     );
     const nodesById = new Map(board.nodes.map((node) => [node.id, node]));
-    const onwardNodes = board.choices
-      .filter((choice) => choice.target_node_id !== board.goal_node_id)
-      .map((choice) => nodesById.get(choice.target_node_id));
-    const absoluteY = onwardNodes.map(
+    const choiceNodes = board.choices.map((choice) =>
+      nodesById.get(choice.target_node_id),
+    );
+    const absoluteY = choiceNodes.map(
       (node) => (node?.position.y ?? 0) * board.layout.height_units,
     );
     const goalNode = nodesById.get(board.goal_node_id);
 
     expect(board.choices).toHaveLength(10);
     expect(board.layout).toMatchObject({
-      height_units: 82,
+      height_units: 89.5,
       choice_top_units: 12,
       choice_lane_gap_units: 7.5,
-      choice_lane_count: 9,
+      choice_lane_count: 10,
     });
     expect(absoluteY[0]).toBeCloseTo(12);
     for (let index = 1; index < absoluteY.length; index += 1) {
       expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(7.5);
     }
-    expect(goalNode?.position).toEqual({ x: 0.86, y: 0.5, z: 0.5 });
+    expect(absoluteY).toContain(
+      (goalNode?.position.y ?? 0) * board.layout.height_units,
+    );
+    expect(goalNode?.roles).toEqual(["choice", "goal"]);
     expect(
       board.nodes.every(({ position }) =>
         [position.x, position.y, position.z].every(
@@ -389,5 +395,152 @@ describe("deterministic map board", () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it("freezes rejected routes and widens after a followed decision", () => {
+    const firstGroups = [
+      group("P800", "notable work", "outgoing", [
+        {
+          edge_token: "signed-middle",
+          target: middle,
+          statement: "Tobin Rill wrote Paper Moon Libretto.",
+        },
+      ]),
+      group("P737", "influenced by", "outgoing", [
+        {
+          edge_token: "signed-influence",
+          target: influence,
+          statement: "Tobin Rill was influenced by Orra Venn.",
+        },
+      ]),
+    ];
+    const initial = buildMapBoard(snapshot(firstGroups));
+    const stage: DecisionStage = {
+      index: 0,
+      source: start,
+      destination: middle,
+      action: "follow",
+      choices: [
+        {
+          id: "edge-middle",
+          target: middle,
+          relation: {
+            property_id: "P800",
+            label: "notable work",
+            direction: "outgoing",
+            glyph: "work",
+          },
+          statement: "Tobin Rill wrote Paper Moon Libretto.",
+        },
+        {
+          id: "edge-influence",
+          target: influence,
+          relation: {
+            property_id: "P737",
+            label: "influenced by",
+            direction: "outgoing",
+            glyph: "influence",
+          },
+          statement: "Tobin Rill was influenced by Orra Venn.",
+        },
+      ],
+      selected_choice_id: "edge-middle",
+    };
+    const widened = buildMapBoard(
+      snapshot(
+        [
+          group("P800", "credits", "outgoing", [
+            {
+              edge_token: "signed-target",
+              target,
+              statement: "Paper Moon Libretto credits Sera Loom.",
+            },
+          ]),
+        ],
+        {
+          current: middle,
+          trail: [
+            { qid: start.qid, label: start.label },
+            { qid: middle.qid, label: middle.label },
+          ],
+          decisionHistory: [stage],
+        },
+      ),
+    );
+    const initialMiddle = initial.nodes.find((node) => node.qid === middle.qid);
+    const selectedMiddle = widened.nodes.find(
+      (node) => node.qid === middle.qid && node.roles.includes("current"),
+    );
+    const rejectedInfluence = widened.nodes.find(
+      (node) => node.qid === influence.qid,
+    );
+
+    expect(widened.layout.width_units).toBeGreaterThan(
+      initial.layout.width_units,
+    );
+    expect(selectedMiddle?.roles).toEqual(["trail", "current"]);
+    expect(rejectedInfluence?.roles).toEqual(["discarded"]);
+    expect(rejectedInfluence?.choice_ids).toEqual([
+      "history-choice:0:fixture:arts_culture:03",
+    ]);
+    expect(
+      (selectedMiddle?.position.x ?? 0) * widened.layout.width_units,
+    ).toBeCloseTo(
+      (initialMiddle?.position.x ?? 0) * initial.layout.width_units,
+    );
+    expect(widened.links.some((link) => link.kind === "discarded")).toBe(true);
+    expect(
+      widened.choices.every((choice) => choice.edge_token.length > 0),
+    ).toBe(true);
+  });
+
+  it("keeps repeated visits as separate breadcrumb occurrences", () => {
+    const firstStage: DecisionStage = {
+      index: 0,
+      source: start,
+      destination: middle,
+      action: "follow",
+      choices: [
+        {
+          id: "edge-middle",
+          target: middle,
+          relation: {
+            property_id: "P800",
+            label: "notable work",
+            direction: "outgoing",
+            glyph: "work",
+          },
+          statement: "Tobin Rill wrote Paper Moon Libretto.",
+        },
+      ],
+      selected_choice_id: "edge-middle",
+    };
+    const backStage: DecisionStage = {
+      index: 1,
+      source: middle,
+      destination: start,
+      action: "back",
+      choices: [],
+    };
+    const board = buildMapBoard(
+      snapshot([], {
+        trail: [
+          { qid: start.qid, label: start.label },
+          { qid: middle.qid, label: middle.label },
+          { qid: start.qid, label: start.label, revisited: true },
+        ],
+        decisionHistory: [firstStage, backStage],
+      }),
+    );
+    const startVisits = board.nodes.filter((node) => node.qid === start.qid);
+
+    expect(startVisits).toHaveLength(2);
+    expect(startVisits.map((node) => node.id)).toEqual([
+      `visit:0:${start.qid}`,
+      `visit:2:${start.qid}`,
+    ]);
+    expect(board.trail.at(-1)?.revisited).toBe(true);
+    expect(board.layout.current_column).toBe(2);
+    expect(board.links.filter((link) => link.kind === "trail")).toHaveLength(2);
   });
 });

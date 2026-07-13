@@ -9,9 +9,14 @@ navigation node and also counts as a move.
 ## Active-round interface
 
 An active round begins with a compact **Round active** HUD for the timer, mode, difficulty, move
-count, par, score, and Back command. The map board is the primary play surface: it marks the
-current entity, shows exactly one visible goal marker, and places the immediately reachable
-entities between them.
+count, par, score, and Back command. The map board is the primary play surface: it marks the current
+entity, shows exactly one visible goal marker, and places the immediately reachable entities
+between them. It behaves as an expanding atlas rather than replacing one diagram with another.
+Every Follow or Back command freezes the current decision column and opens the next column to its
+right. The selected entity joins the visible breadcrumb route; the alternatives remain on the map
+as muted, noninteractive branches. The surface becomes horizontally scrollable and automatically
+brings the newest playable column into view. Repeated entities remain separate visit occurrences,
+so a retraced route never collapses the history into one dot.
 
 Each reachable entity is a direct move button. It shows the entity name and the complete stored
 fact sentence that justifies the connection; raw property labels are supporting metadata, not the
@@ -20,13 +25,17 @@ all facts remain attached while the deterministic primary fact is shown. Selecti
 that edge. Dense real entities may have dozens of Wikidata neighbors, so the server projects at
 most six distinct destinations into the current board. The projection is deterministic, rotates
 across relationship types, and always retains at least one edge that reduces the known distance to
-the goal. The board layout uses fixed deterministic lanes derived from the session snapshot, so the
-same graph state produces the same positions without a hand-authored scene.
+the goal. The board layout uses fixed deterministic columns and lanes derived from the session
+snapshot, so the same graph state produces the same positions without a hand-authored scene. Only the rightmost
+frontier contains command tokens or interactive controls. Historical columns contain semantic
+entity and relationship summaries only.
 
 The timer is visually prominent but is not a live region, preventing screen readers from
 announcing every second. Interactive nodes remain semantic DOM controls with full labels and fact
 sentences; the map rendering is decorative and may disappear without removing a playable move.
-If WebGL is unavailable, a deterministic SVG fallback still shows the same nodes and links. The
+The decorative Three.js layer uses raised, low-poly atlas tokens with discrete cel-shaded bands,
+ink outlines, and physical shadows; it never owns input or game rules. If WebGL is unavailable, a
+deterministic SVG fallback still shows the same nodes, depth cues, links, and discarded states. The
 immutable result trail retains the complete relationship explanation for every move.
 
 ## Score

@@ -19,6 +19,9 @@ def test_health_config_and_guest_cookie(client: TestClient) -> None:
     assert config["daily_rollover_timezone"] == "UTC"
 
     headers = create_guest(client)
+    current = client.get("/api/v1/guests/me")
+    assert current.status_code == 200
+    assert current.json()["csrf_token"] == headers["X-CSRF-Token"]
     assert client.cookies.get("ww_guest")
     assert client.cookies.get("ww_csrf")
     update = client.patch(

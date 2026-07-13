@@ -3,10 +3,11 @@
 from base64 import urlsafe_b64encode
 from collections import defaultdict
 from datetime import date
+from typing import Literal
 
 from webwoven_api.daily.models import DailyAssignment, DailyScore
 from webwoven_api.domain.hints import HintResult
-from webwoven_api.graph.contracts import Entity, GraphReader, RelationDirection, Round
+from webwoven_api.graph.contracts import Entity, GraphEdge, GraphReader, RelationDirection, Round
 from webwoven_api.http.contracts.common import EntityResponse
 from webwoven_api.http.contracts.daily import (
     DailyLeaderboardResponse,
@@ -15,6 +16,9 @@ from webwoven_api.http.contracts.daily import (
 )
 from webwoven_api.http.contracts.rooms import RoomParticipantResponse, RoomResponse
 from webwoven_api.http.contracts.sessions import (
+    DecisionChoiceResponse,
+    DecisionRelationResponse,
+    DecisionStageResponse,
     EdgeTargetResponse,
     HintResponse,
     HintUseResponse,
@@ -22,7 +26,8 @@ from webwoven_api.http.contracts.sessions import (
     SessionSnapshot,
 )
 from webwoven_api.rooms.models import Room
-from webwoven_api.sessions.choices import select_visible_edges
+from webwoven_api.sessions.exploration import DecisionAction, DecisionFrame
+from webwoven_api.sessions.frontier import visible_edges_for
 from webwoven_api.sessions.models import GameSession
 from webwoven_api.sessions.service import SessionService
 
@@ -42,18 +47,11 @@ class SessionPresenter:
             defaultdict(list)
         )
         if session.status.value == "active":
-            available_edges = self._graph.get_edges(session.navigation.current_id)
-            target_ids = tuple(edge.target_id for edge in available_edges)
-            distances = self._graph.distances_to_target(session.round.id, target_ids)
-            current_distance = self._graph.distance_to_target(
-                session.round.id, session.navigation.current_id
-            )
-            visible_edges = select_visible_edges(
-                available_edges,
-                distances,
-                current_distance=current_distance,
-            )
-            for edge in visible_edges:
+            for edge in visible_edges_for(
+                self._graph,
+                session.round,
+                session.navigation.current_id,
+            ):
                 grouped[(edge.relation_key, edge.direction, edge.relation_label)].append(
                     EdgeTargetResponse(
                         edge_token=self._sessions.issue_edge_token(session, edge.id),
@@ -96,6 +94,7 @@ class SessionPresenter:
             current=current,
             navigation_stack=navigation,
             trail=trail,
+            decision_history=self._decision_history(session),
             moves=session.navigation.moves,
             hints_used=hints,
             hint_penalty=session.hint_penalty,
@@ -105,6 +104,69 @@ class SessionPresenter:
             final_score=session.final_score,
             daily_day=session.daily_day,
             relation_groups=relation_groups,
+        )
+
+    def _decision_history(self, session: GameSession) -> list[DecisionStageResponse]:
+        return [
+            self._decision_stage(index, frame)
+            for index, frame in enumerate(session.decision_history)
+        ]
+
+    def _decision_stage(
+        self,
+        index: int,
+        frame: DecisionFrame,
+    ) -> DecisionStageResponse:
+        source_edges = {edge.id: edge for edge in self._graph.get_edges(frame.source_id)}
+        edges: list[GraphEdge] = []
+        for edge_id in frame.visible_edge_ids:
+            edge = source_edges.get(edge_id)
+            if edge is None:
+                raise RuntimeError(f"Pinned decision edge is missing: {edge_id}")
+            edges.append(edge)
+        selected_edge: GraphEdge | None = None
+        if frame.selected_edge_id is not None:
+            selected_edge = next(
+                (edge for edge in edges if edge.id == frame.selected_edge_id),
+                None,
+            )
+            if selected_edge is None:
+                raise RuntimeError("Pinned selected edge is missing from its decision frontier")
+
+        by_target: defaultdict[str, list[GraphEdge]] = defaultdict(list)
+        for edge in edges:
+            by_target[edge.target_id].append(edge)
+        choices: list[DecisionChoiceResponse] = []
+        selected_choice_id = None
+        for target_id, target_edges in sorted(by_target.items()):
+            primary = _historical_primary(target_edges, selected_edge)
+            choice_id = _decision_choice_id(index, frame.source_id, target_id)
+            choices.append(
+                DecisionChoiceResponse(
+                    id=choice_id,
+                    target=entity_response(primary.target),
+                    relation=DecisionRelationResponse(
+                        property_id=primary.relation_key,
+                        label=primary.relation_label,
+                        direction=primary.direction,
+                    ),
+                    statement=primary.explanation,
+                )
+            )
+            if selected_edge is not None and selected_edge.target_id == target_id:
+                selected_choice_id = choice_id
+        if frame.action is DecisionAction.FOLLOW and selected_choice_id is None:
+            raise RuntimeError("Follow decision does not identify a selected choice")
+        action: Literal["follow", "back"] = (
+            "follow" if frame.action is DecisionAction.FOLLOW else "back"
+        )
+        return DecisionStageResponse(
+            index=index,
+            source=self._entity(frame.source_id),
+            destination=self._entity(frame.destination_id),
+            action=action,
+            choices=choices,
+            selected_choice_id=selected_choice_id,
         )
 
     @staticmethod
@@ -141,6 +203,30 @@ def _relation_group_id(property_id: str, direction: RelationDirection, label: st
     """Return a stable, DOM-safe identity without replacing the semantic property ID."""
     encoded_label = urlsafe_b64encode(label.encode("utf-8")).decode("ascii").rstrip("=")
     return f"{property_id}-{direction}-{encoded_label}"
+
+
+def _historical_primary(
+    edges: list[GraphEdge],
+    selected_edge: GraphEdge | None,
+) -> GraphEdge:
+    if selected_edge is not None:
+        selected = next((edge for edge in edges if edge.id == selected_edge.id), None)
+        if selected is not None:
+            return selected
+    return min(
+        edges,
+        key=lambda edge: (
+            edge.relation_key,
+            edge.direction,
+            edge.relation_label,
+            edge.explanation,
+            edge.id,
+        ),
+    )
+
+
+def _decision_choice_id(index: int, source_id: str, target_id: str) -> str:
+    return f"decision:{index}:{source_id}:{target_id}"
 
 
 def daily_response(assignment: DailyAssignment, round_: Round, graph: GraphReader) -> DailyResponse:

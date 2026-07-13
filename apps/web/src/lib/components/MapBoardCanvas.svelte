@@ -1,6 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { MapBoard } from "../domain/map-board";
+  import type {
+    MapBoard,
+    MapBoardLink,
+    MapBoardNode,
+  } from "../domain/map-board";
   import "../../styles/map-board.css";
   import type { AtlasMapRenderer } from "./map-board-renderer";
 
@@ -17,6 +21,27 @@
   let reducedMotion = $state(false);
   let renderState = $state<"loading" | "ready" | "fallback">("loading");
   let nodesById = $derived(new Map(board.nodes.map((node) => [node.id, node])));
+
+  function hasRole(node: MapBoardNode, role: string): boolean {
+    return (node.roles as readonly string[]).includes(role);
+  }
+
+  function hasAnyRole(node: MapBoardNode, roles: readonly string[]): boolean {
+    return roles.some((role) => hasRole(node, role));
+  }
+
+  function isDiscardedLink(link: MapBoardLink, target: MapBoardNode): boolean {
+    return String(link.kind) === "discarded" || hasRole(target, "discarded");
+  }
+
+  function fallbackRadius(node: MapBoardNode): number {
+    if (hasRole(node, "current")) return 19;
+    if (hasRole(node, "goal")) return 17;
+    if (hasAnyRole(node, ["trail", "breadcrumb", "visited"])) return 14;
+    if (hasRole(node, "discarded")) return 12;
+    if (hasRole(node, "choice")) return 15;
+    return 12;
+  }
 
   onMount(() => {
     let cancelled = false;
@@ -93,6 +118,10 @@
         {#if source && target}
           <line
             class:map-board-fallback__link--trail={link.kind === "trail"}
+            class:map-board-fallback__link--discarded={isDiscardedLink(
+              link,
+              target,
+            )}
             class="map-board-fallback__link"
             x1={source.position.x * 1000}
             y1={source.position.y * 600}
@@ -102,18 +131,54 @@
         {/if}
       {/each}
       {#each board.nodes as node (node.id)}
-        <circle
-          class:map-board-fallback__node--trail={node.roles.includes("trail")}
-          class:map-board-fallback__node--choice={node.roles.includes("choice")}
-          class:map-board-fallback__node--goal={node.roles.includes("goal")}
-          class:map-board-fallback__node--current={node.roles.includes(
-            "current",
+        {@const radius = fallbackRadius(node)}
+        {@const cx = node.position.x * 1000}
+        {@const cy = node.position.y * 600}
+        <g
+          class:map-board-fallback__marker--discarded={hasRole(
+            node,
+            "discarded",
           )}
-          class="map-board-fallback__node"
-          cx={node.position.x * 1000}
-          cy={node.position.y * 600}
-          r={node.roles.includes("current") ? 18 : 13}
-        />
+          class="map-board-fallback__marker"
+        >
+          <ellipse
+            class="map-board-fallback__node-shadow"
+            cx={cx + radius * 0.34}
+            cy={cy + radius * 0.52}
+            rx={radius * 1.2}
+            ry={radius * 0.52}
+          />
+          <circle
+            class="map-board-fallback__node-extrusion"
+            {cx}
+            cy={cy + radius * 0.28}
+            r={radius * 1.04}
+          />
+          <circle
+            class:map-board-fallback__node--trail={hasAnyRole(node, [
+              "trail",
+              "breadcrumb",
+              "visited",
+            ])}
+            class:map-board-fallback__node--choice={hasRole(node, "choice")}
+            class:map-board-fallback__node--discarded={hasRole(
+              node,
+              "discarded",
+            )}
+            class:map-board-fallback__node--goal={hasRole(node, "goal")}
+            class:map-board-fallback__node--current={hasRole(node, "current")}
+            class="map-board-fallback__node"
+            {cx}
+            {cy}
+            r={radius}
+          />
+          <circle
+            class="map-board-fallback__node-highlight"
+            cx={cx - radius * 0.28}
+            cy={cy - radius * 0.28}
+            r={radius * 0.16}
+          />
+        </g>
       {/each}
     </svg>
   {/if}

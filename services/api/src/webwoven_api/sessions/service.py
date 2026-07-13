@@ -18,6 +18,8 @@ from webwoven_api.graph.contracts import GraphReader, Round
 from webwoven_api.security.tokens import EdgeTokenSigner
 from webwoven_api.sessions.authorization import SessionCommandAuthorizer
 from webwoven_api.sessions.completion import SessionCompletionRecorder
+from webwoven_api.sessions.exploration import backed_frame, followed_frame
+from webwoven_api.sessions.frontier import visible_edges_for
 from webwoven_api.sessions.models import (
     BackCommand,
     CommandExecution,
@@ -129,9 +131,21 @@ class SessionService:
         if isinstance(command, FollowEdgeCommand):
             return self._follow(session, command), None
         if isinstance(command, BackCommand):
+            source_id = session.navigation.current_id
             navigation = go_back(session.navigation)
+            visible_edge_ids = tuple(
+                edge.id for edge in visible_edges_for(self._graph, session.round, source_id)
+            )
+            decision = backed_frame(
+                source_id=source_id,
+                destination_id=navigation.current_id,
+                visible_edge_ids=visible_edge_ids,
+            )
             return replace(
-                session, navigation=navigation, state_version=session.state_version + 1
+                session,
+                navigation=navigation,
+                decision_history=(*session.decision_history, decision),
+                state_version=session.state_version + 1,
             ), None
         return self._use_hint(session, command)
 
@@ -148,12 +162,33 @@ class SessionService:
         edge = self._graph.get_edge(claims.edge_id)
         if edge is None:
             raise DomainError("edge_missing", "That relationship is unavailable.")
+        visible_edge_ids = tuple(
+            visible.id
+            for visible in visible_edges_for(
+                self._graph,
+                session.round,
+                session.navigation.current_id,
+            )
+        )
+        if edge.id not in visible_edge_ids:
+            raise ForbiddenError("Edge token is not valid for the visible frontier")
         navigation = follow_edge(
             session.navigation,
             edge_source_id=edge.source_id,
             edge_target_id=edge.target_id,
         )
-        return replace(session, navigation=navigation, state_version=session.state_version + 1)
+        decision = followed_frame(
+            source_id=edge.source_id,
+            destination_id=edge.target_id,
+            visible_edge_ids=visible_edge_ids,
+            selected_edge_id=edge.id,
+        )
+        return replace(
+            session,
+            navigation=navigation,
+            decision_history=(*session.decision_history, decision),
+            state_version=session.state_version + 1,
+        )
 
     def _use_hint(
         self, session: GameSession, command: UseHintCommand

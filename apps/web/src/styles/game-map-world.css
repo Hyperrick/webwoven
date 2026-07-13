@@ -1,0 +1,295 @@
+.game-map {
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.game-map__header {
+  display: flex;
+  gap: var(--space-5);
+  align-items: end;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-rule);
+  border-bottom: 0;
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background: var(--color-paper);
+}
+
+.game-map__prompt,
+.game-map__choice-count {
+  position: static;
+  z-index: auto;
+}
+
+.game-map__prompt {
+  width: min(36rem, 72%);
+}
+
+.game-map__prompt h2 {
+  margin-block: 0.1rem var(--space-1);
+}
+
+.game-map__prompt > p:last-child {
+  max-width: 38rem;
+  margin: 0;
+}
+
+.game-map__choice-count {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.game-map__viewport {
+  position: relative;
+  width: 100%;
+  overflow: auto hidden;
+  border: 1px solid var(--color-rule);
+  border-radius: 0 0 var(--radius-sheet) var(--radius-sheet);
+  outline-offset: 3px;
+  overscroll-behavior-x: contain;
+  scrollbar-color: var(--color-muted-ink) var(--color-paper);
+  scrollbar-gutter: stable;
+  scroll-snap-type: x proximity;
+  touch-action: pan-x pan-y;
+}
+
+.game-map__surface {
+  position: relative;
+  width: max(100%, var(--map-world-width, 100%));
+  min-height: var(--map-min-height, 38rem);
+  isolation: isolate;
+}
+
+.game-map__surface > .map-board-renderer {
+  border: 0;
+  border-radius: 0;
+}
+
+.game-map__active-column {
+  position: absolute;
+  top: 50%;
+  left: var(--node-x);
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  scroll-snap-align: center;
+}
+
+.game-map__history {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map-history-node {
+  position: absolute;
+  top: var(--node-y);
+  left: var(--node-x);
+  display: grid;
+  gap: 0.15rem;
+  width: clamp(7.5rem, 10vw, 10rem);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-muted-ink);
+  border-radius: var(--radius-control);
+  color: var(--color-muted-ink);
+  background: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  box-shadow: var(--shadow-paper);
+  text-align: left;
+  transform: translate(-50%, calc(-100% - 1rem));
+  scroll-snap-align: center;
+}
+
+.map-history-node strong {
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: var(--text-14);
+  font-weight: 600;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+}
+
+.map-history-node__kicker {
+  font-family: var(--font-technical);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.map-history-node--breadcrumb {
+  border-color: var(--color-moss);
+  border-bottom-width: 3px;
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 94%, transparent);
+}
+
+.map-history-node--breadcrumb .map-history-node__kicker {
+  color: var(--color-moss);
+}
+
+.map-history-node--discarded {
+  color: var(--color-muted-ink);
+  background: color-mix(
+    in srgb,
+    var(--color-paper) 84%,
+    var(--color-muted-ink)
+  );
+  box-shadow: none;
+  opacity: 0.58;
+}
+
+.game-map__surface .map-position,
+.game-map__surface .map-choice,
+.game-map__surface .game-map__dead-end {
+  z-index: 3;
+}
+
+.game-map__surface .game-map__choices {
+  position: static;
+  display: block;
+}
+
+.game-map__last-move {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: none;
+  margin: var(--space-2) 0 0;
+  background: var(--color-paper);
+}
+
+html[data-contrast="high"] .map-history-node {
+  background: var(--color-paper);
+  opacity: 1;
+}
+
+@media (width <= 68rem) {
+  .game-map__prompt {
+    width: min(34rem, 76%);
+  }
+
+  .game-map__prompt > p:last-child {
+    display: block;
+  }
+}
+
+@media (width <= 50rem) {
+  .game-map {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .game-map__header {
+    align-items: start;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .game-map__prompt {
+    width: calc(100% - 5rem);
+  }
+
+  .game-map__prompt h2 {
+    font-size: var(--text-20);
+  }
+
+  .game-map__prompt > p:last-child {
+    display: none;
+  }
+
+  .game-map__choice-count {
+    display: grid;
+    justify-items: end;
+    gap: 0;
+  }
+
+  .game-map__viewport {
+    scroll-snap-type: x mandatory;
+  }
+
+  .game-map__surface {
+    min-height: max(30rem, var(--map-min-height, 30rem));
+  }
+
+  .game-map__surface .map-position,
+  .game-map__surface .map-choice {
+    position: absolute;
+    top: var(--node-y);
+    left: var(--node-x);
+  }
+
+  .game-map__surface .map-position {
+    right: auto;
+    width: min(11rem, 44vw);
+    padding: var(--space-2) var(--space-3);
+    transform: translate(-50%, calc(-100% - 1rem));
+  }
+
+  .game-map__surface .map-choice {
+    width: min(14rem, 72vw);
+    min-height: 4.5rem;
+    background: color-mix(in srgb, var(--color-paper) 96%, transparent);
+    transform: translate(-50%, 1.25rem);
+  }
+
+  .game-map__surface .map-choice:not(:disabled):hover,
+  .game-map__surface .map-choice:not(:disabled):focus-visible {
+    transform: translate(-50%, 1.05rem);
+  }
+
+  .game-map__surface button.map-position--reachable:not(:disabled):hover,
+  .game-map__surface
+    button.map-position--reachable:not(:disabled):focus-visible {
+    transform: translate(-50%, calc(-100% - 1.2rem));
+  }
+
+  .map-history-node {
+    width: min(8.5rem, 36vw);
+  }
+
+  .game-map__dead-end {
+    top: var(--node-y);
+    left: var(--node-x);
+    width: min(18rem, 78vw);
+    margin: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .game-map__last-move {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+@media (width <= 32rem) {
+  .game-map__header {
+    padding-inline: var(--space-3);
+  }
+
+  .game-map__surface .map-position {
+    width: min(9rem, 42vw);
+  }
+
+  .game-map__surface .map-choice {
+    grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    width: min(13rem, 76vw);
+  }
+
+  .map-history-node {
+    width: min(7.5rem, 38vw);
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .map-history-node strong {
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game-map__viewport {
+    scroll-behavior: auto;
+  }
+}

@@ -65,6 +65,27 @@ export function mapSession(value: WireSession): SessionSnapshot {
     target: entity(value.target),
     current: entity(value.current),
     trail: value.trail.map((item) => ({ qid: item.qid, label: item.label })),
+    navigation_stack: value.navigation_stack.map(entity),
+    decision_history: (value.decision_history ?? []).map((stage) => ({
+      index: stage.index,
+      source: entity(stage.source),
+      destination: entity(stage.destination),
+      action: stage.action,
+      choices: stage.choices.map((choice) => ({
+        id: choice.id,
+        target: entity(choice.target),
+        relation: {
+          property_id: choice.relation.property_id,
+          label: choice.relation.label,
+          direction: choice.relation.direction,
+          glyph: glyph(choice.relation.property_id),
+        },
+        statement: choice.statement,
+      })),
+      ...(stage.selected_choice_id === null
+        ? {}
+        : { selected_choice_id: stage.selected_choice_id }),
+    })),
     moves: value.moves,
     hints_used: value.hints_used.map((hint) => ({
       type: hint.hint_type,

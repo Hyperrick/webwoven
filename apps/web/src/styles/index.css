@@ -7,6 +7,7 @@
 @import url("./round-masthead.css") layer(game);
 @import url("./game.css") layer(game);
 @import url("./game-map-board.css") layer(game);
+@import url("./game-map-world.css") layer(game);
 @import url("./hint-dock.css") layer(game);
 @import url("./race.css") layer(game);
 @import url("./rooms.css") layer(rooms);

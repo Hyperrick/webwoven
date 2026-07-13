@@ -54,6 +54,9 @@ test("Solo preserves visible history and guards browser Back", async ({
     "off",
   );
   await expect(page.locator(".game-map")).toBeVisible();
+  const initialMapWidth = await page
+    .locator(".game-map__viewport")
+    .evaluate((element) => element.scrollWidth);
   await expect(page.locator(".map-board-renderer")).toHaveAttribute(
     "data-render-state",
     /ready|fallback/,
@@ -106,6 +109,14 @@ test("Solo preserves visible history and guards browser Back", async ({
 
   await followTo(page, "The Great Wave off Kanagawa");
   await expect(page.locator(".game-map__trail li")).toHaveCount(2);
+  await expect(page.locator(".map-history-node--discarded")).toHaveCount(1);
+  await expect(page.locator(".map-history-node--breadcrumb")).toContainText(
+    "Hokusai",
+  );
+  const widenedMapWidth = await page
+    .locator(".game-map__viewport")
+    .evaluate((element) => element.scrollWidth);
+  expect(widenedMapWidth).toBeGreaterThan(initialMapWidth);
   await expect(page.getByText("Last move", { exact: true })).toBeVisible();
   await expect(
     page.getByText("Hokusai created The Great Wave off Kanagawa.", {
@@ -124,6 +135,15 @@ test("Solo preserves visible history and guards browser Back", async ({
     page.getByRole("heading", { name: "Hokusai", exact: true }),
   ).toBeVisible();
   await expect(page.locator(".game-map__trail li")).toHaveCount(3);
+  await expect(
+    page.locator(".map-history-node--breadcrumb").filter({
+      hasText: "The Great Wave off Kanagawa",
+    }),
+  ).toBeVisible();
+  const retracedMapWidth = await page
+    .locator(".game-map__viewport")
+    .evaluate((element) => element.scrollWidth);
+  expect(retracedMapWidth).toBeGreaterThan(widenedMapWidth);
   await expect(page.getByText(/retraced the route to Hokusai/i)).toBeVisible();
 });
 
@@ -219,8 +239,14 @@ test("short phone layout keeps hint tools below playable moves", async ({
     firstMove.boundingBox(),
     hintDock.boundingBox(),
   ]);
+  const viewportBox = await page.locator(".game-map__viewport").boundingBox();
   expect(moveBox).not.toBeNull();
   expect(hintBox).not.toBeNull();
+  expect(viewportBox).not.toBeNull();
+  expect(moveBox?.x ?? 0).toBeGreaterThanOrEqual((viewportBox?.x ?? 0) - 1);
+  expect((moveBox?.x ?? 0) + (moveBox?.width ?? 0)).toBeLessThanOrEqual(
+    (viewportBox?.x ?? 0) + (viewportBox?.width ?? 0) + 1,
+  );
   expect(hintBox?.y ?? 0).toBeGreaterThanOrEqual(
     (moveBox?.y ?? 0) + (moveBox?.height ?? 0),
   );

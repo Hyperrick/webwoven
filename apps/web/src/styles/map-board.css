@@ -34,25 +34,49 @@
     vector-effect: non-scaling-stroke;
   }
 
+  .map-board-fallback__link--discarded {
+    stroke: var(--color-muted-ink);
+    stroke-width: 1.5;
+    stroke-opacity: 0.22;
+  }
+
   .map-board-fallback__link--trail {
     stroke: var(--color-moss);
     stroke-width: 3;
     stroke-opacity: 0.8;
   }
 
+  .map-board-fallback__node-shadow {
+    fill: var(--color-ink);
+    opacity: 0.18;
+  }
+
+  .map-board-fallback__node-extrusion {
+    fill: var(--color-ink);
+  }
+
   .map-board-fallback__node {
     fill: var(--color-muted-ink);
-    stroke: var(--color-paper);
-    stroke-width: 5;
+    stroke: var(--color-ink);
+    stroke-width: 3;
     vector-effect: non-scaling-stroke;
   }
 
-  .map-board-fallback__node--trail {
-    fill: var(--color-moss);
+  .map-board-fallback__node-highlight {
+    fill: var(--color-paper);
+    opacity: 0.82;
   }
 
   .map-board-fallback__node--choice {
     fill: var(--color-cartographic);
+  }
+
+  .map-board-fallback__node--discarded {
+    fill: var(--color-muted-ink);
+  }
+
+  .map-board-fallback__node--trail {
+    fill: var(--color-moss);
   }
 
   .map-board-fallback__node--goal {
@@ -61,8 +85,20 @@
 
   .map-board-fallback__node--current {
     fill: var(--color-signal);
-    stroke: var(--color-signal);
-    stroke-width: 8;
+    stroke: var(--color-ink);
+    stroke-width: 5;
+  }
+
+  .map-board-fallback__marker--discarded .map-board-fallback__node-shadow {
+    opacity: 0.07;
+  }
+
+  .map-board-fallback__marker--discarded .map-board-fallback__node-highlight {
+    opacity: 0.42;
+  }
+
+  .map-board-fallback__marker--discarded .map-board-fallback__node {
+    fill: var(--color-muted-ink);
   }
 
   html[data-contrast="high"] .map-board-renderer {

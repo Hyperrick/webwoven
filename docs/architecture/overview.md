@@ -3,11 +3,16 @@
 Webwoven is split by responsibility:
 
 - The Svelte client renders the game and sends versioned commands.
-- A pure `MapBoard` domain projection turns each session snapshot into nodes, links, direct move
-  choices, and normalized positions. Its output depends on semantic graph data, not signed edge
-  tokens, animation timing, or browser state.
-- A presentation-only Three.js renderer draws the paper field, paths, and markers. It does not own
-  navigation, validate moves, or send commands.
+- The session domain freezes one token-free decision frame for every applied Follow or Back
+  command. A frame records the exact visible frontier, selected edge when applicable, source,
+  destination, and action. Hints, stale commands, and duplicate idempotency keys do not append a
+  frame. Persisted frames make the exploration map identical after GET, refresh, or reconnect.
+- A pure `MapBoard` domain projection turns the current frontier and resolved decision frames into
+  occurrence-scoped nodes, links, direct move choices, deterministic columns, and normalized
+  positions. Each move grows the world width while earlier absolute positions stay fixed. Only the
+  active frontier consumes signed edge tokens; stored history is semantic and token-free.
+- A presentation-only Three.js renderer draws the paper field, paths, and cel-shaded atlas tokens.
+  It does not own navigation, validate moves, or send commands.
 - Entity choices remain accessible DOM buttons with complete fact sentences. The renderer is
   hidden from assistive technology. A deterministic SVG projection preserves visible nodes and
   links when WebGL is unavailable, and the same controls remain fully playable.

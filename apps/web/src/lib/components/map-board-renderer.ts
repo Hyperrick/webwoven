@@ -1,11 +1,13 @@
 import { palette } from "@webwoven/design-tokens/tokens";
 import {
   AmbientLight,
+  BackSide,
   BufferGeometry,
   CanvasTexture,
   CircleGeometry,
   Color,
   CylinderGeometry,
+  DataTexture,
   DirectionalLight,
   Group,
   Line,
@@ -13,9 +15,12 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
+  MeshToonMaterial,
+  NearestFilter,
   OrthographicCamera,
   PlaneGeometry,
   QuadraticBezierCurve3,
+  RedFormat,
   RepeatWrapping,
   Scene,
   SphereGeometry,
@@ -34,6 +39,8 @@ const SETTLE_DURATION_MS = 320;
 const BOARD_DEPTH = -0.12;
 const PATH_DEPTH = 0.02;
 const NODE_DEPTH = 0.1;
+const TOKEN_TILT = 0.38;
+const TOKEN_SEGMENTS = 12;
 
 type UnavailableHandler = () => void;
 
@@ -42,6 +49,7 @@ export class AtlasMapRenderer {
   readonly #camera = new OrthographicCamera();
   readonly #renderer: WebGLRenderer;
   readonly #unavailable: UnavailableHandler;
+  readonly #toonRamp: DataTexture;
   #board = new Group();
   #nodes: readonly MapBoardNode[] = [];
   #links: readonly MapBoardLink[] = [];
@@ -60,6 +68,7 @@ export class AtlasMapRenderer {
     this.#renderer.outputColorSpace = SRGBColorSpace;
     this.#renderer.setClearAlpha(0);
     this.#renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    this.#toonRamp = createToonRamp();
     this.#renderer.domElement.addEventListener(
       "webglcontextlost",
       this.#handleContextLost,
@@ -68,9 +77,9 @@ export class AtlasMapRenderer {
 
     this.#camera.position.set(0, 0, 10);
     this.#camera.lookAt(0, 0, 0);
-    this.#scene.add(new AmbientLight(new Color(palette.paper), 2.7));
-    const keyLight = new DirectionalLight(new Color(palette.paper), 2.4);
-    keyLight.position.set(-3, 5, 8);
+    this.#scene.add(new AmbientLight(new Color(palette.paper), 0.45));
+    const keyLight = new DirectionalLight(new Color(palette.paper), 3.2);
+    keyLight.position.set(-4, 6, 8);
     this.#scene.add(keyLight, this.#board);
   }
 
@@ -110,6 +119,7 @@ export class AtlasMapRenderer {
     );
     disposeObject(this.#board);
     this.#scene.clear();
+    this.#toonRamp.dispose();
     this.#renderer.dispose();
     this.#renderer.domElement.remove();
   }
@@ -216,69 +226,123 @@ export class AtlasMapRenderer {
       PATH_DEPTH + 0.03,
     );
     const curve = new QuadraticBezierCurve3(start, control, end);
-    const isTrail = link.kind === "trail";
-    const color = isTrail ? palette.moss : palette.cartographic;
+    const isTrail = link.kind === "trail" || linkKindIs(link, "breadcrumb");
+    const isDiscarded =
+      linkKindIs(link, "discarded") || markerState(target) === "discarded";
+    const color = isTrail
+      ? palette.moss
+      : isDiscarded
+        ? palette.mutedInk
+        : palette.cartographic;
     const material = new MeshBasicMaterial({
       color: new Color(color),
       transparent: true,
-      opacity: isTrail ? 0.78 : 0.48,
+      opacity: isTrail ? 0.82 : isDiscarded ? 0.2 : 0.48,
     });
+    const pathRadius = isTrail ? 0.027 : isDiscarded ? 0.012 : 0.017;
     const path = new Mesh(
-      new TubeGeometry(curve, 28, isTrail ? 0.025 : 0.016, 6, false),
+      new TubeGeometry(curve, 28, pathRadius, 6, false),
       material,
     );
     const bead = new Mesh(
-      new SphereGeometry(isTrail ? 0.055 : 0.04, 12, 8),
+      new SphereGeometry(isTrail ? 0.058 : isDiscarded ? 0.03 : 0.042, 12, 8),
       material.clone(),
     );
     bead.position.copy(curve.getPoint(0.5));
     const group = new Group();
+    if (isTrail) {
+      const outline = new Mesh(
+        new TubeGeometry(curve, 28, pathRadius + 0.011, 6, false),
+        new MeshBasicMaterial({
+          color: new Color(palette.ink),
+          transparent: true,
+          opacity: 0.34,
+        }),
+      );
+      group.add(outline);
+    }
     group.add(path, bead);
     return group;
   }
 
   #createNodeMarker(node: MapBoardNode): Group {
     const position = this.#pointFor(node, NODE_DEPTH);
-    const isCurrent = node.roles.includes("current");
-    const radius = isCurrent ? 0.22 : 0.17;
+    const state = markerState(node);
+    const isCurrent = state === "current";
+    const isDiscarded = state === "discarded";
+    const radius = markerRadius(state);
+    const depth = isCurrent ? 0.18 : 0.15;
     const color = markerColor(node);
     const group = new Group();
     group.position.copy(position);
 
     const shadow = new Mesh(
-      new CircleGeometry(radius * 1.08, 32),
+      new CircleGeometry(radius * 1.16, 24),
       new MeshBasicMaterial({
         color: new Color(palette.ink),
         transparent: true,
-        opacity: 0.16,
+        opacity: isDiscarded ? 0.08 : 0.2,
       }),
     );
-    shadow.position.set(0.045, -0.055, -0.055);
+    shadow.position.set(0.065, -0.085, -0.055);
+    shadow.scale.y = 0.48;
+
+    const token = new Group();
+    token.rotation.x = Math.PI / 2 - TOKEN_TILT;
+    token.rotation.z = stableMarkerTurn(node.qid);
+    const tokenGeometry = new CylinderGeometry(
+      radius,
+      radius * 1.06,
+      depth,
+      TOKEN_SEGMENTS,
+    );
+    const outline = new Mesh(
+      tokenGeometry,
+      new MeshBasicMaterial({
+        color: new Color(palette.ink),
+        side: BackSide,
+        transparent: isDiscarded,
+        opacity: isDiscarded ? 0.58 : 1,
+      }),
+    );
+    outline.scale.set(1.075, 1.055, 1.075);
 
     const base = new Mesh(
-      new CylinderGeometry(radius, radius * 1.05, 0.085, 32),
-      new MeshStandardMaterial({
+      tokenGeometry,
+      new MeshToonMaterial({
         color: new Color(color),
-        roughness: 0.72,
-        metalness: 0,
+        gradientMap: this.#toonRamp,
       }),
     );
-    base.rotation.x = Math.PI / 2;
 
     const center = new Mesh(
-      new CircleGeometry(radius * 0.37, 24),
-      new MeshBasicMaterial({ color: new Color(palette.paper) }),
+      new CircleGeometry(radius * 0.33, TOKEN_SEGMENTS),
+      new MeshBasicMaterial({
+        color: new Color(palette.paper),
+        transparent: isDiscarded,
+        opacity: isDiscarded ? 0.55 : 1,
+      }),
     );
-    center.position.z = 0.048;
-    group.add(shadow, base, center);
+    center.rotation.x = -Math.PI / 2;
+    center.position.y = depth / 2 + 0.006;
+    token.add(outline, base, center);
+    group.add(shadow, token);
 
     if (isCurrent) {
+      const ringOutline = new Mesh(
+        new TorusGeometry(radius * 1.38, 0.038, 8, 32),
+        new MeshBasicMaterial({ color: new Color(palette.ink) }),
+      );
       const ring = new Mesh(
-        new TorusGeometry(radius * 1.38, 0.026, 8, 32),
+        new TorusGeometry(radius * 1.38, 0.023, 8, 32),
         new MeshBasicMaterial({ color: new Color(palette.signal) }),
       );
-      ring.position.z = -0.01;
-      group.add(ring);
+      for (const item of [ringOutline, ring]) {
+        item.rotation.x = -Math.PI / 2;
+        item.position.y = depth / 2 + 0.01;
+      }
+      ring.position.y += 0.006;
+      token.add(ringOutline, ring);
     }
     return group;
   }
@@ -316,12 +380,44 @@ export class AtlasMapRenderer {
   }
 }
 
+type MarkerState = "current" | "goal" | "choice" | "breadcrumb" | "discarded";
+
+function markerState(node: MapBoardNode): MarkerState {
+  if (hasRole(node, "current")) return "current";
+  if (hasRole(node, "discarded")) return "discarded";
+  if (hasRole(node, "goal")) return "goal";
+  if (hasAnyRole(node, ["trail", "breadcrumb", "visited"])) return "breadcrumb";
+  if (hasRole(node, "choice")) return "choice";
+  return "discarded";
+}
+
 function markerColor(node: MapBoardNode): string {
-  if (node.roles.includes("current")) return palette.signal;
-  if (node.roles.includes("goal")) return palette.ochre;
-  if (node.roles.includes("choice")) return palette.cartographic;
-  if (node.roles.includes("trail")) return palette.moss;
+  const state = markerState(node);
+  if (state === "current") return palette.signal;
+  if (state === "goal") return palette.ochre;
+  if (state === "choice") return palette.cartographic;
+  if (state === "breadcrumb") return palette.moss;
   return palette.mutedInk;
+}
+
+function markerRadius(state: MarkerState): number {
+  if (state === "current") return 0.23;
+  if (state === "goal") return 0.2;
+  if (state === "choice") return 0.18;
+  if (state === "breadcrumb") return 0.175;
+  return 0.15;
+}
+
+function hasRole(node: MapBoardNode, role: string): boolean {
+  return (node.roles as readonly string[]).includes(role);
+}
+
+function hasAnyRole(node: MapBoardNode, roles: readonly string[]): boolean {
+  return roles.some((role) => hasRole(node, role));
+}
+
+function linkKindIs(link: MapBoardLink, kind: string): boolean {
+  return String(link.kind) === kind;
 }
 
 function stableBend(id: string): number {
@@ -332,6 +428,29 @@ function stableBend(id: string): number {
   }
   const magnitude = 0.55 + ((hash >>> 1) % 40) / 100;
   return (hash & 1) === 0 ? magnitude : -magnitude;
+}
+
+function stableMarkerTurn(id: string): number {
+  let hash = 2166136261;
+  for (const character of id) {
+    hash ^= character.codePointAt(0) ?? 0;
+    hash = Math.imul(hash, 16777619);
+  }
+  return (((hash >>> 0) % 9) - 4) * 0.012;
+}
+
+function createToonRamp(): DataTexture {
+  const texture = new DataTexture(
+    new Uint8Array([48, 152, 255]),
+    3,
+    1,
+    RedFormat,
+  );
+  texture.minFilter = NearestFilter;
+  texture.magFilter = NearestFilter;
+  texture.generateMipmaps = false;
+  texture.needsUpdate = true;
+  return texture;
 }
 
 function createPaperTexture(): CanvasTexture {
@@ -359,14 +478,18 @@ function createPaperTexture(): CanvasTexture {
 }
 
 function disposeObject(object: Object3D): void {
+  const geometries = new Set<BufferGeometry>();
+  const materials = new Set<Material>();
   object.traverse((child) => {
     if (!(child instanceof Mesh) && !(child instanceof Line)) return;
-    child.geometry.dispose();
-    const materials = Array.isArray(child.material)
+    geometries.add(child.geometry);
+    const childMaterials = Array.isArray(child.material)
       ? child.material
       : [child.material];
-    materials.forEach(disposeMaterial);
+    childMaterials.forEach((material) => materials.add(material));
   });
+  geometries.forEach((geometry) => geometry.dispose());
+  materials.forEach(disposeMaterial);
   object.clear();
 }
 

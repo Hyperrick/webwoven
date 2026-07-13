@@ -24,6 +24,7 @@ def test_versioned_follow_is_idempotent_and_stale_returns_snapshot(client: TestC
     )
     assert first.status_code == 200
     assert first.json()["session"]["state_version"] == 1
+    assert len(first.json()["session"]["decision_history"]) == 1
 
     duplicate = client.post(
         f"/api/v1/sessions/{session['id']}/commands",
@@ -33,6 +34,7 @@ def test_versioned_follow_is_idempotent_and_stale_returns_snapshot(client: TestC
     assert duplicate.status_code == 200
     assert duplicate.json()["duplicate"] is True
     assert duplicate.json()["session"]["state_version"] == 1
+    assert len(duplicate.json()["session"]["decision_history"]) == 1
 
     stale = client.post(
         f"/api/v1/sessions/{session['id']}/commands",
@@ -46,6 +48,7 @@ def test_versioned_follow_is_idempotent_and_stale_returns_snapshot(client: TestC
     assert stale.status_code == 409
     assert stale.json()["code"] == "stale_state"
     assert stale.json()["current"]["state_version"] == 1
+    assert len(stale.json()["current"]["decision_history"]) == 1
 
     other_headers = create_guest(client, "Other Player")
     cross_guest_duplicate = client.post(
@@ -90,6 +93,65 @@ def test_hint_is_graph_grounded_and_penalized(client: TestClient) -> None:
     assert response.status_code == 200
     assert response.json()["hint"]["relation_property_id"] in {"P108", "P19"}
     assert response.json()["session"]["hint_penalty"] == 150
+    assert response.json()["session"]["decision_history"] == []
+
+
+def test_follow_and_back_publish_token_free_decision_history(client: TestClient) -> None:
+    headers = create_guest(client)
+    session = client.post("/api/v1/sessions", headers=headers, json={"mode": "solo"}).json()
+    selected = next(
+        edge
+        for group in session["relation_groups"]
+        for edge in group["edges"]
+        if edge["target"]["qid"] == "Q2"
+    )
+    followed = client.post(
+        f"/api/v1/sessions/{session['id']}/commands",
+        headers=headers,
+        json={
+            "type": "follow_edge",
+            "client_command_id": "history-follow",
+            "expected_state_version": session["state_version"],
+            "edge_token": selected["edge_token"],
+        },
+    ).json()["session"]
+
+    follow_stage = followed["decision_history"][0]
+    assert follow_stage["index"] == 0
+    assert follow_stage["action"] == "follow"
+    assert follow_stage["source"]["qid"] == "Q1"
+    assert follow_stage["destination"]["qid"] == "Q2"
+    assert {choice["target"]["qid"] for choice in follow_stage["choices"]} == {"Q2", "Q5"}
+    selected_choice = next(
+        choice
+        for choice in follow_stage["choices"]
+        if choice["id"] == follow_stage["selected_choice_id"]
+    )
+    assert selected_choice["target"]["qid"] == "Q2"
+    assert selected_choice["statement"] == "Ada Lovelace worked with Charles Babbage."
+    assert "edge_token" not in str(follow_stage)
+
+    backed = client.post(
+        f"/api/v1/sessions/{session['id']}/commands",
+        headers=headers,
+        json={
+            "type": "back",
+            "client_command_id": "history-back",
+            "expected_state_version": followed["state_version"],
+        },
+    ).json()["session"]
+    assert len(backed["decision_history"]) == 2
+    back_stage = backed["decision_history"][1]
+    assert back_stage["index"] == 1
+    assert back_stage["action"] == "back"
+    assert back_stage["source"]["qid"] == "Q2"
+    assert back_stage["destination"]["qid"] == "Q1"
+    assert back_stage["selected_choice_id"] is None
+    assert {choice["target"]["qid"] for choice in back_stage["choices"]} == {"Q1", "Q3"}
+    assert "edge_token" not in str(back_stage)
+
+    resumed = client.get(f"/api/v1/sessions/{session['id']}", headers=headers).json()
+    assert resumed["decision_history"] == backed["decision_history"]
 
 
 def test_daily_completion_enters_leaderboard(client: TestClient) -> None:
