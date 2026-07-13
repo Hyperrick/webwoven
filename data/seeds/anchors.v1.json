@@ -1,0 +1,825 @@
+{
+  "categories": [
+    {
+      "anchors": [
+        {
+          "label": "Douglas Adams",
+          "qid": "Q42",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Barack Obama",
+          "qid": "Q76",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Tim Berners-Lee",
+          "qid": "Q80",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "William Shakespeare",
+          "qid": "Q692",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Leonardo da Vinci",
+          "qid": "Q762",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Albert Einstein",
+          "qid": "Q937",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Anne Frank",
+          "qid": "Q4583",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Marie Curie",
+          "qid": "Q7186",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Ada Lovelace",
+          "qid": "Q7259",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Nelson Mandela",
+          "qid": "Q8023",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Mahatma Gandhi",
+          "qid": "Q1001",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Martin Luther King Jr.",
+          "qid": "Q8027",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Rosa Parks",
+          "qid": "Q41921",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Abraham Lincoln",
+          "qid": "Q91",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "George Washington",
+          "qid": "Q23",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Cleopatra",
+          "qid": "Q635",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Julius Caesar",
+          "qid": "Q1048",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Napoleon",
+          "qid": "Q517",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Joan of Arc",
+          "qid": "Q7226",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Florence Nightingale",
+          "qid": "Q37103",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Alan Turing",
+          "qid": "Q7251",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Katherine Johnson",
+          "qid": "Q11740",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Isaac Newton",
+          "qid": "Q935",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Galileo Galilei",
+          "qid": "Q307",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Charles Darwin",
+          "qid": "Q1035",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Nikola Tesla",
+          "qid": "Q9036",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Harriet Tubman",
+          "qid": "Q102870",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Malala Yousafzai",
+          "qid": "Q32732",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Desmond Tutu",
+          "qid": "Q43033",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Eleanor Roosevelt",
+          "qid": "Q83396",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Winston Churchill",
+          "qid": "Q8016",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Emmeline Pankhurst",
+          "qid": "Q211519",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Frederick Douglass",
+          "qid": "Q215562",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Confucius",
+          "qid": "Q4604",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Aristotle",
+          "qid": "Q868",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Socrates",
+          "qid": "Q913",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Hypatia",
+          "qid": "Q11903",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Avicenna",
+          "qid": "Q8011",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Mansa Musa",
+          "qid": "Q309333",
+          "reason": "Reviewed starter for broad people and history connections."
+        },
+        {
+          "label": "Simone de Beauvoir",
+          "qid": "Q7197",
+          "reason": "Reviewed starter for broad people and history connections."
+        }
+      ],
+      "id": "history_people"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Earth",
+          "qid": "Q2",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Sun",
+          "qid": "Q525",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Physics",
+          "qid": "Q413",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Star",
+          "qid": "Q523",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Astronomy",
+          "qid": "Q333",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "River",
+          "qid": "Q4022",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Gene",
+          "qid": "Q7187",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Mountain",
+          "qid": "Q8502",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Chemical element",
+          "qid": "Q11344",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Taxon",
+          "qid": "Q16521",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Moon",
+          "qid": "Q405",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Mars",
+          "qid": "Q111",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Jupiter",
+          "qid": "Q319",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Saturn",
+          "qid": "Q193",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Milky Way",
+          "qid": "Q321",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Galaxy",
+          "qid": "Q318",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Black hole",
+          "qid": "Q589",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Comet",
+          "qid": "Q3559",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Ocean",
+          "qid": "Q9430",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Volcano",
+          "qid": "Q8072",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Glacier",
+          "qid": "Q35666",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Desert",
+          "qid": "Q8514",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Rainforest",
+          "qid": "Q9444",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Coral reef",
+          "qid": "Q11292",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Mammal",
+          "qid": "Q7377",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Bird",
+          "qid": "Q5113",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Flowering plant",
+          "qid": "Q25314",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Dinosaur",
+          "qid": "Q430",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Evolution",
+          "qid": "Q1063",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "DNA",
+          "qid": "Q7430",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Cell (biology)",
+          "qid": "Q7868",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Atom",
+          "qid": "Q9121",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Molecule",
+          "qid": "Q11369",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Periodic table",
+          "qid": "Q10693",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Quantum mechanics",
+          "qid": "Q944",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "General relativity",
+          "qid": "Q11452",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Photosynthesis",
+          "qid": "Q11982",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Climate change",
+          "qid": "Q125928",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Ecosystem",
+          "qid": "Q37813",
+          "reason": "Reviewed starter for broad nature and science connections."
+        },
+        {
+          "label": "Biodiversity",
+          "qid": "Q47041",
+          "reason": "Reviewed starter for broad nature and science connections."
+        }
+      ],
+      "id": "nature_science"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Wolfgang Amadeus Mozart",
+          "qid": "Q254",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Star Wars",
+          "qid": "Q462",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Beatles",
+          "qid": "Q1299",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Vincent van Gogh",
+          "qid": "Q5582",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Frida Kahlo",
+          "qid": "Q5588",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Pablo Picasso",
+          "qid": "Q5593",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Mona Lisa",
+          "qid": "Q12418",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Spirited Away",
+          "qid": "Q155653",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Hamlet",
+          "qid": "Q41567",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Great Gatsby",
+          "qid": "Q214371",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Ludwig van Beethoven",
+          "qid": "Q255",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Johann Sebastian Bach",
+          "qid": "Q1339",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Beyoncé",
+          "qid": "Q36153",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "David Bowie",
+          "qid": "Q5383",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Nina Simone",
+          "qid": "Q174957",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Miles Davis",
+          "qid": "Q93341",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Billie Holiday",
+          "qid": "Q104358",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Bob Dylan",
+          "qid": "Q392",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Rolling Stones",
+          "qid": "Q11036",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Citizen Kane",
+          "qid": "Q24815",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Godfather",
+          "qid": "Q47703",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Seven Samurai",
+          "qid": "Q189540",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Parasite (2019 film)",
+          "qid": "Q61448040",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Lord of the Rings",
+          "qid": "Q15228",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Harry Potter",
+          "qid": "Q8337",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Pride and Prejudice",
+          "qid": "Q170583",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Nineteen Eighty-Four",
+          "qid": "Q208460",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Don Quixote",
+          "qid": "Q480",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Odyssey",
+          "qid": "Q35160",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Starry Night",
+          "qid": "Q45585",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Guernica (Picasso)",
+          "qid": "Q175036",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Scream",
+          "qid": "Q471379",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Girl with a Pearl Earring",
+          "qid": "Q185372",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "The Persistence of Memory",
+          "qid": "Q25729",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Claude Monet",
+          "qid": "Q296",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Georgia O'Keeffe",
+          "qid": "Q46408",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Yayoi Kusama",
+          "qid": "Q231121",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Hayao Miyazaki",
+          "qid": "Q55400",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Akira Kurosawa",
+          "qid": "Q8006",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        },
+        {
+          "label": "Taylor Swift",
+          "qid": "Q26876",
+          "reason": "Reviewed starter for broad arts and culture connections."
+        }
+      ],
+      "id": "arts_culture"
+    },
+    {
+      "anchors": [
+        {
+          "label": "New York City",
+          "qid": "Q60",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Berlin",
+          "qid": "Q64",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "London",
+          "qid": "Q84",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Cairo",
+          "qid": "Q85",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Paris",
+          "qid": "Q90",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Rome",
+          "qid": "Q220",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Mumbai",
+          "qid": "Q1156",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Tokyo",
+          "qid": "Q1490",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Sydney",
+          "qid": "Q3130",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Cape Town",
+          "qid": "Q5465",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Los Angeles",
+          "qid": "Q65",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Chicago",
+          "qid": "Q1297",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Mexico City",
+          "qid": "Q1489",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "São Paulo",
+          "qid": "Q174",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Buenos Aires",
+          "qid": "Q1486",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Lima",
+          "qid": "Q2868",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Toronto",
+          "qid": "Q172",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Vancouver",
+          "qid": "Q24639",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Madrid",
+          "qid": "Q2807",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Barcelona",
+          "qid": "Q1492",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Lisbon",
+          "qid": "Q597",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Amsterdam",
+          "qid": "Q727",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Brussels",
+          "qid": "Q240",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Vienna",
+          "qid": "Q1741",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Prague",
+          "qid": "Q1085",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Warsaw",
+          "qid": "Q270",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Athens",
+          "qid": "Q1524",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Istanbul",
+          "qid": "Q406",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Moscow",
+          "qid": "Q649",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Kyiv",
+          "qid": "Q1899",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Delhi",
+          "qid": "Q1353",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Beijing",
+          "qid": "Q956",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Shanghai",
+          "qid": "Q8686",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Seoul",
+          "qid": "Q8684",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Bangkok",
+          "qid": "Q1861",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Singapore",
+          "qid": "Q334",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Jakarta",
+          "qid": "Q3630",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Nairobi",
+          "qid": "Q3870",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Lagos",
+          "qid": "Q8673",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        },
+        {
+          "label": "Johannesburg",
+          "qid": "Q34647",
+          "reason": "Reviewed starter for broad geographic and cultural connections."
+        }
+      ],
+      "id": "places"
+    }
+  ],
+  "version": 1
+}

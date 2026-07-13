@@ -1,0 +1,170 @@
+{
+  "classification_properties": [
+    "P31",
+    "P279"
+  ],
+  "media_property": "P18",
+  "relations": [
+    {
+      "category": "place",
+      "forward_label": "country",
+      "inverse_label": "includes place or subject",
+      "key": "P17",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "people",
+      "forward_label": "born in",
+      "inverse_label": "birthplace of",
+      "key": "P19",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "place",
+      "forward_label": "capital",
+      "inverse_label": "capital of",
+      "key": "P36",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "written by",
+      "inverse_label": "author of",
+      "key": "P50",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "directed by",
+      "inverse_label": "director of",
+      "key": "P57",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "discovery",
+      "forward_label": "discovered or invented by",
+      "inverse_label": "discovered or invented",
+      "key": "P61",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "people",
+      "forward_label": "educated at",
+      "inverse_label": "educated",
+      "key": "P69",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "people",
+      "forward_label": "worked for",
+      "inverse_label": "employed",
+      "key": "P108",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "place",
+      "forward_label": "located in",
+      "inverse_label": "contains place",
+      "key": "P131",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "association",
+      "forward_label": "named after",
+      "inverse_label": "namesake of",
+      "key": "P138",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "features cast member",
+      "inverse_label": "cast member in",
+      "key": "P161",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "achievement",
+      "forward_label": "received award",
+      "inverse_label": "awarded to",
+      "key": "P166",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "created by",
+      "inverse_label": "creator of",
+      "key": "P170",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "nature",
+      "forward_label": "parent taxon",
+      "inverse_label": "child taxon",
+      "key": "P171",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "performed by",
+      "inverse_label": "performer of",
+      "key": "P175",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "place",
+      "forward_label": "location",
+      "inverse_label": "contains subject",
+      "key": "P276",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "association",
+      "forward_label": "part of",
+      "inverse_label": "has part",
+      "key": "P361",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "association",
+      "forward_label": "member of",
+      "inverse_label": "has member",
+      "key": "P463",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "influence",
+      "forward_label": "influenced by",
+      "inverse_label": "influenced",
+      "key": "P737",
+      "max_targets": 8,
+      "playable": true
+    },
+    {
+      "category": "creation",
+      "forward_label": "notable work",
+      "inverse_label": "notable work of",
+      "key": "P800",
+      "max_targets": 8,
+      "playable": true
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,305 @@
+.landing-page {
+  overflow: hidden;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+  gap: clamp(3rem, 8vw, 9rem);
+  align-items: center;
+  width: min(100% - 3rem, 90rem);
+  min-height: calc(100svh - 6.5rem);
+  margin-inline: auto;
+  padding-block: var(--space-8);
+}
+
+.hero__copy {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__copy h1 {
+  max-width: 12ch;
+  margin-block: var(--space-4) var(--space-6);
+  font-size: var(--text-64);
+  line-height: 0.95;
+}
+
+.hero__copy h1 em {
+  color: var(--color-signal);
+}
+
+.hero__lede {
+  max-width: 38rem;
+  color: var(--color-muted-ink);
+  font-size: var(--text-20);
+  line-height: 1.55;
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.hero-route {
+  position: relative;
+  padding: var(--space-7) var(--space-6) var(--space-6);
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper);
+  transform: rotate(1.25deg);
+}
+
+.hero-route::before,
+.hero-route::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.hero-route::before {
+  inset: var(--space-3);
+  border: 1px solid var(--color-rule);
+}
+
+.hero-route::after {
+  right: -5rem;
+  bottom: -4rem;
+  width: 12rem;
+  height: 12rem;
+  border: 1px solid var(--color-ochre);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.hero-route__stamp {
+  position: absolute;
+  top: -1.35rem;
+  right: var(--space-5);
+  display: grid;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-signal);
+  color: var(--color-signal);
+  background: var(--color-paper);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  transform: rotate(-4deg);
+}
+
+.hero-route__stamp strong {
+  font-size: var(--text-20);
+}
+
+.hero-route ol {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-route li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  align-items: center;
+  min-height: 4.25rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.hero-route li > span {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.hero-route li strong {
+  font-family: var(--font-display);
+  font-size: var(--text-20);
+  font-weight: 550;
+}
+
+.hero-route li i {
+  position: absolute;
+  z-index: 2;
+  bottom: -0.33rem;
+  left: 0.35rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 2px solid var(--color-paper);
+  border-radius: 50%;
+  background: var(--color-signal);
+}
+
+.hero-route > p {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-4);
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.mode-ledger {
+  width: min(100% - 3rem, 90rem);
+  margin-inline: auto;
+  padding-block: clamp(5rem, 10vw, 9rem);
+}
+
+.section-intro {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: var(--space-6);
+  align-items: end;
+  padding-bottom: var(--space-6);
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.section-intro h2 {
+  font-size: var(--text-40);
+}
+
+.section-intro > p:last-child {
+  color: var(--color-muted-ink);
+  line-height: 1.5;
+}
+
+.mode-row {
+  display: grid;
+  grid-template-columns: 5rem 1fr 1.15fr 2rem;
+  gap: var(--space-6);
+  align-items: center;
+  width: 100%;
+  min-height: 9rem;
+  padding: var(--space-5) 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-rule);
+  background: transparent;
+  text-align: left;
+  transition:
+    padding var(--motion-route) ease,
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease;
+}
+
+.mode-row:hover,
+.mode-row:focus-visible {
+  padding-inline: var(--space-5);
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.mode-row__number {
+  color: var(--color-signal);
+  font-family: var(--font-technical);
+  font-size: var(--text-14);
+}
+
+.mode-row__title {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.mode-row__title strong {
+  font-family: var(--font-display);
+  font-size: var(--text-28);
+  font-weight: 550;
+}
+
+.mode-row__title small,
+.mode-row__copy {
+  color: var(--color-muted-ink);
+  line-height: 1.5;
+}
+
+.mode-row:hover :is(.mode-row__title small, .mode-row__copy),
+.mode-row:focus-visible :is(.mode-row__title small, .mode-row__copy) {
+  color: var(--color-paper);
+}
+
+.manifesto {
+  position: relative;
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) minmax(18rem, 0.5fr);
+  gap: var(--space-7);
+  align-items: center;
+  width: min(100% - 3rem, 90rem);
+  margin: var(--space-8) auto;
+  padding: clamp(3rem, 7vw, 7rem);
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.manifesto h2 {
+  max-width: 14ch;
+  margin-block: var(--space-3) var(--space-4);
+  color: var(--color-paper);
+  font-size: var(--text-40);
+}
+
+.manifesto .eyebrow {
+  color: var(--color-ochre);
+}
+
+.manifesto p:last-child {
+  max-width: 42rem;
+  color: var(--color-paper);
+  line-height: 1.6;
+}
+
+.manifesto__mark {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid var(--color-ochre);
+  border-radius: 50%;
+}
+
+.manifesto__mark span {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  width: 4rem;
+  height: 2px;
+  background: var(--color-ochre);
+}
+
+.manifesto__mark span:first-child {
+  transform: rotate(45deg);
+}
+
+.manifesto__mark span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+.manifesto__mark span:last-child {
+  transform: rotate(90deg);
+}
+
+.manifesto dl {
+  border-top: 1px solid color-mix(in srgb, var(--color-paper) 35%, transparent);
+}
+
+.manifesto dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-paper) 35%, transparent);
+  font-size: var(--text-12);
+}
+
+.manifesto dt {
+  color: var(--color-paper);
+}
+
+.manifesto dd {
+  color: var(--color-ochre);
+  font-family: var(--font-technical);
+  text-align: right;
+}

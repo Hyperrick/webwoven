@@ -1,0 +1,43 @@
+site_name: Webwoven
+site_description: An explainable knowledge-graph game, built in public with Codex.
+site_url: https://webwoven.example/docs/
+repo_url: https://github.com/Hyperrick/webwoven
+repo_name: Hyperrick/webwoven
+docs_dir: docs
+site_dir: site
+strict: true
+theme:
+  name: material
+  language: en
+  logo: assets/mark.svg
+  favicon: assets/mark.svg
+  palette:
+    scheme: default
+    primary: black
+    accent: deep-orange
+  font: false
+extra_css:
+  - assets/docs.css
+nav:
+  - Home: index.md
+  - Product:
+      - Vision: product/vision.md
+      - Game rules: product/game-rules.md
+      - Delivery and acceptance: product/delivery.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - State machines: architecture/state-machines.md
+      - Security model: architecture/security.md
+  - Public API: api/index.md
+  - Data:
+      - Pipeline: data/pipeline.md
+      - Licensing: data/licensing.md
+      - Illustration prompts: assets/illustration-prompts.md
+  - Codex-native creation: ai/codex-native-creation.md
+  - Development:
+      - Setup: development/setup.md
+      - Testing: development/testing.md
+      - Responsibility map: development/responsibility-map.md
+  - Operations: operations/deployment.md
+  - Build log: build-log/2026-07-13.md
+  - ADRs: adr/0001-build-week-architecture.md

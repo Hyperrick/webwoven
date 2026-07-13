@@ -1,0 +1,1 @@
+"""Content-report intake domain."""

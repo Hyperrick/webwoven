@@ -1,0 +1,3 @@
+dist/
+public/fonts/*.txt
+src/lib/api/generated/

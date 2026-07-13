@@ -1,0 +1,88 @@
+name: webwoven
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: webwoven
+      POSTGRES_USER: webwoven
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-webwoven}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U webwoven -d webwoven"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    command: ["valkey-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: infra/compose/api.Dockerfile
+    environment:
+      WEBWOVEN_ENV: ${WEBWOVEN_ENV:-development}
+      WEBWOVEN_ORIGIN: ${WEBWOVEN_ORIGIN:-http://localhost}
+      WEBWOVEN_DATABASE_URL: postgresql+asyncpg://webwoven:${POSTGRES_PASSWORD:-webwoven}@postgres:5432/webwoven
+      WEBWOVEN_VALKEY_URL: redis://valkey:6379/0
+      WEBWOVEN_GRAPH_PATH: /app/data/graph.sqlite3
+      WEBWOVEN_GRAPH_MANIFEST_PATH: /app/data/manifest.json
+      WEBWOVEN_SESSION_SECRET: ${WEBWOVEN_SESSION_SECRET:-development-compose-session-secret}
+      WEBWOVEN_EDGE_SECRET: ${WEBWOVEN_EDGE_SECRET:-development-compose-edge-secret-key}
+      WEBWOVEN_COOKIE_SECURE: ${WEBWOVEN_COOKIE_SECURE:-false}
+      WEBWOVEN_USE_MEMORY_PERSISTENCE: "false"
+    volumes:
+      - ${WEBWOVEN_GRAPH_DIR:-./data/fixtures/smoke}:/app/data:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 10s
+      timeout: 4s
+      retries: 10
+    restart: unless-stopped
+
+  caddy:
+    build:
+      context: .
+      dockerfile: infra/caddy/Dockerfile
+    environment:
+      WEBWOVEN_SITE_ADDRESS: ${WEBWOVEN_SITE_ADDRESS:-http://localhost}
+    ports:
+      - "127.0.0.1:${WEBWOVEN_HTTP_PORT:-80}:80"
+      - "127.0.0.1:${WEBWOVEN_HTTPS_PORT:-443}:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  pipeline:
+    profiles: [tools]
+    build:
+      context: .
+      dockerfile: infra/compose/pipeline.Dockerfile
+    environment:
+      WEBWOVEN_WIKIMEDIA_USER_AGENT: ${WEBWOVEN_WIKIMEDIA_USER_AGENT:-}
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

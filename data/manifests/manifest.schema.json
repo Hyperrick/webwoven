@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webwoven.example/schemas/bundle-manifest.v1.json",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "role",
+          "bytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "graph_build_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "graph_schema_version": {
+      "const": 1
+    },
+    "manifest_version": {
+      "const": 1
+    },
+    "source_batches": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "manifest_version",
+    "graph_schema_version",
+    "graph_build_id",
+    "created_at",
+    "artifacts",
+    "source_batches"
+  ],
+  "title": "Webwoven graph bundle manifest",
+  "type": "object"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "webwoven",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.12.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @webwoven/web dev",
+    "build": "pnpm -r build",
+    "check": "pnpm -r check",
+    "lint": "pnpm -r lint && pnpm colors:check && pnpm files:check",
+    "test": "pnpm -r test",
+    "test:e2e": "playwright test",
+    "api:openapi": "uv run python scripts/export_openapi.py",
+    "api:types": "openapi-typescript generated/openapi.json -o apps/web/src/lib/api/generated/schema.ts",
+    "colors:check": "node scripts/check-design-colors.mjs",
+    "files:check": "python3 scripts/check_file_size.py"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.53.0",
+    "openapi-typescript": "^7.8.0",
+    "prettier": "^3.5.0",
+    "prettier-plugin-svelte": "^3.4.0",
+    "stylelint": "^16.21.0",
+    "stylelint-config-standard": "^38.0.0"
+  }
+}

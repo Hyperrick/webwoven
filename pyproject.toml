@@ -1,0 +1,41 @@
+[project]
+name = "webwoven-workspace"
+version = "0.1.0"
+description = "Development tooling for the Webwoven monorepo"
+requires-python = ">=3.13,<3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "hypothesis>=6.135",
+  "mkdocs-material>=9.6",
+  "pyright>=1.1.400",
+  "pytest>=8.4",
+  "pytest-asyncio>=1.0",
+  "ruff>=0.12",
+]
+
+[tool.uv.workspace]
+members = ["services/api", "services/pipeline"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["generated", "docs/archive"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["services/api/tests", "services/pipeline/tests", "tests/data-quality"]
+asyncio_mode = "auto"
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "strict"
+include = ["services/api/src", "services/pipeline/src"]
+exclude = ["data", "generated"]

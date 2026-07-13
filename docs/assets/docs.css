@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Newsreader";
+  src: local("Newsreader");
+  font-display: swap;
+}
+
+:root {
+  --md-primary-fg-color: #16211d;
+  --md-accent-fg-color: #c84a32;
+}
+
+body {
+  background: #f3ebdd;
+  color: #16211d;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Newsreader", Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+}

@@ -1,0 +1,24 @@
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+
+  api:
+    environment:
+      WEBWOVEN_ENV: production
+      WEBWOVEN_ORIGIN: ${WEBWOVEN_ORIGIN:?Set the public HTTPS browser origin in .env}
+      WEBWOVEN_API_ORIGIN: ${WEBWOVEN_API_ORIGIN:?Set the public HTTPS API origin in .env}
+      WEBWOVEN_DATABASE_URL: postgresql+asyncpg://webwoven:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/webwoven
+      WEBWOVEN_SESSION_SECRET: ${WEBWOVEN_SESSION_SECRET:?Set WEBWOVEN_SESSION_SECRET in .env}
+      WEBWOVEN_EDGE_SECRET: ${WEBWOVEN_EDGE_SECRET:?Set WEBWOVEN_EDGE_SECRET in .env}
+      WEBWOVEN_COOKIE_SECURE: "true"
+      WEBWOVEN_ALLOW_DEMO_GRAPH: "false"
+    volumes: !override
+      - ${WEBWOVEN_GRAPH_DIR:?Set WEBWOVEN_GRAPH_DIR in .env}:/app/data:ro
+
+  caddy:
+    environment:
+      WEBWOVEN_SITE_ADDRESS: ${WEBWOVEN_SITE_ADDRESS:?Set the public HTTPS site address in .env}
+    ports: !override
+      - "${WEBWOVEN_HTTP_PORT:-80}:80"
+      - "${WEBWOVEN_HTTPS_PORT:-443}:443"

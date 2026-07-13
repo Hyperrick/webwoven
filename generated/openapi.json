@@ -1,0 +1,1894 @@
+{
+  "components": {
+    "schemas": {
+      "BackRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_command_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Client Command Id",
+            "type": "string"
+          },
+          "expected_state_version": {
+            "minimum": 0.0,
+            "title": "Expected State Version",
+            "type": "integer"
+          },
+          "type": {
+            "const": "back",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "client_command_id",
+          "expected_state_version"
+        ],
+        "title": "BackRequest",
+        "type": "object"
+      },
+      "CommandResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "applied": {
+            "title": "Applied",
+            "type": "boolean"
+          },
+          "duplicate": {
+            "title": "Duplicate",
+            "type": "boolean"
+          },
+          "hint": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HintResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "session": {
+            "$ref": "#/components/schemas/SessionSnapshot"
+          }
+        },
+        "required": [
+          "applied",
+          "duplicate",
+          "hint",
+          "session"
+        ],
+        "title": "CommandResponse",
+        "type": "object"
+      },
+      "ConfigResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "api_version": {
+            "const": "v1",
+            "default": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Categories",
+            "type": "array"
+          },
+          "daily_rollover_timezone": {
+            "const": "UTC",
+            "default": "UTC",
+            "title": "Daily Rollover Timezone",
+            "type": "string"
+          },
+          "difficulties": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Difficulties",
+            "type": "array"
+          },
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "modes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Modes",
+            "type": "array"
+          },
+          "room_max_players": {
+            "const": 4,
+            "default": 4,
+            "title": "Room Max Players",
+            "type": "integer"
+          },
+          "room_min_players": {
+            "const": 2,
+            "default": 2,
+            "title": "Room Min Players",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "graph_version",
+          "categories",
+          "difficulties",
+          "modes"
+        ],
+        "title": "ConfigResponse",
+        "type": "object"
+      },
+      "ContentReportRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "details": {
+            "maxLength": 1000,
+            "minLength": 5,
+            "title": "Details",
+            "type": "string"
+          },
+          "edge_id": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edge Id"
+          },
+          "entity_qid": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Qid"
+          },
+          "reason": {
+            "enum": [
+              "incorrect",
+              "offensive",
+              "license",
+              "broken_media",
+              "other"
+            ],
+            "title": "Reason",
+            "type": "string"
+          },
+          "round_id": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Round Id"
+          }
+        },
+        "required": [
+          "reason",
+          "details"
+        ],
+        "title": "ContentReportRequest",
+        "type": "object"
+      },
+      "ContentReportResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "status": {
+            "const": "received",
+            "default": "received",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "ContentReportResponse",
+        "type": "object"
+      },
+      "DailyLeaderboardResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/LeaderboardEntry"
+            },
+            "title": "Entries",
+            "type": "array"
+          }
+        },
+        "required": [
+          "day",
+          "entries"
+        ],
+        "title": "DailyLeaderboardResponse",
+        "type": "object"
+      },
+      "DailyResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "day": {
+            "format": "date",
+            "title": "Day",
+            "type": "string"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "optimal_distance": {
+            "title": "Optimal Distance",
+            "type": "integer"
+          },
+          "round_id": {
+            "title": "Round Id",
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "time_window": {
+            "title": "Time Window",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "day",
+          "graph_version",
+          "round_id",
+          "category",
+          "difficulty",
+          "optimal_distance",
+          "time_window",
+          "start",
+          "target"
+        ],
+        "title": "DailyResponse",
+        "type": "object"
+      },
+      "Difficulty": {
+        "enum": [
+          "easy",
+          "normal",
+          "hard"
+        ],
+        "title": "Difficulty",
+        "type": "string"
+      },
+      "EdgeTargetResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "edge_token": {
+            "title": "Edge Token",
+            "type": "string"
+          },
+          "explanation": {
+            "title": "Explanation",
+            "type": "string"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityResponse"
+          }
+        },
+        "required": [
+          "edge_token",
+          "explanation",
+          "target"
+        ],
+        "title": "EdgeTargetResponse",
+        "type": "object"
+      },
+      "EntityResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "entity_type": {
+            "title": "Entity Type",
+            "type": "string"
+          },
+          "image_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Path"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "qid": {
+            "title": "Qid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "qid",
+          "label",
+          "description",
+          "category",
+          "entity_type",
+          "image_path"
+        ],
+        "title": "EntityResponse",
+        "type": "object"
+      },
+      "FollowEdgeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_command_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Client Command Id",
+            "type": "string"
+          },
+          "edge_token": {
+            "maxLength": 2048,
+            "minLength": 20,
+            "title": "Edge Token",
+            "type": "string"
+          },
+          "expected_state_version": {
+            "minimum": 0.0,
+            "title": "Expected State Version",
+            "type": "integer"
+          },
+          "type": {
+            "const": "follow_edge",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "client_command_id",
+          "expected_state_version",
+          "edge_token"
+        ],
+        "title": "FollowEdgeRequest",
+        "type": "object"
+      },
+      "GuestCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "display_name": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          }
+        },
+        "title": "GuestCreateRequest",
+        "type": "object"
+      },
+      "GuestResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "csrf_token": {
+            "title": "Csrf Token",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "display_name",
+          "csrf_token"
+        ],
+        "title": "GuestResponse",
+        "type": "object"
+      },
+      "GuestUpdateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "display_name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Display Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "display_name"
+        ],
+        "title": "GuestUpdateRequest",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "component": {
+            "title": "Component",
+            "type": "string"
+          },
+          "graph_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Graph Version"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "component"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "HintResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "entity_qid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Qid"
+          },
+          "hint_type": {
+            "$ref": "#/components/schemas/HintType"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "penalty": {
+            "title": "Penalty",
+            "type": "integer"
+          },
+          "relation_property_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relation Property Id"
+          }
+        },
+        "required": [
+          "hint_type",
+          "penalty",
+          "relation_property_id",
+          "entity_qid",
+          "message"
+        ],
+        "title": "HintResponse",
+        "type": "object"
+      },
+      "HintType": {
+        "enum": [
+          "compass",
+          "lens",
+          "map_fragment"
+        ],
+        "title": "HintType",
+        "type": "string"
+      },
+      "HintUseResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "entity_qid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Qid"
+          },
+          "hint_type": {
+            "$ref": "#/components/schemas/HintType"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "penalty": {
+            "title": "Penalty",
+            "type": "integer"
+          },
+          "relation_property_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relation Property Id"
+          },
+          "used_at": {
+            "format": "date-time",
+            "title": "Used At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hint_type",
+          "penalty",
+          "relation_property_id",
+          "entity_qid",
+          "message",
+          "used_at"
+        ],
+        "title": "HintUseResponse",
+        "type": "object"
+      },
+      "LeaderboardEntry": {
+        "additionalProperties": false,
+        "properties": {
+          "completed_at": {
+            "format": "date-time",
+            "title": "Completed At",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "elapsed_seconds": {
+            "title": "Elapsed Seconds",
+            "type": "number"
+          },
+          "hints_used": {
+            "title": "Hints Used",
+            "type": "integer"
+          },
+          "moves": {
+            "title": "Moves",
+            "type": "integer"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "rank",
+          "display_name",
+          "score",
+          "moves",
+          "hints_used",
+          "elapsed_seconds",
+          "completed_at"
+        ],
+        "title": "LeaderboardEntry",
+        "type": "object"
+      },
+      "RelationGroupResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "direction": {
+            "const": "outgoing",
+            "default": "outgoing",
+            "title": "Direction",
+            "type": "string"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/EdgeTargetResponse"
+            },
+            "title": "Edges",
+            "type": "array"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "property_id": {
+            "title": "Property Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "property_id",
+          "label",
+          "edges"
+        ],
+        "title": "RelationGroupResponse",
+        "type": "object"
+      },
+      "RoomCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "round_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Round Id"
+          }
+        },
+        "title": "RoomCreateRequest",
+        "type": "object"
+      },
+      "RoomParticipantResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "connected": {
+            "title": "Connected",
+            "type": "boolean"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "finish_rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Rank"
+          },
+          "guest_id": {
+            "title": "Guest Id",
+            "type": "string"
+          },
+          "hints_used": {
+            "title": "Hints Used",
+            "type": "integer"
+          },
+          "is_self": {
+            "title": "Is Self",
+            "type": "boolean"
+          },
+          "moves": {
+            "title": "Moves",
+            "type": "integer"
+          },
+          "progress_band": {
+            "maximum": 4.0,
+            "minimum": 0.0,
+            "title": "Progress Band",
+            "type": "integer"
+          },
+          "ready": {
+            "title": "Ready",
+            "type": "boolean"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          }
+        },
+        "required": [
+          "guest_id",
+          "display_name",
+          "is_self",
+          "ready",
+          "connected",
+          "session_id",
+          "moves",
+          "hints_used",
+          "progress_band",
+          "finish_rank"
+        ],
+        "title": "RoomParticipantResponse",
+        "type": "object"
+      },
+      "RoomReadyRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "ready": {
+            "default": true,
+            "title": "Ready",
+            "type": "boolean"
+          }
+        },
+        "title": "RoomReadyRequest",
+        "type": "object"
+      },
+      "RoomResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "countdown_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Countdown Ends At"
+          },
+          "grace_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grace Ends At"
+          },
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "is_host": {
+            "title": "Is Host",
+            "type": "boolean"
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/RoomParticipantResponse"
+            },
+            "title": "Participants",
+            "type": "array"
+          },
+          "round_id": {
+            "title": "Round Id",
+            "type": "string"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "start": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "state": {
+            "$ref": "#/components/schemas/RoomState"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityResponse"
+          }
+        },
+        "required": [
+          "code",
+          "state",
+          "is_host",
+          "graph_version",
+          "round_id",
+          "start",
+          "target",
+          "participants",
+          "sequence",
+          "countdown_ends_at",
+          "grace_ends_at"
+        ],
+        "title": "RoomResponse",
+        "type": "object"
+      },
+      "RoomState": {
+        "enum": [
+          "lobby",
+          "countdown",
+          "racing",
+          "grace_period",
+          "finished",
+          "closed"
+        ],
+        "title": "RoomState",
+        "type": "string"
+      },
+      "SessionCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "difficulty": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Difficulty"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mode": {
+            "$ref": "#/components/schemas/SessionMode",
+            "default": "solo"
+          },
+          "round_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Round Id"
+          }
+        },
+        "title": "SessionCreateRequest",
+        "type": "object"
+      },
+      "SessionMode": {
+        "enum": [
+          "solo",
+          "daily",
+          "relay"
+        ],
+        "title": "SessionMode",
+        "type": "string"
+      },
+      "SessionSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "current": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "daily_day": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Day"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "final_score": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Score"
+          },
+          "graph_version": {
+            "title": "Graph Version",
+            "type": "string"
+          },
+          "hint_penalty": {
+            "title": "Hint Penalty",
+            "type": "integer"
+          },
+          "hints_used": {
+            "items": {
+              "$ref": "#/components/schemas/HintUseResponse"
+            },
+            "title": "Hints Used",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/SessionMode"
+          },
+          "moves": {
+            "title": "Moves",
+            "type": "integer"
+          },
+          "navigation_stack": {
+            "items": {
+              "$ref": "#/components/schemas/EntityResponse"
+            },
+            "title": "Navigation Stack",
+            "type": "array"
+          },
+          "relation_groups": {
+            "items": {
+              "$ref": "#/components/schemas/RelationGroupResponse"
+            },
+            "title": "Relation Groups",
+            "type": "array"
+          },
+          "round_id": {
+            "title": "Round Id",
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "state_version": {
+            "title": "State Version",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SessionStatus"
+          },
+          "target": {
+            "$ref": "#/components/schemas/EntityResponse"
+          },
+          "trail": {
+            "items": {
+              "$ref": "#/components/schemas/EntityResponse"
+            },
+            "title": "Trail",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "mode",
+          "status",
+          "graph_version",
+          "round_id",
+          "category",
+          "difficulty",
+          "start",
+          "target",
+          "current",
+          "navigation_stack",
+          "trail",
+          "moves",
+          "hints_used",
+          "hint_penalty",
+          "state_version",
+          "started_at",
+          "completed_at",
+          "final_score",
+          "daily_day",
+          "relation_groups"
+        ],
+        "title": "SessionSnapshot",
+        "type": "object"
+      },
+      "SessionStatus": {
+        "enum": [
+          "active",
+          "completed",
+          "abandoned",
+          "expired"
+        ],
+        "title": "SessionStatus",
+        "type": "string"
+      },
+      "StaleCommandResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "stale_state",
+            "default": "stale_state",
+            "title": "Code",
+            "type": "string"
+          },
+          "current": {
+            "$ref": "#/components/schemas/SessionSnapshot"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "current"
+        ],
+        "title": "StaleCommandResponse",
+        "type": "object"
+      },
+      "UseHintRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_command_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Client Command Id",
+            "type": "string"
+          },
+          "expected_state_version": {
+            "minimum": 0.0,
+            "title": "Expected State Version",
+            "type": "integer"
+          },
+          "hint_type": {
+            "$ref": "#/components/schemas/HintType"
+          },
+          "relation_property_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relation Property Id"
+          },
+          "type": {
+            "const": "use_hint",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "client_command_id",
+          "expected_state_version",
+          "hint_type"
+        ],
+        "title": "UseHintRequest",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "summary": "Server-authoritative knowledge graph game API",
+    "title": "Webwoven API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/config": {
+      "get": {
+        "operationId": "get_config_api_v1_config_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Config",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/content-reports": {
+      "post": {
+        "operationId": "create_content_report_api_v1_content_reports_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContentReportRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContentReportResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Content Report",
+        "tags": [
+          "content"
+        ]
+      }
+    },
+    "/api/v1/daily": {
+      "get": {
+        "operationId": "get_daily_api_v1_daily_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Daily",
+        "tags": [
+          "daily"
+        ]
+      }
+    },
+    "/api/v1/guests": {
+      "post": {
+        "operationId": "create_guest_api_v1_guests_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Guest",
+        "tags": [
+          "guests"
+        ]
+      }
+    },
+    "/api/v1/guests/me": {
+      "patch": {
+        "operationId": "update_guest_api_v1_guests_me_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuestResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Guest",
+        "tags": [
+          "guests"
+        ]
+      }
+    },
+    "/api/v1/leaderboards/daily": {
+      "get": {
+        "operationId": "get_daily_leaderboard_api_v1_leaderboards_daily_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "day",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Day"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyLeaderboardResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Daily Leaderboard",
+        "tags": [
+          "daily"
+        ]
+      }
+    },
+    "/api/v1/rooms": {
+      "post": {
+        "operationId": "create_room_api_v1_rooms_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/rooms/{code}": {
+      "get": {
+        "operationId": "get_room_api_v1_rooms__code__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/rooms/{code}/join": {
+      "post": {
+        "operationId": "join_room_api_v1_rooms__code__join_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Join Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/rooms/{code}/ready": {
+      "post": {
+        "operationId": "ready_room_api_v1_rooms__code__ready_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomReadyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ready Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/rooms/{code}/start": {
+      "post": {
+        "operationId": "start_room_api_v1_rooms__code__start_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/sessions": {
+      "post": {
+        "operationId": "create_session_api_v1_sessions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Session",
+        "tags": [
+          "sessions"
+        ]
+      }
+    },
+    "/api/v1/sessions/{session_id}": {
+      "get": {
+        "operationId": "get_session_api_v1_sessions__session_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionSnapshot"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Session",
+        "tags": [
+          "sessions"
+        ]
+      }
+    },
+    "/api/v1/sessions/{session_id}/commands": {
+      "post": {
+        "operationId": "command_session_api_v1_sessions__session_id__commands_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "discriminator": {
+                  "mapping": {
+                    "back": "#/components/schemas/BackRequest",
+                    "follow_edge": "#/components/schemas/FollowEdgeRequest",
+                    "use_hint": "#/components/schemas/UseHintRequest"
+                  },
+                  "propertyName": "type"
+                },
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/FollowEdgeRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BackRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UseHintRequest"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaleCommandResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Command Session",
+        "tags": [
+          "sessions"
+        ]
+      }
+    },
+    "/health/graph": {
+      "get": {
+        "operationId": "health_graph_health_graph_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Graph",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/health/live": {
+      "get": {
+        "operationId": "health_live_health_live_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Live",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "health_ready_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Ready",
+        "tags": [
+          "system"
+        ]
+      }
+    }
+  }
+}

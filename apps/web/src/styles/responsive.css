@@ -1,0 +1,403 @@
+@media (width <= 68rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr);
+    gap: var(--space-7);
+  }
+
+  .manifesto {
+    grid-template-columns: 6rem 1fr;
+  }
+
+  .manifesto dl {
+    grid-column: 2;
+  }
+
+  .game-spread {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  .entity-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .entity-stage__visual {
+    min-height: 18rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .entity-stage__copy {
+    min-height: 18rem;
+  }
+
+  .hint-dock {
+    grid-template-columns: 1fr;
+  }
+
+  .cartographer-note {
+    grid-column: 1;
+  }
+
+  .result-hero {
+    grid-template-columns: 7rem 1fr;
+  }
+
+  .result-score {
+    grid-column: 2;
+  }
+}
+
+@media (width <= 50rem) {
+  .site-header,
+  .hero,
+  .mode-ledger,
+  .manifesto,
+  .site-footer,
+  .game-page,
+  .lobby-page,
+  .results-page,
+  .lab-page,
+  .not-found {
+    width: min(100% - 2rem, 90rem);
+  }
+
+  .site-header {
+    min-height: 4.5rem;
+  }
+
+  .icon-button--label span {
+    display: none;
+  }
+
+  .icon-button--label {
+    width: 2.75rem;
+    padding: 0;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: var(--space-7);
+  }
+
+  .hero__copy h1 {
+    font-size: var(--text-64);
+  }
+
+  .hero-route {
+    width: calc(100% - 1rem);
+    margin-inline: auto;
+  }
+
+  .section-intro,
+  .lab-header {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-row {
+    grid-template-columns: 2.5rem 1fr 1.5rem;
+    gap: var(--space-3);
+    min-height: 8rem;
+  }
+
+  .mode-row__copy {
+    display: none;
+  }
+
+  .manifesto {
+    grid-template-columns: 1fr;
+    margin-block: var(--space-7);
+    padding: var(--space-6);
+  }
+
+  .manifesto dl,
+  .manifesto > div {
+    grid-column: 1;
+  }
+
+  .manifesto__mark {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .manifesto__mark span {
+    left: 0.75rem;
+    width: 3rem;
+  }
+
+  .site-footer {
+    gap: var(--space-4);
+  }
+
+  .site-footer > p {
+    display: none;
+  }
+
+  .game-page__utility {
+    padding-block: var(--space-2);
+  }
+
+  .back-action kbd {
+    display: none;
+  }
+
+  .route-ribbon {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .game-spread {
+    grid-template-columns: 1fr;
+    padding-top: var(--space-5);
+  }
+
+  .destination-brief {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-2) var(--space-4);
+    align-items: end;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .destination-brief .eyebrow,
+  .destination-brief__index,
+  .destination-brief__par {
+    margin: 0;
+  }
+
+  .destination-brief h2 {
+    font-size: var(--text-28);
+  }
+
+  .destination-brief > p:not(.eyebrow, .destination-brief__par),
+  .destination-brief__rule {
+    display: none;
+  }
+
+  .game-metrics div {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline: var(--space-2);
+  }
+
+  .entity-stage {
+    min-height: auto;
+  }
+
+  .entity-stage__visual {
+    min-height: 15rem;
+  }
+
+  .entity-stage__copy {
+    min-height: auto;
+    padding: var(--space-5);
+  }
+
+  .connection-note {
+    grid-template-columns: 1fr;
+  }
+
+  .relation-group__toggle {
+    grid-template-columns: 2.75rem minmax(0, 1fr) 1.5rem;
+    gap: var(--space-3);
+  }
+
+  .relation-group__glyph {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .relation-group__hint,
+  .relation-group__count {
+    display: none;
+  }
+
+  .relation-group__edges {
+    padding-left: 0;
+  }
+
+  .hint-dock {
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+    padding: var(--space-4);
+    border: 1px solid var(--color-ink);
+    box-shadow: var(--shadow-paper);
+  }
+
+  .hint-dock > div:first-child {
+    display: none;
+  }
+
+  .hint-dock__actions button {
+    justify-content: center;
+    padding-inline: var(--space-2);
+  }
+
+  .hint-dock__actions span {
+    display: none;
+  }
+
+  .race-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .race-strip ol {
+    overflow-x: auto;
+  }
+
+  .lobby-intro > div:first-child,
+  .lobby-entry,
+  .room-sheet__body,
+  .result-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .lobby-entry section {
+    min-height: 20rem;
+    padding: var(--space-5);
+  }
+
+  .lobby-entry section + section,
+  .result-bottom > * + * {
+    border-top: 1px solid var(--color-ink);
+    border-left: 0;
+  }
+
+  .room-sheet__header {
+    align-items: start;
+    gap: var(--space-4);
+  }
+
+  .room-sheet h1 {
+    font-size: var(--text-40);
+  }
+
+  .room-code {
+    padding: var(--space-3);
+  }
+
+  .room-code strong {
+    font-size: var(--text-20);
+  }
+
+  .result-hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .result-hero__seal {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .result-score {
+    grid-column: 1;
+  }
+
+  .route-reveal > header {
+    align-items: start;
+    gap: var(--space-5);
+  }
+
+  .route-reveal > header .secondary-action {
+    width: 10rem;
+  }
+
+  .cartographer-recap,
+  .next-route,
+  .leaderboard {
+    min-height: auto;
+    padding: var(--space-5);
+  }
+
+  .leaderboard li {
+    grid-template-columns: 2rem 1fr 3rem;
+  }
+
+  .leaderboard li small {
+    display: none;
+  }
+
+  .lab-section {
+    grid-template-columns: 2rem 1fr;
+    gap: var(--space-3);
+  }
+
+  .type-specimen {
+    grid-template-columns: 1fr;
+  }
+
+  .ink-strips {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ink-strip {
+    min-height: 6rem;
+  }
+}
+
+@media (width <= 32rem) {
+  .hero__actions,
+  .exit-dialog__actions,
+  .route-reveal > header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero__actions .primary-action,
+  .hero__actions .text-action,
+  .exit-dialog__actions .primary-action,
+  .exit-dialog__actions .text-action {
+    width: 100%;
+  }
+
+  .hero-route {
+    padding-inline: var(--space-4);
+  }
+
+  .wordmark {
+    gap: var(--space-2);
+    font-size: var(--text-20);
+  }
+
+  .wordmark__weave {
+    width: 1.2rem;
+  }
+
+  .entity-mark__index {
+    font-size: var(--text-64);
+  }
+
+  .game-metrics dt {
+    font-size: var(--text-12);
+  }
+
+  .relation-index__heading > p {
+    display: none;
+  }
+
+  .roster li {
+    grid-template-columns: 2rem 1fr;
+  }
+
+  .roster__state {
+    grid-column: 2;
+  }
+
+  .room-sheet__header {
+    display: grid;
+  }
+
+  .room-code {
+    justify-self: start;
+  }
+
+  .not-found__code {
+    font-size: var(--text-64);
+  }
+}

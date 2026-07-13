@@ -1,0 +1,434 @@
+[
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 01"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 02"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 03"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 04"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 05"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 06"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 07"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 08"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 09"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 10"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 11"
+  },
+  {
+    "category": "history_people",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:history_people:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "History & People waypoint 12"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 01"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 02"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 03"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 04"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 05"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 06"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 07"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 08"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 09"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 10"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 11"
+  },
+  {
+    "category": "nature_science",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:nature_science:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Nature & Science waypoint 12"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 01"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 02"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 03"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 04"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 05"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 06"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 07"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 08"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 09"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 10"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 11"
+  },
+  {
+    "category": "arts_culture",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:arts_culture:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Arts & Culture waypoint 12"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 01"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 02"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 03"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 04"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 05"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 06"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 07"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 08"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 09"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 10"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 11"
+  },
+  {
+    "category": "places",
+    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
+    "entity_type": "fixture_item",
+    "id": "fixture:places:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Places waypoint 12"
+  }
+]

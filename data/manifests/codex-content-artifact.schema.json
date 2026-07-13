@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://webwoven.example/schemas/codex-content-artifact.v1.json",
+  "additionalProperties": false,
+  "properties": {
+    "approval": {
+      "additionalProperties": false,
+      "properties": {
+        "approved_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "const": "approved"
+        }
+      },
+      "required": [
+        "status",
+        "reviewer",
+        "approved_at"
+      ],
+      "type": "object"
+    },
+    "artifact_version": {
+      "const": 1
+    },
+    "content": {
+      "additionalProperties": false,
+      "properties": {
+        "explanations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "fact_id": {
+                "type": "string"
+              },
+              "text": {
+                "maxLength": 240,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "fact_id",
+              "text"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "hints": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "fact_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "kind": {
+                "enum": [
+                  "compass",
+                  "lens",
+                  "map_fragment"
+                ]
+              },
+              "text": {
+                "maxLength": 180,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "text",
+              "fact_ids"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "recap": {
+          "maxLength": 420,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "hints",
+        "explanations",
+        "recap"
+      ],
+      "type": "object"
+    },
+    "fact_pack_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "generator": {
+      "const": "codex"
+    },
+    "output_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "prompt_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "prompt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "prompt_text": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "round_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_version",
+    "round_id",
+    "generator",
+    "generated_at",
+    "prompt_id",
+    "prompt_text",
+    "prompt_sha256",
+    "fact_pack_sha256",
+    "output_sha256",
+    "approval",
+    "content"
+  ],
+  "title": "Approved Webwoven Codex content artifact",
+  "type": "object"
+}

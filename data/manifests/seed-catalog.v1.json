@@ -1,0 +1,17 @@
+{
+  "catalog": "data/seeds/anchors.v1.json",
+  "category_counts": {
+    "arts_culture": 40,
+    "history_people": 40,
+    "nature_science": 40,
+    "places": 40
+  },
+  "qid_count": 160,
+  "sha256": "c6c50897d2543a960ea41a3968c78efd6f6b0729cf949472f3a0d9d3fc14c3aa",
+  "verification": {
+    "api_action": "wbgetentities",
+    "result": "160 of 160 English Wikipedia titles resolved to unique Wikidata items",
+    "verified_at": "2026-07-13"
+  },
+  "version": 1
+}

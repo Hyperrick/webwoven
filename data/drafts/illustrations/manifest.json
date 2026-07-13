@@ -1,0 +1,108 @@
+{
+  "manifest_version": 1,
+  "generator": "codex",
+  "generation_tool": "imagegen",
+  "model_metadata": "unavailable",
+  "generation_started_at": "2026-07-13T16:59:07Z",
+  "prompt_document": "docs/assets/illustration-prompts.md",
+  "prompt_document_sha256": "4577b591f18b109e0d7db32f13e22be89a1f0e6fe90bbab038103008feab20b0",
+  "review_policy": "Human editorial approval is required before release use.",
+  "processing": {
+    "tool": "ImageMagick 7.1.2-26",
+    "operation": "Strip metadata and encode WebP at quality 84 without resizing.",
+    "source_format": "PNG",
+    "derivative_format": "WebP"
+  },
+  "assets": [
+    {
+      "id": "cartographer",
+      "role": "fictional_game_guide",
+      "prompt_section": "Cartographer",
+      "generated_at": "2026-07-13T17:01:35Z",
+      "source_artifact_id": "exec-705cb2f7-e641-4f4f-9230-7c36b8526d5f",
+      "source_sha256": "921131f3910c241dca07b25c34d9875257f0a586752fda4fcad5e81cc37a5184",
+      "source_dimensions": "1086x1448",
+      "derivative_path": "cartographer.webp",
+      "derivative_sha256": "f89ae33e2bc622efc6e9521a6b3e8114ed8987f280f71971c8c2855c76663822",
+      "approval_status": "draft_pending_human_review",
+      "validation_results": [
+        "derivative_hash:passed",
+        "format:webp:passed",
+        "editorial_review:pending"
+      ],
+      "documentary_use_allowed": false
+    },
+    {
+      "id": "history_people",
+      "role": "category_illustration",
+      "prompt_section": "History and People",
+      "generated_at": "2026-07-13T17:02:32Z",
+      "source_artifact_id": "exec-2f58e45a-7130-4b6a-8b6d-3bc2be7be515",
+      "source_sha256": "6999679d5c2c8ecea7aac40317e91ea651cbba62b84ee501c7aa826b90f6ae16",
+      "source_dimensions": "1448x1086",
+      "derivative_path": "history-people.webp",
+      "derivative_sha256": "d761fbb091cf53806d0b15eabb5b40fdb023c9596fec568f45def9e21d8610cc",
+      "approval_status": "draft_pending_human_review",
+      "validation_results": [
+        "derivative_hash:passed",
+        "format:webp:passed",
+        "editorial_review:pending"
+      ],
+      "documentary_use_allowed": false
+    },
+    {
+      "id": "nature_science",
+      "role": "category_illustration",
+      "prompt_section": "Nature and Science",
+      "generated_at": "2026-07-13T17:03:37Z",
+      "source_artifact_id": "exec-0bda70ea-1029-49e7-8ca6-e2e6b95f25bf",
+      "source_sha256": "d91cdd153e1f058d0430c59c1b2b0e405b1ead1b656d3ea48c800abe22c6f95b",
+      "source_dimensions": "1448x1086",
+      "derivative_path": "nature-science.webp",
+      "derivative_sha256": "0743d871cbde68f4799ea2b8ced59d92102c75cb7454af89215cb347e51c3a00",
+      "approval_status": "draft_pending_human_review",
+      "validation_results": [
+        "derivative_hash:passed",
+        "format:webp:passed",
+        "editorial_review:pending"
+      ],
+      "documentary_use_allowed": false
+    },
+    {
+      "id": "arts_culture",
+      "role": "category_illustration",
+      "prompt_section": "Arts and Culture",
+      "generated_at": "2026-07-13T17:04:31Z",
+      "source_artifact_id": "exec-53e63f9d-181b-4b82-9e43-f1faf1c306b9",
+      "source_sha256": "3df75f441c0cdd89d6c93394b88fcfca493444c6179a11ef4393bfbca4cb5189",
+      "source_dimensions": "1448x1086",
+      "derivative_path": "arts-culture.webp",
+      "derivative_sha256": "c4413026a45374bcbd6a087f2ac25b61d120f78c983c71808bf7d9c5f6f17663",
+      "approval_status": "draft_pending_human_review",
+      "validation_results": [
+        "derivative_hash:passed",
+        "format:webp:passed",
+        "editorial_review:pending"
+      ],
+      "documentary_use_allowed": false
+    },
+    {
+      "id": "places",
+      "role": "category_illustration",
+      "prompt_section": "Places",
+      "generated_at": "2026-07-13T17:05:29Z",
+      "source_artifact_id": "exec-ae830eb4-d4d9-4ece-90ce-2678f0503869",
+      "source_sha256": "7c69f05ae32b241591d613478dba3f817281023b4c7cbe6b3a45af5139454bbd",
+      "source_dimensions": "1448x1086",
+      "derivative_path": "places.webp",
+      "derivative_sha256": "197969aeccf534da45d33ec4713e4f2183698b60e46ce278d07c79493b23187e",
+      "approval_status": "draft_pending_human_review",
+      "validation_results": [
+        "derivative_hash:passed",
+        "format:webp:passed",
+        "editorial_review:pending"
+      ],
+      "documentary_use_allowed": false
+    }
+  ]
+}

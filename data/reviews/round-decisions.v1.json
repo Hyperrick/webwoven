@@ -1,0 +1,12 @@
+{
+  "decisions": [],
+  "policy": {
+    "allowed": [
+      "approved",
+      "held",
+      "rejected"
+    ],
+    "required_for_publication": "approved"
+  },
+  "version": 1
+}

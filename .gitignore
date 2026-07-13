@@ -1,0 +1,36 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+!.env.production.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+node_modules/
+.pnpm-store/
+dist/
+build/
+site/
+coverage/
+backups/
+playwright-report/
+test-results/
+*.log
+
+# Immutable source snapshots and production graph bundles are release artifacts.
+data/raw/
+data/builds/
+data/assets/
+data/ai-output/
+*.sqlite3
+*.parquet
+*.tar.zst
+!data/fixtures/**/*.sqlite3
+
+# Local deployment state and credentials.
+infra/.secrets/
+infra/.state/

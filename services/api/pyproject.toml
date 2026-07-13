@@ -1,0 +1,26 @@
+[project]
+name = "webwoven-api"
+version = "0.1.0"
+description = "Server-authoritative Webwoven game API"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "asyncpg>=0.30.0",
+  "fastapi>=0.116.0",
+  "pydantic-settings>=2.10.0",
+  "redis>=6.2.0",
+  "sqlalchemy[asyncio]>=2.0.41",
+  "uvicorn[standard]>=0.35.0",
+]
+
+[dependency-groups]
+dev = ["httpx>=0.28.1"]
+
+[project.scripts]
+webwoven-api = "webwoven_api.cli:run"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/webwoven_api"]

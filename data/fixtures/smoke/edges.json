@@ -1,0 +1,866 @@
+[
+  {
+    "explanation": "part of",
+    "id": "00a25aa5cdf235db6825167a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:12",
+    "statement_id": "fixture-statement-00a25aa5cdf235db6825167a",
+    "target_id": "fixture:arts_culture:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "01d1be48dca84353209306af",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:01",
+    "statement_id": "fixture-statement-01d1be48dca84353209306af",
+    "target_id": "fixture:places:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "04e337155a5980ff7a1affa4",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:08",
+    "statement_id": "fixture-statement-04e337155a5980ff7a1affa4",
+    "target_id": "fixture:history_people:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "05f8d5315a251fcf54bd344b",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:02",
+    "statement_id": "fixture-statement-05f8d5315a251fcf54bd344b",
+    "target_id": "fixture:history_people:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "0bd6c6c533617c4854c9a8d6",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:03",
+    "statement_id": "fixture-statement-0bd6c6c533617c4854c9a8d6",
+    "target_id": "fixture:history_people:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "121ab3d7ae67a96aa9da1eb0",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:05",
+    "statement_id": "fixture-statement-121ab3d7ae67a96aa9da1eb0",
+    "target_id": "fixture:places:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "146cd7cbd7d26d56b183a34a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:10",
+    "statement_id": "fixture-statement-146cd7cbd7d26d56b183a34a",
+    "target_id": "fixture:arts_culture:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "192f2777afcea1829f7f0a85",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:12",
+    "statement_id": "fixture-statement-192f2777afcea1829f7f0a85",
+    "target_id": "fixture:arts_culture:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "1bc88d6c6c096a5cf33b667b",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:06",
+    "statement_id": "fixture-statement-1bc88d6c6c096a5cf33b667b",
+    "target_id": "fixture:nature_science:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "20acbfa6a6c12a30471b67ee",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:03",
+    "statement_id": "fixture-statement-20acbfa6a6c12a30471b67ee",
+    "target_id": "fixture:nature_science:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "22356ca1aac5ce474602e390",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:11",
+    "statement_id": "fixture-statement-22356ca1aac5ce474602e390",
+    "target_id": "fixture:history_people:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "2a19424745ff8f71790d85d8",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:06",
+    "statement_id": "fixture-statement-2a19424745ff8f71790d85d8",
+    "target_id": "fixture:history_people:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "2b19719823ce26c505bff4b8",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:03",
+    "statement_id": "fixture-statement-2b19719823ce26c505bff4b8",
+    "target_id": "fixture:places:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "2d174958224340aa3864f94d",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:08",
+    "statement_id": "fixture-statement-2d174958224340aa3864f94d",
+    "target_id": "fixture:places:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "2e6034b4f7f5f9caba042206",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:06",
+    "statement_id": "fixture-statement-2e6034b4f7f5f9caba042206",
+    "target_id": "fixture:arts_culture:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "3243ae36cc18e6f8e1e9ba03",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:09",
+    "statement_id": "fixture-statement-3243ae36cc18e6f8e1e9ba03",
+    "target_id": "fixture:nature_science:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "33da540d09b79330a9e0455b",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:01",
+    "statement_id": "fixture-statement-33da540d09b79330a9e0455b",
+    "target_id": "fixture:arts_culture:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "348219db5f2f6ca514fe4ffe",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:06",
+    "statement_id": "fixture-statement-348219db5f2f6ca514fe4ffe",
+    "target_id": "fixture:history_people:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "3493232087b54cd1925bab0a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:06",
+    "statement_id": "fixture-statement-3493232087b54cd1925bab0a",
+    "target_id": "fixture:nature_science:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "35567ed83d32fc4ed1b48ebb",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:08",
+    "statement_id": "fixture-statement-35567ed83d32fc4ed1b48ebb",
+    "target_id": "fixture:places:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "369f94d199bf8e3decca2a16",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:12",
+    "statement_id": "fixture-statement-369f94d199bf8e3decca2a16",
+    "target_id": "fixture:places:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "3cf3d7b3cdc814c749feb5c6",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:01",
+    "statement_id": "fixture-statement-3cf3d7b3cdc814c749feb5c6",
+    "target_id": "fixture:places:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "3cf4eb8e9add6d32ecb981ef",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:03",
+    "statement_id": "fixture-statement-3cf4eb8e9add6d32ecb981ef",
+    "target_id": "fixture:places:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "3e11f8301ed4d64fe593eb3d",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:02",
+    "statement_id": "fixture-statement-3e11f8301ed4d64fe593eb3d",
+    "target_id": "fixture:places:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "4034a9b9d1fecd779f1db6c8",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:02",
+    "statement_id": "fixture-statement-4034a9b9d1fecd779f1db6c8",
+    "target_id": "fixture:nature_science:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "41d2211e7b6ceac256bc514a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:12",
+    "statement_id": "fixture-statement-41d2211e7b6ceac256bc514a",
+    "target_id": "fixture:nature_science:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "41f0a809f013de2a9e3a443e",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:07",
+    "statement_id": "fixture-statement-41f0a809f013de2a9e3a443e",
+    "target_id": "fixture:nature_science:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "430a78177ea14d43c88772ae",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:11",
+    "statement_id": "fixture-statement-430a78177ea14d43c88772ae",
+    "target_id": "fixture:nature_science:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "44aad537311779cab43ba2cb",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:08",
+    "statement_id": "fixture-statement-44aad537311779cab43ba2cb",
+    "target_id": "fixture:nature_science:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "4557eedac48c5ba37efe0424",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:12",
+    "statement_id": "fixture-statement-4557eedac48c5ba37efe0424",
+    "target_id": "fixture:history_people:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "46316f9f39fc6e86a12a8220",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:04",
+    "statement_id": "fixture-statement-46316f9f39fc6e86a12a8220",
+    "target_id": "fixture:arts_culture:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "4710b746b82d860ea88b7edf",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:04",
+    "statement_id": "fixture-statement-4710b746b82d860ea88b7edf",
+    "target_id": "fixture:nature_science:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "4ca6f572fed2d43dbd68300a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:09",
+    "statement_id": "fixture-statement-4ca6f572fed2d43dbd68300a",
+    "target_id": "fixture:history_people:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "4cb0d49d5ab39f18ff9c58a2",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:10",
+    "statement_id": "fixture-statement-4cb0d49d5ab39f18ff9c58a2",
+    "target_id": "fixture:history_people:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "55a9e6af13c7833059f14621",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:02",
+    "statement_id": "fixture-statement-55a9e6af13c7833059f14621",
+    "target_id": "fixture:arts_culture:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "56e475e56fa4fc1657943a36",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:01",
+    "statement_id": "fixture-statement-56e475e56fa4fc1657943a36",
+    "target_id": "fixture:arts_culture:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "59ad0c9cefeb19975056bb38",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:12",
+    "statement_id": "fixture-statement-59ad0c9cefeb19975056bb38",
+    "target_id": "fixture:places:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "5ba56d18677d7e210231f050",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:10",
+    "statement_id": "fixture-statement-5ba56d18677d7e210231f050",
+    "target_id": "fixture:nature_science:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "61861e3688e257c0da9dae0b",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:06",
+    "statement_id": "fixture-statement-61861e3688e257c0da9dae0b",
+    "target_id": "fixture:arts_culture:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "63dbe3e40da27a77d4f718a0",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:03",
+    "statement_id": "fixture-statement-63dbe3e40da27a77d4f718a0",
+    "target_id": "fixture:nature_science:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "642a07338be8bc59af95d0ad",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:01",
+    "statement_id": "fixture-statement-642a07338be8bc59af95d0ad",
+    "target_id": "fixture:history_people:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "659d9f8a38d69e9dde60e9c9",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:07",
+    "statement_id": "fixture-statement-659d9f8a38d69e9dde60e9c9",
+    "target_id": "fixture:history_people:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "672b0aa32403ee45e7247bf6",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:02",
+    "statement_id": "fixture-statement-672b0aa32403ee45e7247bf6",
+    "target_id": "fixture:nature_science:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "6881ad6a338f1ed6c78b401a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:04",
+    "statement_id": "fixture-statement-6881ad6a338f1ed6c78b401a",
+    "target_id": "fixture:places:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "693d5cb24d3c3b70af6a1021",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:02",
+    "statement_id": "fixture-statement-693d5cb24d3c3b70af6a1021",
+    "target_id": "fixture:history_people:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "69db52402a7f16dae06ee3bf",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:09",
+    "statement_id": "fixture-statement-69db52402a7f16dae06ee3bf",
+    "target_id": "fixture:nature_science:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "6ed224f3c5874f95fe922531",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:09",
+    "statement_id": "fixture-statement-6ed224f3c5874f95fe922531",
+    "target_id": "fixture:places:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "6fa6bde1c679ac8d410bcc52",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:04",
+    "statement_id": "fixture-statement-6fa6bde1c679ac8d410bcc52",
+    "target_id": "fixture:nature_science:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "6ff44c5a78bcbadd9207bf25",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:05",
+    "statement_id": "fixture-statement-6ff44c5a78bcbadd9207bf25",
+    "target_id": "fixture:arts_culture:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "73db64b75b16a4751e95bc45",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:10",
+    "statement_id": "fixture-statement-73db64b75b16a4751e95bc45",
+    "target_id": "fixture:history_people:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "7ab7bc73197d181ccdd6d548",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:11",
+    "statement_id": "fixture-statement-7ab7bc73197d181ccdd6d548",
+    "target_id": "fixture:places:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "7b87af15106fb4e725916ad0",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:07",
+    "statement_id": "fixture-statement-7b87af15106fb4e725916ad0",
+    "target_id": "fixture:nature_science:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "801f95c88ffbfb13d313960e",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:03",
+    "statement_id": "fixture-statement-801f95c88ffbfb13d313960e",
+    "target_id": "fixture:arts_culture:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "80ee669112bcff838add3568",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:04",
+    "statement_id": "fixture-statement-80ee669112bcff838add3568",
+    "target_id": "fixture:history_people:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "82c1b2c52e27fd528d1c164c",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:08",
+    "statement_id": "fixture-statement-82c1b2c52e27fd528d1c164c",
+    "target_id": "fixture:arts_culture:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "82f74b920477e75e07bb43c4",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:12",
+    "statement_id": "fixture-statement-82f74b920477e75e07bb43c4",
+    "target_id": "fixture:nature_science:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "8bf7ed2fcb437ecb25e59e15",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:06",
+    "statement_id": "fixture-statement-8bf7ed2fcb437ecb25e59e15",
+    "target_id": "fixture:places:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "93c04567c634709c571bc1ba",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:08",
+    "statement_id": "fixture-statement-93c04567c634709c571bc1ba",
+    "target_id": "fixture:nature_science:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "953c7979db03e863c91e3a07",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:05",
+    "statement_id": "fixture-statement-953c7979db03e863c91e3a07",
+    "target_id": "fixture:history_people:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "954b15bf94395cbaf138ebda",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:11",
+    "statement_id": "fixture-statement-954b15bf94395cbaf138ebda",
+    "target_id": "fixture:history_people:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "97b89424d714b3eda72bca73",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:09",
+    "statement_id": "fixture-statement-97b89424d714b3eda72bca73",
+    "target_id": "fixture:arts_culture:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "9948124e481294af7743afcb",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:04",
+    "statement_id": "fixture-statement-9948124e481294af7743afcb",
+    "target_id": "fixture:history_people:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "9ba051c156653b1cb9b88929",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:05",
+    "statement_id": "fixture-statement-9ba051c156653b1cb9b88929",
+    "target_id": "fixture:nature_science:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "a4fee74a8dfd1d215fed428c",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:11",
+    "statement_id": "fixture-statement-a4fee74a8dfd1d215fed428c",
+    "target_id": "fixture:places:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "a90450952f510b8c1c9c4271",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:07",
+    "statement_id": "fixture-statement-a90450952f510b8c1c9c4271",
+    "target_id": "fixture:arts_culture:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "abd720b9902f429ccad0ecff",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:10",
+    "statement_id": "fixture-statement-abd720b9902f429ccad0ecff",
+    "target_id": "fixture:places:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "af73c86f4bc4870fe2b86e18",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:07",
+    "statement_id": "fixture-statement-af73c86f4bc4870fe2b86e18",
+    "target_id": "fixture:history_people:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "b2575af63cae60a02657cad2",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:08",
+    "statement_id": "fixture-statement-b2575af63cae60a02657cad2",
+    "target_id": "fixture:history_people:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "b2ad988943c5f10af9fa4cae",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:02",
+    "statement_id": "fixture-statement-b2ad988943c5f10af9fa4cae",
+    "target_id": "fixture:places:03"
+  },
+  {
+    "explanation": "part of",
+    "id": "b68d87a24a0274450b9d2a46",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:07",
+    "statement_id": "fixture-statement-b68d87a24a0274450b9d2a46",
+    "target_id": "fixture:places:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "b76ed4cae5c57fa22340bd37",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:05",
+    "statement_id": "fixture-statement-b76ed4cae5c57fa22340bd37",
+    "target_id": "fixture:places:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "c6af3e0ea30dabb7849b5676",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:04",
+    "statement_id": "fixture-statement-c6af3e0ea30dabb7849b5676",
+    "target_id": "fixture:arts_culture:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "c9099b4e09130dc6831277e1",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:10",
+    "statement_id": "fixture-statement-c9099b4e09130dc6831277e1",
+    "target_id": "fixture:nature_science:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "c94ff5db1566208b37ac7855",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:02",
+    "statement_id": "fixture-statement-c94ff5db1566208b37ac7855",
+    "target_id": "fixture:arts_culture:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "d2829649f8d3f2f9e67bcc33",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:05",
+    "statement_id": "fixture-statement-d2829649f8d3f2f9e67bcc33",
+    "target_id": "fixture:nature_science:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "d8c73b08018d8c9dfe178eb8",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:04",
+    "statement_id": "fixture-statement-d8c73b08018d8c9dfe178eb8",
+    "target_id": "fixture:places:05"
+  },
+  {
+    "explanation": "part of",
+    "id": "d9330e953f02fbace479a288",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:09",
+    "statement_id": "fixture-statement-d9330e953f02fbace479a288",
+    "target_id": "fixture:places:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "db5e0d16962238899591f9e9",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:07",
+    "statement_id": "fixture-statement-db5e0d16962238899591f9e9",
+    "target_id": "fixture:arts_culture:08"
+  },
+  {
+    "explanation": "part of",
+    "id": "dbecbc5358ce41600904a1ca",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:01",
+    "statement_id": "fixture-statement-dbecbc5358ce41600904a1ca",
+    "target_id": "fixture:nature_science:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "dcba483d8dd65f31ef1f82b9",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:05",
+    "statement_id": "fixture-statement-dcba483d8dd65f31ef1f82b9",
+    "target_id": "fixture:history_people:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "e291ea4593f5fbc55a609e6e",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:01",
+    "statement_id": "fixture-statement-e291ea4593f5fbc55a609e6e",
+    "target_id": "fixture:history_people:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "e60646da35e5f7ffb72af014",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:07",
+    "statement_id": "fixture-statement-e60646da35e5f7ffb72af014",
+    "target_id": "fixture:places:06"
+  },
+  {
+    "explanation": "part of",
+    "id": "e89cb80ba281e4da5e05e27a",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:12",
+    "statement_id": "fixture-statement-e89cb80ba281e4da5e05e27a",
+    "target_id": "fixture:history_people:01"
+  },
+  {
+    "explanation": "part of",
+    "id": "e921d52cc450028bda87f919",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:06",
+    "statement_id": "fixture-statement-e921d52cc450028bda87f919",
+    "target_id": "fixture:places:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "eb33f43ee47d20ea295c21d1",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:05",
+    "statement_id": "fixture-statement-eb33f43ee47d20ea295c21d1",
+    "target_id": "fixture:arts_culture:04"
+  },
+  {
+    "explanation": "part of",
+    "id": "ebab534ee11d4524d4d721bc",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:09",
+    "statement_id": "fixture-statement-ebab534ee11d4524d4d721bc",
+    "target_id": "fixture:arts_culture:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "ecfa57d71699a595c0f7ed37",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:11",
+    "statement_id": "fixture-statement-ecfa57d71699a595c0f7ed37",
+    "target_id": "fixture:arts_culture:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "edd31695807f4a54cab4b765",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:03",
+    "statement_id": "fixture-statement-edd31695807f4a54cab4b765",
+    "target_id": "fixture:arts_culture:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "ee0f867d8e8a2f9b77bc8319",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:01",
+    "statement_id": "fixture-statement-ee0f867d8e8a2f9b77bc8319",
+    "target_id": "fixture:nature_science:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "f67b4fd1507c27f9da932157",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:11",
+    "statement_id": "fixture-statement-f67b4fd1507c27f9da932157",
+    "target_id": "fixture:nature_science:12"
+  },
+  {
+    "explanation": "part of",
+    "id": "f6c6daa35640c6a267b3f8dd",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:03",
+    "statement_id": "fixture-statement-f6c6daa35640c6a267b3f8dd",
+    "target_id": "fixture:history_people:02"
+  },
+  {
+    "explanation": "part of",
+    "id": "f8859cac7091fc72c58a15d6",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:08",
+    "statement_id": "fixture-statement-f8859cac7091fc72c58a15d6",
+    "target_id": "fixture:arts_culture:07"
+  },
+  {
+    "explanation": "part of",
+    "id": "f9f27da3852638763fdec7b2",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:places:10",
+    "statement_id": "fixture-statement-f9f27da3852638763fdec7b2",
+    "target_id": "fixture:places:09"
+  },
+  {
+    "explanation": "part of",
+    "id": "fb31182f76101f9124e04540",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:10",
+    "statement_id": "fixture-statement-fb31182f76101f9124e04540",
+    "target_id": "fixture:arts_culture:11"
+  },
+  {
+    "explanation": "part of",
+    "id": "fe28e2480785eee9c3182448",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_people:09",
+    "statement_id": "fixture-statement-fe28e2480785eee9c3182448",
+    "target_id": "fixture:history_people:10"
+  },
+  {
+    "explanation": "part of",
+    "id": "fee8ee13aac307ad0b44894c",
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:11",
+    "statement_id": "fixture-statement-fee8ee13aac307ad0b44894c",
+    "target_id": "fixture:arts_culture:12"
+  }
+]

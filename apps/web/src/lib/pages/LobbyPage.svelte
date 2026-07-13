@@ -1,0 +1,170 @@
+<script lang="ts">
+  import type { RoomSnapshot } from "../api/types";
+  import AtlasIcon from "../components/AtlasIcon.svelte";
+
+  let {
+    room,
+    busy = false,
+    onCreate,
+    onJoin,
+    onReady,
+    onStart,
+  }: {
+    room?: RoomSnapshot;
+    busy?: boolean;
+    onCreate: () => void;
+    onJoin: (code: string) => void;
+    onReady: () => void;
+    onStart: () => void;
+  } = $props();
+
+  let code = $state("");
+  let allReady = $derived(
+    room?.players.every((player) => player.ready) ?? false,
+  );
+  let currentPlayer = $derived(
+    room?.players.find((player) => player.is_current_guest),
+  );
+</script>
+
+<main class="lobby-page">
+  {#if !room}
+    <section class="lobby-intro">
+      <div>
+        <p class="eyebrow">Live relay</p>
+        <h1>One atlas.<br /><em>Several instincts.</em></h1>
+        <p>
+          Two to four players receive the same route. You’ll see how close the
+          others are—never where they are.
+        </p>
+      </div>
+
+      <div class="lobby-entry">
+        <section>
+          <span class="lobby-entry__number">01</span>
+          <h2>Open a room</h2>
+          <p>
+            Receive a short field code and invite up to three other explorers.
+          </p>
+          <button
+            class="primary-action"
+            type="button"
+            disabled={busy}
+            onclick={onCreate}
+          >
+            Create relay <AtlasIcon name="arrow" size={20} />
+          </button>
+        </section>
+        <section>
+          <span class="lobby-entry__number">02</span>
+          <h2>Join a room</h2>
+          <p>Enter the code from your expedition host.</p>
+          <form
+            onsubmit={(event) => {
+              event.preventDefault();
+              if (code.trim()) onJoin(code);
+            }}
+          >
+            <label for="room-code">Room code</label>
+            <div class="code-entry">
+              <input
+                id="room-code"
+                bind:value={code}
+                maxlength="6"
+                autocomplete="off"
+                placeholder="MAPS27"
+              />
+              <button
+                type="submit"
+                disabled={busy || !code.trim()}
+                aria-label="Join room"
+                ><AtlasIcon name="arrow" size={21} /></button
+              >
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+  {:else}
+    <section class="room-sheet" aria-labelledby="room-title">
+      <header class="room-sheet__header">
+        <div>
+          <p class="eyebrow">Expedition room</p>
+          <h1 id="room-title">Ready the map.</h1>
+        </div>
+        <div class="room-code">
+          <span>Room code</span>
+          <strong>{room.code}</strong>
+        </div>
+      </header>
+
+      <div class="room-sheet__body">
+        <section class="roster" aria-labelledby="roster-title">
+          <div class="roster__heading">
+            <h2 id="roster-title">Field team</h2>
+            <span>{room.players.length} / {room.max_players}</span>
+          </div>
+          <ol>
+            {#each room.players as player, index (player.id)}
+              <li>
+                <span class="roster__index"
+                  >{String(index + 1).padStart(2, "0")}</span
+                >
+                <span class="roster__person"
+                  ><strong>{player.display_name}</strong><small
+                    >{player.is_host
+                      ? "Host"
+                      : "Explorer"}{player.is_current_guest
+                      ? " · You"
+                      : ""}</small
+                  ></span
+                >
+                <span
+                  class:roster__state--ready={player.ready}
+                  class="roster__state"
+                >
+                  {player.ready ? "Ready" : "Checking map"}
+                </span>
+              </li>
+            {/each}
+          </ol>
+        </section>
+
+        <aside class="room-rules">
+          <p class="eyebrow">Relay protocol</p>
+          <ol>
+            <li>
+              <span>01</span>Everyone receives the same start and destination.
+            </li>
+            <li><span>02</span>Only moves and broad progress are shared.</li>
+            <li>
+              <span>03</span>The first valid arrival starts a 30-second grace
+              period.
+            </li>
+          </ol>
+          <button
+            class="secondary-action"
+            type="button"
+            disabled={busy}
+            onclick={onReady}
+          >
+            {currentPlayer?.ready ? "Mark as not ready" : "I’m ready"}
+          </button>
+          {#if currentPlayer?.is_host}
+            <button
+              class="primary-action"
+              type="button"
+              disabled={busy || !allReady}
+              onclick={onStart}
+            >
+              Start relay <AtlasIcon name="arrow" size={20} />
+            </button>
+          {/if}
+          {#if !allReady}<p class="room-rules__waiting" role="status">
+              Waiting for every explorer to ready up.
+            </p>{/if}
+        </aside>
+      </div>
+    </section>
+  {/if}
+</main>

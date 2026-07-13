@@ -1,0 +1,39 @@
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    --color-paper: #f3ebdd;
+    --color-ink: #16211d;
+    --color-signal: #c84a32;
+    --color-moss: #3f6b54;
+    --color-ochre: #b68532;
+    --color-cartographic: #2d6574;
+    --color-muted-ink: #6e6b61;
+    --color-rule: color-mix(in srgb, var(--color-ink) 24%, transparent);
+    --color-focus: var(--color-cartographic);
+    --font-display: "Newsreader", georgia, serif;
+    --font-interface: "IBM Plex Sans", "Helvetica Neue", sans-serif;
+    --font-technical: "IBM Plex Mono", ui-monospace, monospace;
+    --text-12: 0.75rem;
+    --text-14: 0.875rem;
+    --text-16: 1rem;
+    --text-20: 1.25rem;
+    --text-28: clamp(1.55rem, 1.35rem + 0.8vw, 1.75rem);
+    --text-40: clamp(2rem, 1.55rem + 1.8vw, 2.5rem);
+    --text-64: clamp(2.8rem, 1.9rem + 3.8vw, 4rem);
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+    --space-8: 4rem;
+    --radius-control: 4px;
+    --radius-sheet: 10px;
+    --motion-fast: 160ms;
+    --motion-route: 320ms;
+    --shadow-paper: 0 14px 32px
+      color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+}
