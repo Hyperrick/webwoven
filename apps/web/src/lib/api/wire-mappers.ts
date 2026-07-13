@@ -16,6 +16,7 @@ import type {
   WireRoom,
   WireSession,
 } from "./wire-types";
+import { sourceMetadataFor } from "../domain/entity-provenance";
 
 function category(value: string): Category {
   if (
@@ -37,7 +38,7 @@ function entity(value: WireEntity): EntitySummary {
     label: value.label,
     description: value.description ?? "A reviewed entity in the Webwoven atlas",
     category: category(value.category),
-    source_url: `https://www.wikidata.org/wiki/${value.qid}`,
+    ...sourceMetadataFor(value.qid),
   };
 }
 
@@ -59,6 +60,7 @@ export function mapSession(value: WireSession): SessionSnapshot {
   return {
     id: value.id,
     mode: value.mode,
+    difficulty: value.difficulty,
     start: entity(value.start),
     target: entity(value.target),
     current: entity(value.current),
@@ -72,11 +74,12 @@ export function mapSession(value: WireSession): SessionSnapshot {
     score: value.final_score,
     status: value.status,
     state_version: value.state_version,
-    shortest_distance: null,
+    shortest_distance: value.optimal_distance,
     elapsed_seconds: Number.isFinite(started)
       ? Math.max(0, Math.floor((ended - started) / 1000))
       : 0,
     relation_groups: value.relation_groups.map((group) => ({
+      group_id: group.group_id,
       property_id: group.property_id,
       label: group.label,
       direction: group.direction,

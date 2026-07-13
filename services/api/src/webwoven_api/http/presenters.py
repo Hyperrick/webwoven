@@ -1,11 +1,12 @@
 """Map domain state into public API snapshots without enforcing game rules."""
 
+from base64 import urlsafe_b64encode
 from collections import defaultdict
 from datetime import date
 
 from webwoven_api.daily.models import DailyAssignment, DailyScore
 from webwoven_api.domain.hints import HintResult
-from webwoven_api.graph.contracts import Entity, GraphReader, Round
+from webwoven_api.graph.contracts import Entity, GraphReader, RelationDirection, Round
 from webwoven_api.http.contracts.common import EntityResponse
 from webwoven_api.http.contracts.daily import (
     DailyLeaderboardResponse,
@@ -36,10 +37,12 @@ class SessionPresenter:
         current = self._entity(session.navigation.current_id)
         navigation = [self._entity(entity_id) for entity_id in session.navigation.stack]
         trail = [self._entity(entity_id) for entity_id in session.navigation.trail]
-        grouped: defaultdict[tuple[str, str], list[EdgeTargetResponse]] = defaultdict(list)
+        grouped: defaultdict[tuple[str, RelationDirection, str], list[EdgeTargetResponse]] = (
+            defaultdict(list)
+        )
         if session.status.value == "active":
             for edge in self._graph.get_edges(session.navigation.current_id):
-                grouped[(edge.relation_key, edge.relation_label)].append(
+                grouped[(edge.relation_key, edge.direction, edge.relation_label)].append(
                     EdgeTargetResponse(
                         edge_token=self._sessions.issue_edge_token(session, edge.id),
                         explanation=edge.explanation,
@@ -47,8 +50,14 @@ class SessionPresenter:
                     )
                 )
         relation_groups = [
-            RelationGroupResponse(property_id=key, label=label, edges=edges)
-            for (key, label), edges in sorted(grouped.items())
+            RelationGroupResponse(
+                group_id=_relation_group_id(key, direction, label),
+                property_id=key,
+                label=label,
+                direction=direction,
+                edges=edges,
+            )
+            for (key, direction, label), edges in sorted(grouped.items())
         ]
         hints = [
             HintUseResponse(
@@ -69,6 +78,7 @@ class SessionPresenter:
             round_id=session.round.id,
             category=session.round.category,
             difficulty=session.round.difficulty,
+            optimal_distance=session.round.optimal_distance,
             start=start,
             target=target,
             current=current,
@@ -113,6 +123,12 @@ def entity_response(entity: Entity) -> EntityResponse:
         entity_type=entity.entity_type,
         image_path=entity.image_path,
     )
+
+
+def _relation_group_id(property_id: str, direction: RelationDirection, label: str) -> str:
+    """Return a stable, DOM-safe identity without replacing the semantic property ID."""
+    encoded_label = urlsafe_b64encode(label.encode("utf-8")).decode("ascii").rstrip("=")
+    return f"{property_id}-{direction}-{encoded_label}"
 
 
 def daily_response(assignment: DailyAssignment, round_: Round, graph: GraphReader) -> DailyResponse:

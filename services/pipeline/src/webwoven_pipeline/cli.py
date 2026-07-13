@@ -145,7 +145,7 @@ def _acquire(args: argparse.Namespace) -> None:
     _write_new_json(
         args.output,
         {
-            "schema_version": 1,
+            "schema_version": 2,
             "source": "wikidata",
             "entities": [item.to_dict() for item in entities],
             "edges": [item.to_dict() for item in edges],
@@ -212,6 +212,7 @@ def _edges(value: Any) -> tuple[Edge, ...]:
             relation_key=_string(item, "relation_key"),
             statement_id=_string(item, "statement_id"),
             explanation=_string(item, "explanation"),
+            inverse=_boolean(item, "inverse"),
             playable=_boolean(item, "playable"),
         )
         for item in _object_list(value, "edges")

@@ -16,21 +16,21 @@
   );
 </script>
 
-<dl class="game-metrics" aria-label="Current route statistics">
+<dl class="game-metrics" aria-label="Current round statistics" aria-live="off">
+  <div>
+    <dt>Time</dt>
+    <dd>{time}</dd>
+  </div>
   <div>
     <dt>Moves</dt>
     <dd>{moves}</dd>
   </div>
   <div>
     <dt>Par</dt>
-    <dd>{par ?? "—"}</dd>
-  </div>
-  <div>
-    <dt>Time</dt>
-    <dd>{time}</dd>
+    <dd>{par ?? "Unknown"}</dd>
   </div>
   <div>
     <dt>Score</dt>
-    <dd>{score ?? "—"}</dd>
+    <dd class:game-metrics__pending={score === null}>{score ?? "At finish"}</dd>
   </div>
 </dl>

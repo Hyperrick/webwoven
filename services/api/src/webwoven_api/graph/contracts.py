@@ -1,7 +1,7 @@
 """Stable graph types consumed by gameplay domains."""
 
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Literal, Protocol
 
 from webwoven_api.domain.scoring import Difficulty
 
@@ -25,6 +25,9 @@ class Relation:
     category: str
 
 
+RelationDirection = Literal["outgoing", "incoming"]
+
+
 @dataclass(frozen=True, slots=True)
 class GraphEdge:
     id: str
@@ -35,6 +38,7 @@ class GraphEdge:
     statement_id: str
     explanation: str
     target: Entity
+    direction: RelationDirection = "outgoing"
 
 
 @dataclass(frozen=True, slots=True)

@@ -6,56 +6,80 @@
     groups,
     used,
     disabled = false,
+    compassSelecting = false,
     onHint,
+    onCompassToggle,
   }: {
     groups: RelationGroup[];
     used: UsedHint[];
     disabled?: boolean;
+    compassSelecting?: boolean;
     onHint: (type: HintType, propertyId?: string) => void;
+    onCompassToggle: () => void;
   } = $props();
+
+  const tools = [
+    { type: "compass", label: "Compass", penalty: 75, icon: "compass" },
+    { type: "lens", label: "Lens", penalty: 150, icon: "lens" },
+    {
+      type: "map_fragment",
+      label: "Map fragment",
+      penalty: 250,
+      icon: "map",
+    },
+  ] as const;
 
   const hintUsed = (type: HintType) => used.some((hint) => hint.type === type);
   let latest = $derived(used.at(-1));
+  let remaining = $derived(tools.length - used.length);
 </script>
 
 <aside class="hint-dock" aria-labelledby="hint-title">
-  <div>
-    <p class="eyebrow">The Cartographer’s desk</p>
-    <h2 id="hint-title">Need a bearing?</h2>
+  <div class="hint-dock__heading">
+    <h2 id="hint-title">Hint tools</h2>
+    <p>{remaining} ready</p>
   </div>
-  <div class="hint-dock__actions">
-    <button
-      type="button"
-      aria-label="Use Compass hint for a 75 point penalty"
-      disabled={disabled || hintUsed("compass") || groups.length === 0}
-      onclick={() => onHint("compass", groups[0]?.property_id)}
-    >
-      <AtlasIcon name="compass" size={21} />
-      <span><strong>Compass</strong><small>Test a relation · −75</small></span>
-    </button>
-    <button
-      type="button"
-      aria-label="Use Lens hint for a 150 point penalty"
-      disabled={disabled || hintUsed("lens")}
-      onclick={() => onHint("lens")}
-    >
-      <AtlasIcon name="lens" size={21} />
-      <span><strong>Lens</strong><small>Mark a bearing · −150</small></span>
-    </button>
-    <button
-      type="button"
-      aria-label="Use Map Fragment hint for a 250 point penalty"
-      disabled={disabled || hintUsed("map_fragment")}
-      onclick={() => onHint("map_fragment")}
-    >
-      <AtlasIcon name="map" size={21} />
-      <span
-        ><strong>Map fragment</strong><small>Reveal a bridge · −250</small
-        ></span
+  <div class="hint-dock__actions" role="group" aria-label="One-use hints">
+    {#each tools as tool, index}
+      {@const isUsed = hintUsed(tool.type)}
+      <button
+        type="button"
+        class:hint-dock__tool--used={isUsed}
+        aria-label={`${tool.label} hint, ${tool.penalty} point penalty, ${isUsed ? "used" : tool.type === "compass" && compassSelecting ? "choose a route to evaluate" : "ready"}`}
+        aria-pressed={tool.type === "compass" ? compassSelecting : undefined}
+        disabled={disabled ||
+          isUsed ||
+          (tool.type === "compass" && groups.length === 0)}
+        onclick={() => {
+          if (tool.type === "compass") onCompassToggle();
+          else onHint(tool.type);
+        }}
       >
-    </button>
+        <span class="hint-dock__slot" aria-hidden="true">{index + 1}</span>
+        <AtlasIcon name={tool.icon} size={20} />
+        <span class="hint-dock__tool-copy">
+          <strong>{tool.label}</strong>
+          <small>−{tool.penalty} pts</small>
+        </span>
+        <span class="hint-dock__tool-state" aria-hidden="true">
+          {isUsed
+            ? "Used"
+            : tool.type === "compass" && compassSelecting
+              ? "Choosing"
+              : "Ready"}
+        </span>
+      </button>
+    {/each}
   </div>
   {#if latest}
-    <p class="cartographer-note" role="status">“{latest.message}”</p>
+    <p
+      class="hint-dock__message"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <strong>Latest hint</strong>
+      <span>{latest.message}</span>
+    </p>
   {/if}
 </aside>

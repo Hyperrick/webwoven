@@ -17,6 +17,7 @@ export interface WireSession {
   round_id: string;
   category: string;
   difficulty: "easy" | "normal" | "hard";
+  optimal_distance: number;
   start: WireEntity;
   target: WireEntity;
   current: WireEntity;
@@ -37,9 +38,10 @@ export interface WireSession {
   completed_at: string | null;
   final_score: number | null;
   relation_groups: Array<{
+    group_id: string;
     property_id: string;
     label: string;
-    direction: "outgoing";
+    direction: "outgoing" | "incoming";
     edges: Array<{
       edge_token: string;
       explanation: string;

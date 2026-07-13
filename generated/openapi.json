@@ -669,8 +669,10 @@
         "additionalProperties": false,
         "properties": {
           "direction": {
-            "const": "outgoing",
-            "default": "outgoing",
+            "enum": [
+              "outgoing",
+              "incoming"
+            ],
             "title": "Direction",
             "type": "string"
           },
@@ -680,6 +682,10 @@
             },
             "title": "Edges",
             "type": "array"
+          },
+          "group_id": {
+            "title": "Group Id",
+            "type": "string"
           },
           "label": {
             "title": "Label",
@@ -691,8 +697,10 @@
           }
         },
         "required": [
+          "group_id",
           "property_id",
           "label",
+          "direction",
           "edges"
         ],
         "title": "RelationGroupResponse",
@@ -1028,6 +1036,10 @@
             "title": "Navigation Stack",
             "type": "array"
           },
+          "optimal_distance": {
+            "title": "Optimal Distance",
+            "type": "integer"
+          },
           "relation_groups": {
             "items": {
               "$ref": "#/components/schemas/RelationGroupResponse"
@@ -1073,6 +1085,7 @@
           "round_id",
           "category",
           "difficulty",
+          "optimal_distance",
           "start",
           "target",
           "current",

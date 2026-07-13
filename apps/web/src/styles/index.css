@@ -4,9 +4,10 @@
 @import url("./base.css") layer(base);
 @import url("./shell.css") layer(shell);
 @import url("./landing.css") layer(landing);
+@import url("./round-masthead.css") layer(game);
 @import url("./game.css") layer(game);
-@import url("./entity-stage.css") layer(game);
-@import url("./relations.css") layer(game);
+@import url("./game-map-board.css") layer(game);
+@import url("./hint-dock.css") layer(game);
 @import url("./race.css") layer(game);
 @import url("./rooms.css") layer(rooms);
 @import url("./pages.css") layer(pages);

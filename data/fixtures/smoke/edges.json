@@ -1,866 +1,962 @@
 [
   {
-    "explanation": "part of",
-    "id": "00a25aa5cdf235db6825167a",
+    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
+    "id": "006fb882b201aa6c333e1679",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:12",
-    "statement_id": "fixture-statement-00a25aa5cdf235db6825167a",
-    "target_id": "fixture:arts_culture:11"
+    "relation_key": "P131",
+    "source_id": "fixture:places:09",
+    "statement_id": "fixture-statement-places-09",
+    "target_id": "fixture:places:10"
   },
   {
-    "explanation": "part of",
-    "id": "01d1be48dca84353209306af",
+    "explanation": "Fictional fixture fact: The capital of the Republic of Avenmark is Calder City.",
+    "id": "0288afc7f4bfc1a65f9835a8",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:01",
-    "statement_id": "fixture-statement-01d1be48dca84353209306af",
-    "target_id": "fixture:places:02"
+    "relation_key": "P36",
+    "source_id": "fixture:places:04",
+    "statement_id": "fixture-statement-places-03",
+    "target_id": "fixture:places:03"
   },
   {
-    "explanation": "part of",
-    "id": "04e337155a5980ff7a1affa4",
+    "explanation": "Fictional fixture fact: Bracken Field Station is located in Mosslight Preserve.",
+    "id": "030187e298e404e49c5ad11d",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:08",
-    "statement_id": "fixture-statement-04e337155a5980ff7a1affa4",
-    "target_id": "fixture:history_people:09"
+    "relation_key": "P131",
+    "source_id": "fixture:nature_science:05",
+    "statement_id": "fixture-statement-nature_science-05",
+    "target_id": "fixture:nature_science:06"
   },
   {
-    "explanation": "part of",
-    "id": "05f8d5315a251fcf54bd344b",
+    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
+    "id": "03169852bf1a568715cafe26",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:02",
-    "statement_id": "fixture-statement-05f8d5315a251fcf54bd344b",
-    "target_id": "fixture:history_people:01"
-  },
-  {
-    "explanation": "part of",
-    "id": "0bd6c6c533617c4854c9a8d6",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:03",
-    "statement_id": "fixture-statement-0bd6c6c533617c4854c9a8d6",
-    "target_id": "fixture:history_people:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "121ab3d7ae67a96aa9da1eb0",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:05",
-    "statement_id": "fixture-statement-121ab3d7ae67a96aa9da1eb0",
-    "target_id": "fixture:places:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "146cd7cbd7d26d56b183a34a",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:10",
-    "statement_id": "fixture-statement-146cd7cbd7d26d56b183a34a",
-    "target_id": "fixture:arts_culture:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "192f2777afcea1829f7f0a85",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:12",
-    "statement_id": "fixture-statement-192f2777afcea1829f7f0a85",
-    "target_id": "fixture:arts_culture:01"
-  },
-  {
-    "explanation": "part of",
-    "id": "1bc88d6c6c096a5cf33b667b",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:06",
-    "statement_id": "fixture-statement-1bc88d6c6c096a5cf33b667b",
-    "target_id": "fixture:nature_science:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "20acbfa6a6c12a30471b67ee",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P171",
     "source_id": "fixture:nature_science:03",
-    "statement_id": "fixture-statement-20acbfa6a6c12a30471b67ee",
+    "statement_id": "fixture-statement-nature_science-02",
     "target_id": "fixture:nature_science:02"
   },
   {
-    "explanation": "part of",
-    "id": "22356ca1aac5ce474602e390",
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
+    "id": "07ab5c148c451460b21e8b5f",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:11",
-    "statement_id": "fixture-statement-22356ca1aac5ce474602e390",
-    "target_id": "fixture:history_people:10"
+    "relation_key": "P276",
+    "source_id": "fixture:places:07",
+    "statement_id": "fixture-statement-places-06",
+    "target_id": "fixture:places:06"
   },
   {
-    "explanation": "part of",
-    "id": "2a19424745ff8f71790d85d8",
+    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
+    "id": "086cffec1dd7161e9a55111d",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:06",
-    "statement_id": "fixture-statement-2a19424745ff8f71790d85d8",
-    "target_id": "fixture:history_people:07"
+    "relation_key": "P737",
+    "source_id": "fixture:arts_culture:07",
+    "statement_id": "fixture-statement-arts_culture-06",
+    "target_id": "fixture:arts_culture:06"
   },
   {
-    "explanation": "part of",
-    "id": "2b19719823ce26c505bff4b8",
+    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
+    "id": "10be3d5432ecc103fd09f782",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:03",
-    "statement_id": "fixture-statement-2b19719823ce26c505bff4b8",
-    "target_id": "fixture:places:02"
+    "relation_key": "P276",
+    "source_id": "fixture:places:11",
+    "statement_id": "fixture-statement-places-10",
+    "target_id": "fixture:places:10"
   },
   {
-    "explanation": "part of",
-    "id": "2d174958224340aa3864f94d",
+    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
+    "id": "178779de4f8a6c3f57607fbc",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:08",
-    "statement_id": "fixture-statement-2d174958224340aa3864f94d",
-    "target_id": "fixture:places:07"
+    "relation_key": "P138",
+    "source_id": "fixture:nature_science:01",
+    "statement_id": "fixture-statement-nature_science-12",
+    "target_id": "fixture:nature_science:12"
   },
   {
-    "explanation": "part of",
-    "id": "2e6034b4f7f5f9caba042206",
+    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
+    "id": "18657b7122a6e6efcfffe819",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:06",
-    "statement_id": "fixture-statement-2e6034b4f7f5f9caba042206",
-    "target_id": "fixture:arts_culture:07"
-  },
-  {
-    "explanation": "part of",
-    "id": "3243ae36cc18e6f8e1e9ba03",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:09",
-    "statement_id": "fixture-statement-3243ae36cc18e6f8e1e9ba03",
-    "target_id": "fixture:nature_science:10"
-  },
-  {
-    "explanation": "part of",
-    "id": "33da540d09b79330a9e0455b",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:01",
-    "statement_id": "fixture-statement-33da540d09b79330a9e0455b",
-    "target_id": "fixture:arts_culture:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "348219db5f2f6ca514fe4ffe",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:06",
-    "statement_id": "fixture-statement-348219db5f2f6ca514fe4ffe",
-    "target_id": "fixture:history_people:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "3493232087b54cd1925bab0a",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:06",
-    "statement_id": "fixture-statement-3493232087b54cd1925bab0a",
-    "target_id": "fixture:nature_science:07"
-  },
-  {
-    "explanation": "part of",
-    "id": "35567ed83d32fc4ed1b48ebb",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:08",
-    "statement_id": "fixture-statement-35567ed83d32fc4ed1b48ebb",
-    "target_id": "fixture:places:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "369f94d199bf8e3decca2a16",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:12",
-    "statement_id": "fixture-statement-369f94d199bf8e3decca2a16",
-    "target_id": "fixture:places:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "3cf3d7b3cdc814c749feb5c6",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:01",
-    "statement_id": "fixture-statement-3cf3d7b3cdc814c749feb5c6",
-    "target_id": "fixture:places:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "3cf4eb8e9add6d32ecb981ef",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:03",
-    "statement_id": "fixture-statement-3cf4eb8e9add6d32ecb981ef",
-    "target_id": "fixture:places:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "3e11f8301ed4d64fe593eb3d",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P131",
     "source_id": "fixture:places:02",
-    "statement_id": "fixture-statement-3e11f8301ed4d64fe593eb3d",
+    "statement_id": "fixture-statement-places-01",
     "target_id": "fixture:places:01"
   },
   {
-    "explanation": "part of",
-    "id": "4034a9b9d1fecd779f1db6c8",
+    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
+    "id": "18c721e4f340e7b3987b5056",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:02",
-    "statement_id": "fixture-statement-4034a9b9d1fecd779f1db6c8",
-    "target_id": "fixture:nature_science:01"
+    "relation_key": "P131",
+    "source_id": "fixture:nature_science:09",
+    "statement_id": "fixture-statement-nature_science-08",
+    "target_id": "fixture:nature_science:08"
   },
   {
-    "explanation": "part of",
+    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
+    "id": "1c5cadc8521a645d4368eb6d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:arts_culture:12",
+    "statement_id": "fixture-statement-arts_culture-11",
+    "target_id": "fixture:arts_culture:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
+    "id": "1ecf233f9905130dfb6b7a7e",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:arts_culture:10",
+    "statement_id": "fixture-statement-arts_culture-10",
+    "target_id": "fixture:arts_culture:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
+    "id": "1fcaf85b67d2bd11e7440b2a",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:places:02",
+    "statement_id": "fixture-statement-places-02",
+    "target_id": "fixture:places:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
+    "id": "2319711b881b9ec0bd565339",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places:06",
+    "statement_id": "fixture-statement-places-06",
+    "target_id": "fixture:places:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
+    "id": "265eb6f54635d40d814d52de",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places:10",
+    "statement_id": "fixture-statement-places-10",
+    "target_id": "fixture:places:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
+    "id": "27459076e3801332cc7623dc",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P57",
+    "source_id": "fixture:arts_culture:07",
+    "statement_id": "fixture-statement-arts_culture-07",
+    "target_id": "fixture:arts_culture:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
+    "id": "293b6619692a0049e4a1d94c",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:05",
+    "statement_id": "fixture-statement-places-05",
+    "target_id": "fixture:places:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
+    "id": "2f496505053c562d0ef89c2c",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_science:09",
+    "statement_id": "fixture-statement-nature_science-09",
+    "target_id": "fixture:nature_science:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
+    "id": "33101bceb8a96f2febb76e24",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:nature_science:07",
+    "statement_id": "fixture-statement-nature_science-06",
+    "target_id": "fixture:nature_science:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
+    "id": "374b3e24372921ddee4e8981",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:history_people:06",
+    "statement_id": "fixture-statement-history_people-06",
+    "target_id": "fixture:history_people:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
+    "id": "37f006d939a1b92d7ed8cde7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P175",
+    "source_id": "fixture:arts_culture:01",
+    "statement_id": "fixture-statement-arts_culture-01",
+    "target_id": "fixture:arts_culture:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
+    "id": "3998f04713cde57e1029cc6d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:places:08",
+    "statement_id": "fixture-statement-places-07",
+    "target_id": "fixture:places:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
+    "id": "3c25ee21a18f10aa3be92a5a",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_science:02",
+    "statement_id": "fixture-statement-nature_science-02",
+    "target_id": "fixture:nature_science:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
+    "id": "3fe0a96edf13a6e964eb37f2",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P19",
+    "source_id": "fixture:history_people:01",
+    "statement_id": "fixture-statement-history_people-01",
+    "target_id": "fixture:history_people:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
     "id": "41d2211e7b6ceac256bc514a",
+    "inverse": true,
     "playable": true,
     "relation_key": "P361",
     "source_id": "fixture:nature_science:12",
-    "statement_id": "fixture-statement-41d2211e7b6ceac256bc514a",
+    "statement_id": "fixture-statement-nature_science-11",
     "target_id": "fixture:nature_science:11"
   },
   {
-    "explanation": "part of",
-    "id": "41f0a809f013de2a9e3a443e",
+    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
+    "id": "429bb4f8e20cbb98b8794630",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:07",
-    "statement_id": "fixture-statement-41f0a809f013de2a9e3a443e",
-    "target_id": "fixture:nature_science:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "430a78177ea14d43c88772ae",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:11",
-    "statement_id": "fixture-statement-430a78177ea14d43c88772ae",
-    "target_id": "fixture:nature_science:10"
-  },
-  {
-    "explanation": "part of",
-    "id": "44aad537311779cab43ba2cb",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:08",
-    "statement_id": "fixture-statement-44aad537311779cab43ba2cb",
-    "target_id": "fixture:nature_science:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "4557eedac48c5ba37efe0424",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:12",
-    "statement_id": "fixture-statement-4557eedac48c5ba37efe0424",
-    "target_id": "fixture:history_people:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "46316f9f39fc6e86a12a8220",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:04",
-    "statement_id": "fixture-statement-46316f9f39fc6e86a12a8220",
-    "target_id": "fixture:arts_culture:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "4710b746b82d860ea88b7edf",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:04",
-    "statement_id": "fixture-statement-4710b746b82d860ea88b7edf",
-    "target_id": "fixture:nature_science:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "4ca6f572fed2d43dbd68300a",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:09",
-    "statement_id": "fixture-statement-4ca6f572fed2d43dbd68300a",
-    "target_id": "fixture:history_people:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "4cb0d49d5ab39f18ff9c58a2",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:10",
-    "statement_id": "fixture-statement-4cb0d49d5ab39f18ff9c58a2",
-    "target_id": "fixture:history_people:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "55a9e6af13c7833059f14621",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:02",
-    "statement_id": "fixture-statement-55a9e6af13c7833059f14621",
-    "target_id": "fixture:arts_culture:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "56e475e56fa4fc1657943a36",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:01",
-    "statement_id": "fixture-statement-56e475e56fa4fc1657943a36",
-    "target_id": "fixture:arts_culture:02"
-  },
-  {
-    "explanation": "part of",
-    "id": "59ad0c9cefeb19975056bb38",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:12",
-    "statement_id": "fixture-statement-59ad0c9cefeb19975056bb38",
-    "target_id": "fixture:places:01"
-  },
-  {
-    "explanation": "part of",
-    "id": "5ba56d18677d7e210231f050",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:10",
-    "statement_id": "fixture-statement-5ba56d18677d7e210231f050",
-    "target_id": "fixture:nature_science:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "61861e3688e257c0da9dae0b",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:06",
-    "statement_id": "fixture-statement-61861e3688e257c0da9dae0b",
-    "target_id": "fixture:arts_culture:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "63dbe3e40da27a77d4f718a0",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:03",
-    "statement_id": "fixture-statement-63dbe3e40da27a77d4f718a0",
-    "target_id": "fixture:nature_science:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "642a07338be8bc59af95d0ad",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:01",
-    "statement_id": "fixture-statement-642a07338be8bc59af95d0ad",
-    "target_id": "fixture:history_people:02"
-  },
-  {
-    "explanation": "part of",
-    "id": "659d9f8a38d69e9dde60e9c9",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:07",
-    "statement_id": "fixture-statement-659d9f8a38d69e9dde60e9c9",
-    "target_id": "fixture:history_people:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "672b0aa32403ee45e7247bf6",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:02",
-    "statement_id": "fixture-statement-672b0aa32403ee45e7247bf6",
-    "target_id": "fixture:nature_science:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "6881ad6a338f1ed6c78b401a",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:04",
-    "statement_id": "fixture-statement-6881ad6a338f1ed6c78b401a",
-    "target_id": "fixture:places:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "693d5cb24d3c3b70af6a1021",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:02",
-    "statement_id": "fixture-statement-693d5cb24d3c3b70af6a1021",
-    "target_id": "fixture:history_people:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "69db52402a7f16dae06ee3bf",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:09",
-    "statement_id": "fixture-statement-69db52402a7f16dae06ee3bf",
-    "target_id": "fixture:nature_science:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "6ed224f3c5874f95fe922531",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:09",
-    "statement_id": "fixture-statement-6ed224f3c5874f95fe922531",
-    "target_id": "fixture:places:10"
-  },
-  {
-    "explanation": "part of",
-    "id": "6fa6bde1c679ac8d410bcc52",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:04",
-    "statement_id": "fixture-statement-6fa6bde1c679ac8d410bcc52",
-    "target_id": "fixture:nature_science:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "6ff44c5a78bcbadd9207bf25",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:05",
-    "statement_id": "fixture-statement-6ff44c5a78bcbadd9207bf25",
-    "target_id": "fixture:arts_culture:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "73db64b75b16a4751e95bc45",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:10",
-    "statement_id": "fixture-statement-73db64b75b16a4751e95bc45",
-    "target_id": "fixture:history_people:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "7ab7bc73197d181ccdd6d548",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:11",
-    "statement_id": "fixture-statement-7ab7bc73197d181ccdd6d548",
-    "target_id": "fixture:places:10"
-  },
-  {
-    "explanation": "part of",
-    "id": "7b87af15106fb4e725916ad0",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:07",
-    "statement_id": "fixture-statement-7b87af15106fb4e725916ad0",
-    "target_id": "fixture:nature_science:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "801f95c88ffbfb13d313960e",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:03",
-    "statement_id": "fixture-statement-801f95c88ffbfb13d313960e",
-    "target_id": "fixture:arts_culture:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "80ee669112bcff838add3568",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:04",
-    "statement_id": "fixture-statement-80ee669112bcff838add3568",
-    "target_id": "fixture:history_people:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "82c1b2c52e27fd528d1c164c",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:08",
-    "statement_id": "fixture-statement-82c1b2c52e27fd528d1c164c",
-    "target_id": "fixture:arts_culture:09"
-  },
-  {
-    "explanation": "part of",
-    "id": "82f74b920477e75e07bb43c4",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:12",
-    "statement_id": "fixture-statement-82f74b920477e75e07bb43c4",
-    "target_id": "fixture:nature_science:01"
-  },
-  {
-    "explanation": "part of",
-    "id": "8bf7ed2fcb437ecb25e59e15",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:06",
-    "statement_id": "fixture-statement-8bf7ed2fcb437ecb25e59e15",
-    "target_id": "fixture:places:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "93c04567c634709c571bc1ba",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:08",
-    "statement_id": "fixture-statement-93c04567c634709c571bc1ba",
-    "target_id": "fixture:nature_science:07"
-  },
-  {
-    "explanation": "part of",
-    "id": "953c7979db03e863c91e3a07",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:05",
-    "statement_id": "fixture-statement-953c7979db03e863c91e3a07",
-    "target_id": "fixture:history_people:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "954b15bf94395cbaf138ebda",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:11",
-    "statement_id": "fixture-statement-954b15bf94395cbaf138ebda",
-    "target_id": "fixture:history_people:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "97b89424d714b3eda72bca73",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:09",
-    "statement_id": "fixture-statement-97b89424d714b3eda72bca73",
-    "target_id": "fixture:arts_culture:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "9948124e481294af7743afcb",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:04",
-    "statement_id": "fixture-statement-9948124e481294af7743afcb",
-    "target_id": "fixture:history_people:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "9ba051c156653b1cb9b88929",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:05",
-    "statement_id": "fixture-statement-9ba051c156653b1cb9b88929",
-    "target_id": "fixture:nature_science:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "a4fee74a8dfd1d215fed428c",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:11",
-    "statement_id": "fixture-statement-a4fee74a8dfd1d215fed428c",
-    "target_id": "fixture:places:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "a90450952f510b8c1c9c4271",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:07",
-    "statement_id": "fixture-statement-a90450952f510b8c1c9c4271",
-    "target_id": "fixture:arts_culture:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "abd720b9902f429ccad0ecff",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:10",
-    "statement_id": "fixture-statement-abd720b9902f429ccad0ecff",
-    "target_id": "fixture:places:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "af73c86f4bc4870fe2b86e18",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:07",
-    "statement_id": "fixture-statement-af73c86f4bc4870fe2b86e18",
-    "target_id": "fixture:history_people:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "b2575af63cae60a02657cad2",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:08",
-    "statement_id": "fixture-statement-b2575af63cae60a02657cad2",
-    "target_id": "fixture:history_people:07"
-  },
-  {
-    "explanation": "part of",
-    "id": "b2ad988943c5f10af9fa4cae",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:02",
-    "statement_id": "fixture-statement-b2ad988943c5f10af9fa4cae",
-    "target_id": "fixture:places:03"
-  },
-  {
-    "explanation": "part of",
-    "id": "b68d87a24a0274450b9d2a46",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:07",
-    "statement_id": "fixture-statement-b68d87a24a0274450b9d2a46",
-    "target_id": "fixture:places:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "b76ed4cae5c57fa22340bd37",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P131",
     "source_id": "fixture:places:05",
-    "statement_id": "fixture-statement-b76ed4cae5c57fa22340bd37",
+    "statement_id": "fixture-statement-places-04",
     "target_id": "fixture:places:04"
   },
   {
-    "explanation": "part of",
-    "id": "c6af3e0ea30dabb7849b5676",
+    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
+    "id": "44f4def11115e2a0d9626f18",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:04",
-    "statement_id": "fixture-statement-c6af3e0ea30dabb7849b5676",
-    "target_id": "fixture:arts_culture:05"
+    "relation_key": "P61",
+    "source_id": "fixture:nature_science:11",
+    "statement_id": "fixture-statement-nature_science-10",
+    "target_id": "fixture:nature_science:10"
   },
   {
-    "explanation": "part of",
-    "id": "c9099b4e09130dc6831277e1",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:10",
-    "statement_id": "fixture-statement-c9099b4e09130dc6831277e1",
-    "target_id": "fixture:nature_science:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "c94ff5db1566208b37ac7855",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:02",
-    "statement_id": "fixture-statement-c94ff5db1566208b37ac7855",
-    "target_id": "fixture:arts_culture:01"
-  },
-  {
-    "explanation": "part of",
-    "id": "d2829649f8d3f2f9e67bcc33",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:05",
-    "statement_id": "fixture-statement-d2829649f8d3f2f9e67bcc33",
-    "target_id": "fixture:nature_science:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "d8c73b08018d8c9dfe178eb8",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:04",
-    "statement_id": "fixture-statement-d8c73b08018d8c9dfe178eb8",
-    "target_id": "fixture:places:05"
-  },
-  {
-    "explanation": "part of",
-    "id": "d9330e953f02fbace479a288",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:09",
-    "statement_id": "fixture-statement-d9330e953f02fbace479a288",
-    "target_id": "fixture:places:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "db5e0d16962238899591f9e9",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:07",
-    "statement_id": "fixture-statement-db5e0d16962238899591f9e9",
-    "target_id": "fixture:arts_culture:08"
-  },
-  {
-    "explanation": "part of",
-    "id": "dbecbc5358ce41600904a1ca",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:01",
-    "statement_id": "fixture-statement-dbecbc5358ce41600904a1ca",
-    "target_id": "fixture:nature_science:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "dcba483d8dd65f31ef1f82b9",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:05",
-    "statement_id": "fixture-statement-dcba483d8dd65f31ef1f82b9",
-    "target_id": "fixture:history_people:04"
-  },
-  {
-    "explanation": "part of",
-    "id": "e291ea4593f5fbc55a609e6e",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:01",
-    "statement_id": "fixture-statement-e291ea4593f5fbc55a609e6e",
-    "target_id": "fixture:history_people:12"
-  },
-  {
-    "explanation": "part of",
-    "id": "e60646da35e5f7ffb72af014",
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:07",
-    "statement_id": "fixture-statement-e60646da35e5f7ffb72af014",
-    "target_id": "fixture:places:06"
-  },
-  {
-    "explanation": "part of",
-    "id": "e89cb80ba281e4da5e05e27a",
+    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
+    "id": "4557eedac48c5ba37efe0424",
+    "inverse": true,
     "playable": true,
     "relation_key": "P361",
     "source_id": "fixture:history_people:12",
-    "statement_id": "fixture-statement-e89cb80ba281e4da5e05e27a",
-    "target_id": "fixture:history_people:01"
+    "statement_id": "fixture-statement-history_people-11",
+    "target_id": "fixture:history_people:11"
   },
   {
-    "explanation": "part of",
-    "id": "e921d52cc450028bda87f919",
+    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
+    "id": "455c797754b3436301af2064",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:06",
-    "statement_id": "fixture-statement-e921d52cc450028bda87f919",
-    "target_id": "fixture:places:07"
-  },
-  {
-    "explanation": "part of",
-    "id": "eb33f43ee47d20ea295c21d1",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P800",
     "source_id": "fixture:arts_culture:05",
-    "statement_id": "fixture-statement-eb33f43ee47d20ea295c21d1",
+    "statement_id": "fixture-statement-arts_culture-04",
     "target_id": "fixture:arts_culture:04"
   },
   {
-    "explanation": "part of",
-    "id": "ebab534ee11d4524d4d721bc",
+    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
+    "id": "49625438b17501ee04ee29d4",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:09",
-    "statement_id": "fixture-statement-ebab534ee11d4524d4d721bc",
-    "target_id": "fixture:arts_culture:10"
+    "relation_key": "P463",
+    "source_id": "fixture:history_people:01",
+    "statement_id": "fixture-statement-history_people-12",
+    "target_id": "fixture:history_people:12"
   },
   {
-    "explanation": "part of",
-    "id": "ecfa57d71699a595c0f7ed37",
+    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
+    "id": "4cb487d618e6f53f50a1e794",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:11",
-    "statement_id": "fixture-statement-ecfa57d71699a595c0f7ed37",
-    "target_id": "fixture:arts_culture:10"
+    "relation_key": "P138",
+    "source_id": "fixture:places:09",
+    "statement_id": "fixture-statement-places-08",
+    "target_id": "fixture:places:08"
   },
   {
-    "explanation": "part of",
-    "id": "edd31695807f4a54cab4b765",
+    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
+    "id": "4d2597da1b7c75679759fadb",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:03",
-    "statement_id": "fixture-statement-edd31695807f4a54cab4b765",
-    "target_id": "fixture:arts_culture:02"
-  },
-  {
-    "explanation": "part of",
-    "id": "ee0f867d8e8a2f9b77bc8319",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P171",
     "source_id": "fixture:nature_science:01",
-    "statement_id": "fixture-statement-ee0f867d8e8a2f9b77bc8319",
+    "statement_id": "fixture-statement-nature_science-01",
     "target_id": "fixture:nature_science:02"
   },
   {
-    "explanation": "part of",
-    "id": "f67b4fd1507c27f9da932157",
+    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
+    "id": "55a9e6af13c7833059f14621",
+    "inverse": false,
     "playable": true,
     "relation_key": "P361",
-    "source_id": "fixture:nature_science:11",
-    "statement_id": "fixture-statement-f67b4fd1507c27f9da932157",
-    "target_id": "fixture:nature_science:12"
+    "source_id": "fixture:arts_culture:02",
+    "statement_id": "fixture-statement-arts_culture-02",
+    "target_id": "fixture:arts_culture:03"
   },
   {
-    "explanation": "part of",
-    "id": "f6c6daa35640c6a267b3f8dd",
+    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
+    "id": "59988e6db9c5fec00ba48e95",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:03",
-    "statement_id": "fixture-statement-f6c6daa35640c6a267b3f8dd",
-    "target_id": "fixture:history_people:02"
+    "relation_key": "P175",
+    "source_id": "fixture:arts_culture:02",
+    "statement_id": "fixture-statement-arts_culture-01",
+    "target_id": "fixture:arts_culture:01"
   },
   {
-    "explanation": "part of",
-    "id": "f8859cac7091fc72c58a15d6",
+    "explanation": "Fictional fixture fact: The Driftglass Suite was created by Sera Loom.",
+    "id": "64cbce35f04ff864f322446a",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:08",
-    "statement_id": "fixture-statement-f8859cac7091fc72c58a15d6",
-    "target_id": "fixture:arts_culture:07"
+    "relation_key": "P170",
+    "source_id": "fixture:arts_culture:04",
+    "statement_id": "fixture-statement-arts_culture-03",
+    "target_id": "fixture:arts_culture:03"
   },
   {
-    "explanation": "part of",
-    "id": "f9f27da3852638763fdec7b2",
+    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
+    "id": "654c45e8ec5146e619b15c65",
+    "inverse": true,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:places:10",
-    "statement_id": "fixture-statement-f9f27da3852638763fdec7b2",
-    "target_id": "fixture:places:09"
+    "relation_key": "P463",
+    "source_id": "fixture:history_people:12",
+    "statement_id": "fixture-statement-history_people-12",
+    "target_id": "fixture:history_people:01"
   },
   {
-    "explanation": "part of",
-    "id": "fb31182f76101f9124e04540",
+    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
+    "id": "67e76575665c95425ecc28e5",
+    "inverse": false,
     "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:10",
-    "statement_id": "fixture-statement-fb31182f76101f9124e04540",
-    "target_id": "fixture:arts_culture:11"
-  },
-  {
-    "explanation": "part of",
-    "id": "fe28e2480785eee9c3182448",
-    "playable": true,
-    "relation_key": "P361",
+    "relation_key": "P138",
     "source_id": "fixture:history_people:09",
-    "statement_id": "fixture-statement-fe28e2480785eee9c3182448",
+    "statement_id": "fixture-statement-history_people-09",
     "target_id": "fixture:history_people:10"
   },
   {
-    "explanation": "part of",
-    "id": "fee8ee13aac307ad0b44894c",
+    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
+    "id": "67ed6aeec973cc3e0c8c300d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_people:11",
+    "statement_id": "fixture-statement-history_people-10",
+    "target_id": "fixture:history_people:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
+    "id": "6a84d86d28a982406cb9fa90",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:nature_science:06",
+    "statement_id": "fixture-statement-nature_science-06",
+    "target_id": "fixture:nature_science:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
+    "id": "71a7ad2fa9d9799ed574fd69",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:nature_science:12",
+    "statement_id": "fixture-statement-nature_science-12",
+    "target_id": "fixture:nature_science:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
+    "id": "71be05d8416be631bbeb9641",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:history_people:08",
+    "statement_id": "fixture-statement-history_people-07",
+    "target_id": "fixture:history_people:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
+    "id": "73f19b9a0811a5520568b00b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P69",
+    "source_id": "fixture:history_people:03",
+    "statement_id": "fixture-statement-history_people-03",
+    "target_id": "fixture:history_people:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
+    "id": "7478414239b3916516409e54",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_people:05",
+    "statement_id": "fixture-statement-history_people-04",
+    "target_id": "fixture:history_people:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
+    "id": "768f6b7823a132e451e74cf3",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:history_people:05",
+    "statement_id": "fixture-statement-history_people-05",
+    "target_id": "fixture:history_people:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
+    "id": "76d540f4cbea0d28d36d5fa7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P161",
+    "source_id": "fixture:arts_culture:09",
+    "statement_id": "fixture-statement-arts_culture-08",
+    "target_id": "fixture:arts_culture:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
+    "id": "7ff99a77aaa26814a747dca5",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_science:10",
+    "statement_id": "fixture-statement-nature_science-10",
+    "target_id": "fixture:nature_science:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
+    "id": "827fa6a2c0a7fd8233f4cd99",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:history_people:03",
+    "statement_id": "fixture-statement-history_people-02",
+    "target_id": "fixture:history_people:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
+    "id": "8356a2fae33725d02e001e26",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_people:10",
+    "statement_id": "fixture-statement-history_people-10",
+    "target_id": "fixture:history_people:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
+    "id": "835da81db0baf8bebf3be4bf",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:arts_culture:01",
+    "statement_id": "fixture-statement-arts_culture-12",
+    "target_id": "fixture:arts_culture:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
+    "id": "83ae1c84da7aa1b8c116476f",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_science:02",
+    "statement_id": "fixture-statement-nature_science-01",
+    "target_id": "fixture:nature_science:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
+    "id": "83f4dad72d6810c251d2fd13",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_science:04",
+    "statement_id": "fixture-statement-nature_science-03",
+    "target_id": "fixture:nature_science:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
+    "id": "8577b108744c62a12c46bde7",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_science:10",
+    "statement_id": "fixture-statement-nature_science-09",
+    "target_id": "fixture:nature_science:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
+    "id": "875665e1769079c945da555e",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:01",
+    "statement_id": "fixture-statement-places-01",
+    "target_id": "fixture:places:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
+    "id": "8922cdd4c34cfbf4fff7a37d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:arts_culture:04",
+    "statement_id": "fixture-statement-arts_culture-04",
+    "target_id": "fixture:arts_culture:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
+    "id": "8d105d6b0b9e41dc2c3ab3cc",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:04",
+    "statement_id": "fixture-statement-places-04",
+    "target_id": "fixture:places:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
+    "id": "925eafaa588ff291e9f07e66",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places:11",
+    "statement_id": "fixture-statement-places-11",
+    "target_id": "fixture:places:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Field Station is located in Mosslight Preserve.",
+    "id": "93c80bc3da623884a9616987",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:nature_science:06",
+    "statement_id": "fixture-statement-nature_science-05",
+    "target_id": "fixture:nature_science:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Driftglass Suite was created by Sera Loom.",
+    "id": "94694f9b612cbbb63f4e1594",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:arts_culture:03",
+    "statement_id": "fixture-statement-arts_culture-03",
+    "target_id": "fixture:arts_culture:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
+    "id": "954b15bf94395cbaf138ebda",
+    "inverse": false,
     "playable": true,
     "relation_key": "P361",
+    "source_id": "fixture:history_people:11",
+    "statement_id": "fixture-statement-history_people-11",
+    "target_id": "fixture:history_people:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
+    "id": "96d24868005eb7c697fb53db",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:arts_culture:06",
+    "statement_id": "fixture-statement-arts_culture-05",
+    "target_id": "fixture:arts_culture:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
+    "id": "9a513aafcfd61514e628742d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:nature_science:08",
+    "statement_id": "fixture-statement-nature_science-08",
+    "target_id": "fixture:nature_science:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
+    "id": "9cca8644c2a8eff1af999482",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:arts_culture:05",
+    "statement_id": "fixture-statement-arts_culture-05",
+    "target_id": "fixture:arts_culture:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
+    "id": "a11da2341c71882dec401e20",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P69",
+    "source_id": "fixture:history_people:04",
+    "statement_id": "fixture-statement-history_people-03",
+    "target_id": "fixture:history_people:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
+    "id": "a16ee57626eb6bd8d4a8128c",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:06",
+    "statement_id": "fixture-statement-places-05",
+    "target_id": "fixture:places:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kei Moss was influenced by Rhea Dune.",
+    "id": "a7924af99d2ec5ac982b43e0",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:arts_culture:09",
+    "statement_id": "fixture-statement-arts_culture-09",
+    "target_id": "fixture:arts_culture:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
+    "id": "a80970e89ed4d1843a4405f4",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:arts_culture:06",
+    "statement_id": "fixture-statement-arts_culture-06",
+    "target_id": "fixture:arts_culture:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
+    "id": "a8413ed8418c8d25554e7888",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:arts_culture:12",
+    "statement_id": "fixture-statement-arts_culture-12",
+    "target_id": "fixture:arts_culture:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
+    "id": "a9803b9b11ae4959802824f2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:history_people:07",
+    "statement_id": "fixture-statement-history_people-07",
+    "target_id": "fixture:history_people:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
+    "id": "ac42746c2f8b10ac13b81dee",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:12",
+    "statement_id": "fixture-statement-places-12",
+    "target_id": "fixture:places:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
+    "id": "af055586c5e9f3cc9d162eda",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:history_people:06",
+    "statement_id": "fixture-statement-history_people-05",
+    "target_id": "fixture:history_people:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Republic of Avenmark is Calder City.",
+    "id": "b4badcf5eed228e1f985ea14",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:places:03",
+    "statement_id": "fixture-statement-places-03",
+    "target_id": "fixture:places:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
+    "id": "b825357554c1474ef9210a16",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:nature_science:08",
+    "statement_id": "fixture-statement-nature_science-07",
+    "target_id": "fixture:nature_science:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
+    "id": "b9f79efa582fd11742b83cd6",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
     "source_id": "fixture:arts_culture:11",
-    "statement_id": "fixture-statement-fee8ee13aac307ad0b44894c",
+    "statement_id": "fixture-statement-arts_culture-11",
     "target_id": "fixture:arts_culture:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
+    "id": "baf57f407ea5541113f5a1ba",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_science:04",
+    "statement_id": "fixture-statement-nature_science-04",
+    "target_id": "fixture:nature_science:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
+    "id": "bb00697234e1d866c330bad8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:history_people:08",
+    "statement_id": "fixture-statement-history_people-08",
+    "target_id": "fixture:history_people:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
+    "id": "bd4d2093256201a75b924751",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_science:05",
+    "statement_id": "fixture-statement-nature_science-04",
+    "target_id": "fixture:nature_science:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
+    "id": "be0531dfb175ca6a33bccdb3",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:nature_science:07",
+    "statement_id": "fixture-statement-nature_science-07",
+    "target_id": "fixture:nature_science:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
+    "id": "be2110ac8b830e25efd64c3a",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_people:04",
+    "statement_id": "fixture-statement-history_people-04",
+    "target_id": "fixture:history_people:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
+    "id": "bfbc9781b272150898b2cfa2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:history_people:02",
+    "statement_id": "fixture-statement-history_people-02",
+    "target_id": "fixture:history_people:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
+    "id": "c10e95cb901a8ccf1ea223ce",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:01",
+    "statement_id": "fixture-statement-places-12",
+    "target_id": "fixture:places:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
+    "id": "c6f5e84d43271d41f129487a",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P57",
+    "source_id": "fixture:arts_culture:08",
+    "statement_id": "fixture-statement-arts_culture-07",
+    "target_id": "fixture:arts_culture:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
+    "id": "cbc48c804cec205316518af9",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:history_people:10",
+    "statement_id": "fixture-statement-history_people-09",
+    "target_id": "fixture:history_people:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kei Moss was influenced by Rhea Dune.",
+    "id": "ce8f05de5d670f25cef09a28",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:arts_culture:10",
+    "statement_id": "fixture-statement-arts_culture-09",
+    "target_id": "fixture:arts_culture:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
+    "id": "cf13914bac0a26c54a281eeb",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_science:03",
+    "statement_id": "fixture-statement-nature_science-03",
+    "target_id": "fixture:nature_science:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
+    "id": "dc09ce20436596de7d6511e2",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places:10",
+    "statement_id": "fixture-statement-places-09",
+    "target_id": "fixture:places:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
+    "id": "dd32841be55888097e0efb04",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:places:07",
+    "statement_id": "fixture-statement-places-07",
+    "target_id": "fixture:places:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
+    "id": "df7d4a50b19df47b386437c2",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P161",
+    "source_id": "fixture:arts_culture:08",
+    "statement_id": "fixture-statement-arts_culture-08",
+    "target_id": "fixture:arts_culture:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
+    "id": "e87e22949cada5484722a3a4",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:places:08",
+    "statement_id": "fixture-statement-places-08",
+    "target_id": "fixture:places:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
+    "id": "eb3e76e6f9c81ca14df787f1",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:history_people:07",
+    "statement_id": "fixture-statement-history_people-06",
+    "target_id": "fixture:history_people:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
+    "id": "edd31695807f4a54cab4b765",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:arts_culture:03",
+    "statement_id": "fixture-statement-arts_culture-02",
+    "target_id": "fixture:arts_culture:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
+    "id": "ee7acfc258c0192dd186934f",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:history_people:09",
+    "statement_id": "fixture-statement-history_people-08",
+    "target_id": "fixture:history_people:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
+    "id": "f3143027effbe5fd164410ab",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places:12",
+    "statement_id": "fixture-statement-places-11",
+    "target_id": "fixture:places:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
+    "id": "f46c665003344ee131e1b3c1",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:places:03",
+    "statement_id": "fixture-statement-places-02",
+    "target_id": "fixture:places:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
+    "id": "f67b4fd1507c27f9da932157",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_science:11",
+    "statement_id": "fixture-statement-nature_science-11",
+    "target_id": "fixture:nature_science:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
+    "id": "f88a8822540e448453f24dad",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P19",
+    "source_id": "fixture:history_people:02",
+    "statement_id": "fixture-statement-history_people-01",
+    "target_id": "fixture:history_people:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
+    "id": "f9920d9da440228b7798a167",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:arts_culture:11",
+    "statement_id": "fixture-statement-arts_culture-10",
+    "target_id": "fixture:arts_culture:10"
   }
 ]

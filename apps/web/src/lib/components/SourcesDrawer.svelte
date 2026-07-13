@@ -1,5 +1,9 @@
 <script lang="ts">
   import type { EntitySummary } from "../api/types";
+  import {
+    provenanceFor,
+    verifiedWikidataUrlFor,
+  } from "../domain/entity-provenance";
   import AtlasIcon from "./AtlasIcon.svelte";
 
   let {
@@ -17,6 +21,10 @@
   } = $props();
 
   let closeButton = $state<HTMLButtonElement>();
+  let provenance = $derived(provenanceFor(entity));
+  let verifiedWikidataUrl = $derived(
+    entity ? verifiedWikidataUrlFor(entity) : undefined,
+  );
   $effect(() => {
     if (open) closeButton?.focus();
   });
@@ -58,13 +66,14 @@
     <div class="drawer__body source-ledger">
       {#if entity}
         <section>
-          <p class="source-ledger__index">Current entity · {entity.qid}</p>
+          <p class="source-ledger__index">{provenance.entityIndexLabel}</p>
           <h3>{entity.label}</h3>
           <p>{entity.description}</p>
-          {#if entity.source_url}
+          {#if provenance.notice}<p>{provenance.notice}</p>{/if}
+          {#if verifiedWikidataUrl}
             <a
               class="text-link"
-              href={entity.source_url}
+              href={verifiedWikidataUrl}
               target="_blank"
               rel="noreferrer"
             >
@@ -74,11 +83,11 @@
         </section>
       {:else}
         <section>
-          <p class="source-ledger__index">Open knowledge</p>
+          <p class="source-ledger__index">{provenance.entityIndexLabel}</p>
           <h3>Grounded, named connections</h3>
           <p>
-            Every playable link is compiled from a reviewed Wikidata statement
-            before release.
+            Published graph builds use reviewed source statements. Local smoke
+            builds use clearly labelled synthetic fixtures.
           </p>
         </section>
       {/if}
@@ -93,12 +102,16 @@
           <dd>None</dd>
         </div>
         <div>
+          <dt>Knowledge source</dt>
+          <dd>{provenance.knowledgeSource}</dd>
+        </div>
+        <div>
           <dt>Knowledge license</dt>
-          <dd>CC0</dd>
+          <dd>{provenance.knowledgeLicense}</dd>
         </div>
         <div>
           <dt>Review state</dt>
-          <dd>Curated fixture</dd>
+          <dd>{provenance.reviewState}</dd>
         </div>
       </dl>
 

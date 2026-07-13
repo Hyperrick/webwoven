@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { LeaderboardEntry, SessionSnapshot } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
+  import { routeRecap } from "../domain/route-recap";
 
   let {
     session,
@@ -30,6 +31,7 @@
             100,
         ),
   );
+  const recap = $derived(routeRecap(session));
 </script>
 
 <main class="results-page">
@@ -102,11 +104,8 @@
       />
       <div class="cartographer-recap__copy">
         <p class="eyebrow">Cartographer’s note</p>
-        <blockquote>
-          “You crossed from an artist into geography through a work and the
-          museum that holds it. That is a fine piece of mapmaking.”
-        </blockquote>
-        <p>Generated from the reviewed facts on this route.</p>
+        <blockquote>“{recap}”</blockquote>
+        <p>Deterministic recap from the route recorded above.</p>
       </div>
     </div>
     {#if session.mode === "daily"}

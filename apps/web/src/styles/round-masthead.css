@@ -1,0 +1,203 @@
+.round-masthead {
+  display: grid;
+  grid-template-columns: minmax(10rem, auto) minmax(24rem, 1fr) auto;
+  align-items: stretch;
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-ink);
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.round-masthead__context {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.round-masthead__identity {
+  display: grid;
+  align-content: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-right: 1px solid
+    color-mix(in srgb, var(--color-paper) 28%, transparent);
+}
+
+.round-masthead__state,
+.round-masthead__meta {
+  display: flex;
+  align-items: center;
+}
+
+.round-masthead__state {
+  gap: var(--space-2);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.round-masthead__marker {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--color-paper);
+  background: var(--color-signal);
+}
+
+.round-masthead__timer-context {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.round-masthead__meta {
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  color: color-mix(in srgb, var(--color-paper) 72%, transparent);
+  font-size: var(--text-12);
+}
+
+.round-masthead__meta span {
+  color: var(--color-signal);
+}
+
+.back-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 7.5rem;
+  min-height: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, var(--color-paper) 28%, transparent);
+  border-radius: 0;
+  color: var(--color-paper);
+  background: transparent;
+  font-size: var(--text-12);
+  font-weight: 600;
+}
+
+.back-action:not(:disabled):hover {
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+.back-action kbd {
+  margin-left: var(--space-1);
+  border-color: currentcolor;
+}
+
+.game-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  color: var(--color-paper);
+  background: transparent;
+}
+
+.game-metrics div {
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+  min-height: 4rem;
+  padding: var(--space-2) var(--space-4);
+  border-right: 1px solid
+    color-mix(in srgb, var(--color-paper) 28%, transparent);
+}
+
+.game-metrics dt {
+  color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+  font-family: var(--font-interface);
+  font-size: var(--text-12);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.game-metrics dd {
+  overflow: hidden;
+  margin-inline: 0;
+  font-family: var(--font-technical);
+  font-size: var(--text-20);
+  font-weight: 500;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-metrics dd.game-metrics__pending {
+  font-family: var(--font-interface);
+  font-size: var(--text-12);
+  font-weight: 600;
+}
+
+@media (width <= 50rem) {
+  .round-masthead {
+    grid-template-columns: 1fr auto;
+  }
+
+  .round-masthead__identity {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .game-metrics {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    border-top: 1px solid
+      color-mix(in srgb, var(--color-paper) 28%, transparent);
+  }
+
+  .back-action {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 6.5rem;
+  }
+
+  .back-action kbd {
+    display: none;
+  }
+}
+
+@media (width <= 32rem) {
+  .round-masthead__identity {
+    padding-inline: var(--space-3);
+  }
+
+  .round-masthead__meta {
+    font-size: 0.7rem;
+  }
+
+  .game-metrics div {
+    padding-inline: var(--space-2);
+  }
+
+  .game-metrics dd {
+    font-size: var(--text-16);
+  }
+
+  .back-action {
+    min-width: 3.5rem;
+    padding-inline: var(--space-3);
+  }
+
+  .back-action span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

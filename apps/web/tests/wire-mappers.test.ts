@@ -23,6 +23,7 @@ const session: WireSession = {
   round_id: "round-1",
   category: "arts_culture",
   difficulty: "normal",
+  optimal_distance: 3,
   start: entity("Q1", "Start"),
   target: entity("Q3", "Target"),
   current: entity("Q1", "Start"),
@@ -37,6 +38,7 @@ const session: WireSession = {
   final_score: null,
   relation_groups: [
     {
+      group_id: "P170-outgoing-created-by",
       property_id: "P170",
       label: "created by",
       direction: "outgoing",
@@ -48,6 +50,19 @@ const session: WireSession = {
         },
       ],
     },
+    {
+      group_id: "P170-incoming-creator-of",
+      property_id: "P170",
+      label: "creator of",
+      direction: "incoming",
+      edges: [
+        {
+          edge_token: "signed-inverse-edge",
+          explanation: "B was made by A.",
+          target: entity("Q4", "Inverse middle"),
+        },
+      ],
+    },
   ],
 };
 
@@ -55,10 +70,40 @@ describe("API wire adapters", () => {
   it("maps server sessions into presentation snapshots without calculating server scores", () => {
     const mapped = mapSession(session);
     expect(mapped.score).toBeNull();
-    expect(mapped.shortest_distance).toBeNull();
+    expect(mapped.difficulty).toBe("normal");
+    expect(mapped.shortest_distance).toBe(3);
     expect(mapped.relation_groups[0].glyph).toBe("work");
     expect(mapped.relation_groups[0].edges[0].statement).toBe("A made B.");
-    expect(mapped.current.source_url).toContain("Q1");
+    expect(mapped.relation_groups.map((group) => group.property_id)).toEqual([
+      "P170",
+      "P170",
+    ]);
+    expect(mapped.relation_groups.map((group) => group.group_id)).toEqual([
+      "P170-outgoing-created-by",
+      "P170-incoming-creator-of",
+    ]);
+    expect(mapped.relation_groups[1]).toMatchObject({
+      direction: "incoming",
+      label: "creator of",
+    });
+    expect(mapped.current).toMatchObject({
+      source_kind: "wikidata",
+      source_url: "https://www.wikidata.org/wiki/Q1",
+    });
+  });
+
+  it("does not fabricate Wikidata sources for synthetic fixture entities", () => {
+    const fixture = entity("fixture:arts_culture:01", "Tobin Rill");
+    const mapped = mapSession({
+      ...session,
+      start: fixture,
+      current: fixture,
+      navigation_stack: [fixture],
+      trail: [fixture],
+    });
+
+    expect(mapped.current.source_kind).toBe("synthetic_fixture");
+    expect(mapped.current.source_url).toBeUndefined();
   });
 
   it("unwraps leaderboards and maps room participants", () => {

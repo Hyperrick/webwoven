@@ -1,434 +1,434 @@
 [
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture navigator who charted the invented Northglass coast.",
+    "entity_type": "fictional_navigator",
     "id": "fixture:history_people:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 01"
+    "label": "Elian Voss"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture harbor town where the Northglass story begins.",
+    "entity_type": "fictional_harbor_town",
     "id": "fixture:history_people:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 02"
+    "label": "Gannet Hollow"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture academy for navigators and local historians.",
+    "entity_type": "fictional_academy",
     "id": "fixture:history_people:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 03"
+    "label": "Lantern School"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture historian who reconstructed early coastal journeys.",
+    "entity_type": "fictional_historian",
     "id": "fixture:history_people:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 04"
+    "label": "Nera Sol"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture book about the imagined Northglass coast.",
+    "entity_type": "fictional_book",
     "id": "fixture:history_people:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 05"
+    "label": "Tideglass Atlas"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture patron who funded public map rooms.",
+    "entity_type": "fictional_patron",
     "id": "fixture:history_people:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 06"
+    "label": "Ada Tideglass"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture learned society for mapmakers and archivists.",
+    "entity_type": "fictional_learned_society",
     "id": "fixture:history_people:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 07"
+    "label": "Wayfinder Circle"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture archivist who catalogued the Circle's expeditions.",
+    "entity_type": "fictional_archivist",
     "id": "fixture:history_people:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 08"
+    "label": "Rowan Sable"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture award for careful historical fieldwork.",
+    "entity_type": "fictional_award",
     "id": "fixture:history_people:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 09"
+    "label": "Hale Medal"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture explorer who organized a celebrated survey.",
+    "entity_type": "fictional_explorer",
     "id": "fixture:history_people:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 10"
+    "label": "Esten Hale"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture expedition across the invented Northglass coast.",
+    "entity_type": "fictional_expedition",
     "id": "fixture:history_people:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 11"
+    "label": "Meridian Expedition"
   },
   {
     "category": "history_people",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture research society that coordinates coastal studies.",
+    "entity_type": "fictional_research_society",
     "id": "fixture:history_people:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "History & People waypoint 12"
+    "label": "Northglass Society"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture moth with ochre wings in the Mosslight wetlands.",
+    "entity_type": "fictional_moth",
     "id": "fixture:nature_science:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 01"
+    "label": "Saffron glider"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture moth genus containing the imagined Saffron glider.",
+    "entity_type": "fictional_moth_genus",
     "id": "fixture:nature_science:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 02"
+    "label": "Glider moths"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture moth family containing several invented glider moths.",
+    "entity_type": "fictional_moth_family",
     "id": "fixture:nature_science:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 03"
+    "label": "Amberwing family"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture ecologist who described the Amberwing family.",
+    "entity_type": "fictional_ecologist",
     "id": "fixture:nature_science:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 04"
+    "label": "Tavi Morrow"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture field station for wetland research.",
+    "entity_type": "fictional_field_station",
     "id": "fixture:nature_science:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 05"
+    "label": "Bracken Field Station"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture nature preserve protecting fictional reed wetlands.",
+    "entity_type": "fictional_nature_preserve",
     "id": "fixture:nature_science:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 06"
+    "label": "Mosslight Preserve"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture country containing the imagined Mosslight wetlands.",
+    "entity_type": "fictional_country",
     "id": "fixture:nature_science:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 07"
+    "label": "Fenmere Republic"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture capital city of the invented Fenmere Republic.",
+    "entity_type": "fictional_capital_city",
     "id": "fixture:nature_science:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 08"
+    "label": "Fenmere City"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture observatory for nocturnal pollinator research.",
+    "entity_type": "fictional_observatory",
     "id": "fixture:nature_science:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 09"
+    "label": "Prism Observatory"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture instrument maker who studies night-flying insects.",
+    "entity_type": "fictional_instrument_maker",
     "id": "fixture:nature_science:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 10"
+    "label": "Celia Rune"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture scientific instrument for observing moth wing patterns.",
+    "entity_type": "fictional_scientific_instrument",
     "id": "fixture:nature_science:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 11"
+    "label": "Lumen Lens"
   },
   {
     "category": "nature_science",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture research survey of fictional wetland pollinators.",
+    "entity_type": "fictional_research_survey",
     "id": "fixture:nature_science:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nature & Science waypoint 12"
+    "label": "Saffron Glider Survey"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture singer known for intimate stage performances.",
+    "entity_type": "fictional_singer",
     "id": "fixture:arts_culture:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 01"
+    "label": "Juniper Vale"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture song with a slow, tidal refrain.",
+    "entity_type": "fictional_song",
     "id": "fixture:arts_culture:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 02"
+    "label": "Velvet Current"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture music collection built around coastal soundscapes.",
+    "entity_type": "fictional_music_collection",
     "id": "fixture:arts_culture:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 03"
+    "label": "Driftglass Suite"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture composer who writes for small theatre ensembles.",
+    "entity_type": "fictional_composer",
     "id": "fixture:arts_culture:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 04"
+    "label": "Sera Loom"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture libretto for an invented chamber opera.",
+    "entity_type": "fictional_libretto",
     "id": "fixture:arts_culture:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 05"
+    "label": "Paper Moon Libretto"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture writer of plays and musical texts.",
+    "entity_type": "fictional_writer",
     "id": "fixture:arts_culture:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 06"
+    "label": "Tobin Rill"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture film director inspired by experimental theatre.",
+    "entity_type": "fictional_film_director",
     "id": "fixture:arts_culture:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 07"
+    "label": "Orra Venn"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture film adapted from an imaginary stage work.",
+    "entity_type": "fictional_film",
     "id": "fixture:arts_culture:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 08"
+    "label": "Ochre Door"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture actor who performed in the Ochre Door ensemble.",
+    "entity_type": "fictional_actor",
     "id": "fixture:arts_culture:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 09"
+    "label": "Kei Moss"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture actor whose physical theatre shaped Kei Moss's work.",
+    "entity_type": "fictional_actor",
     "id": "fixture:arts_culture:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 10"
+    "label": "Rhea Dune"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture theatre company for collaborative performances.",
+    "entity_type": "fictional_theatre_company",
     "id": "fixture:arts_culture:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 11"
+    "label": "Hearthline Ensemble"
   },
   {
     "category": "arts_culture",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture theatre hosting new fictional works.",
+    "entity_type": "fictional_theatre",
     "id": "fixture:arts_culture:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Arts & Culture waypoint 12"
+    "label": "Dawn Stage"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture harbor on the invented Avenmark coast.",
+    "entity_type": "fictional_harbor",
     "id": "fixture:places:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 01"
+    "label": "Kestrel Bay"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture district surrounding the fictional harbor.",
+    "entity_type": "fictional_district",
     "id": "fixture:places:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 02"
+    "label": "South Kestrel District"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture country in this synthetic coastal atlas.",
+    "entity_type": "fictional_country",
     "id": "fixture:places:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 03"
+    "label": "Republic of Avenmark"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture capital city of the invented Republic of Avenmark.",
+    "entity_type": "fictional_capital_city",
     "id": "fixture:places:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 04"
+    "label": "Calder City"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture city ward known for bookbinders and map printers.",
+    "entity_type": "fictional_city_ward",
     "id": "fixture:places:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 05"
+    "label": "Lantern Ward"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture museum devoted to imaginary harbor histories.",
+    "entity_type": "fictional_museum",
     "id": "fixture:places:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 06"
+    "label": "Glasshouse Museum"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture book displayed in the Glasshouse Museum.",
+    "entity_type": "fictional_book",
     "id": "fixture:places:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 07"
+    "label": "Atlas of Small Harbors"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture cartographer who drew the Atlas of Small Harbors.",
+    "entity_type": "fictional_cartographer",
     "id": "fixture:places:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 08"
+    "label": "Wren Ilex"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture quay named for the fictional cartographer Wren Ilex.",
+    "entity_type": "fictional_quay",
     "id": "fixture:places:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 09"
+    "label": "Ilex Quay"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture guild hall near the edge of Ilex Quay.",
+    "entity_type": "fictional_guild_hall",
     "id": "fixture:places:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 10"
+    "label": "Ferrymakers Hall"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture festival celebrating fictional ferry traditions.",
+    "entity_type": "fictional_festival",
     "id": "fixture:places:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 11"
+    "label": "Saltline Festival"
   },
   {
     "category": "places",
-    "description": "Synthetic smoke-test waypoint; not production knowledge data.",
-    "entity_type": "fixture_item",
+    "description": "Fictional fixture pavilion overlooking the invented Kestrel Bay.",
+    "entity_type": "fictional_pavilion",
     "id": "fixture:places:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Places waypoint 12"
+    "label": "Tideway Pavilion"
   }
 ]

@@ -7,6 +7,7 @@ from pydantic import Field
 
 from webwoven_api.domain.hints import HintType
 from webwoven_api.domain.scoring import Difficulty
+from webwoven_api.graph.contracts import RelationDirection
 from webwoven_api.http.contracts.common import ApiModel, EntityResponse
 from webwoven_api.sessions.models import SessionMode, SessionStatus
 
@@ -52,9 +53,10 @@ class EdgeTargetResponse(ApiModel):
 
 
 class RelationGroupResponse(ApiModel):
+    group_id: str
     property_id: str
     label: str
-    direction: Literal["outgoing"] = "outgoing"
+    direction: RelationDirection
     edges: list[EdgeTargetResponse]
 
 
@@ -83,6 +85,7 @@ class SessionSnapshot(ApiModel):
     round_id: str
     category: str
     difficulty: Difficulty
+    optimal_distance: int
     start: EntityResponse
     target: EntityResponse
     current: EntityResponse

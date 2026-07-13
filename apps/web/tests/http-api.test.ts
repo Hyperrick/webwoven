@@ -18,6 +18,7 @@ const wireSession: WireSession = {
   round_id: "round",
   category: "places",
   difficulty: "normal",
+  optimal_distance: 3,
   start: item,
   target: { ...item, qid: "Q2", label: "Target" },
   current: item,

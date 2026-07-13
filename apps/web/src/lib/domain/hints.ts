@@ -17,7 +17,7 @@ export function applyHintToGroups(
       PROMISING_ENTITIES.includes(edge.target.qid),
     );
     const message = selected
-      ? `The “${selected.label}” bearing looks ${promising ? "promising" : "unlikely"}.`
+      ? `Compass: that kind of connection looks ${promising ? "promising" : "unlikely to shorten this route"}.`
       : "There is no bearing to evaluate here.";
     return {
       groups: groups.map((group) =>
@@ -40,8 +40,7 @@ export function applyHintToGroups(
       hint: {
         type,
         penalty: hintPenalty(type),
-        message:
-          "The Cartographer has marked a relation on a near-optimal route.",
+        message: "Lens: a connection on a near-optimal route is now marked.",
       },
     };
   }

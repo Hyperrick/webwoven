@@ -15,6 +15,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "The largest animal known to have existed",
     category: "nature_science",
     fact: "Its low-frequency calls can travel across entire ocean basins.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q421",
   },
   Q98: {
@@ -23,6 +24,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "The largest and deepest ocean on Earth",
     category: "places",
     fact: "It covers more area than all land on Earth combined.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q98",
   },
   Q17: {
@@ -31,6 +33,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Island country in East Asia",
     category: "places",
     fact: "Japan stretches along the western edge of the Pacific Ocean.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q17",
   },
   Q5586: {
@@ -39,6 +42,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Japanese artist of the Edo period",
     category: "arts_culture",
     fact: "He used more than thirty names during his long career.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q5586",
   },
   Q149116: {
@@ -48,6 +52,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
       "Woodblock print from Hokusai’s Thirty-six Views of Mount Fuji",
     category: "arts_culture",
     fact: "The print made Prussian blue famous across nineteenth-century Japan.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q149116",
   },
   Q219127: {
@@ -56,6 +61,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Species at serious risk of extinction",
     category: "nature_science",
     fact: "Conservation status is assessed using evidence about range and population.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q219127",
   },
   Q150830: {
@@ -64,6 +70,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Genus of rorqual whales",
     category: "nature_science",
     fact: "The genus includes blue, fin, sei and minke whales.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q150830",
   },
   Q99: {
@@ -72,6 +79,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "State on the western coast of the United States",
     category: "places",
     fact: "Its coast meets the eastern edge of the Pacific Ocean.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q99",
   },
   Q159183: {
@@ -80,6 +88,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Deepest oceanic trench on Earth",
     category: "nature_science",
     fact: "Its deepest surveyed point is Challenger Deep.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q159183",
   },
   Q1490: {
@@ -88,6 +97,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Capital and most populous city of Japan",
     category: "places",
     fact: "Tokyo began as the fishing village of Edo.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q1490",
   },
   Q39231: {
@@ -96,6 +106,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Volcano and highest mountain in Japan",
     category: "nature_science",
     fact: "The mountain appears throughout Hokusai’s print series.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q39231",
   },
   Q200759: {
@@ -104,6 +115,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Period of Japanese history from 1603 to 1868",
     category: "history_people",
     fact: "Urban publishing helped woodblock prints reach a broad audience.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q200759",
   },
   Q209772: {
@@ -112,6 +124,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Landscape print series by Hokusai",
     category: "arts_culture",
     fact: "Popular demand led to ten additional designs beyond the original thirty-six.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q209772",
   },
   Q6373: {
@@ -120,6 +133,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Public museum of human history, art and culture",
     category: "arts_culture",
     fact: "Its collection includes impressions of Hokusai’s Great Wave.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q6373",
   },
   Q84: {
@@ -128,6 +142,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Capital and largest city of the United Kingdom",
     category: "places",
     fact: "London’s museums hold collections drawn from across the world.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q84",
   },
   Q145: {
@@ -136,6 +151,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     description: "Country in northwestern Europe",
     category: "places",
     fact: "The United Kingdom comprises England, Scotland, Wales and Northern Ireland.",
+    source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q145",
   },
 };
@@ -288,6 +304,7 @@ export function relationGroupsFor(qid: string): RelationGroup[] {
       existing.edges.push(item);
     } else {
       grouped.set(key, {
+        group_id: `${edge.propertyId}-outgoing-${encodeURIComponent(edge.label)}`,
         property_id: edge.propertyId,
         label: edge.label,
         direction: "outgoing",
