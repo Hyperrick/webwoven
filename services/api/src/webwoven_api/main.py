@@ -65,6 +65,3 @@ async def _lifespan(application: FastAPI) -> AsyncGenerator[None]:
         yield
     finally:
         await container.close()
-
-
-app = create_app()

@@ -13,7 +13,7 @@ cp .env.example .env
 corepack pnpm install
 uv sync --all-packages --group dev
 docker compose up -d postgres valkey
-uv run --package webwoven-api uvicorn webwoven_api.main:app --reload
+uv run --package webwoven-api uvicorn webwoven_api.main:create_app --factory --reload
 pnpm dev
 ```
 

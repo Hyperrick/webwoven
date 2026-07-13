@@ -4,12 +4,21 @@ import argparse
 import json
 from pathlib import Path
 
-from webwoven_api.main import app
+from webwoven_api.main import create_app
+from webwoven_api.settings import Settings
 
 OUTPUT = Path("generated/openapi.json")
 
 
 def rendered_schema() -> str:
+    fixture = Path("data/fixtures/smoke")
+    app = create_app(
+        Settings(
+            environment="testing",
+            graph_path=fixture / "graph.sqlite3",
+            graph_manifest_path=fixture / "manifest.json",
+        )
+    )
     return json.dumps(app.openapi(), ensure_ascii=False, indent=2, sort_keys=True) + "\n"
 
 
