@@ -85,4 +85,65 @@ describe("HTTP API adapter", () => {
     );
     expect(moved.state_version).toBe(1);
   });
+
+  it("reports an empty success response with request context", async () => {
+    const api = new HttpApi({
+      fetch: vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(new Response(null, { status: 201 })),
+    });
+
+    await expect(api.createGuest()).rejects.toThrow(
+      "empty API response (201 POST /api/v1/guests)",
+    );
+  });
+
+  it("reports a non-JSON success response with request context", async () => {
+    const api = new HttpApi({
+      fetch: vi.fn<typeof fetch>().mockResolvedValue(
+        new Response("<html>proxy response</html>", {
+          status: 200,
+          headers: { "Content-Type": "text/html" },
+        }),
+      ),
+    });
+
+    await expect(api.getConfig()).rejects.toThrow(
+      "non-JSON API response (200 GET /api/v1/config)",
+    );
+  });
+
+  it("reports an empty stale-command response without leaking JSON errors", async () => {
+    const api = new HttpApi({
+      fetch: vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(new Response(null, { status: 409 })),
+    });
+
+    await expect(
+      api.sendCommand("session", {
+        type: "back",
+        client_command_id: "stale-command",
+        expected_state_version: 0,
+      }),
+    ).rejects.toThrow(
+      "empty API response (409 POST /api/v1/sessions/session/commands)",
+    );
+  });
+
+  it("allows report acknowledgements without a response body", async () => {
+    const api = new HttpApi({
+      fetch: vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(new Response(null, { status: 201 })),
+    });
+
+    await expect(
+      api.reportContent({
+        session_id: "session",
+        entity_qid: "Q1",
+        reason: "unclear",
+      }),
+    ).resolves.toBeUndefined();
+  });
 });
