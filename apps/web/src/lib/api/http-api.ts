@@ -1,4 +1,9 @@
 import { StaleSessionError } from "./errors";
+import {
+  readErrorMessage,
+  readJsonResponse,
+  type ApiResponseContext,
+} from "./response-body";
 import type {
   AppConfig,
   ContentReportInput,
@@ -94,19 +99,21 @@ export class HttpApi implements WebwovenApi {
     id: string,
     command: SessionCommand,
   ): Promise<SessionSnapshot> {
-    const response = await this.#send(`/api/v1/sessions/${id}/commands`, {
+    const path = `/api/v1/sessions/${id}/commands`;
+    const context = { method: "POST", path };
+    const response = await this.#send(path, {
       method: "POST",
       body: command,
     });
     if (response.status === 409) {
-      const stale = (await response.json()) as {
+      const stale = await readJsonResponse<{
         message: string;
         current: WireSession;
-      };
+      }>(response, context);
       throw new StaleSessionError(stale.message, mapSession(stale.current));
     }
-    await this.#assertOk(response);
-    const body = (await response.json()) as WireCommandResponse;
+    await this.#assertOk(response, context);
+    const body = await readJsonResponse<WireCommandResponse>(response, context);
     return mapSession(body.session);
   }
 
@@ -160,7 +167,9 @@ export class HttpApi implements WebwovenApi {
         : input.reason === "image"
           ? "broken_media"
           : "other";
-    await this.#request("/api/v1/content-reports", {
+    const path = "/api/v1/content-reports";
+    const context = { method: "POST", path };
+    const response = await this.#send(path, {
       method: "POST",
       body: {
         entity_qid: input.entity_qid,
@@ -168,13 +177,16 @@ export class HttpApi implements WebwovenApi {
         details: input.detail ?? "Flagged from the in-game provenance ledger.",
       },
     });
+    await this.#assertOk(response, context);
   }
 
   async #request<T>(path: string, options: RequestOptions = {}): Promise<T> {
+    const context = { method: options.method ?? "GET", path };
     const response = await this.#send(path, options);
-    await this.#assertOk(response);
-    if (response.status === 204) return undefined as T;
-    return (await response.json()) as T;
+    await this.#assertOk(response, context);
+    if (response.status === 204 || response.status === 205)
+      return undefined as T;
+    return readJsonResponse<T>(response, context);
   }
 
   #send(path: string, options: RequestOptions): Promise<Response> {
@@ -193,15 +205,13 @@ export class HttpApi implements WebwovenApi {
     });
   }
 
-  async #assertOk(response: Response): Promise<void> {
+  async #assertOk(
+    response: Response,
+    context: ApiResponseContext,
+  ): Promise<void> {
     if (response.ok) return;
-    let message = `Webwoven API request failed (${response.status}).`;
-    try {
-      const body = (await response.json()) as { message?: string };
-      if (body.message) message = body.message;
-    } catch {
-      // The status code remains the useful fallback when a proxy returns non-JSON.
-    }
+    let message = `Webwoven API request failed (${response.status} ${context.method} ${context.path}).`;
+    message = await readErrorMessage(response, message);
     throw new Error(message);
   }
 }

@@ -112,10 +112,9 @@
     router?.navigate(path, { bypassGuard });
   }
 
-  async function begin(mode: "solo" | "daily"): Promise<void> {
+  function begin(mode: "solo" | "daily"): void {
     session = undefined;
     navigate(`/play/${mode}`);
-    await startSession(mode);
   }
 
   async function startSession(mode: "solo" | "daily"): Promise<void> {
@@ -267,8 +266,8 @@
   <div id="page-content">
     {#if route.name === "home"}
       <LandingPage
-        onSolo={() => void begin("solo")}
-        onDaily={() => void begin("daily")}
+        onSolo={() => begin("solo")}
+        onDaily={() => begin("daily")}
         onRelay={() => navigate("/relay")}
       />
     {:else if route.name === "solo" || route.name === "daily" || route.name === "race"}
@@ -301,8 +300,8 @@
       <ResultsPage
         {session}
         {leaderboard}
-        onAgain={() => void begin("solo")}
-        onDaily={() => void begin("daily")}
+        onAgain={() => begin("solo")}
+        onDaily={() => begin("daily")}
         onHome={() => navigate("/")}
         onShare={() => void shareResult()}
       />
