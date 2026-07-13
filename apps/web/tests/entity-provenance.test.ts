@@ -63,7 +63,7 @@ describe("entity source provenance", () => {
     expect(presentation).toMatchObject({
       knowledgeSource: "Wikidata structured data",
       knowledgeLicense: "CC0",
-      reviewState: "Reviewed graph data",
+      reviewState: "Snapshot validated · editorial review pending",
     });
   });
 });

@@ -16,7 +16,6 @@ def app_settings(tmp_path: Path) -> Settings:
         origin="http://testserver",
         api_origin="http://testserver",
         graph_path=tmp_path / "missing.sqlite3",
-        allow_demo_graph=True,
         session_secret="test-session-secret-with-more-than-32-bytes",
         edge_secret="test-edge-secret-with-more-than-32-bytes",
     )

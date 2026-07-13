@@ -21,16 +21,23 @@ def generate_rounds(
     edges: Iterable[Edge],
     *,
     selection_seed: str = "webwoven-build-week-v1",
+    endpoint_ids: Iterable[str] | None = None,
 ) -> tuple[Round, ...]:
     """Choose 100 stable candidates and flag the deterministic 40-round starter review."""
     entity_values = tuple(entities)
+    allowed_endpoints = frozenset(endpoint_ids) if endpoint_ids is not None else None
     playable_edges = tuple(edge for edge in edges if edge.playable)
     adjacency = _adjacency(playable_edges)
     labels = {entity.id: entity.label for entity in entity_values}
     selected: list[Round] = []
 
     for category in CATEGORIES:
-        category_ids = sorted(entity.id for entity in entity_values if entity.category == category)
+        category_ids = sorted(
+            entity.id
+            for entity in entity_values
+            if entity.category == category
+            and (allowed_endpoints is None or entity.id in allowed_endpoints)
+        )
         buckets = _candidate_buckets(category_ids, adjacency)
         for difficulty in ("easy", "normal", "hard"):
             needed = CANDIDATE_DISTRIBUTION[difficulty]

@@ -23,9 +23,11 @@ deterministic and server-authoritative.
 - Local, immutable Wikidata graph with licensed Commons media
 - English desktop and mobile web experience
 
-The repository currently ships a deterministic synthetic smoke bundle for development. The
-production Wikidata graph, licensed media set, editorial approvals, load target, and public
-deployment remain dated milestones in the living documentation.
+Normal gameplay now requires an immutable Wikidata bundle. The repository retains a clearly
+labelled synthetic smoke fixture only for isolated automated tests; neither the browser nor the API
+silently substitutes it when the real atlas is unavailable. Licensed Commons media, editorial
+round approvals, the load target, and public deployment remain dated milestones in the living
+documentation.
 
 ## Local development
 
@@ -35,13 +37,14 @@ Prerequisites: Node 24+, Corepack, Python 3.13, uv, and Docker.
 corepack pnpm install
 uv sync --all-packages --group dev
 docker compose up -d postgres valkey
-uv run --package webwoven-pipeline webwoven-pipeline build-smoke
 uv run --package webwoven-api uvicorn webwoven_api.main:app --reload
 pnpm dev
 ```
 
-Copy `.env.example` to `.env` and replace local signing secrets before starting the API. No AI
-account, key, or runtime service is required to build, run, or play the game.
+Build and activate the real Wikidata playtest pack first by following
+[`docs/data/pipeline.md`](docs/data/pipeline.md). Copy `.env.example` to `.env` and replace local
+signing secrets before starting the API. No AI account, key, or runtime service is required to
+build, run, or play the game.
 The local Compose ports bind to loopback. Public deployments must use the separately validated
 production override described in `docs/operations/deployment.md`.
 

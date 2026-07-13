@@ -131,7 +131,7 @@
       </div>
       <div>
         <dt>Routes</dt>
-        <dd>Reviewed before play</dd>
+        <dd>Curated before release</dd>
       </div>
       <div>
         <dt>AI at runtime</dt>

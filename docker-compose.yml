@@ -43,7 +43,7 @@ services:
       WEBWOVEN_COOKIE_SECURE: ${WEBWOVEN_COOKIE_SECURE:-false}
       WEBWOVEN_USE_MEMORY_PERSISTENCE: "false"
     volumes:
-      - ${WEBWOVEN_GRAPH_DIR:-./data/fixtures/smoke}:/app/data:ro
+      - ${WEBWOVEN_GRAPH_DIR:-./data/builds/current}:/app/data:ro
     depends_on:
       postgres:
         condition: service_healthy

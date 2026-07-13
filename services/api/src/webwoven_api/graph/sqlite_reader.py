@@ -101,12 +101,20 @@ class SQLiteGraphReader:
         return tuple(_round_from_row(row) for row in rows)
 
     def distance_to_target(self, round_id: str, entity_id: str) -> int | None:
+        return self.distances_to_target(round_id, (entity_id,)).get(entity_id)
+
+    def distances_to_target(self, round_id: str, entity_ids: tuple[str, ...]) -> dict[str, int]:
+        unique_ids = tuple(dict.fromkeys(entity_ids))
+        if not unique_ids:
+            return {}
+        placeholders = ", ".join("?" for _ in unique_ids)
         with self._connect() as connection:
-            row = connection.execute(
-                "SELECT distance FROM distances WHERE round_id = ? AND entity_id = ?",
-                (round_id, entity_id),
-            ).fetchone()
-        return int(row[0]) if row is not None else None
+            rows = connection.execute(
+                f"SELECT entity_id, distance FROM distances "
+                f"WHERE round_id = ? AND entity_id IN ({placeholders})",
+                (round_id, *unique_ids),
+            ).fetchall()
+        return {str(row[0]): int(row[1]) for row in rows}
 
     def _read_metadata(self) -> dict[str, str]:
         with self._connect() as connection:

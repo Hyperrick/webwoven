@@ -6,6 +6,7 @@ from typing import Any, Protocol, cast
 
 from .registry import RelationRegistry
 from .seeds import SeedCatalog
+from .statement_policy import eligible_statements
 from .taxonomy import category_sort_key
 from .wikidata import WikidataBatch, entities_from_batches
 
@@ -85,9 +86,9 @@ def _outgoing_targets(entity: dict[str, Any], registry: RelationRegistry) -> tup
             continue
         statements = cast(list[Any], statements_value)
         relation_targets: set[str] = set()
-        for statement in statements:
+        for statement in eligible_statements(statements):
             target = _statement_target(statement)
-            if target is not None:
+            if target is not None and target != entity.get("id"):
                 relation_targets.add(target)
         targets.extend(sorted(relation_targets, key=_qid_number)[: relation.max_targets])
     return tuple(dict.fromkeys(targets))

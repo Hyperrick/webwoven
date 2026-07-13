@@ -30,7 +30,10 @@ Session snapshots expose the round's `optimal_distance` so clients present the s
 server scoring. Each relation group retains its semantic Wikidata `property_id` and also receives a
 stable `group_id` derived from property, direction, and label; clients use `group_id` for interface
 identity and `property_id` for graph and hint semantics. Direction is explicitly `outgoing` or
-`incoming`.
+`incoming`. For dense entities, the snapshot includes at most six distinct target entities. A
+pure route-safe selector uses precompiled distances to retain progress toward the target while
+varying the visible relation types; it never changes graph truth or accepts a move that is not a
+stored edge.
 
 ## Rooms
 

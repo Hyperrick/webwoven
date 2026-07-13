@@ -86,8 +86,9 @@
           <p class="source-ledger__index">{provenance.entityIndexLabel}</p>
           <h3>Grounded, named connections</h3>
           <p>
-            Published graph builds use reviewed source statements. Local smoke
-            builds use clearly labelled synthetic fixtures.
+            Active gameplay uses an immutable, verified graph bundle. Synthetic
+            fixtures are available only to explicitly configured automated
+            tests.
           </p>
         </section>
       {/if}

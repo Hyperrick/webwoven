@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import hashlib
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from typing import Any, cast
 
 from .models import Edge, Entity, MediaRecord
 from .registry import Relation, RelationRegistry
 from .relation_sentences import format_relation_sentence
+from .statement_policy import eligible_statements
 
 
 def normalize_entities(
@@ -22,12 +23,15 @@ def normalize_entities(
     for qid, raw in sorted(raw_entities.items(), key=lambda item: _qid_number(item[0])):
         if raw.get("missing") is True or qid not in category_by_qid:
             continue
+        label = _language_value(raw, "labels")
+        if not label:
+            continue
         image_name = _commons_file_name(raw)
         media = media_records.get(image_name) if image_name else None
         entities.append(
             Entity(
                 id=qid,
-                label=_language_value(raw, "labels") or qid,
+                label=label,
                 description=_language_value(raw, "descriptions"),
                 entity_type="wikidata_item",
                 category=category_by_qid[qid],
@@ -41,11 +45,23 @@ def normalize_entities(
 def normalize_edges(
     raw_entities: Mapping[str, dict[str, Any]],
     registry: RelationRegistry,
+    *,
+    allowed_qids: Iterable[str] | None = None,
 ) -> tuple[Edge, ...]:
-    known_qids = frozenset(raw_entities)
-    labels = {qid: _language_value(raw, "labels") or qid for qid, raw in raw_entities.items()}
+    known_qids = (
+        frozenset(allowed_qids)
+        if allowed_qids is not None
+        else frozenset(
+            qid
+            for qid, raw in raw_entities.items()
+            if raw.get("missing") is not True and _language_value(raw, "labels")
+        )
+    )
+    labels = {qid: _language_value(raw_entities[qid], "labels") for qid in known_qids}
     edges: dict[tuple[str, str, str], Edge] = {}
     for source_id, raw in sorted(raw_entities.items(), key=lambda item: _qid_number(item[0])):
+        if source_id not in known_qids:
+            continue
         claims_value = raw.get("claims")
         if not isinstance(claims_value, dict):
             continue
@@ -57,6 +73,8 @@ def normalize_edges(
             statements = cast(list[Any], statements_value)
             targets = _valid_targets(statements, relation.max_targets, known_qids)
             for target_id, statement_id in targets:
+                if target_id == source_id:
+                    continue
                 forward = _make_edge(
                     source_id,
                     target_id,
@@ -87,7 +105,7 @@ def _valid_targets(
     known_qids: frozenset[str],
 ) -> tuple[tuple[str, str], ...]:
     values: dict[str, str] = {}
-    for statement in statements:
+    for statement in eligible_statements(statements):
         parsed = _statement_target(statement)
         if parsed is not None and parsed[0] in known_qids:
             target_id, statement_id = parsed

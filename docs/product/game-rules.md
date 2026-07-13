@@ -17,7 +17,10 @@ Each reachable entity is a direct move button. It shows the entity name and the 
 fact sentence that justifies the connection; raw property labels are supporting metadata, not the
 player's main instruction. Multiple semantic edges to the same entity are grouped into one move;
 all facts remain attached while the deterministic primary fact is shown. Selecting a button follows
-that edge. The board layout uses fixed deterministic lanes derived from the session snapshot, so the
+that edge. Dense real entities may have dozens of Wikidata neighbors, so the server projects at
+most six distinct destinations into the current board. The projection is deterministic, rotates
+across relationship types, and always retains at least one edge that reduces the known distance to
+the goal. The board layout uses fixed deterministic lanes derived from the session snapshot, so the
 same graph state produces the same positions without a hand-authored scene.
 
 The timer is visually prominent but is not a live region, preventing screen readers from

@@ -5,9 +5,9 @@ from dataclasses import dataclass
 from webwoven_api.daily.completion import DailyCompletionRecorder
 from webwoven_api.daily.repository import DailyRepository
 from webwoven_api.daily.service import DailyService
+from webwoven_api.graph.bundle import load_graph_bundle
 from webwoven_api.graph.contracts import GraphReader
 from webwoven_api.graph.memory_reader import MemoryGraphReader
-from webwoven_api.graph.sqlite_reader import SQLiteGraphReader
 from webwoven_api.guests.repository import GuestRepository
 from webwoven_api.guests.service import GuestService
 from webwoven_api.http.presenters import SessionPresenter
@@ -91,8 +91,12 @@ def build_container(settings: Settings) -> AppContainer:
     """Compose domain services around memory or production infrastructure adapters."""
     graph: GraphReader
     if settings.graph_path.is_file():
-        graph = SQLiteGraphReader(settings.graph_path)
-    elif settings.allow_demo_graph:
+        graph = load_graph_bundle(
+            settings.graph_path,
+            settings.graph_manifest_path,
+            required_kind=("test_fixture" if settings.environment == "testing" else "wikidata"),
+        )
+    elif settings.environment == "testing":
         graph = MemoryGraphReader.demo()
     else:
         raise FileNotFoundError(f"Graph bundle not found: {settings.graph_path}")

@@ -17,6 +17,7 @@ from .registry import load_registry
 from .rounds import generate_rounds
 from .seeds import load_seeds
 from .wikidata import WikidataClient
+from .wikidata_bundle import build_wikidata_bundle
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_REGISTRY = PROJECT_ROOT / "data/relation-registry/relations.v1.json"
@@ -39,6 +40,8 @@ def main(argv: list[str] | None = None) -> int:
         _generate_rounds(args)
     elif command == "compile":
         _compile(args)
+    elif command == "build-wikidata-pack":
+        _build_wikidata_pack(args)
     elif command in {"generate-smoke", "build-smoke"}:
         if command == "build-smoke":
             args.registry = DEFAULT_REGISTRY
@@ -87,6 +90,11 @@ def _parser() -> argparse.ArgumentParser:
     )
     round_command.add_argument("--graph-source", type=Path, required=True)
     round_command.add_argument("--output", type=Path, required=True)
+    round_command.add_argument(
+        "--seeds",
+        type=Path,
+        help="restrict round starts and targets to reviewed anchors",
+    )
     round_command.add_argument("--selection-seed", default="webwoven-build-week-v1")
 
     compile_command = commands.add_parser("compile", help="compile normalized JSON to SQLite")
@@ -94,6 +102,17 @@ def _parser() -> argparse.ArgumentParser:
     compile_command.add_argument("--graph-source", type=Path, required=True)
     compile_command.add_argument("--rounds", type=Path, required=True)
     compile_command.add_argument("--output", type=Path, required=True)
+
+    wikidata_pack = commands.add_parser(
+        "build-wikidata-pack",
+        help="assemble a real-data local playtest bundle",
+    )
+    _registry_argument(wikidata_pack)
+    wikidata_pack.add_argument("--seeds", type=Path, required=True)
+    wikidata_pack.add_argument("--graph-source", type=Path, required=True)
+    wikidata_pack.add_argument("--output", type=Path, required=True)
+    wikidata_pack.add_argument("--created-at", required=True)
+    wikidata_pack.add_argument("--selection-seed", default="webwoven-build-week-v1")
 
     smoke = commands.add_parser("generate-smoke", help="create the complete synthetic smoke bundle")
     _registry_argument(smoke)
@@ -133,7 +152,11 @@ def _acquire(args: argparse.Namespace) -> None:
         max_entities=args.max_entities,
     )
     entities = normalize_entities(acquired.entities, acquired.category_by_qid)
-    edges = normalize_edges(acquired.entities, registry)
+    edges = normalize_edges(
+        acquired.entities,
+        registry,
+        allowed_qids=(item.id for item in entities),
+    )
     batches = [
         {
             "path": batch.cache_path.name,
@@ -170,7 +193,13 @@ def _generate_rounds(args: argparse.Namespace) -> None:
     source = _read_object(args.graph_source)
     entities = _entities(source.get("entities"))
     edges = _edges(source.get("edges"))
-    rounds = generate_rounds(entities, edges, selection_seed=args.selection_seed)
+    endpoint_ids = load_seeds(args.seeds).qids if args.seeds else None
+    rounds = generate_rounds(
+        entities,
+        edges,
+        selection_seed=args.selection_seed,
+        endpoint_ids=endpoint_ids,
+    )
     _write_new_json(args.output, [item.to_dict() for item in rounds])
 
 
@@ -184,6 +213,26 @@ def _compile(args: argparse.Namespace) -> None:
         _entities(source.get("entities")),
         _edges(source.get("edges")),
         _rounds(rounds_value),
+    )
+    print(build_id)
+
+
+def _build_wikidata_pack(args: argparse.Namespace) -> None:
+    source = _read_object(args.graph_source)
+    if source.get("schema_version") != 2 or source.get("source") != "wikidata":
+        raise ValueError("graph source must be a Wikidata schema-v2 acquisition")
+    registry = load_registry(args.registry)
+    seeds = load_seeds(args.seeds)
+    source_batches = _object_list(source.get("source_batches"), "source_batches")
+    build_id = build_wikidata_bundle(
+        args.output,
+        registry,
+        _entities(source.get("entities")),
+        _edges(source.get("edges")),
+        source_batches,
+        endpoint_ids=seeds.qids,
+        created_at=args.created_at,
+        selection_seed=args.selection_seed,
     )
     print(build_id)
 
