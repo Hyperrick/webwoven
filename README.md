@@ -37,7 +37,7 @@ Prerequisites: Node 24+, Corepack, Python 3.13, uv, and Docker.
 corepack pnpm install
 uv sync --all-packages --group dev
 docker compose up -d postgres valkey
-uv run --package webwoven-api uvicorn webwoven_api.main:app --reload
+uv run --package webwoven-api uvicorn webwoven_api.main:create_app --factory --reload
 pnpm dev
 ```
 

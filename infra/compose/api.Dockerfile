@@ -14,4 +14,4 @@ WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/services/api /app/services/api
 EXPOSE 8000
-CMD ["uvicorn", "webwoven_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips=*", "--ws-max-size", "65536"]
+CMD ["uvicorn", "webwoven_api.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips=*", "--ws-max-size", "65536"]

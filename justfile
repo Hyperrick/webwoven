@@ -8,7 +8,7 @@ dev-infra:
     docker compose up -d postgres valkey
 
 dev-api:
-    uv run --package webwoven-api uvicorn webwoven_api.main:app --reload
+    uv run --package webwoven-api uvicorn webwoven_api.main:create_app --factory --reload
 
 dev-web:
     pnpm --filter @webwoven/web dev
