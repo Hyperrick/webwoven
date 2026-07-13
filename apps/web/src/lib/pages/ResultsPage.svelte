@@ -91,12 +91,23 @@
 
   <section class="result-bottom">
     <div class="cartographer-recap">
-      <p class="eyebrow">Cartographer’s note</p>
-      <blockquote>
-        “You crossed from an artist into geography through a work and the museum
-        that holds it. That is a fine piece of mapmaking.”
-      </blockquote>
-      <p>Generated from the reviewed facts on this route.</p>
+      <img
+        class="cartographer-recap__portrait"
+        src="/illustrations/cartographer.webp"
+        alt="Illustration of Webwoven’s fictional Cartographer studying a map laid flat on a field table."
+        width="1086"
+        height="1448"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="cartographer-recap__copy">
+        <p class="eyebrow">Cartographer’s note</p>
+        <blockquote>
+          “You crossed from an artist into geography through a work and the
+          museum that holds it. That is a fine piece of mapmaking.”
+        </blockquote>
+        <p>Generated from the reviewed facts on this route.</p>
+      </div>
     </div>
     {#if session.mode === "daily"}
       <div class="leaderboard">

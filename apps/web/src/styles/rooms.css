@@ -390,6 +390,22 @@
   padding: var(--space-7);
 }
 
+.cartographer-recap {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.cartographer-recap__portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  border: 1px solid var(--color-ink);
+  object-fit: cover;
+}
+
 .result-bottom > * + * {
   border-left: 1px solid var(--color-ink);
 }
@@ -403,7 +419,7 @@
   line-height: 1.25;
 }
 
-.cartographer-recap > p:last-child,
+.cartographer-recap__copy > p:last-child,
 .next-route > p {
   color: var(--color-muted-ink);
   line-height: 1.5;
