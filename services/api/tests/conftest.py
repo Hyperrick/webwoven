@@ -18,6 +18,7 @@ def app_settings(tmp_path: Path) -> Settings:
         graph_path=tmp_path / "missing.sqlite3",
         session_secret="test-session-secret-with-more-than-32-bytes",
         edge_secret="test-edge-secret-with-more-than-32-bytes",
+        round_intro_seconds=0,
     )
 
 

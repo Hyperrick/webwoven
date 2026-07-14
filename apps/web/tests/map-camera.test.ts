@@ -9,6 +9,7 @@ import {
   gestureCamera,
   minimumMapZoom,
   panCamera,
+  panCameraToWorldPoint,
   panCameraToWorldX,
   screenToWorld,
   zoomCameraAt,
@@ -113,6 +114,20 @@ describe("map camera", () => {
     expect(panned.x + 1200 * panned.zoom).toBeCloseTo(220);
     expect(panned.y).toBe(camera.y);
     expect(panned.zoom).toBe(camera.zoom);
+  });
+
+  it("centers a returned node on both axes without changing zoom", () => {
+    const camera: MapCameraState = { x: -300, y: -100, zoom: 0.8 };
+    const centered = panCameraToWorldPoint(
+      camera,
+      { x: 1_200, y: 500 },
+      { x: 400, y: 300 },
+      environment,
+    );
+
+    expect(centered.x + 1_200 * centered.zoom).toBeCloseTo(400);
+    expect(centered.y + 500 * centered.zoom).toBeCloseTo(300);
+    expect(centered.zoom).toBe(camera.zoom);
   });
 
   it("maps presentation state to the renderer contract without drift", () => {

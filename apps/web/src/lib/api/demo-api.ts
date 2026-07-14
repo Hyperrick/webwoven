@@ -2,6 +2,7 @@ import type {
   AppConfig,
   ContentReportInput,
   DailyRound,
+  Difficulty,
   Guest,
   LeaderboardEntry,
   RoomSnapshot,
@@ -29,6 +30,7 @@ export class DemoApi implements WebwovenApi {
   #sessions = new Map<string, NavigationState>();
   #commandResults = new Map<string, SessionSnapshot>();
   #rooms = new DemoRoomCoordinator();
+  #roundCursor: Record<Difficulty, number> = { easy: 0, normal: 0, hard: 0 };
 
   async createGuest(displayName = this.#guest.display_name): Promise<Guest> {
     this.#guest = { ...this.#guest, display_name: displayName };
@@ -63,9 +65,33 @@ export class DemoApi implements WebwovenApi {
   }
 
   async createSession(input: {
-    mode: "solo" | "daily";
+    mode: "solo" | "daily" | "relay";
+    difficulty?: Difficulty;
   }): Promise<SessionSnapshot> {
-    const state = createNavigationState(id("session"), input.mode);
+    const difficulty = input.difficulty ?? "normal";
+    const routes = {
+      easy: [
+        { startQid: "Q5586", targetQid: "Q6373", optimalDistance: 2 },
+        { startQid: "Q421", targetQid: "Q17", optimalDistance: 2 },
+      ],
+      normal: [
+        { startQid: "Q5586", targetQid: "Q145", optimalDistance: 4 },
+        { startQid: "Q149116", targetQid: "Q145", optimalDistance: 3 },
+      ],
+      hard: [
+        { startQid: "Q5586", targetQid: "Q21", optimalDistance: 4 },
+        { startQid: "Q5586", targetQid: "Q145", optimalDistance: 4 },
+      ],
+    }[difficulty];
+    const cursor = input.mode === "solo" ? this.#roundCursor[difficulty] : 0;
+    if (input.mode === "solo") this.#roundCursor[difficulty] += 1;
+    const state = createNavigationState(
+      id("session"),
+      input.mode,
+      difficulty,
+      Date.now() + 5000,
+      routes[cursor % routes.length],
+    );
     this.#sessions.set(state.snapshot.id, state);
     return structuredClone(state.snapshot);
   }
@@ -82,6 +108,9 @@ export class DemoApi implements WebwovenApi {
     if (duplicate) return structuredClone(duplicate);
 
     const current = this.#requireSession(sessionId);
+    if (Date.now() < Date.parse(current.snapshot.started_at)) {
+      throw new Error("This round has not started yet.");
+    }
     if (command.expected_state_version !== current.snapshot.state_version) {
       throw new Error(
         "The route changed. The latest position has been restored.",
@@ -134,8 +163,8 @@ export class DemoApi implements WebwovenApi {
     ];
   }
 
-  async createRoom(): Promise<RoomSnapshot> {
-    return this.#rooms.create();
+  async createRoom(difficulty: Difficulty): Promise<RoomSnapshot> {
+    return this.#rooms.create(difficulty);
   }
 
   async joinRoom(code: string): Promise<RoomSnapshot> {
@@ -147,7 +176,16 @@ export class DemoApi implements WebwovenApi {
   }
 
   async startRoom(code: string): Promise<RoomSnapshot> {
-    return this.#rooms.start(code);
+    const sessionId = id("relay");
+    const room = this.#rooms.start(code, sessionId);
+    const state = createNavigationState(
+      sessionId,
+      "relay",
+      room.difficulty,
+      Date.parse(room.starts_at ?? new Date().toISOString()),
+    );
+    this.#sessions.set(sessionId, state);
+    return room;
   }
 
   async getRoom(code: string): Promise<RoomSnapshot> {

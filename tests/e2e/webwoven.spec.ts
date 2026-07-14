@@ -1,5 +1,26 @@
 import { expect, test, type Page } from "@playwright/test";
 
+async function confirmSolo(
+  page: Page,
+  difficulty: "Easy" | "Normal" | "Hard" = "Normal",
+): Promise<void> {
+  await expect(
+    page.getByRole("heading", { name: /Set the depth of the expedition/i }),
+  ).toBeVisible();
+  await page.getByRole("radio", { name: new RegExp(difficulty, "i") }).check();
+  await page.getByRole("button", { name: /Confirm and reveal/i }).click();
+  await expect(page.locator(".round-intro")).toBeVisible();
+}
+
+async function startSolo(
+  page: Page,
+  difficulty: "Easy" | "Normal" | "Hard" = "Normal",
+): Promise<void> {
+  await page.goto("/play/solo");
+  await confirmSolo(page, difficulty);
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
+}
+
 async function followTo(page: Page, entity: string): Promise<void> {
   const candidate = page
     .locator("button.map-choice, button.map-position--reachable")
@@ -41,6 +62,19 @@ test("Solo preserves visible history and guards browser Back", async ({
   await page.goto("/");
   await page.getByRole("button", { name: /Begin a route/i }).click();
   await expect(page).toHaveURL(/\/play\/solo$/);
+  await confirmSolo(page);
+  await expect(
+    page.locator(".round-intro__category").getByRole("heading", {
+      name: "Arts & Culture",
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".round-intro__card--start")).toContainText(
+    "Hokusai",
+  );
+  await expect(page.locator(".round-intro__card--goal")).toContainText(
+    "United Kingdom",
+  );
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   const round = page.getByRole("region", { name: "Reach United Kingdom" });
   await expect(round).toBeVisible();
   await expect(round.getByRole("status")).toContainText(
@@ -139,7 +173,7 @@ test("Solo preserves visible history and guards browser Back", async ({
   ).toBeVisible();
   await expect(page.locator(".game-map__trail li")).toHaveCount(3);
   await expect(
-    page.locator(".map-history-node--breadcrumb").filter({
+    page.locator(".map-history-node--discarded").filter({
       hasText: "The Great Wave off Kanagawa",
     }),
   ).toBeVisible();
@@ -153,7 +187,7 @@ test("Solo preserves visible history and guards browser Back", async ({
 test("Solo completes the four-move route and renders results", async ({
   page,
 }) => {
-  await page.goto("/play/solo");
+  await startSolo(page);
   await expect(
     page.getByRole("heading", { name: "Hokusai", exact: true }),
   ).toBeVisible();
@@ -195,12 +229,19 @@ test("Solo completes the four-move route and renders results", async ({
       name: /fictional Cartographer studying a map laid flat on a field table/i,
     }),
   ).toHaveAttribute("src", "/illustrations/cartographer.webp");
+
+  await page.getByRole("button", { name: /Try another route/i }).click();
+  await expect(page.getByRole("radio", { name: /Normal/i })).toBeChecked();
+  await page.getByRole("button", { name: /Confirm and reveal/i }).click();
+  await expect(page.locator(".round-intro__card--start")).toContainText(
+    "The Great Wave off Kanagawa",
+  );
 });
 
 test("an exhausted branch offers a contextual Back action", async ({
   page,
 }) => {
-  await page.goto("/play/solo");
+  await startSolo(page);
   await followTo(page, "Thirty-six Views of Mount Fuji");
 
   await expect(
@@ -223,12 +264,54 @@ test("an exhausted branch offers a contextual Back action", async ({
     page.getByRole("button", { name: "Back to Hokusai", exact: true }),
   ).toHaveCount(0);
   await expect(page.locator("button.map-choice")).toHaveCount(2);
+  const mutedBranch = page
+    .locator(".map-history-node--backtracked")
+    .filter({ hasText: "Thirty-six Views of Mount Fuji" });
+  await expect(mutedBranch).toBeVisible();
+  await expect(mutedBranch).toHaveCSS("opacity", "0.58");
+  const [currentBox, viewportBox] = await Promise.all([
+    page.locator(".map-position--current").boundingBox(),
+    page.locator(".game-map__viewport").boundingBox(),
+  ]);
+  expect(currentBox).not.toBeNull();
+  expect(viewportBox).not.toBeNull();
+  expect((currentBox?.x ?? 0) + (currentBox?.width ?? 0) / 2).toBeCloseTo(
+    (viewportBox?.x ?? 0) + (viewportBox?.width ?? 0) / 2,
+    -1,
+  );
+});
+
+test("Hard selection reveals its category and endpoints before controls unlock", async ({
+  page,
+}) => {
+  await page.goto("/play/solo");
+  await confirmSolo(page, "Hard");
+  await expect(page.locator(".round-intro__category")).toContainText(
+    "hard route",
+  );
+  await expect(page.locator(".round-intro__card--start")).toContainText(
+    "Hokusai",
+  );
+  await expect(page.locator(".round-intro__card--goal")).toContainText(
+    "England",
+  );
+  await expect(page.locator(".game-page__play")).toHaveAttribute("inert", "");
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
+  await expect(page.locator(".game-page__play")).not.toHaveAttribute(
+    "inert",
+    "",
+  );
 });
 
 test("Daily and Live Relay expose their complete entry states", async ({
   page,
 }) => {
   await page.goto("/play/daily");
+  await expect(page.getByRole("radio")).toHaveCount(0);
+  await expect(page.locator(".round-intro__category")).toContainText(
+    "normal route",
+  );
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   await expect(page.locator(".round-masthead__meta")).toContainText(
     "Daily connection",
   );
@@ -237,9 +320,14 @@ test("Daily and Live Relay expose their complete entry states", async ({
   await page.getByRole("button", { name: /Create relay/i }).click();
   await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
   await expect(page.getByText("2 / 4", { exact: true })).toBeVisible();
+  await expect(page.locator(".room-route-stamp")).toContainText(
+    "Arts & Culture · Normal",
+  );
   await page.getByRole("button", { name: "I’m ready" }).click();
   await page.getByRole("button", { name: /Start relay/i }).click();
   await expect(page).toHaveURL(/\/relay\/MAPS27$/);
+  await expect(page.locator(".round-intro")).toBeVisible();
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   await expect(page.locator(".round-masthead__meta")).toContainText(
     "Live relay",
   );
@@ -262,6 +350,9 @@ test("map stays playable when WebGL is unavailable", async ({ page }) => {
     });
   });
   await page.goto("/play/solo");
+  await confirmSolo(page);
+  await expect(page.locator(".round-intro--static")).toBeVisible();
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
 
   await expect(page.locator(".map-board-renderer")).toHaveAttribute(
     "data-render-state",
@@ -279,7 +370,7 @@ test("short phone layout keeps hint tools below playable moves", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 568 });
-  await page.goto("/play/solo");
+  await startSolo(page);
 
   const firstMove = page.locator("button.map-choice").first();
   const hintDock = page.locator(".hint-dock");

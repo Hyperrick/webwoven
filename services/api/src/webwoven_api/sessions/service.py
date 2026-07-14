@@ -1,7 +1,7 @@
 """Versioned, server-authoritative Route Race command orchestration."""
 
 from dataclasses import replace
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from uuid import uuid4
 
 from webwoven_api.daily.service import DailyService
@@ -32,6 +32,7 @@ from webwoven_api.sessions.models import (
     UseHintCommand,
 )
 from webwoven_api.sessions.repository import SessionRepository
+from webwoven_api.sessions.selection import RoundSelector
 
 
 class SessionService:
@@ -44,6 +45,8 @@ class SessionService:
         edge_tokens: EdgeTokenSigner,
         completion_recorder: SessionCompletionRecorder,
         command_authorizer: SessionCommandAuthorizer,
+        round_selector: RoundSelector,
+        start_delay_seconds: float = 5,
     ) -> None:
         self._graph = graph
         self._repository = repository
@@ -51,6 +54,8 @@ class SessionService:
         self._edge_tokens = edge_tokens
         self._completion_recorder = completion_recorder
         self._command_authorizer = command_authorizer
+        self._round_selector = round_selector
+        self._start_delay_seconds = start_delay_seconds
 
     async def create(
         self,
@@ -63,7 +68,14 @@ class SessionService:
         room_code: str | None = None,
         starts_at: datetime | None = None,
     ) -> GameSession:
-        round_, daily_day = await self._select_round(mode, round_id, category, difficulty)
+        round_, daily_day = await self._select_round(
+            guest_id,
+            mode,
+            round_id,
+            category,
+            difficulty,
+        )
+        start_time = starts_at or datetime.now(UTC) + timedelta(seconds=self._start_delay_seconds)
         session = GameSession(
             id=str(uuid4()),
             guest_id=guest_id,
@@ -73,7 +85,7 @@ class SessionService:
             navigation=start_navigation(round_.start_id),
             status=SessionStatus.ACTIVE,
             state_version=0,
-            started_at=starts_at or datetime.now(UTC),
+            started_at=start_time,
             room_code=room_code,
             daily_day=daily_day,
         )
@@ -103,6 +115,8 @@ class SessionService:
 
             if session.status is not SessionStatus.ACTIVE:
                 raise DomainError("session_not_active", "This route is no longer active.")
+            if datetime.now(UTC) < session.started_at:
+                raise DomainError("round_not_started", "This round has not started yet.")
             await self._command_authorizer.authorize(session)
             if command.expected_state_version != session.state_version:
                 raise StaleStateError(session.state_version)
@@ -246,6 +260,7 @@ class SessionService:
 
     async def _select_round(
         self,
+        guest_id: str,
         mode: SessionMode,
         round_id: str | None,
         category: str | None,
@@ -259,7 +274,10 @@ class SessionService:
             if round_ is None or not round_.published:
                 raise NotFoundError("Published round not found")
             return round_, None
-        rounds = self._graph.list_published_rounds(category=category, difficulty=difficulty)
-        if not rounds:
-            raise NotFoundError("No published round matches those filters")
-        return rounds[0], None
+        selected = await self._round_selector.select(
+            guest_id=guest_id,
+            category=category,
+            difficulty=difficulty or Difficulty.NORMAL,
+            source="solo",
+        )
+        return selected, None

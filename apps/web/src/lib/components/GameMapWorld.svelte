@@ -1,14 +1,17 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
   import {
     type MapBoard,
     type MapBoardNode,
     type MapBoardNodeRole,
     type MapMoveChoice,
   } from "../domain/map-board";
+  import type { MapTransition } from "../domain/map-transition";
   import AtlasIcon from "./AtlasIcon.svelte";
 
   let {
     board,
+    transition,
     busy = false,
     canGoBack = false,
     compassSelecting = false,
@@ -18,6 +21,7 @@
     onInspect,
   }: {
     board: MapBoard;
+    transition: MapTransition;
     busy?: boolean;
     canGoBack?: boolean;
     compassSelecting?: boolean;
@@ -95,6 +99,8 @@
       class="map-history-node"
       class:map-history-node--breadcrumb={taken}
       class:map-history-node--discarded={hasRole(node, "discarded") && !taken}
+      class:map-history-node--backtracked={transition.kind === "back" &&
+        transition.from_node_id === node.id}
       style={positionStyle(node)}
       data-map-node
       data-map-node-id={node.id}
@@ -116,28 +122,32 @@
 </div>
 
 {#if currentNode}
-  <div
-    class="map-position map-position--current map-position--inspectable"
-    style={positionStyle(currentNode)}
-    data-map-node
-    data-map-node-id={currentNode.id}
-    data-map-current="true"
-    data-map-focus="current"
-    role="status"
-    aria-live="polite"
-  >
-    <span class="map-position__kicker">You are here</span>
-    <h3>{currentNode.label}</h3>
-    <button
-      type="button"
-      class="map-position__inspect-button"
-      data-map-interactive="inspect"
-      aria-label={`Inspect current entity: ${currentNode.label}`}
-      onclick={() => onInspect(currentNode.id)}
+  {#key currentNode.id}
+    <div
+      class="map-position map-position--current map-position--inspectable"
+      style={positionStyle(currentNode)}
+      data-map-node
+      data-map-node-id={currentNode.id}
+      data-map-current="true"
+      data-map-focus="current"
+      role="status"
+      aria-live="polite"
+      in:fade={{ duration: transition.kind === "back" ? 260 : 160 }}
+      out:fade={{ duration: 180 }}
     >
-      Inspect
-    </button>
-  </div>
+      <span class="map-position__kicker">You are here</span>
+      <h3>{currentNode.label}</h3>
+      <button
+        type="button"
+        class="map-position__inspect-button"
+        data-map-interactive="inspect"
+        aria-label={`Inspect current entity: ${currentNode.label}`}
+        onclick={() => onInspect(currentNode.id)}
+      >
+        Inspect
+      </button>
+    </div>
+  {/key}
 {/if}
 
 {#if goalNode}
@@ -240,6 +250,7 @@
     data-map-near-focus="dead-end"
     role="group"
     aria-labelledby="dead-end-title"
+    out:fade={{ duration: 180 }}
   >
     <div
       class="game-map__dead-end-status"

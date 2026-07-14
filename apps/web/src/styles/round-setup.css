@@ -1,0 +1,117 @@
+.round-setup-page {
+  width: min(100% - 3rem, 90rem);
+  margin-inline: auto;
+  padding-block: var(--space-7) var(--space-8);
+}
+
+.round-setup {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(28rem, 1fr);
+  gap: var(--space-8);
+  align-items: end;
+  min-height: min(42rem, calc(100vh - 12rem));
+  padding-block: var(--space-7);
+  border-block: 1px solid var(--color-ink);
+}
+
+.round-setup__intro h1 {
+  margin-block: var(--space-4);
+  font-size: var(--text-64);
+}
+
+.round-setup__intro > p:last-child {
+  max-width: 34rem;
+  color: var(--color-muted-ink);
+  font-size: var(--text-20);
+  line-height: 1.55;
+}
+
+.round-setup__form {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper);
+}
+
+.difficulty-picker {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.difficulty-picker legend {
+  margin-bottom: var(--space-4);
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.difficulty-picker__options {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.difficulty-picker__option {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4);
+  border: 1px solid var(--color-rule);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.difficulty-picker__option:hover,
+.difficulty-picker__option--selected {
+  border-color: var(--color-signal);
+  background: color-mix(in srgb, var(--color-signal) 8%, var(--color-paper));
+}
+
+.difficulty-picker__option input {
+  margin-top: 0.25rem;
+  accent-color: var(--color-signal);
+}
+
+.difficulty-picker__option span {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.difficulty-picker__option strong {
+  font-family: var(--font-display);
+  font-size: var(--text-20);
+}
+
+.difficulty-picker__option small,
+.round-setup__note {
+  color: var(--color-muted-ink);
+}
+
+.round-setup__confirm {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.round-setup__note {
+  margin: 0;
+  font-size: var(--text-12);
+  line-height: 1.5;
+}
+
+@media (width <= 54rem) {
+  .round-setup {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .round-setup__intro h1 {
+    font-size: var(--text-48);
+  }
+}

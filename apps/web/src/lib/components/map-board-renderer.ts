@@ -10,13 +10,14 @@ import {
   type Object3D,
 } from "three";
 import type { MapBoardLink, MapBoardNode } from "../domain/map-board";
+import type { MapTransition } from "../domain/map-transition";
 import {
   isRenderableMapCameraView,
   mapCameraViewsEqual,
   visibleMapCameraRect,
   type MapCameraView,
 } from "../map-camera/map-camera-view";
-import { AtlasBoardScene } from "./map-board-scene";
+import { AtlasBoardScene, disposeSceneObject } from "./map-board-scene";
 
 const SETTLE_DURATION_MS = 320;
 const CAMERA_DEPTH = 1_000;
@@ -30,6 +31,8 @@ export class AtlasMapRenderer {
   readonly #renderer: WebGLRenderer;
   readonly #unavailable: UnavailableHandler;
   #board: AtlasBoardScene | null = null;
+  #retiredBoard: AtlasBoardScene | null = null;
+  #fadingMarker: Object3D | null = null;
   #nodes: readonly MapBoardNode[] | null = null;
   #links: readonly MapBoardLink[] | null = null;
   #worldWidth = 0;
@@ -70,6 +73,7 @@ export class AtlasMapRenderer {
     worldWidth: number,
     worldHeight: number,
     reducedMotion: boolean,
+    transition: MapTransition,
   ): void {
     if (this.#disposed) return;
     const boardChanged =
@@ -87,7 +91,7 @@ export class AtlasMapRenderer {
     this.#links = links;
     this.#worldWidth = worldWidth;
     this.#worldHeight = worldHeight;
-    this.#replaceBoard(!reducedMotion);
+    this.#replaceBoard(!reducedMotion, transition);
   }
 
   /** Updates only renderer size and camera projection; scene geometry is retained. */
@@ -137,9 +141,23 @@ export class AtlasMapRenderer {
     this.#unavailable();
   };
 
-  #replaceBoard(animate: boolean): void {
+  #replaceBoard(animate: boolean, transition: MapTransition): void {
     this.#cancelAnimation();
-    this.#disposeBoard();
+    this.#disposeRetiredBoard();
+    const previous = this.#board;
+    this.#board = null;
+    const fadingMarker =
+      animate && transition.kind === "back" && transition.from_node_id
+        ? previous?.detachMarker(transition.from_node_id)
+        : undefined;
+    if (previous) this.#scene.remove(previous.root);
+    if (fadingMarker && previous) {
+      this.#retiredBoard = previous;
+      this.#fadingMarker = fadingMarker;
+      this.#scene.add(fadingMarker);
+    } else {
+      previous?.dispose();
+    }
     this.#board = new AtlasBoardScene(
       this.#nodes ?? [],
       this.#links ?? [],
@@ -150,7 +168,7 @@ export class AtlasMapRenderer {
 
     if (animate && this.#board.settlingNodes.length > 0) {
       this.#board.settlingNodes.forEach((node) => node.scale.setScalar(0.76));
-      this.#animateSettle(this.#board.settlingNodes);
+      this.#animateSettle(this.#board.settlingNodes, fadingMarker);
       return;
     }
     this.#board.settlingNodes.forEach((node) => node.scale.setScalar(1));
@@ -158,22 +176,28 @@ export class AtlasMapRenderer {
   }
 
   #disposeBoard(): void {
+    this.#disposeRetiredBoard();
     if (!this.#board) return;
     this.#scene.remove(this.#board.root);
     this.#board.dispose();
     this.#board = null;
   }
 
-  #animateSettle(nodes: readonly Object3D[]): void {
+  #animateSettle(nodes: readonly Object3D[], fadingMarker?: Object3D): void {
     const startedAt = performance.now();
+    const duration = fadingMarker ? 440 : SETTLE_DURATION_MS;
     const tick = (now: number): void => {
-      const progress = Math.min(1, (now - startedAt) / SETTLE_DURATION_MS);
+      const progress = Math.min(1, (now - startedAt) / duration);
       const eased = 1 - (1 - progress) ** 3;
       const scale = 0.76 + eased * 0.24;
       nodes.forEach((node) => node.scale.setScalar(scale));
+      if (fadingMarker) setObjectOpacity(fadingMarker, 1 - progress);
       this.#render();
       if (progress < 1) this.#animationFrame = requestAnimationFrame(tick);
-      else this.#animationFrame = null;
+      else {
+        this.#animationFrame = null;
+        this.#disposeRetiredBoard();
+      }
     };
     this.#animationFrame = requestAnimationFrame(tick);
   }
@@ -182,6 +206,7 @@ export class AtlasMapRenderer {
     if (this.#animationFrame === null) return;
     this.#cancelAnimation();
     this.#board?.settlingNodes.forEach((node) => node.scale.setScalar(1));
+    this.#disposeRetiredBoard();
     this.#render();
   }
 
@@ -191,8 +216,33 @@ export class AtlasMapRenderer {
     this.#animationFrame = null;
   }
 
+  #disposeRetiredBoard(): void {
+    if (this.#fadingMarker) {
+      this.#scene.remove(this.#fadingMarker);
+      disposeSceneObject(this.#fadingMarker);
+      this.#fadingMarker = null;
+    }
+    this.#retiredBoard?.dispose();
+    this.#retiredBoard = null;
+  }
+
   #render(): void {
     if (!this.#view) return;
     this.#renderer.render(this.#scene, this.#camera);
   }
+}
+
+function setObjectOpacity(object: Object3D, opacity: number): void {
+  object.traverse((child) => {
+    if (!("material" in child)) return;
+    const value = child as Object3D & {
+      material: { opacity: number; transparent: boolean; userData: object };
+    };
+    const material = value.material;
+    const userData = material.userData as { baseOpacity?: number };
+    const base = userData.baseOpacity ?? material.opacity;
+    userData.baseOpacity = base;
+    material.transparent = true;
+    material.opacity = base * Math.max(0, opacity);
+  });
 }

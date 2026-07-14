@@ -104,7 +104,10 @@ function visitNodes(
       priorChoices?.findIndex((choice) => choice.selected) ?? -1;
     const absoluteY =
       selectedIndex >= 0 ? laneY(selectedIndex, layout) : centerY(layout);
-    const nodeRoles: MapBoardNodeRole[] = ["trail"];
+    const wasBacktracked = visits[index + 1]?.action === "back";
+    const nodeRoles: MapBoardNodeRole[] = wasBacktracked
+      ? ["discarded"]
+      : ["trail"];
     if (index === 0) nodeRoles.push("start");
     if (index === visits.length - 1) nodeRoles.push("current");
     if (visit.qid === snapshot.target.qid) nodeRoles.push("goal");

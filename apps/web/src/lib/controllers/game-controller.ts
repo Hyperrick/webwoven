@@ -1,5 +1,6 @@
 import type {
   GameMode,
+  Difficulty,
   HintType,
   SessionSnapshot,
   TrailEntry,
@@ -85,8 +86,16 @@ export class GameController {
     this.#api = api;
   }
 
-  start(mode: GameMode, roundId?: string): Promise<SessionSnapshot> {
-    return this.#api.createSession({ mode, round_id: roundId });
+  start(
+    mode: GameMode,
+    roundId?: string,
+    difficulty?: Difficulty,
+  ): Promise<SessionSnapshot> {
+    return this.#api.createSession({
+      mode,
+      ...(roundId === undefined ? {} : { round_id: roundId }),
+      ...(difficulty === undefined ? {} : { difficulty }),
+    });
   }
 
   resume(sessionId: string): Promise<SessionSnapshot> {

@@ -5,12 +5,14 @@ from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 from webwoven_api.domain.errors import DomainError, ForbiddenError, NotFoundError
+from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import GraphReader, Round
 from webwoven_api.guests.models import Guest
 from webwoven_api.rooms.broker import RoomEventBroker
 from webwoven_api.rooms.models import Participant, Room, RoomEvent, RoomState
 from webwoven_api.rooms.repository import RoomRepository
 from webwoven_api.sessions.models import GameSession, SessionMode, SessionStatus
+from webwoven_api.sessions.selection import RoundSelector
 from webwoven_api.sessions.service import SessionService
 
 _CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
@@ -24,14 +26,23 @@ class RoomService:
         repository: RoomRepository,
         broker: RoomEventBroker,
         sessions: SessionService,
+        round_selector: RoundSelector,
+        start_delay_seconds: float = 5,
     ) -> None:
         self._graph = graph
         self._repository = repository
         self._broker = broker
         self._sessions = sessions
+        self._round_selector = round_selector
+        self._start_delay_seconds = start_delay_seconds
 
-    async def create(self, guest: Guest, round_id: str | None = None) -> Room:
-        round_ = self._select_round(round_id)
+    async def create(
+        self,
+        guest: Guest,
+        difficulty: Difficulty,
+        round_id: str | None = None,
+    ) -> Room:
+        round_ = await self._select_round(guest.id, difficulty, round_id)
         for _ in range(20):
             code = "".join(secrets.choice(_CROCKFORD) for _ in range(6))
             now = datetime.now(UTC)
@@ -111,7 +122,7 @@ class RoomService:
             if not all(participant.ready for participant in room.participants):
                 raise DomainError("players_not_ready", "Every player must be ready.")
 
-            countdown_ends_at = datetime.now(UTC) + timedelta(seconds=3)
+            countdown_ends_at = datetime.now(UTC) + timedelta(seconds=self._start_delay_seconds)
             participants: list[Participant] = []
             for participant in room.participants:
                 session = await self._sessions.create(
@@ -258,16 +269,23 @@ class RoomService:
             raise NotFoundError("Room not found")
         return room
 
-    def _select_round(self, round_id: str | None) -> Round:
+    async def _select_round(
+        self,
+        guest_id: str,
+        difficulty: Difficulty,
+        round_id: str | None,
+    ) -> Round:
         if round_id is not None:
             round_ = self._graph.get_round(round_id)
             if round_ is None or not round_.published:
                 raise NotFoundError("Published round not found")
             return round_
-        rounds = self._graph.list_published_rounds()
-        if not rounds:
-            raise NotFoundError("No published rounds are available")
-        return rounds[0]
+        return await self._round_selector.select(
+            guest_id=guest_id,
+            category=None,
+            difficulty=difficulty,
+            source="relay",
+        )
 
 
 def _append_event(

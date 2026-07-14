@@ -99,6 +99,27 @@ export function panCameraToWorldX(
   );
 }
 
+/** Pan so one world point lands at a chosen viewport point without zooming. */
+export function panCameraToWorldPoint(
+  camera: MapCameraState,
+  worldPoint: MapPoint,
+  screenPoint: MapPoint,
+  environment: MapCameraEnvironment,
+): MapCameraState {
+  if (
+    ![worldPoint.x, worldPoint.y, screenPoint.x, screenPoint.y].every(
+      Number.isFinite,
+    )
+  ) {
+    return clampCamera(camera, environment);
+  }
+  return {
+    ...camera,
+    x: screenPoint.x - worldPoint.x * camera.zoom,
+    y: screenPoint.y - worldPoint.y * camera.zoom,
+  };
+}
+
 export function zoomCameraAt(
   camera: MapCameraState,
   nextZoom: number,

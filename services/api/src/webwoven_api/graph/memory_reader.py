@@ -88,21 +88,23 @@ class MemoryGraphReader:
             )
             for edge_id, source, target, relation, label in edge_data
         )
-        round_ = Round(
-            id="demo-history-easy",
-            start_id="Q1",
-            target_id="Q4",
-            category="history",
-            difficulty=Difficulty.EASY,
-            optimal_distance=3,
-            time_window=TIME_WINDOWS[Difficulty.EASY],
-            published=True,
+        rounds = tuple(
+            Round(
+                id=f"demo-history-{difficulty.value}-{index}",
+                start_id="Q1",
+                target_id="Q4",
+                category="history_people",
+                difficulty=difficulty,
+                optimal_distance=3,
+                time_window=TIME_WINDOWS[difficulty],
+                published=True,
+            )
+            for difficulty in Difficulty
+            for index in (1, 2)
         )
         distances = {
-            (round_.id, "Q1"): 3,
-            (round_.id, "Q2"): 2,
-            (round_.id, "Q3"): 1,
-            (round_.id, "Q4"): 0,
-            (round_.id, "Q5"): 1,
+            (round_.id, qid): distance
+            for round_ in rounds
+            for qid, distance in {"Q1": 3, "Q2": 2, "Q3": 1, "Q4": 0, "Q5": 1}.items()
         }
-        return cls(entities=entities, edges=edges, rounds=(round_,), distances=distances)
+        return cls(entities=entities, edges=edges, rounds=rounds, distances=distances)

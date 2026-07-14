@@ -92,6 +92,8 @@ describe("API wire adapters", () => {
     const mapped = mapSession(session);
     expect(mapped.score).toBeNull();
     expect(mapped.difficulty).toBe("normal");
+    expect(mapped.category).toBe("arts_culture");
+    expect(mapped.started_at).toBe("2026-07-13T10:00:00Z");
     expect(mapped.shortest_distance).toBe(3);
     expect(mapped.navigation_stack?.map(({ qid }) => qid)).toEqual(["Q1"]);
     expect(mapped.decision_history).toEqual([
@@ -234,6 +236,8 @@ describe("API wire adapters", () => {
       is_host: true,
       graph_version: "graph-1",
       round_id: "round-1",
+      category: "arts_culture",
+      difficulty: "hard",
       start: entity("Q1", "Start"),
       target: entity("Q3", "Target"),
       participants: [
@@ -257,6 +261,10 @@ describe("API wire adapters", () => {
 
     expect(leaderboard[0].score).toBe(990);
     expect(mapRoom(room)).toMatchObject({
+      category: "arts_culture",
+      difficulty: "hard",
+      start: { qid: "Q1" },
+      target: { qid: "Q3" },
       current_session_id: "relay-session",
       players: [{ progress: "closing-in", is_host: true }],
     });

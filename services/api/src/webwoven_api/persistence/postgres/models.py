@@ -45,6 +45,29 @@ class SessionRow(Base):
     final_score: Mapped[int | None] = mapped_column(Integer)
 
 
+class RoundSelectionRow(Base):
+    __tablename__ = "round_selections"
+    __table_args__ = (
+        Index(
+            "ix_round_selections_guest_filter",
+            "guest_id",
+            "graph_version",
+            "category_filter",
+            "difficulty_filter",
+            "selected_at",
+        ),
+    )
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    guest_id: Mapped[str] = mapped_column(ForeignKey("guests.id"), index=True)
+    graph_version: Mapped[str] = mapped_column(String(100))
+    round_id: Mapped[str] = mapped_column(String(100))
+    category_filter: Mapped[str | None] = mapped_column(String(40))
+    difficulty_filter: Mapped[str] = mapped_column(String(20))
+    source: Mapped[str] = mapped_column(String(20))
+    selected_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
 class SessionCommandRow(Base):
     __tablename__ = "session_commands"
 

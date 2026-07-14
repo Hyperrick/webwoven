@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     cookie_name: str = "ww_guest"
     csrf_cookie_name: str = "ww_csrf"
     edge_token_ttl_seconds: int = Field(default=300, ge=30, le=3600)
+    round_intro_seconds: float = Field(default=5, ge=0, le=15)
     use_memory_persistence: bool = True
     auto_create_schema: bool = True
     room_active_ttl_seconds: int = Field(default=3600, ge=300, le=86400)

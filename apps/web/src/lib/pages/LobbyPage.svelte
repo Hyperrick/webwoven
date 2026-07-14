@@ -1,6 +1,8 @@
 <script lang="ts">
-  import type { RoomSnapshot } from "../api/types";
+  import type { Difficulty, RoomSnapshot } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
+  import DifficultyPicker from "../components/DifficultyPicker.svelte";
+  import { loadDifficulty, persistDifficulty } from "../round-setup/difficulty";
 
   let {
     room,
@@ -12,19 +14,32 @@
   }: {
     room?: RoomSnapshot;
     busy?: boolean;
-    onCreate: () => void;
+    onCreate: (difficulty: Difficulty) => void;
     onJoin: (code: string) => void;
     onReady: () => void;
     onStart: () => void;
   } = $props();
 
   let code = $state("");
+  let relayDifficulty = $state<Difficulty>(loadDifficulty("relay"));
   let allReady = $derived(
     room?.players.every((player) => player.ready) ?? false,
   );
   let currentPlayer = $derived(
     room?.players.find((player) => player.is_current_guest),
   );
+
+  function createRoom(): void {
+    persistDifficulty("relay", relayDifficulty);
+    onCreate(relayDifficulty);
+  }
+
+  function titleCase(value: string): string {
+    return value
+      .split("_")
+      .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+      .join(" & ");
+  }
 </script>
 
 <main class="lobby-page">
@@ -46,11 +61,16 @@
           <p>
             Receive a short field code and invite up to three other explorers.
           </p>
+          <DifficultyPicker
+            bind:value={relayDifficulty}
+            legend="Relay difficulty"
+            disabled={busy}
+          />
           <button
             class="primary-action"
             type="button"
             disabled={busy}
-            onclick={onCreate}
+            onclick={createRoom}
           >
             Create relay <AtlasIcon name="arrow" size={20} />
           </button>
@@ -97,6 +117,14 @@
           <strong>{room.code}</strong>
         </div>
       </header>
+
+      <div class="room-route-stamp" aria-label="Locked relay route settings">
+        <span>Locked route</span>
+        <strong
+          >{titleCase(room.category)} · {titleCase(room.difficulty)}</strong
+        >
+        <small>{room.start.label} → {room.target.label}</small>
+      </div>
 
       <div class="room-sheet__body">
         <section class="roster" aria-labelledby="roster-title">

@@ -1,6 +1,7 @@
 import type {
   DecisionChoice,
   DecisionStage,
+  Difficulty,
   GameMode,
   HintType,
   RelationGroup,
@@ -18,6 +19,12 @@ export interface NavigationState {
   snapshot: SessionSnapshot;
   stack: string[];
   startedAt: number;
+}
+
+export interface DemoRoute {
+  startQid: string;
+  targetQid: string;
+  optimalDistance: number;
 }
 
 function elapsedSeconds(state: NavigationState): number {
@@ -103,17 +110,27 @@ function resolvedStage(
 export function createNavigationState(
   id: string,
   mode: GameMode,
+  difficulty: Difficulty = "normal",
+  scheduledStart = Date.now(),
+  route: DemoRoute = {
+    startQid: "Q5586",
+    targetQid: "Q145",
+    optimalDistance: 4,
+  },
 ): NavigationState {
-  const start = DEMO_ENTITIES.Q5586;
+  const start = DEMO_ENTITIES[route.startQid];
+  const target = DEMO_ENTITIES[route.targetQid];
   return {
     stack: [start.qid],
-    startedAt: Date.now(),
+    startedAt: scheduledStart,
     snapshot: {
       id,
       mode,
-      difficulty: "normal",
+      category: start.category,
+      difficulty,
+      started_at: new Date(scheduledStart).toISOString(),
       start,
-      target: DEMO_ENTITIES.Q145,
+      target,
       current: start,
       trail: [{ qid: start.qid, label: start.label }],
       navigation_stack: [start],
@@ -123,7 +140,7 @@ export function createNavigationState(
       score: 1000,
       status: "active",
       state_version: 0,
-      shortest_distance: 4,
+      shortest_distance: route.optimalDistance,
       elapsed_seconds: 0,
       relation_groups: relationGroupsFor(start.qid, new Set([start.qid])),
     },

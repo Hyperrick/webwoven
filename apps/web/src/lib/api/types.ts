@@ -1,4 +1,4 @@
-export type GameMode = "solo" | "daily";
+export type GameMode = "solo" | "daily" | "relay";
 export type SessionStatus = "active" | "completed" | "abandoned" | "expired";
 export type HintType = "compass" | "lens" | "map_fragment";
 export type Difficulty = "easy" | "normal" | "hard";
@@ -12,6 +12,7 @@ export interface EntitySummary {
   description: string;
   category: Category;
   source_kind: EntitySourceKind;
+  image_path?: string;
   fact?: string;
   source_url?: string;
 }
@@ -82,7 +83,9 @@ export interface UsedHint {
 export interface SessionSnapshot {
   id: string;
   mode: GameMode;
+  category: Category;
   difficulty: Difficulty;
+  started_at: string;
   start: EntitySummary;
   target: EntitySummary;
   current: EntitySummary;
@@ -157,6 +160,10 @@ export interface RoomPlayer {
 export interface RoomSnapshot {
   code: string;
   state: RoomState;
+  category: Category;
+  difficulty: Difficulty;
+  start: EntitySummary;
+  target: EntitySummary;
   players: RoomPlayer[];
   max_players: number;
   starts_at?: string;
@@ -185,11 +192,13 @@ export interface WebwovenApi {
   createSession(input: {
     mode: GameMode;
     round_id?: string;
+    category?: Category;
+    difficulty?: Difficulty;
   }): Promise<SessionSnapshot>;
   getSession(id: string): Promise<SessionSnapshot>;
   sendCommand(id: string, command: SessionCommand): Promise<SessionSnapshot>;
   getDailyLeaderboard(): Promise<LeaderboardEntry[]>;
-  createRoom(): Promise<RoomSnapshot>;
+  createRoom(difficulty: Difficulty): Promise<RoomSnapshot>;
   joinRoom(code: string): Promise<RoomSnapshot>;
   setRoomReady(code: string, ready: boolean): Promise<RoomSnapshot>;
   startRoom(code: string): Promise<RoomSnapshot>;

@@ -5,6 +5,7 @@
     MapBoardLink,
     MapBoardNode,
   } from "../domain/map-board";
+  import type { MapTransition } from "../domain/map-transition";
   import {
     visibleMapCameraRect,
     type MapCameraView,
@@ -19,10 +20,12 @@
 
   let {
     board,
+    transition,
     view,
     class: className = "",
   }: {
     board: MapBoard;
+    transition: MapTransition;
     view: MapCameraView;
     class?: string;
   } = $props();
@@ -100,6 +103,7 @@
       camera.world_width,
       camera.world_height,
       reducedMotion,
+      transition,
     );
     renderer?.setCameraView(camera);
   });

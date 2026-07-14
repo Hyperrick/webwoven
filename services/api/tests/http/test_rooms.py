@@ -7,12 +7,16 @@ from webwoven_api.settings import Settings
 
 
 def test_two_player_room_and_reconnect_snapshot(app_settings: Settings) -> None:
-    app = create_app(app_settings)
+    app = create_app(app_settings.model_copy(update={"round_intro_seconds": 5}))
     with TestClient(app) as host, TestClient(app) as guest:
         host_headers = create_guest(host, "Host Atlas")
         guest_headers = create_guest(guest, "Guest Atlas")
-        created = host.post("/api/v1/rooms", headers=host_headers, json={})
+        created = host.post("/api/v1/rooms", headers=host_headers, json={"difficulty": "easy"})
         assert created.status_code == 201
+        assert created.json()["category"] == "history_people"
+        assert created.json()["difficulty"] == "easy"
+        assert created.json()["start"]["qid"] == "Q1"
+        assert created.json()["target"]["qid"] == "Q4"
         code = created.json()["code"]
         joined = guest.post(f"/api/v1/rooms/{code}/join", headers=guest_headers)
         assert joined.status_code == 200
@@ -30,6 +34,10 @@ def test_two_player_room_and_reconnect_snapshot(app_settings: Settings) -> None:
 
         relay_session = host.get(f"/api/v1/sessions/{own['session_id']}").json()
         assert relay_session["started_at"] == started.json()["countdown_ends_at"]
+        guest_room = guest.get(f"/api/v1/rooms/{code}", headers=guest_headers).json()
+        guest_participant = next(item for item in guest_room["participants"] if item["is_self"])
+        guest_session = guest.get(f"/api/v1/sessions/{guest_participant['session_id']}").json()
+        assert guest_session["started_at"] == relay_session["started_at"]
         early_edge = relay_session["relation_groups"][0]["edges"][0]
         early_move = host.post(
             f"/api/v1/sessions/{own['session_id']}/commands",
@@ -42,7 +50,7 @@ def test_two_player_room_and_reconnect_snapshot(app_settings: Settings) -> None:
             },
         )
         assert early_move.status_code == 422
-        assert early_move.json()["code"] == "race_not_active"
+        assert early_move.json()["code"] == "round_not_started"
 
         with host.websocket_connect(
             f"/api/v1/ws/rooms/{code}", headers={"Origin": "http://testserver"}

@@ -112,6 +112,35 @@
   opacity: 0.58;
 }
 
+.map-history-node--backtracked {
+  animation: map-backtrack-fade 440ms ease both;
+}
+
+@keyframes map-backtrack-fade {
+  0% {
+    color: var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-paper);
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 0.12;
+  }
+
+  100% {
+    color: var(--color-muted-ink);
+    box-shadow: none;
+    opacity: 0.58;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-history-node--backtracked {
+    animation: none;
+  }
+}
+
 .game-map__surface .map-position,
 .game-map__surface .map-choice,
 .game-map__surface .game-map__dead-end {

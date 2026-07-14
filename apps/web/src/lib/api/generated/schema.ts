@@ -612,6 +612,7 @@ export interface components {
         };
         /** RoomCreateRequest */
         RoomCreateRequest: {
+            difficulty: components["schemas"]["Difficulty"];
             /** Round Id */
             round_id?: string | null;
         };
@@ -648,10 +649,13 @@ export interface components {
         };
         /** RoomResponse */
         RoomResponse: {
+            /** Category */
+            category: string;
             /** Code */
             code: string;
             /** Countdown Ends At */
             countdown_ends_at: string | null;
+            difficulty: components["schemas"]["Difficulty"];
             /** Grace Ends At */
             grace_ends_at: string | null;
             /** Graph Version */

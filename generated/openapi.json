@@ -846,6 +846,9 @@
       "RoomCreateRequest": {
         "additionalProperties": false,
         "properties": {
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
           "round_id": {
             "anyOf": [
               {
@@ -858,6 +861,9 @@
             "title": "Round Id"
           }
         },
+        "required": [
+          "difficulty"
+        ],
         "title": "RoomCreateRequest",
         "type": "object"
       },
@@ -951,6 +957,10 @@
       "RoomResponse": {
         "additionalProperties": false,
         "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
           "code": {
             "title": "Code",
             "type": "string"
@@ -966,6 +976,9 @@
               }
             ],
             "title": "Countdown Ends At"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
           },
           "grace_ends_at": {
             "anyOf": [
@@ -1018,6 +1031,8 @@
           "is_host",
           "graph_version",
           "round_id",
+          "category",
+          "difficulty",
           "start",
           "target",
           "participants",

@@ -40,6 +40,7 @@ function entity(value: WireEntity): EntitySummary {
     label: value.label,
     description: value.description ?? "A reviewed entity in the Webwoven atlas",
     category: category(value.category),
+    ...(value.image_path === null ? {} : { image_path: value.image_path }),
     ...sourceMetadataFor(value.qid),
   };
 }
@@ -71,7 +72,9 @@ export function mapSession(value: WireSession): SessionSnapshot {
   return {
     id: value.id,
     mode: value.mode,
+    category: category(value.category),
     difficulty: value.difficulty,
+    started_at: value.started_at,
     start: entity(value.start),
     target: entity(value.target),
     current: entity(value.current),
@@ -155,6 +158,10 @@ export function mapRoom(value: WireRoom): RoomSnapshot {
   return {
     code: value.code,
     state: value.state,
+    category: category(value.category),
+    difficulty: value.difficulty,
+    start: entity(value.start),
+    target: entity(value.target),
     max_players: 4,
     starts_at: value.countdown_ends_at ?? undefined,
     current_session_id: current?.session_id ?? undefined,

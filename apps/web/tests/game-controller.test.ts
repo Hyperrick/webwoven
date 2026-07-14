@@ -51,7 +51,9 @@ function snapshot(
   return {
     id: "session-1",
     mode: "solo",
+    category: "arts_culture",
     difficulty: "normal",
+    started_at: "2026-07-13T10:00:00Z",
     start: entities.start,
     target: entities.target,
     current,

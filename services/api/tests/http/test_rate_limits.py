@@ -55,9 +55,12 @@ def test_room_creation_and_ready_changes_are_rate_limited(app_settings: Settings
     )
     with TestClient(create_app(settings)) as client:
         headers = create_guest(client)
-        first = client.post("/api/v1/rooms", headers=headers, json={})
+        first = client.post("/api/v1/rooms", headers=headers, json={"difficulty": "normal"})
         assert first.status_code == 201
-        assert client.post("/api/v1/rooms", headers=headers, json={}).status_code == 429
+        assert (
+            client.post("/api/v1/rooms", headers=headers, json={"difficulty": "normal"}).status_code
+            == 429
+        )
 
         code = first.json()["code"]
         assert (
@@ -77,7 +80,7 @@ def test_websocket_resume_limit_closes_before_accept(app_settings: Settings) -> 
     settings = app_settings.model_copy(update={"rate_limit_ws_resumes": 1})
     with TestClient(create_app(settings)) as client:
         headers = create_guest(client)
-        room = client.post("/api/v1/rooms", headers=headers, json={}).json()
+        room = client.post("/api/v1/rooms", headers=headers, json={"difficulty": "normal"}).json()
         ws_headers = {"Origin": "http://testserver"}
         with client.websocket_connect(
             f"/api/v1/ws/rooms/{room['code']}", headers=ws_headers
@@ -99,7 +102,7 @@ def test_websocket_concurrent_limit_closes_before_accept(app_settings: Settings)
     )
     with TestClient(create_app(settings)) as client:
         headers = create_guest(client)
-        room = client.post("/api/v1/rooms", headers=headers, json={}).json()
+        room = client.post("/api/v1/rooms", headers=headers, json={"difficulty": "normal"}).json()
         ws_headers = {"Origin": "http://testserver"}
         with client.websocket_connect(
             f"/api/v1/ws/rooms/{room['code']}", headers=ws_headers

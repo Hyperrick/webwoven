@@ -6,6 +6,7 @@
   } from "./lib/api/room-event-stream";
   import { createRuntimeApi } from "./lib/api/runtime-api";
   import type {
+    Difficulty,
     HintType,
     LeaderboardEntry,
     RoomSnapshot,
@@ -40,6 +41,8 @@
   import LobbyPage from "./lib/pages/LobbyPage.svelte";
   import NotFoundPage from "./lib/pages/NotFoundPage.svelte";
   import ResultsPage from "./lib/pages/ResultsPage.svelte";
+  import RoundSetupPage from "./lib/pages/RoundSetupPage.svelte";
+  import { preloadCategoryArtwork } from "./lib/round-intro/assets";
 
   const api = createRuntimeApi();
   const games = new GameController(api);
@@ -65,6 +68,7 @@
     ["solo", "daily", "race"].includes(route.name);
 
   onMount(() => {
+    preloadCategoryArtwork();
     preferences = loadPreferences();
     persistPreferences(preferences);
     router = new BrowserRouter({
@@ -96,15 +100,18 @@
   }
 
   async function hydrateRoute(next: AppRoute): Promise<void> {
-    if ((next.name === "solo" || next.name === "daily") && !session) {
-      await restoreOrStartSession(next.name);
+    if (next.name === "solo" && !session) {
+      await restoreSession("solo");
+    }
+    if (next.name === "daily" && !session) {
+      await restoreOrStartDaily();
     }
     if (next.name === "race" && (!room || room.code !== next.code)) {
       await run(async () => {
         room = await rooms.join(next.code);
-        session = room.current_session_id
-          ? await games.resume(room.current_session_id)
-          : await games.start("solo");
+        if (!room.current_session_id)
+          throw new Error("This relay has not assigned your route yet.");
+        session = await games.resume(room.current_session_id);
         connectRoomEvents(room.code);
       });
     }
@@ -127,15 +134,17 @@
     navigate(`/play/${mode}`);
   }
 
-  async function restoreOrStartSession(mode: "solo" | "daily"): Promise<void> {
+  async function restoreSession(mode: "solo" | "daily"): Promise<boolean> {
+    let restored = false;
     await run(async () => {
       const storedId = loadActiveSessionId(mode);
       if (storedId) {
         try {
-          const restored = await games.resume(storedId);
-          if (restored.mode === mode && restored.status === "active") {
-            session = restored;
-            persistActiveSession(restored);
+          const snapshot = await games.resume(storedId);
+          if (snapshot.mode === mode && snapshot.status === "active") {
+            session = snapshot;
+            persistActiveSession(snapshot);
+            restored = true;
             return;
           }
         } catch {
@@ -143,19 +152,25 @@
         }
         clearActiveSession(mode);
       }
-      session = await createNewSession(mode);
+    });
+    return restored;
+  }
+
+  async function restoreOrStartDaily(): Promise<void> {
+    if (await restoreSession("daily")) return;
+    await run(async () => {
+      const round = await api.getDaily();
+      session = await games.start("daily", round.round_id);
+      session = { ...session, shortest_distance: round.optimal_distance };
       persistActiveSession(session);
     });
   }
 
-  async function createNewSession(
-    mode: "solo" | "daily",
-  ): Promise<SessionSnapshot> {
-    const round = mode === "daily" ? await api.getDaily() : undefined;
-    const created = await games.start(mode, round?.round_id);
-    return round
-      ? { ...created, shortest_distance: round.optimal_distance }
-      : created;
+  async function confirmSolo(difficulty: Difficulty): Promise<void> {
+    await run(async () => {
+      session = await games.start("solo", undefined, difficulty);
+      persistActiveSession(session);
+    });
   }
 
   async function follow(edgeToken: string): Promise<void> {
@@ -187,15 +202,17 @@
     });
   }
 
-  async function createRoom(): Promise<void> {
+  async function createRoom(difficulty: Difficulty): Promise<void> {
     await run(async () => {
-      room = await rooms.create();
+      room = await rooms.create(difficulty);
+      connectRoomEvents(room.code);
     });
   }
 
   async function joinRoom(code: string): Promise<void> {
     await run(async () => {
       room = await rooms.join(code);
+      connectRoomEvents(room.code);
     });
   }
 
@@ -211,9 +228,9 @@
     await run(async () => {
       room = await rooms.start(room!);
       navigate(`/relay/${room.code}`);
-      session = room.current_session_id
-        ? await games.resume(room.current_session_id)
-        : await games.start("solo");
+      if (!room.current_session_id)
+        throw new Error("The relay did not assign your synchronized route.");
+      session = await games.resume(room.current_session_id);
       connectRoomEvents(room.code);
     });
   }
@@ -243,14 +260,27 @@
     roomEvents.connect(code, {
       onStatus: (status) => (relayConnection = status),
       onEvent: () => {
-        void rooms.get(code).then((latest) => (room = latest));
+        void refreshRoomFromEvent(code);
       },
     });
   }
 
+  async function refreshRoomFromEvent(code: string): Promise<void> {
+    const latest = await rooms.get(code);
+    room = latest;
+    if (
+      route.name === "lobby" &&
+      (latest.state === "countdown" || latest.state === "racing") &&
+      latest.current_session_id
+    ) {
+      session = await games.resume(latest.current_session_id);
+      navigate(`/relay/${latest.code}`);
+    }
+  }
+
   function confirmExit(): void {
     if (session?.status === "active") {
-      clearActiveSession(session.mode);
+      if (session.mode !== "relay") clearActiveSession(session.mode);
       session = { ...session, status: "abandoned" };
     }
     exitOpen = false;
@@ -295,6 +325,8 @@
         onDaily={() => begin("daily")}
         onRelay={() => navigate("/relay")}
       />
+    {:else if route.name === "solo" && !session}
+      <RoundSetupPage {busy} onConfirm={(value) => void confirmSolo(value)} />
     {:else if route.name === "solo" || route.name === "daily" || route.name === "race"}
       {#if session}
         <GamePage
@@ -316,7 +348,7 @@
       <LobbyPage
         {room}
         {busy}
-        onCreate={() => void createRoom()}
+        onCreate={(difficulty) => void createRoom(difficulty)}
         onJoin={(code) => void joinRoom(code)}
         onReady={() => void toggleReady()}
         onStart={() => void startRelay()}

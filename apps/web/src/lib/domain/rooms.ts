@@ -1,4 +1,5 @@
-import type { RoomSnapshot } from "../api/types";
+import type { Difficulty, RoomSnapshot } from "../api/types";
+import { DEMO_ENTITIES } from "./demo-graph";
 
 function normalizeCode(code: string): string {
   return code
@@ -11,10 +12,14 @@ function normalizeCode(code: string): string {
 export class DemoRoomCoordinator {
   #rooms = new Map<string, RoomSnapshot>();
 
-  create(): RoomSnapshot {
+  create(difficulty: Difficulty): RoomSnapshot {
     const room: RoomSnapshot = {
       code: "MAPS27",
       state: "lobby",
+      category: "arts_culture",
+      difficulty,
+      start: DEMO_ENTITIES.Q5586,
+      target: DEMO_ENTITIES.Q145,
       max_players: 4,
       players: [
         {
@@ -45,7 +50,7 @@ export class DemoRoomCoordinator {
     const normalized = normalizeCode(code);
     const room = this.#rooms.get(normalized);
     if (room) return structuredClone(room);
-    const created = this.create();
+    const created = this.create("normal");
     const replacement = { ...created, code: normalized || created.code };
     this.#rooms.set(replacement.code, replacement);
     return structuredClone(replacement);
@@ -60,11 +65,14 @@ export class DemoRoomCoordinator {
     }));
   }
 
-  start(code: string): RoomSnapshot {
+  start(code: string, currentSessionId?: string): RoomSnapshot {
     return this.#update(code, (room) => ({
       ...room,
       state: "countdown",
-      starts_at: new Date(Date.now() + 3000).toISOString(),
+      starts_at: new Date(Date.now() + 5000).toISOString(),
+      ...(currentSessionId === undefined
+        ? {}
+        : { current_session_id: currentSessionId }),
     }));
   }
 

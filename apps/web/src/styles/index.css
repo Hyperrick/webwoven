@@ -11,6 +11,8 @@
 @import url("./map-viewport.css") layer(game);
 @import url("./hint-dock.css") layer(game);
 @import url("./race.css") layer(game);
+@import url("./round-intro.css") layer(game);
+@import url("./round-setup.css") layer(rooms);
 @import url("./rooms.css") layer(rooms);
 @import url("./pages.css") layer(pages);
 @import url("./responsive.css") layer(responsive);
