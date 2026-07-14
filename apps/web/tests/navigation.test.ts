@@ -23,6 +23,25 @@ describe("demo navigation", () => {
       "Q5586",
     ]);
     expect(returned.snapshot.trail.at(-1)?.revisited).toBe(true);
+    expect(
+      returned.snapshot.relation_groups.flatMap((group) =>
+        group.edges.map((edge) => edge.target.qid),
+      ),
+    ).toContain("Q149116");
+  });
+
+  it("removes reverse connections to entities already visited", () => {
+    const initial = createNavigationState("session", "solo");
+    const series = followEdge(initial, "demo:Q5586:P800:Q209772");
+    const targets = series.snapshot.relation_groups.flatMap((group) =>
+      group.edges.map((edge) => edge.target.qid),
+    );
+
+    expect(targets).not.toContain("Q5586");
+    expect(() => followEdge(series, "demo:Q209772:P170:Q5586")).toThrow(
+      "already in your active route",
+    );
+    expect(series.snapshot.moves).toBe(1);
   });
 
   it("completes only when the target entity is reached", () => {

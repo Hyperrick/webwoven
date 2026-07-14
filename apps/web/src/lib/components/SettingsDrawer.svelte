@@ -73,22 +73,6 @@
       </label>
       <label class="setting-row">
         <span
-          ><strong>High contrast</strong><small
-            >Strengthen rules and control outlines.</small
-          ></span
-        >
-        <input
-          type="checkbox"
-          checked={preferences.highContrast}
-          onchange={(event) =>
-            onChange({
-              ...preferences,
-              highContrast: event.currentTarget.checked,
-            })}
-        />
-      </label>
-      <label class="setting-row">
-        <span
           ><strong>Interface sound</strong><small
             >Play quiet cues for moves and discoveries.</small
           ></span
@@ -104,6 +88,10 @@
       <section class="keyboard-map" aria-labelledby="keyboard-title">
         <h3 id="keyboard-title">Keyboard map</h3>
         <p><kbd>Tab</kbd><span>Move between bearings</span></p>
+        <p><kbd>← ↑ ↓ →</kbd><span>Pan the exploration map</span></p>
+        <p><kbd>+ −</kbd><span>Zoom the exploration map</span></p>
+        <p><kbd>0</kbd><span>Fit the explored map</span></p>
+        <p><kbd>Home</kbd><span>Return to the current marker</span></p>
         <p><kbd>B</kbd><span>Retrace one step in-game</span></p>
         <p><kbd>Esc</kbd><span>Close an open sheet</span></p>
       </section>

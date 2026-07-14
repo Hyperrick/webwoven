@@ -277,18 +277,6 @@
     toast = message;
     window.setTimeout(() => (toast = ""), 2800);
   }
-
-  async function shareResult(): Promise<void> {
-    if (!session) return;
-    const marks = session.trail
-      .map((item) => (item.revisited ? "↶" : "·"))
-      .join("");
-    const score =
-      session.score === null ? "unranked" : `${session.score} points`;
-    const text = `Webwoven ${session.mode === "daily" ? "Daily" : "Route"}\n${session.moves} moves · ${score}\n${marks}`;
-    await navigator.clipboard?.writeText(text);
-    showToast("Spoiler-free result copied.");
-  }
 </script>
 
 <a class="skip-link" href="#page-content">Skip to content</a>
@@ -340,7 +328,6 @@
         onAgain={() => begin("solo")}
         onDaily={() => begin("daily")}
         onHome={() => navigate("/")}
-        onShare={() => void shareResult()}
       />
     {:else if route.name === "lab"}
       <LabPage />

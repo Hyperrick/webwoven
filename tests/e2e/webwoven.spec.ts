@@ -55,8 +55,8 @@ test("Solo preserves visible history and guards browser Back", async ({
   );
   await expect(page.locator(".game-map")).toBeVisible();
   const initialMapWidth = await page
-    .locator(".game-map__viewport")
-    .evaluate((element) => element.scrollWidth);
+    .locator(".map-viewport__world")
+    .evaluate((element) => (element as HTMLElement).offsetWidth);
   await expect(page.locator(".map-board-renderer")).toHaveAttribute(
     "data-render-state",
     /ready|fallback/,
@@ -75,9 +75,12 @@ test("Solo preserves visible history and guards browser Back", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("button", {
-      name: /Go: Hokusai created The Great Wave off Kanagawa\./i,
+      name: /Move to The Great Wave off Kanagawa: Hokusai created The Great Wave off Kanagawa\./i,
     }),
   ).toBeVisible();
+  await expect(
+    page.locator(".map-choice__number, .map-choice__go"),
+  ).toHaveCount(0);
   await expect(page.getByText("notable work", { exact: true })).toHaveCount(0);
   await expect(page.locator(".destination-brief, .relation-index")).toHaveCount(
     0,
@@ -114,8 +117,8 @@ test("Solo preserves visible history and guards browser Back", async ({
     "Hokusai",
   );
   const widenedMapWidth = await page
-    .locator(".game-map__viewport")
-    .evaluate((element) => element.scrollWidth);
+    .locator(".map-viewport__world")
+    .evaluate((element) => (element as HTMLElement).offsetWidth);
   expect(widenedMapWidth).toBeGreaterThan(initialMapWidth);
   await expect(page.getByText("Last move", { exact: true })).toBeVisible();
   await expect(
@@ -141,8 +144,8 @@ test("Solo preserves visible history and guards browser Back", async ({
     }),
   ).toBeVisible();
   const retracedMapWidth = await page
-    .locator(".game-map__viewport")
-    .evaluate((element) => element.scrollWidth);
+    .locator(".map-viewport__world")
+    .evaluate((element) => (element as HTMLElement).offsetWidth);
   expect(retracedMapWidth).toBeGreaterThan(widenedMapWidth);
   await expect(page.getByText(/retraced the route to Hokusai/i)).toBeVisible();
 });
@@ -159,10 +162,28 @@ test("Solo completes the four-move route and renders results", async ({
     "The Great Wave off Kanagawa",
     "British Museum",
     "London",
-    "United Kingdom",
   ]) {
     await followTo(page, entity);
   }
+
+  const reachableGoal = page.locator("button.map-position--reachable");
+  const nearbyChoice = page.locator("button.map-choice").first();
+  await expect(reachableGoal).toBeVisible();
+  await expect(nearbyChoice).toBeVisible();
+  const [goalBox, choiceBox] = await Promise.all([
+    reachableGoal.boundingBox(),
+    nearbyChoice.boundingBox(),
+  ]);
+  expect(goalBox).not.toBeNull();
+  expect(choiceBox).not.toBeNull();
+  const overlaps =
+    (goalBox?.x ?? 0) < (choiceBox?.x ?? 0) + (choiceBox?.width ?? 0) &&
+    (goalBox?.x ?? 0) + (goalBox?.width ?? 0) > (choiceBox?.x ?? 0) &&
+    (goalBox?.y ?? 0) < (choiceBox?.y ?? 0) + (choiceBox?.height ?? 0) &&
+    (goalBox?.y ?? 0) + (goalBox?.height ?? 0) > (choiceBox?.y ?? 0);
+  expect(overlaps).toBe(false);
+
+  await followTo(page, "United Kingdom");
 
   await expect(page).toHaveURL(/\/results$/);
   await expect(page.getByRole("heading", { name: /You found/i })).toContainText(
@@ -174,6 +195,34 @@ test("Solo completes the four-move route and renders results", async ({
       name: /fictional Cartographer studying a map laid flat on a field table/i,
     }),
   ).toHaveAttribute("src", "/illustrations/cartographer.webp");
+});
+
+test("an exhausted branch offers a contextual Back action", async ({
+  page,
+}) => {
+  await page.goto("/play/solo");
+  await followTo(page, "Thirty-six Views of Mount Fuji");
+
+  await expect(
+    page.getByRole("heading", { name: "This branch ends here" }),
+  ).toBeVisible();
+  const recovery = page.getByRole("button", {
+    name: "Back to Hokusai",
+    exact: true,
+  });
+  await expect(recovery).toBeVisible();
+  await expect(
+    page.getByText("Counts as 1 move", { exact: true }),
+  ).toBeVisible();
+
+  await recovery.click();
+  await expect(
+    page.getByRole("heading", { name: "Hokusai", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Back to Hokusai", exact: true }),
+  ).toHaveCount(0);
+  await expect(page.locator("button.map-choice")).toHaveCount(2);
 });
 
 test("Daily and Live Relay expose their complete entry states", async ({
@@ -196,15 +245,13 @@ test("Daily and Live Relay expose their complete entry states", async ({
   );
 });
 
-test("settings apply reduced motion and high contrast preferences", async ({
-  page,
-}) => {
+test("settings apply the reduced motion preference", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: /Open settings/i }).click();
   await page.getByLabel("Reduce motion").check();
-  await page.getByLabel("High contrast").check();
   await expect(page.locator("html")).toHaveAttribute("data-motion", "reduced");
-  await expect(page.locator("html")).toHaveAttribute("data-contrast", "high");
+  await expect(page.getByLabel("High contrast")).toHaveCount(0);
+  await expect(page.locator("html")).not.toHaveAttribute("data-contrast", /.+/);
 });
 
 test("map stays playable when WebGL is unavailable", async ({ page }) => {
@@ -221,7 +268,10 @@ test("map stays playable when WebGL is unavailable", async ({ page }) => {
     "fallback",
   );
   await expect(page.locator(".map-board-fallback__link")).toHaveCount(2);
-  await expect(page.locator(".map-board-fallback__node")).toHaveCount(4);
+  await expect(page.locator(".map-board-fallback__node")).toHaveCount(2);
+  await expect(page.locator(".map-board-fallback__node--choice")).toHaveCount(
+    0,
+  );
   await expect(page.locator("button.map-choice").first()).toBeVisible();
 });
 

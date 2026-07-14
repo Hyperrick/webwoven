@@ -294,6 +294,37 @@ describe("deterministic map board", () => {
     expect(currentNode?.roles).toEqual(["start", "trail", "current"]);
   });
 
+  it("reserves a separate lane for a distant goal marker", () => {
+    const board = buildMapBoard(
+      snapshot([
+        group("P800", "notable work", "outgoing", [
+          {
+            edge_token: "signed-middle",
+            target: middle,
+            statement: "Tobin Rill wrote Paper Moon Libretto.",
+          },
+        ]),
+      ]),
+    );
+    const choiceNode = board.nodes.find(
+      (node) => node.id === board.choices[0]?.target_node_id,
+    );
+    const goalNode = board.nodes.find((node) => node.id === board.goal_node_id);
+    const currentNode = board.nodes.find(
+      (node) => node.id === board.current_node_id,
+    );
+    const currentToChoiceGap =
+      ((choiceNode?.position.x ?? 0) - (currentNode?.position.x ?? 0)) *
+      board.layout.width_units;
+    const choiceToGoalGap =
+      ((goalNode?.position.x ?? 0) - (choiceNode?.position.x ?? 0)) *
+      board.layout.width_units;
+
+    expect(board.layout.column_gap_units).toBe(30);
+    expect(currentToChoiceGap).toBeCloseTo(30);
+    expect(choiceToGoalGap).toBeCloseTo(30);
+  });
+
   it("uses fixed vertical lanes for every onward choice", () => {
     const destinations = Array.from({ length: 9 }, (_, index) =>
       entity(
@@ -492,55 +523,5 @@ describe("deterministic map board", () => {
     expect(
       widened.choices.every((choice) => choice.edge_token.length > 0),
     ).toBe(true);
-  });
-
-  it("keeps repeated visits as separate breadcrumb occurrences", () => {
-    const firstStage: DecisionStage = {
-      index: 0,
-      source: start,
-      destination: middle,
-      action: "follow",
-      choices: [
-        {
-          id: "edge-middle",
-          target: middle,
-          relation: {
-            property_id: "P800",
-            label: "notable work",
-            direction: "outgoing",
-            glyph: "work",
-          },
-          statement: "Tobin Rill wrote Paper Moon Libretto.",
-        },
-      ],
-      selected_choice_id: "edge-middle",
-    };
-    const backStage: DecisionStage = {
-      index: 1,
-      source: middle,
-      destination: start,
-      action: "back",
-      choices: [],
-    };
-    const board = buildMapBoard(
-      snapshot([], {
-        trail: [
-          { qid: start.qid, label: start.label },
-          { qid: middle.qid, label: middle.label },
-          { qid: start.qid, label: start.label, revisited: true },
-        ],
-        decisionHistory: [firstStage, backStage],
-      }),
-    );
-    const startVisits = board.nodes.filter((node) => node.qid === start.qid);
-
-    expect(startVisits).toHaveLength(2);
-    expect(startVisits.map((node) => node.id)).toEqual([
-      `visit:0:${start.qid}`,
-      `visit:2:${start.qid}`,
-    ]);
-    expect(board.trail.at(-1)?.revisited).toBe(true);
-    expect(board.layout.current_column).toBe(2);
-    expect(board.links.filter((link) => link.kind === "trail")).toHaveLength(2);
   });
 });

@@ -40,42 +40,6 @@
   margin: 0;
 }
 
-.game-map__viewport {
-  position: relative;
-  width: 100%;
-  overflow: auto hidden;
-  border: 1px solid var(--color-rule);
-  border-radius: 0 0 var(--radius-sheet) var(--radius-sheet);
-  outline-offset: 3px;
-  overscroll-behavior-x: contain;
-  scrollbar-color: var(--color-muted-ink) var(--color-paper);
-  scrollbar-gutter: stable;
-  scroll-snap-type: x proximity;
-  touch-action: pan-x pan-y;
-}
-
-.game-map__surface {
-  position: relative;
-  width: max(100%, var(--map-world-width, 100%));
-  min-height: var(--map-min-height, 38rem);
-  isolation: isolate;
-}
-
-.game-map__surface > .map-board-renderer {
-  border: 0;
-  border-radius: 0;
-}
-
-.game-map__active-column {
-  position: absolute;
-  top: 50%;
-  left: var(--node-x);
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-  scroll-snap-align: center;
-}
-
 .game-map__history {
   position: absolute;
   z-index: 1;
@@ -96,9 +60,18 @@
   color: var(--color-muted-ink);
   background: color-mix(in srgb, var(--color-paper) 88%, transparent);
   box-shadow: var(--shadow-paper);
+  cursor: pointer;
+  font: inherit;
+  pointer-events: auto;
   text-align: left;
   transform: translate(-50%, calc(-100% - 1rem));
-  scroll-snap-align: center;
+}
+
+.map-history-node:focus-visible,
+.map-history-node:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  opacity: 1;
 }
 
 .map-history-node strong {
@@ -145,6 +118,36 @@
   z-index: 3;
 }
 
+.game-map__surface .map-position--inspectable {
+  color: var(--color-ink);
+  pointer-events: auto;
+  text-align: left;
+}
+
+.map-position__inspect-button {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentcolor;
+  border-radius: 0;
+  color: var(--color-signal);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-technical);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.map-position__inspect-button:hover,
+.map-position__inspect-button:focus-visible {
+  color: var(--color-ink);
+}
+
+[data-map-interactive] {
+  touch-action: manipulation;
+}
+
 .game-map__surface .game-map__choices {
   position: static;
   display: block;
@@ -159,12 +162,15 @@
   background: var(--color-paper);
 }
 
-html[data-contrast="high"] .map-history-node {
-  background: var(--color-paper);
-  opacity: 1;
-}
-
 @media (width <= 68rem) {
+  .game-map__surface .map-choice {
+    width: clamp(12rem, 24vw, 15rem);
+  }
+
+  .game-map__surface .map-position {
+    width: clamp(9rem, 18vw, 12rem);
+  }
+
   .game-map__prompt {
     width: min(34rem, 76%);
   }
@@ -205,14 +211,6 @@ html[data-contrast="high"] .map-history-node {
     gap: 0;
   }
 
-  .game-map__viewport {
-    scroll-snap-type: x mandatory;
-  }
-
-  .game-map__surface {
-    min-height: max(30rem, var(--map-min-height, 30rem));
-  }
-
   .game-map__surface .map-position,
   .game-map__surface .map-choice {
     position: absolute;
@@ -224,25 +222,29 @@ html[data-contrast="high"] .map-history-node {
     right: auto;
     width: min(11rem, 44vw);
     padding: var(--space-2) var(--space-3);
-    transform: translate(-50%, calc(-100% - 1rem));
+    transform: translate(-50%, calc(-100% - var(--map-node-card-clearance)));
+  }
+
+  .game-map__surface button.map-position--reachable {
+    transform: translate(var(--map-node-card-clearance), -50%);
   }
 
   .game-map__surface .map-choice {
     width: min(14rem, 72vw);
     min-height: 4.5rem;
     background: color-mix(in srgb, var(--color-paper) 96%, transparent);
-    transform: translate(-50%, 1.25rem);
+    transform: translate(-100%, -50%);
   }
 
   .game-map__surface .map-choice:not(:disabled):hover,
   .game-map__surface .map-choice:not(:disabled):focus-visible {
-    transform: translate(-50%, 1.05rem);
+    transform: translate(-100%, -50%);
   }
 
   .game-map__surface button.map-position--reachable:not(:disabled):hover,
   .game-map__surface
     button.map-position--reachable:not(:disabled):focus-visible {
-    transform: translate(-50%, calc(-100% - 1.2rem));
+    transform: translate(calc(var(--map-node-card-clearance) + 0.2rem), -50%);
   }
 
   .map-history-node {
@@ -250,11 +252,18 @@ html[data-contrast="high"] .map-history-node {
   }
 
   .game-map__dead-end {
+    --dead-end-anchor-offset: 7rem;
+
+    position: absolute;
     top: var(--node-y);
     left: var(--node-x);
     width: min(18rem, 78vw);
     margin: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(var(--dead-end-anchor-offset), -50%);
+  }
+
+  .game-map__dead-end-back {
+    width: 100%;
   }
 
   .game-map__last-move {
@@ -274,8 +283,22 @@ html[data-contrast="high"] .map-history-node {
   }
 
   .game-map__surface .map-choice {
-    grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     width: min(13rem, 76vw);
+  }
+
+  .game-map__surface .map-position h3,
+  .game-map__surface .map-position > strong {
+    font-size: var(--text-16);
+  }
+
+  .game-map__surface .map-position__distance,
+  .game-map__surface .map-position__go {
+    font-size: 0.7rem;
+  }
+
+  .game-map__surface .map-choice__icon {
+    display: none;
   }
 
   .map-history-node {
@@ -288,8 +311,27 @@ html[data-contrast="high"] .map-history-node {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .game-map__viewport {
-    scroll-behavior: auto;
+@media (prefers-contrast: more) {
+  .map-history-node--discarded {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    opacity: 0.82;
+  }
+}
+
+@media (forced-colors: active) {
+  .map-history-node,
+  .map-position,
+  .map-choice,
+  .game-map__dead-end {
+    border-color: CanvasText;
+    color: CanvasText;
+    background: Canvas;
+    box-shadow: none;
+  }
+
+  .map-history-node--discarded {
+    opacity: 1;
   }
 }

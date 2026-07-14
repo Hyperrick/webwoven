@@ -45,6 +45,25 @@ def test_session_deserialization_accepts_pre_history_documents() -> None:
     assert session_from_dict(document).decision_history == ()
 
 
+def test_session_deserialization_rejects_legacy_cyclic_active_stack() -> None:
+    document = session_to_dict(_session())
+    navigation = document["navigation"]
+    assert isinstance(navigation, dict)
+    navigation["stack"] = ["Q1", "Q3", "Q1"]
+    navigation["trail"] = ["Q1", "Q3", "Q1"]
+    navigation["moves"] = 2
+
+    with pytest.raises(ValueError, match="stack must contain unique entities"):
+        session_from_dict(document)
+
+
+def test_session_deserialization_allows_repeated_visible_trail_entries() -> None:
+    restored = session_from_dict(session_to_dict(_session()))
+
+    assert restored.navigation.stack == ("Q1", "Q3")
+    assert restored.navigation.trail == ("Q1", "Q3", "Q1", "Q3")
+
+
 def test_room_round_trip_preserves_reconnect_state_and_events() -> None:
     event = RoomEvent(1, "race.started", NOW, {"state": "racing"})
     room = Room(

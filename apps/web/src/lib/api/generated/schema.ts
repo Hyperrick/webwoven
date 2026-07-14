@@ -417,12 +417,22 @@ export interface components {
         };
         /** DecisionChoiceResponse */
         DecisionChoiceResponse: {
+            /** Connections */
+            connections: components["schemas"]["DecisionConnectionResponse"][];
             /** Id */
             id: string;
             relation: components["schemas"]["DecisionRelationResponse"];
             /** Statement */
             statement: string;
             target: components["schemas"]["EntityResponse"];
+        };
+        /** DecisionConnectionResponse */
+        DecisionConnectionResponse: {
+            /** Id */
+            id: string;
+            relation: components["schemas"]["DecisionRelationResponse"];
+            /** Statement */
+            statement: string;
         };
         /** DecisionRelationResponse */
         DecisionRelationResponse: {

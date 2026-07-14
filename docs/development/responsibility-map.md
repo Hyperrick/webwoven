@@ -5,7 +5,7 @@ state has one owner and is consumed through a narrow contract.
 
 | Concern                       | Owner                      | Adapters and consumers                             |
 | ----------------------------- | -------------------------- | -------------------------------------------------- |
-| Legal moves and visible trail | Navigation domain          | Session service, web controller                    |
+| Legal moves, active route, and visible trail | Navigation domain | Session service, web controller                    |
 | Frozen decision frontiers     | Session exploration domain | Persistence, API presenter, map board              |
 | Score and time windows        | Scoring domain             | Session completion, results UI                     |
 | Hint choice and penalties     | Hints domain               | Session commands, hint presentation                |
@@ -16,6 +16,8 @@ state has one owner and is consumed through a narrow contract.
 | Open-data acquisition         | Pipeline acquisition       | HTTP transport, immutable cache                    |
 | Round curation                | Pipeline round builder     | Review records, graph compiler                     |
 | Deterministic widening map    | `MapBoard` domain          | Svelte and Three.js presentation adapters          |
+| Spatial canvas camera         | Map-camera presentation    | Gestures, controls, Three.js and SVG view adapters |
+| Historical path inspection    | Map inspection projection  | Read-only Svelte inspector                         |
 | Rendering and interaction     | Svelte feature components  | API facade and domain view models                  |
 
 Cross-domain code is shared only when it represents a stable concept with multiple real consumers.

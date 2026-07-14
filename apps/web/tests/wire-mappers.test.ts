@@ -111,6 +111,9 @@ describe("API wire adapters", () => {
         ],
       }),
     ]);
+    expect(mapped.decision_history?.[0]?.choices[0]).not.toHaveProperty(
+      "connections",
+    );
     expect(mapped.relation_groups[0].glyph).toBe("work");
     expect(mapped.relation_groups[0].edges[0].statement).toBe("A made B.");
     expect(mapped.relation_groups.map((group) => group.property_id)).toEqual([
@@ -129,6 +132,71 @@ describe("API wire adapters", () => {
       source_kind: "wikidata",
       source_url: "https://www.wikidata.org/wiki/Q1",
     });
+  });
+
+  it("maps every token-free connection on a grouped historical choice", () => {
+    const stage = session.decision_history?.[0];
+    if (stage === undefined) throw new Error("history fixture is missing");
+    const primary = stage.choices[0];
+    if (primary === undefined) throw new Error("choice fixture is missing");
+    const mapped = mapSession({
+      ...session,
+      decision_history: [
+        {
+          ...stage,
+          choices: [
+            {
+              ...primary,
+              connections: [
+                {
+                  id: "edge-created",
+                  relation: {
+                    property_id: "P170",
+                    label: "created by",
+                    direction: "outgoing",
+                  },
+                  statement: "A made B.",
+                },
+                {
+                  id: "edge-influenced",
+                  relation: {
+                    property_id: "P737",
+                    label: "influenced by",
+                    direction: "incoming",
+                  },
+                  statement: "B influenced A.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    const connections = mapped.decision_history?.[0]?.choices[0]?.connections;
+
+    expect(connections).toEqual([
+      {
+        id: "edge-created",
+        relation: {
+          property_id: "P170",
+          label: "created by",
+          direction: "outgoing",
+          glyph: "work",
+        },
+        statement: "A made B.",
+      },
+      {
+        id: "edge-influenced",
+        relation: {
+          property_id: "P737",
+          label: "influenced by",
+          direction: "incoming",
+          glyph: "influence",
+        },
+        statement: "B influenced A.",
+      },
+    ]);
+    expect(connections?.every((item) => !("edge_token" in item))).toBe(true);
   });
 
   it("does not fabricate Wikidata sources for synthetic fixture entities", () => {

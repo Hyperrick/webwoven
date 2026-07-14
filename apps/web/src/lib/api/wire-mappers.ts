@@ -2,6 +2,7 @@ import type {
   AppConfig,
   Category,
   DailyRound,
+  DecisionRelation,
   EntitySummary,
   LeaderboardEntry,
   RelationGroup,
@@ -11,6 +12,7 @@ import type {
 import type {
   WireConfig,
   WireDaily,
+  WireDecisionRelation,
   WireEntity,
   WireLeaderboard,
   WireRoom,
@@ -52,6 +54,15 @@ function glyph(propertyId: string): RelationGroup["glyph"] {
   return "nature";
 }
 
+function decisionRelation(value: WireDecisionRelation): DecisionRelation {
+  return {
+    property_id: value.property_id,
+    label: value.label,
+    direction: value.direction,
+    glyph: glyph(value.property_id),
+  };
+}
+
 export function mapSession(value: WireSession): SessionSnapshot {
   const started = Date.parse(value.started_at);
   const ended = value.completed_at
@@ -74,13 +85,17 @@ export function mapSession(value: WireSession): SessionSnapshot {
       choices: stage.choices.map((choice) => ({
         id: choice.id,
         target: entity(choice.target),
-        relation: {
-          property_id: choice.relation.property_id,
-          label: choice.relation.label,
-          direction: choice.relation.direction,
-          glyph: glyph(choice.relation.property_id),
-        },
+        relation: decisionRelation(choice.relation),
         statement: choice.statement,
+        ...(choice.connections === undefined
+          ? {}
+          : {
+              connections: choice.connections.map((connection) => ({
+                id: connection.id,
+                relation: decisionRelation(connection.relation),
+                statement: connection.statement,
+              })),
+            }),
       })),
       ...(stage.selected_choice_id === null
         ? {}

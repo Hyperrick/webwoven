@@ -19,7 +19,7 @@ from webwoven_api.security.tokens import EdgeTokenSigner
 from webwoven_api.sessions.authorization import SessionCommandAuthorizer
 from webwoven_api.sessions.completion import SessionCompletionRecorder
 from webwoven_api.sessions.exploration import backed_frame, followed_frame
-from webwoven_api.sessions.frontier import visible_edges_for
+from webwoven_api.sessions.frontier import playable_edges_for
 from webwoven_api.sessions.models import (
     BackCommand,
     CommandExecution,
@@ -131,23 +131,26 @@ class SessionService:
         if isinstance(command, FollowEdgeCommand):
             return self._follow(session, command), None
         if isinstance(command, BackCommand):
-            source_id = session.navigation.current_id
-            navigation = go_back(session.navigation)
-            visible_edge_ids = tuple(
-                edge.id for edge in visible_edges_for(self._graph, session.round, source_id)
-            )
-            decision = backed_frame(
-                source_id=source_id,
-                destination_id=navigation.current_id,
-                visible_edge_ids=visible_edge_ids,
-            )
-            return replace(
-                session,
-                navigation=navigation,
-                decision_history=(*session.decision_history, decision),
-                state_version=session.state_version + 1,
-            ), None
+            return self._back(session), None
         return self._use_hint(session, command)
+
+    def _back(self, session: GameSession) -> GameSession:
+        source_id = session.navigation.current_id
+        visible_edge_ids = tuple(
+            edge.id for edge in playable_edges_for(self._graph, session.round, session.navigation)
+        )
+        navigation = go_back(session.navigation)
+        decision = backed_frame(
+            source_id=source_id,
+            destination_id=navigation.current_id,
+            visible_edge_ids=visible_edge_ids,
+        )
+        return replace(
+            session,
+            navigation=navigation,
+            decision_history=(*session.decision_history, decision),
+            state_version=session.state_version + 1,
+        )
 
     def _follow(self, session: GameSession, command: FollowEdgeCommand) -> GameSession:
         claims = self._edge_tokens.verify(command.edge_token)
@@ -164,11 +167,7 @@ class SessionService:
             raise DomainError("edge_missing", "That relationship is unavailable.")
         visible_edge_ids = tuple(
             visible.id
-            for visible in visible_edges_for(
-                self._graph,
-                session.round,
-                session.navigation.current_id,
-            )
+            for visible in playable_edges_for(self._graph, session.round, session.navigation)
         )
         if edge.id not in visible_edge_ids:
             raise ForbiddenError("Edge token is not valid for the visible frontier")
@@ -193,7 +192,7 @@ class SessionService:
     def _use_hint(
         self, session: GameSession, command: UseHintCommand
     ) -> tuple[GameSession, HintResult]:
-        edges = self._graph.get_edges(session.navigation.current_id)
+        edges = playable_edges_for(self._graph, session.round, session.navigation)
         candidates = (
             HintCandidate(
                 relation_key=edge.relation_key,

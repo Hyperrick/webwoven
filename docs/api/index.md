@@ -32,17 +32,19 @@ server scoring. Each relation group retains its semantic Wikidata `property_id` 
 stable `group_id` derived from property, direction, and label; clients use `group_id` for interface
 identity and `property_id` for graph and hint semantics. Direction is explicitly `outgoing` or
 `incoming`. For dense entities, the snapshot includes at most six distinct target entities. A
-pure route-safe selector uses precompiled distances to retain progress toward the target while
-varying the visible relation types; it never changes graph truth or accepts a move that is not a
-stored edge.
+pure route-safe selector uses precompiled distances to retain a distance-reducing destination
+whenever one remains available while varying the visible relation types; it never changes graph
+truth or accepts a move that is not a stored edge. A legitimately exhausted branch remains empty so
+the client can present the Back recovery action.
 
 Snapshots also expose `navigation_stack` and `decision_history`. The navigation stack is the
 current reversible route. Decision history is the immutable exploration record used by the
 ever-widening map. Each zero-based stage contains its source, destination, `follow` or `back`
-action, the exact visible choices, and an optional selected choice ID. Historical choices include
-entity, relationship, and statement data but never an edge token; only the current
-`relation_groups` are actionable. Old serialized sessions without this field load with an empty
-history, while new sessions round-trip it through persistence and reconnect.
+action, the exact visible choices, and an optional selected choice ID. Each historical destination
+keeps a deterministic primary relationship and statement for compact clients plus a token-free
+`connections` collection containing every grounded fact that supported the move. Only the current
+`relation_groups` are actionable. Old serialized sessions without decision history load with an
+empty history, while new sessions round-trip it through persistence and reconnect.
 
 ## Rooms
 

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Query
 
 from webwoven_api.http.contracts.daily import DailyLeaderboardResponse, DailyResponse
 from webwoven_api.http.dependencies import ContainerDependency
-from webwoven_api.http.presenters import daily_response, leaderboard_response
+from webwoven_api.http.presentation.daily import daily_response, leaderboard_response
 
 router = APIRouter(prefix="/api/v1", tags=["daily"])
 

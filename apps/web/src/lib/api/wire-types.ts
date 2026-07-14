@@ -9,15 +9,25 @@ export interface WireEntity {
   image_path: string | null;
 }
 
+export interface WireDecisionRelation {
+  property_id: string;
+  label: string;
+  direction: "outgoing" | "incoming";
+}
+
+export interface WireDecisionConnection {
+  id: string;
+  relation: WireDecisionRelation;
+  statement: string;
+}
+
 export interface WireDecisionChoice {
   id: string;
   target: WireEntity;
-  relation: {
-    property_id: string;
-    label: string;
-    direction: "outgoing" | "incoming";
-  };
+  relation: WireDecisionRelation;
   statement: string;
+  /** Optional only while reading pre-grouping responses and fixtures. */
+  connections?: WireDecisionConnection[];
 }
 
 export interface WireDecisionStage {

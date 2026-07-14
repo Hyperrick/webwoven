@@ -4,7 +4,9 @@ const MINIMUM_WIDTH_UNITS = 88;
 const MINIMUM_HEIGHT_UNITS = 38;
 const LEFT_GUTTER_UNITS = 14;
 const RIGHT_GUTTER_UNITS = 22;
-const COLUMN_GAP_UNITS = 26;
+// A full lane must clear the widest move card and the centered goal label.
+// Thirty rem leaves a deliberate visual gutter without relying on CSS nudges.
+const COLUMN_GAP_UNITS = 30;
 const CHOICE_TOP_UNITS = 12;
 const CHOICE_LANE_GAP_UNITS = 7.5;
 const BOTTOM_CLEARANCE_UNITS = 10;

@@ -10,7 +10,7 @@ from webwoven_api.graph.contracts import GraphReader
 from webwoven_api.graph.memory_reader import MemoryGraphReader
 from webwoven_api.guests.repository import GuestRepository
 from webwoven_api.guests.service import GuestService
-from webwoven_api.http.presenters import SessionPresenter
+from webwoven_api.http.presentation.sessions import SessionPresenter
 from webwoven_api.persistence.lifecycle import (
     MemoryPersistenceLifecycle,
     PersistenceLifecycle,

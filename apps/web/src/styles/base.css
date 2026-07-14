@@ -213,15 +213,6 @@ kbd {
   transform: translateY(0);
 }
 
-html[data-contrast="high"] {
-  --color-rule: var(--color-ink);
-}
-
-html[data-contrast="high"] button,
-html[data-contrast="high"] input {
-  border-width: 2px;
-}
-
 html[data-motion="reduced"] *,
 html[data-motion="reduced"] *::before,
 html[data-motion="reduced"] *::after {
@@ -239,5 +230,27 @@ html[data-motion="reduced"] *::after {
     transition-duration: 1ms;
     animation-duration: 1ms;
     animation-iteration-count: 1;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --color-rule: var(--color-ink);
+  }
+
+  button,
+  input {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  :root {
+    --color-focus: Highlight;
+    --color-rule: CanvasText;
+  }
+
+  :focus-visible {
+    outline-color: Highlight;
   }
 }

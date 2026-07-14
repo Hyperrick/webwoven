@@ -32,6 +32,7 @@
   const hintUsed = (type: HintType) => used.some((hint) => hint.type === type);
   let latest = $derived(used.at(-1));
   let remaining = $derived(tools.length - used.length);
+  let noRoutes = $derived(groups.length === 0);
 </script>
 
 <aside class="hint-dock" aria-labelledby="hint-title">
@@ -47,9 +48,7 @@
         class:hint-dock__tool--used={isUsed}
         aria-label={`${tool.label} hint, ${tool.penalty} point penalty, ${isUsed ? "used" : tool.type === "compass" && compassSelecting ? "choose a route to evaluate" : "ready"}`}
         aria-pressed={tool.type === "compass" ? compassSelecting : undefined}
-        disabled={disabled ||
-          isUsed ||
-          (tool.type === "compass" && groups.length === 0)}
+        disabled={disabled || isUsed || noRoutes}
         onclick={() => {
           if (tool.type === "compass") onCompassToggle();
           else onHint(tool.type);
@@ -64,9 +63,11 @@
         <span class="hint-dock__tool-state" aria-hidden="true">
           {isUsed
             ? "Used"
-            : tool.type === "compass" && compassSelecting
-              ? "Choosing"
-              : "Ready"}
+            : noRoutes
+              ? "Unavailable"
+              : tool.type === "compass" && compassSelecting
+                ? "Choosing"
+                : "Ready"}
         </span>
       </button>
     {/each}

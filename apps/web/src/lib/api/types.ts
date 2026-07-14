@@ -46,12 +46,22 @@ export interface DecisionRelation {
   glyph: RelationGroup["glyph"];
 }
 
-export interface DecisionChoice {
-  /** Stable semantic identity; historical choices never retain signed tokens. */
+export interface DecisionConnection {
+  /** Stable fact identity; historical connections never retain signed tokens. */
   id: string;
-  target: EntitySummary;
   relation: DecisionRelation;
   statement: string;
+}
+
+export interface DecisionChoice {
+  /** Stable target choice identity; historical choices never retain signed tokens. */
+  id: string;
+  target: EntitySummary;
+  /** Primary connection used to summarize the choice. */
+  relation: DecisionRelation;
+  statement: string;
+  /** Optional only while reading legacy fixtures or cached responses. */
+  connections?: DecisionConnection[];
 }
 
 export interface DecisionStage {
