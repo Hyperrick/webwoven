@@ -83,11 +83,18 @@ class DecisionRelationResponse(ApiModel):
     direction: RelationDirection
 
 
+class DecisionConnectionResponse(ApiModel):
+    id: str
+    relation: DecisionRelationResponse
+    statement: str
+
+
 class DecisionChoiceResponse(ApiModel):
     id: str
     target: EntityResponse
     relation: DecisionRelationResponse
     statement: str
+    connections: list[DecisionConnectionResponse]
 
 
 class DecisionStageResponse(ApiModel):

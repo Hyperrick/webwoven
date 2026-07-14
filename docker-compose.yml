@@ -63,8 +63,8 @@ services:
     environment:
       WEBWOVEN_SITE_ADDRESS: ${WEBWOVEN_SITE_ADDRESS:-http://localhost}
     ports:
-      - "127.0.0.1:${WEBWOVEN_HTTP_PORT:-80}:80"
-      - "127.0.0.1:${WEBWOVEN_HTTPS_PORT:-443}:443"
+      - "${WEBWOVEN_BIND_ADDRESS:-127.0.0.1}:${WEBWOVEN_HTTP_PORT:-80}:80"
+      - "${WEBWOVEN_BIND_ADDRESS:-127.0.0.1}:${WEBWOVEN_HTTPS_PORT:-443}:443"
     volumes:
       - caddy_data:/data
       - caddy_config:/config

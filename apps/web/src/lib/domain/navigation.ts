@@ -125,7 +125,7 @@ export function createNavigationState(
       state_version: 0,
       shortest_distance: 4,
       elapsed_seconds: 0,
-      relation_groups: relationGroupsFor(start.qid),
+      relation_groups: relationGroupsFor(start.qid, new Set([start.qid])),
     },
   };
 }
@@ -139,10 +139,19 @@ export function followEdge(
   if (!resolved || resolved.source !== state.snapshot.current.qid) {
     throw new Error("That connection no longer belongs to the current entity.");
   }
+  if (state.stack.includes(resolved.target)) {
+    throw new Error(
+      "That entity is already in your active route. Use Back to retrace your path.",
+    );
+  }
 
   const entity = DEMO_ENTITIES[resolved.target];
   const completed = entity.qid === state.snapshot.target.qid;
   const decision = resolvedStage(state.snapshot, entity, "follow", edgeToken);
+  const trail = [
+    ...state.snapshot.trail,
+    { qid: entity.qid, label: entity.label, relation: resolved.statement },
+  ];
   const next: NavigationState = {
     ...state,
     stack: [...state.stack, entity.qid],
@@ -151,14 +160,14 @@ export function followEdge(
       current: entity,
       navigation_stack: [...(state.snapshot.navigation_stack ?? []), entity],
       decision_history: [...(state.snapshot.decision_history ?? []), decision],
-      trail: [
-        ...state.snapshot.trail,
-        { qid: entity.qid, label: entity.label, relation: resolved.statement },
-      ],
+      trail,
       moves: state.snapshot.moves + 1,
       status: completed ? "completed" : "active",
       state_version: state.snapshot.state_version + 1,
-      relation_groups: relationGroupsFor(entity.qid),
+      relation_groups: relationGroupsFor(
+        entity.qid,
+        new Set([...state.stack, entity.qid]),
+      ),
       last_connection: resolved.statement,
     },
   };
@@ -171,6 +180,15 @@ export function moveBack(state: NavigationState): NavigationState {
   const stack = state.stack.slice(0, -1);
   const entity = DEMO_ENTITIES[stack.at(-1) ?? state.snapshot.start.qid];
   const decision = resolvedStage(state.snapshot, entity, "back");
+  const trail = [
+    ...state.snapshot.trail,
+    {
+      qid: entity.qid,
+      label: entity.label,
+      relation: `Returned to ${entity.label}.`,
+      revisited: true,
+    },
+  ];
   const next: NavigationState = {
     ...state,
     stack,
@@ -179,18 +197,10 @@ export function moveBack(state: NavigationState): NavigationState {
       current: entity,
       navigation_stack: stack.map((qid) => DEMO_ENTITIES[qid]),
       decision_history: [...(state.snapshot.decision_history ?? []), decision],
-      trail: [
-        ...state.snapshot.trail,
-        {
-          qid: entity.qid,
-          label: entity.label,
-          relation: `Returned to ${entity.label}.`,
-          revisited: true,
-        },
-      ],
+      trail,
       moves: state.snapshot.moves + 1,
       state_version: state.snapshot.state_version + 1,
-      relation_groups: relationGroupsFor(entity.qid),
+      relation_groups: relationGroupsFor(entity.qid, new Set(stack)),
       last_connection: `You retraced the route to ${entity.label}.`,
     },
   };

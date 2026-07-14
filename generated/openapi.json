@@ -288,6 +288,13 @@
       "DecisionChoiceResponse": {
         "additionalProperties": false,
         "properties": {
+          "connections": {
+            "items": {
+              "$ref": "#/components/schemas/DecisionConnectionResponse"
+            },
+            "title": "Connections",
+            "type": "array"
+          },
           "id": {
             "title": "Id",
             "type": "string"
@@ -307,9 +314,33 @@
           "id",
           "target",
           "relation",
-          "statement"
+          "statement",
+          "connections"
         ],
         "title": "DecisionChoiceResponse",
+        "type": "object"
+      },
+      "DecisionConnectionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "relation": {
+            "$ref": "#/components/schemas/DecisionRelationResponse"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "relation",
+          "statement"
+        ],
+        "title": "DecisionConnectionResponse",
         "type": "object"
       },
       "DecisionRelationResponse": {

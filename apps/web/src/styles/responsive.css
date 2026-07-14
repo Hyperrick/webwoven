@@ -164,15 +164,6 @@
     grid-column: 1;
   }
 
-  .route-reveal > header {
-    align-items: start;
-    gap: var(--space-5);
-  }
-
-  .route-reveal > header .secondary-action {
-    width: 10rem;
-  }
-
   .cartographer-recap,
   .next-route,
   .leaderboard {
@@ -208,8 +199,7 @@
 
 @media (width <= 32rem) {
   .hero__actions,
-  .exit-dialog__actions,
-  .route-reveal > header {
+  .exit-dialog__actions {
     align-items: stretch;
     flex-direction: column;
   }
@@ -262,5 +252,18 @@
 
   .not-found__code {
     font-size: var(--text-64);
+  }
+}
+
+@media (prefers-contrast: more) {
+  button,
+  input {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
   }
 }

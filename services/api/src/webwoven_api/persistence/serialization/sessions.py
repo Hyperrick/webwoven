@@ -66,8 +66,11 @@ def session_from_dict(value: object) -> GameSession:
     navigation_data = require_object(data.get("navigation"), "session.navigation")
     stack = _string_tuple(navigation_data.get("stack"), "session.navigation.stack")
     trail = _string_tuple(navigation_data.get("trail"), "session.navigation.trail")
-    if not stack:
-        raise ValueError("session.navigation.stack cannot be empty")
+    navigation = NavigationState(
+        stack=stack,
+        trail=trail,
+        moves=require_int(navigation_data.get("moves"), "session.navigation.moves"),
+    )
     hints = tuple(
         _hint_use_from_dict(item) for item in require_list(data.get("hints"), "session.hints")
     )
@@ -81,11 +84,7 @@ def session_from_dict(value: object) -> GameSession:
         mode=SessionMode(require_string(data.get("mode"), "session.mode")),
         graph_version=require_string(data.get("graph_version"), "session.graph_version"),
         round=_round_from_dict(data.get("round")),
-        navigation=NavigationState(
-            stack=stack,
-            trail=trail,
-            moves=require_int(navigation_data.get("moves"), "session.navigation.moves"),
-        ),
+        navigation=navigation,
         status=SessionStatus(require_string(data.get("status"), "session.status")),
         state_version=require_int(data.get("state_version"), "session.state_version"),
         started_at=require_datetime(data.get("started_at"), "session.started_at"),

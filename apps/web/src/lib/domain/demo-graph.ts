@@ -145,6 +145,15 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
     source_kind: "wikidata",
     source_url: "https://www.wikidata.org/wiki/Q84",
   },
+  Q21: {
+    qid: "Q21",
+    label: "England",
+    description: "Country that is part of the United Kingdom",
+    category: "places",
+    fact: "England contains London, the capital of the United Kingdom.",
+    source_kind: "wikidata",
+    source_url: "https://www.wikidata.org/wiki/Q21",
+  },
   Q145: {
     qid: "Q145",
     label: "United Kingdom",
@@ -281,6 +290,13 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
       target: "Q145",
       statement: "London is the capital of the United Kingdom.",
     },
+    {
+      propertyId: "P131",
+      label: "located in",
+      glyph: "place",
+      target: "Q21",
+      statement: "London is located in England.",
+    },
   ],
 };
 
@@ -288,8 +304,13 @@ function token(source: string, edge: DemoEdge): string {
   return `demo:${source}:${edge.propertyId}:${edge.target}`;
 }
 
-export function relationGroupsFor(qid: string): RelationGroup[] {
-  const edges = DEMO_EDGES[qid] ?? [];
+export function relationGroupsFor(
+  qid: string,
+  excludedTargetQids: ReadonlySet<string> = new Set(),
+): RelationGroup[] {
+  const edges = (DEMO_EDGES[qid] ?? []).filter(
+    (edge) => !excludedTargetQids.has(edge.target),
+  );
   const grouped = new Map<string, RelationGroup>();
 
   for (const edge of edges) {

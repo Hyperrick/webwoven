@@ -1,0 +1,180 @@
+@layer game {
+  .map-inspector {
+    position: absolute;
+    z-index: 8;
+    top: calc(var(--space-8) + var(--space-2));
+    right: var(--space-4);
+    display: grid;
+    gap: var(--space-4);
+    width: min(25rem, calc(100% - 2rem));
+    max-height: calc(100% - var(--space-8) - var(--space-6));
+    padding: var(--space-4);
+    overflow-y: auto;
+    border: 1px solid var(--color-ink);
+    border-top: 4px solid var(--color-muted-ink);
+    border-radius: var(--radius-sheet);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: var(--shadow-paper);
+    overscroll-behavior: contain;
+  }
+
+  .map-inspector--current {
+    border-top-color: var(--color-signal);
+  }
+
+  .map-inspector--taken {
+    border-top-color: var(--color-moss);
+  }
+
+  .map-inspector__header {
+    display: flex;
+    gap: var(--space-4);
+    align-items: start;
+    justify-content: space-between;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .map-inspector__header h3 {
+    margin-block: var(--space-1);
+    font-family: var(--font-display);
+    font-size: var(--text-28);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .map-inspector__header small,
+  .map-inspector__status,
+  .map-inspector__connections h4 {
+    font-family: var(--font-technical);
+    font-size: var(--text-12);
+  }
+
+  .map-inspector__header small {
+    color: var(--color-muted-ink);
+  }
+
+  .map-inspector__status {
+    margin: 0;
+    color: var(--color-muted-ink);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .map-inspector--current .map-inspector__status {
+    color: var(--color-signal);
+  }
+
+  .map-inspector--taken .map-inspector__status {
+    color: var(--color-moss);
+  }
+
+  .map-inspector__close {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid var(--color-ink);
+    border-radius: var(--radius-control);
+    color: var(--color-ink);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .map-inspector__close:hover,
+  .map-inspector__close:focus-visible {
+    color: var(--color-paper);
+    background: var(--color-ink);
+  }
+
+  .map-inspector__description {
+    margin: 0;
+    color: var(--color-muted-ink);
+    font-size: var(--text-14);
+    line-height: 1.55;
+  }
+
+  .map-inspector__connections {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .map-inspector__connections h4 {
+    margin: 0;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .map-inspector__connections ol,
+  .map-inspector__statements {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .map-inspector__connections > ol > li {
+    display: grid;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .map-inspector__route {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-16);
+    line-height: 1.15;
+  }
+
+  .map-inspector__route strong:last-child {
+    text-align: right;
+  }
+
+  .map-inspector__to {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .map-inspector__statements {
+    gap: var(--space-2);
+  }
+
+  .map-inspector__statements li {
+    padding-left: var(--space-3);
+    border-left: 3px solid var(--color-cartographic);
+    font-size: var(--text-14);
+    line-height: 1.45;
+  }
+
+  .map-inspector__empty {
+    margin: 0;
+    color: var(--color-muted-ink);
+    font-size: var(--text-14);
+  }
+
+  @media (width <= 50rem) {
+    .map-inspector {
+      inset: auto var(--space-2) var(--space-2);
+      width: auto;
+      max-height: min(60%, 26rem);
+      padding: var(--space-3);
+    }
+
+    .map-inspector__header h3 {
+      font-size: var(--text-20);
+    }
+  }
+}

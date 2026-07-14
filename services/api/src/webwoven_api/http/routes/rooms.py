@@ -4,7 +4,7 @@ from fastapi import APIRouter, status
 
 from webwoven_api.http.contracts.rooms import RoomCreateRequest, RoomReadyRequest, RoomResponse
 from webwoven_api.http.dependencies import ContainerDependency, GuestDependency
-from webwoven_api.http.presenters import room_response
+from webwoven_api.http.presentation.rooms import room_response
 
 router = APIRouter(prefix="/api/v1/rooms", tags=["rooms"])
 

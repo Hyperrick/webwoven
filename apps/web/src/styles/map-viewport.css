@@ -1,0 +1,184 @@
+.map-viewport {
+  position: relative;
+  width: 100%;
+  height: clamp(32rem, 68vh, 46rem);
+  overflow: clip;
+  border: 1px solid var(--color-rule);
+  border-radius: 0 0 var(--radius-sheet) var(--radius-sheet);
+  outline-offset: 3px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.map-viewport:focus-visible {
+  outline: 3px solid var(--color-cartographic);
+  outline-offset: 3px;
+}
+
+.map-viewport--panning {
+  cursor: grabbing;
+}
+
+.map-viewport__world.game-map__surface {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  min-height: 0;
+  isolation: isolate;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.map-viewport--panning .map-viewport__world {
+  pointer-events: none;
+}
+
+.map-viewport [data-map-interactive] {
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.map-viewport [data-map-scrollable] {
+  touch-action: pan-y;
+  user-select: text;
+}
+
+.map-viewport > .map-board-renderer {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.map-viewport-controls {
+  position: absolute;
+  z-index: 10;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-paper);
+}
+
+.map-viewport-controls button,
+.map-viewport-controls output {
+  display: grid;
+  place-items: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-right: 1px solid var(--color-rule);
+  background: var(--color-paper);
+}
+
+.map-viewport-controls button:not(:disabled):hover,
+.map-viewport-controls button:not(:disabled):focus-visible {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+.map-viewport-controls output {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.map-viewport-controls .map-viewport-controls__labelled {
+  grid-auto-flow: column;
+  gap: var(--space-1);
+  min-width: auto;
+  padding-inline: var(--space-3);
+  font-size: var(--text-12);
+  font-weight: 600;
+}
+
+.map-viewport-controls > :last-child {
+  border-right: 0;
+}
+
+.map-viewport-controls__divider {
+  width: 0.25rem;
+  background: var(--color-ochre);
+}
+
+.map-viewport__instructions {
+  position: absolute;
+  z-index: 9;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  max-width: min(34rem, calc(100% - var(--space-6)));
+  padding: var(--space-1) var(--space-2);
+  border-left: 2px solid var(--color-cartographic);
+  color: var(--color-muted-ink);
+  background: var(--color-paper);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  line-height: 1.35;
+  text-align: right;
+  pointer-events: none;
+}
+
+@media (forced-colors: active) {
+  .map-viewport,
+  .map-viewport-controls,
+  .map-viewport-controls button,
+  .map-viewport-controls output,
+  .map-viewport__instructions {
+    border-color: CanvasText;
+    color: CanvasText;
+    background: Canvas;
+    box-shadow: none;
+  }
+}
+
+@media (width <= 50rem) {
+  .map-viewport {
+    height: clamp(28rem, 68svh, 38rem);
+  }
+
+  .map-viewport-controls {
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+
+  .map-viewport-controls .map-viewport-controls__labelled {
+    padding-inline: var(--space-2);
+  }
+
+  .map-viewport-controls__labelled:last-child {
+    font-size: 0;
+  }
+
+  .map-viewport-controls__labelled:last-child .atlas-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .map-viewport__instructions {
+    right: var(--space-2);
+    bottom: var(--space-2);
+  }
+}
+
+@media (width <= 32rem) {
+  .map-viewport-controls output {
+    min-width: 2.8rem;
+  }
+
+  .map-viewport-controls .map-viewport-controls__labelled {
+    font-size: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-viewport__world {
+    will-change: auto;
+  }
+}

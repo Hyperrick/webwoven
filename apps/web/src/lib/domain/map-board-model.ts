@@ -34,13 +34,18 @@ export interface MapBoardRelation {
   hint?: RelationGroup["hint"];
 }
 
-export interface MapMoveConnection {
+export interface MapBoardConnection {
   /** Stable semantic identity; signed command tokens are never persisted. */
   id: string;
-  edge_token: string;
   relation: MapBoardRelation;
   statement: string;
 }
+
+export interface MapMoveConnection extends MapBoardConnection {
+  edge_token: string;
+}
+
+export type MapBoardMoveAction = "follow" | "back";
 
 export interface MapMoveChoice {
   /** Stable across edge-token refreshes and relation-hint changes. */
@@ -75,6 +80,10 @@ export interface MapBoardTrailVisit {
   label: string;
   statement?: string;
   revisited: boolean;
+  /** The resolved command that produced this visit, when history is available. */
+  action?: MapBoardMoveAction;
+  /** Fact-grounded connections retained for later route inspection. */
+  connections?: MapBoardConnection[];
 }
 
 export interface MapBoardLink {
@@ -84,6 +93,9 @@ export interface MapBoardLink {
   target_node_id: string;
   choice_id?: string;
   statement?: string;
+  /** Kept alongside statement so older consumers can continue using the summary. */
+  connections?: MapBoardConnection[];
+  action?: MapBoardMoveAction;
 }
 
 export interface MapBoard {

@@ -10,7 +10,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
 from webwoven_api.container import AppContainer
 from webwoven_api.domain.errors import ForbiddenError, NotFoundError
 from webwoven_api.http.contracts.rooms import RoomEventResponse
-from webwoven_api.http.presenters import room_response
+from webwoven_api.http.presentation.rooms import room_response
 from webwoven_api.http.rate_limit_identity import guest_rate_identity
 from webwoven_api.rooms.models import RoomEvent
 

@@ -5,14 +5,25 @@
     MapBoardLink,
     MapBoardNode,
   } from "../domain/map-board";
+  import {
+    visibleMapCameraRect,
+    type MapCameraView,
+  } from "../map-camera/map-camera-view";
+  import { shouldReduceMotion } from "../preferences/preferences";
   import "../../styles/map-board.css";
   import type { AtlasMapRenderer } from "./map-board-renderer";
+  import {
+    mapNodeTokenPresentation,
+    mapNodeTokenState,
+  } from "./map-node-presentation";
 
   let {
     board,
+    view,
     class: className = "",
   }: {
     board: MapBoard;
+    view: MapCameraView;
     class?: string;
   } = $props();
 
@@ -21,35 +32,22 @@
   let reducedMotion = $state(false);
   let renderState = $state<"loading" | "ready" | "fallback">("loading");
   let nodesById = $derived(new Map(board.nodes.map((node) => [node.id, node])));
-
-  function hasRole(node: MapBoardNode, role: string): boolean {
-    return (node.roles as readonly string[]).includes(role);
-  }
-
-  function hasAnyRole(node: MapBoardNode, roles: readonly string[]): boolean {
-    return roles.some((role) => hasRole(node, role));
-  }
+  let visibleRect = $derived(visibleMapCameraRect(view));
+  let fallbackViewBox = $derived(
+    `${visibleRect.x} ${visibleRect.y} ${visibleRect.width} ${visibleRect.height}`,
+  );
 
   function isDiscardedLink(link: MapBoardLink, target: MapBoardNode): boolean {
-    return String(link.kind) === "discarded" || hasRole(target, "discarded");
-  }
-
-  function fallbackRadius(node: MapBoardNode): number {
-    if (hasRole(node, "current")) return 19;
-    if (hasRole(node, "goal")) return 17;
-    if (hasAnyRole(node, ["trail", "breadcrumb", "visited"])) return 14;
-    if (hasRole(node, "discarded")) return 12;
-    if (hasRole(node, "choice")) return 15;
-    return 12;
+    return (
+      link.kind === "discarded" || mapNodeTokenState(target) === "discarded"
+    );
   }
 
   onMount(() => {
     let cancelled = false;
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const setMotionPreference = (): void => {
-      reducedMotion =
-        motionQuery.matches ||
-        document.documentElement.dataset.motion === "reduced";
+      reducedMotion = shouldReduceMotion(undefined, motionQuery.matches);
     };
     setMotionPreference();
     motionQuery.addEventListener("change", setMotionPreference);
@@ -60,7 +58,6 @@
     });
 
     let instance: AtlasMapRenderer | null = null;
-    let observer: ResizeObserver | null = null;
     const startRenderer = async (): Promise<void> => {
       try {
         const { AtlasMapRenderer } = await import("./map-board-renderer");
@@ -69,13 +66,6 @@
           renderState = "fallback";
         });
         renderer = instance;
-        observer = new ResizeObserver(([entry]) => {
-          if (!entry) return;
-          instance?.resize(entry.contentRect.width, entry.contentRect.height);
-        });
-        observer.observe(host);
-        const bounds = host.getBoundingClientRect();
-        instance.resize(bounds.width, bounds.height);
         renderState = "ready";
       } catch {
         instance?.dispose();
@@ -89,14 +79,29 @@
       cancelled = true;
       motionQuery.removeEventListener("change", setMotionPreference);
       motionObserver.disconnect();
-      observer?.disconnect();
       instance?.dispose();
       renderer = null;
     };
   });
 
   $effect(() => {
-    renderer?.setBoard(board.nodes, board.links, reducedMotion);
+    const camera: MapCameraView = {
+      x: view.x,
+      y: view.y,
+      zoom: view.zoom,
+      world_width: view.world_width,
+      world_height: view.world_height,
+      viewport_width: view.viewport_width,
+      viewport_height: view.viewport_height,
+    };
+    renderer?.setBoard(
+      board.nodes,
+      board.links,
+      camera.world_width,
+      camera.world_height,
+      reducedMotion,
+    );
+    renderer?.setCameraView(camera);
   });
 </script>
 
@@ -109,7 +114,7 @@
   {#if renderState === "fallback"}
     <svg
       class="map-board-fallback"
-      viewBox="0 0 1000 600"
+      viewBox={fallbackViewBox}
       preserveAspectRatio="none"
     >
       {#each board.links as link (link.id)}
@@ -123,62 +128,57 @@
               target,
             )}
             class="map-board-fallback__link"
-            x1={source.position.x * 1000}
-            y1={source.position.y * 600}
-            x2={target.position.x * 1000}
-            y2={target.position.y * 600}
+            x1={source.position.x * view.world_width}
+            y1={source.position.y * view.world_height}
+            x2={target.position.x * view.world_width}
+            y2={target.position.y * view.world_height}
           />
         {/if}
       {/each}
       {#each board.nodes as node (node.id)}
-        {@const radius = fallbackRadius(node)}
-        {@const cx = node.position.x * 1000}
-        {@const cy = node.position.y * 600}
-        <g
-          class:map-board-fallback__marker--discarded={hasRole(
-            node,
-            "discarded",
-          )}
-          class="map-board-fallback__marker"
-        >
-          <ellipse
-            class="map-board-fallback__node-shadow"
-            cx={cx + radius * 0.34}
-            cy={cy + radius * 0.52}
-            rx={radius * 1.2}
-            ry={radius * 0.52}
-          />
-          <circle
-            class="map-board-fallback__node-extrusion"
-            {cx}
-            cy={cy + radius * 0.28}
-            r={radius * 1.04}
-          />
-          <circle
-            class:map-board-fallback__node--trail={hasAnyRole(node, [
-              "trail",
-              "breadcrumb",
-              "visited",
-            ])}
-            class:map-board-fallback__node--choice={hasRole(node, "choice")}
-            class:map-board-fallback__node--discarded={hasRole(
-              node,
-              "discarded",
-            )}
-            class:map-board-fallback__node--goal={hasRole(node, "goal")}
-            class:map-board-fallback__node--current={hasRole(node, "current")}
-            class="map-board-fallback__node"
-            {cx}
-            {cy}
-            r={radius}
-          />
-          <circle
-            class="map-board-fallback__node-highlight"
-            cx={cx - radius * 0.28}
-            cy={cy - radius * 0.28}
-            r={radius * 0.16}
-          />
-        </g>
+        {@const token = mapNodeTokenPresentation(node)}
+        {#if token}
+          {@const radius = token.radius}
+          {@const cx = node.position.x * view.world_width}
+          {@const cy = node.position.y * view.world_height}
+          <g
+            class:map-board-fallback__marker--discarded={token.state ===
+              "discarded"}
+            class="map-board-fallback__marker"
+          >
+            <ellipse
+              class="map-board-fallback__node-shadow"
+              cx={cx + radius * 0.34}
+              cy={cy + radius * 0.52}
+              rx={radius * 1.2}
+              ry={radius * 0.52}
+            />
+            <circle
+              class="map-board-fallback__node-extrusion"
+              {cx}
+              cy={cy + radius * 0.28}
+              r={radius * 1.04}
+            />
+            <circle
+              class:map-board-fallback__node--trail={token.state === "trail"}
+              class:map-board-fallback__node--discarded={token.state ===
+                "discarded"}
+              class:map-board-fallback__node--goal={token.state === "goal"}
+              class:map-board-fallback__node--current={token.state ===
+                "current"}
+              class="map-board-fallback__node"
+              {cx}
+              {cy}
+              r={radius}
+            />
+            <circle
+              class="map-board-fallback__node-highlight"
+              cx={cx - radius * 0.28}
+              cy={cy - radius * 0.28}
+              r={radius * 0.16}
+            />
+          </g>
+        {/if}
       {/each}
     </svg>
   {/if}

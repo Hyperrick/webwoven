@@ -1,5 +1,11 @@
-import type { EntitySummary, SessionSnapshot, TrailEntry } from "../api/types";
+import type { EntitySummary, SessionSnapshot } from "../api/types";
 import { flattenMoveChoices, stableMapIdentity } from "./map-board-choices";
+import {
+  archiveDecisionHistory,
+  buildTrailVisits,
+  visitNodeId,
+} from "./map-board-history";
+import type { ArchivedChoice } from "./map-board-history";
 import {
   centerY,
   createMapBoardLayout,
@@ -11,7 +17,6 @@ import type {
   MapBoardLink,
   MapBoardNode,
   MapBoardNodeRole,
-  MapBoardRelation,
   MapBoardTrailVisit,
   MapMoveChoice,
 } from "./map-board-model";
@@ -19,8 +24,10 @@ import type {
 export { flattenMoveChoices } from "./map-board-choices";
 export type {
   MapBoard,
+  MapBoardConnection,
   MapBoardLayout,
   MapBoardLink,
+  MapBoardMoveAction,
   MapBoardNode,
   MapBoardNodeRole,
   MapBoardPoint,
@@ -29,17 +36,6 @@ export type {
   MapMoveChoice,
   MapMoveConnection,
 } from "./map-board-model";
-
-type DecisionStage = NonNullable<SessionSnapshot["decision_history"]>[number];
-type DecisionChoice = DecisionStage["choices"][number];
-
-interface ArchivedChoice {
-  id: string;
-  target: EntitySummary;
-  relation: MapBoardRelation;
-  statement: string;
-  selected: boolean;
-}
 
 const ROLE_ORDER: MapBoardNodeRole[] = [
   "start",
@@ -50,58 +46,12 @@ const ROLE_ORDER: MapBoardNodeRole[] = [
   "goal",
 ];
 
-function visitNodeId(index: number, qid: string): string {
-  return `visit:${index}:${qid}`;
-}
-
 function optionNodeId(stageIndex: number, choiceId: string): string {
   return `option:${stageIndex}:${stableMapIdentity(choiceId)}`;
 }
 
 function goalNodeId(qid: string): string {
   return `goal:${qid}`;
-}
-
-function archivedRelation(choice: DecisionChoice): MapBoardRelation {
-  return {
-    group_id: `${choice.relation.property_id}-${choice.relation.direction}`,
-    property_id: choice.relation.property_id,
-    label: choice.relation.label,
-    direction: choice.relation.direction,
-    glyph: choice.relation.glyph,
-  };
-}
-
-function archivedChoices(
-  stage: DecisionStage,
-  stageIndex: number,
-): ArchivedChoice[] {
-  const grouped = new Map<string, DecisionChoice[]>();
-  for (const choice of [...stage.choices].sort((left, right) =>
-    left.target.qid.localeCompare(right.target.qid, "en"),
-  )) {
-    const choices = grouped.get(choice.target.qid) ?? [];
-    choices.push(choice);
-    grouped.set(choice.target.qid, choices);
-  }
-
-  return [...grouped.values()].map((connections) => {
-    const selectedConnection = connections.find(
-      (choice) => choice.id === stage.selected_choice_id,
-    );
-    const primary = selectedConnection ?? connections[0];
-    const selected =
-      stage.action === "follow" &&
-      (selectedConnection !== undefined ||
-        primary.target.qid === stage.destination.qid);
-    return {
-      id: `history-choice:${stageIndex}:${primary.target.qid}`,
-      target: primary.target,
-      relation: archivedRelation(primary),
-      statement: primary.statement,
-      selected,
-    };
-  });
 }
 
 function stagedLiveChoices(
@@ -115,22 +65,6 @@ function stagedLiveChoices(
     source_node_id: sourceNodeId,
     target_node_id: optionNodeId(stageIndex, choice.id),
   }));
-}
-
-function trailVisits(trail: TrailEntry[]): MapBoardTrailVisit[] {
-  const seen = new Set<string>();
-  return trail.map((entry, index) => {
-    const revisited = seen.has(entry.qid) || entry.revisited === true;
-    seen.add(entry.qid);
-    return {
-      index,
-      node_id: visitNodeId(index, entry.qid),
-      qid: entry.qid,
-      label: entry.label,
-      statement: entry.relation,
-      revisited,
-    };
-  });
 }
 
 function visitSummaries(snapshot: SessionSnapshot): EntitySummary[] {
@@ -283,6 +217,8 @@ function buildLinks(
     source_node_id: visits[index].node_id,
     target_node_id: visit.node_id,
     statement: visit.statement,
+    connections: visit.connections,
+    ...(visit.action === undefined ? {} : { action: visit.action }),
   }));
   const discardedLinks = history.flatMap((stageChoices, stageIndex) =>
     stageChoices.flatMap((choice): MapBoardLink[] =>
@@ -296,6 +232,7 @@ function buildLinks(
               target_node_id: optionNodeId(stageIndex, choice.id),
               choice_id: choice.id,
               statement: choice.statement,
+              connections: choice.connections,
             },
           ],
     ),
@@ -307,16 +244,16 @@ function buildLinks(
     target_node_id: choice.target_node_id,
     choice_id: choice.id,
     statement: choice.statement,
+    connections: choice.connections,
   }));
   return [...trailLinks, ...discardedLinks, ...liveLinks];
 }
 
 /** Build the full, ever-widening exploration map from server-owned history. */
 export function buildMapBoard(snapshot: SessionSnapshot): MapBoard {
-  const visits = trailVisits(snapshot.trail);
-  const recordedHistory = (snapshot.decision_history ?? []).map(
-    archivedChoices,
-  );
+  const archivedStages = archiveDecisionHistory(snapshot.decision_history);
+  const visits = buildTrailVisits(snapshot.trail, archivedStages);
+  const recordedHistory = archivedStages.map((stage) => stage.choices);
   const resolvedStageCount = Math.max(
     recordedHistory.length,
     visits.length - 1,

@@ -7,6 +7,7 @@
   import RaceCountdown from "../components/RaceCountdown.svelte";
   import RaceStrip from "../components/RaceStrip.svelte";
   import RoundMasthead from "../components/RoundMasthead.svelte";
+  import { activeBackDestination } from "../domain/back-navigation";
 
   let {
     session,
@@ -28,6 +29,8 @@
 
   let liveSeconds = $state(0);
   let compassSelecting = $state(false);
+  let backDestination = $derived(activeBackDestination(session));
+  let canGoBack = $derived(Boolean(backDestination));
 
   onMount(() => {
     liveSeconds = session.elapsed_seconds;
@@ -49,8 +52,7 @@
       target instanceof HTMLButtonElement
     )
       return;
-    if (event.key.toLowerCase() === "b" && session.trail.length > 1 && !busy)
-      onBack();
+    if (event.key.toLowerCase() === "b" && canGoBack && !busy) onBack();
   }
 
   function toggleCompassSelection(): void {
@@ -61,6 +63,10 @@
     compassSelecting = false;
     onHint("compass", propertyId);
   }
+
+  $effect(() => {
+    if (session.relation_groups.length === 0) compassSelecting = false;
+  });
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -92,7 +98,7 @@
     par={session.shortest_distance}
     seconds={liveSeconds}
     score={session.score}
-    canGoBack={session.trail.length > 1}
+    {canGoBack}
     {busy}
     {onBack}
   />
@@ -100,8 +106,11 @@
   <GameMapBoard
     {session}
     {busy}
+    {canGoBack}
     {compassSelecting}
     {onFollow}
+    {onBack}
+    backDestinationLabel={backDestination?.label}
     onCompassSelect={useCompass}
   />
 

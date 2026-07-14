@@ -31,7 +31,6 @@
     stroke: var(--color-cartographic);
     stroke-width: 2;
     stroke-opacity: 0.55;
-    vector-effect: non-scaling-stroke;
   }
 
   .map-board-fallback__link--discarded {
@@ -59,16 +58,11 @@
     fill: var(--color-muted-ink);
     stroke: var(--color-ink);
     stroke-width: 3;
-    vector-effect: non-scaling-stroke;
   }
 
   .map-board-fallback__node-highlight {
     fill: var(--color-paper);
     opacity: 0.82;
-  }
-
-  .map-board-fallback__node--choice {
-    fill: var(--color-cartographic);
   }
 
   .map-board-fallback__node--discarded {
@@ -86,7 +80,7 @@
   .map-board-fallback__node--current {
     fill: var(--color-signal);
     stroke: var(--color-ink);
-    stroke-width: 5;
+    stroke-width: 3;
   }
 
   .map-board-fallback__marker--discarded .map-board-fallback__node-shadow {
@@ -101,8 +95,42 @@
     fill: var(--color-muted-ink);
   }
 
-  html[data-contrast="high"] .map-board-renderer {
-    border-color: var(--color-ink);
-    background: var(--color-paper);
+  @media (prefers-contrast: more) {
+    .map-board-fallback__link,
+    .map-board-fallback__link--discarded,
+    .map-board-fallback__link--trail {
+      stroke-opacity: 1;
+    }
+
+    .map-board-fallback__marker--discarded {
+      opacity: 0.82;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .map-board-renderer {
+      border-color: CanvasText;
+      background: Canvas;
+    }
+
+    .map-board-fallback__link,
+    .map-board-fallback__link--discarded,
+    .map-board-fallback__link--trail {
+      stroke: CanvasText;
+      stroke-opacity: 1;
+    }
+
+    .map-board-fallback__node,
+    .map-board-fallback__node--discarded,
+    .map-board-fallback__node--trail,
+    .map-board-fallback__node--goal,
+    .map-board-fallback__node--current {
+      fill: Canvas;
+      stroke: CanvasText;
+    }
+
+    .map-board-fallback__node-highlight {
+      fill: CanvasText;
+    }
   }
 }

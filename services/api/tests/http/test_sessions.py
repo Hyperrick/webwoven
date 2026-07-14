@@ -116,6 +116,10 @@ def test_follow_and_back_publish_token_free_decision_history(client: TestClient)
         },
     ).json()["session"]
 
+    assert {
+        edge["target"]["qid"] for group in followed["relation_groups"] for edge in group["edges"]
+    } == {"Q3"}
+
     follow_stage = followed["decision_history"][0]
     assert follow_stage["index"] == 0
     assert follow_stage["action"] == "follow"
@@ -129,6 +133,17 @@ def test_follow_and_back_publish_token_free_decision_history(client: TestClient)
     )
     assert selected_choice["target"]["qid"] == "Q2"
     assert selected_choice["statement"] == "Ada Lovelace worked with Charles Babbage."
+    assert selected_choice["connections"] == [
+        {
+            "id": "connection:0:Q1:edge-1",
+            "relation": {
+                "property_id": "P108",
+                "label": "worked with",
+                "direction": "outgoing",
+            },
+            "statement": "Ada Lovelace worked with Charles Babbage.",
+        }
+    ]
     assert "edge_token" not in str(follow_stage)
 
     backed = client.post(
@@ -147,8 +162,11 @@ def test_follow_and_back_publish_token_free_decision_history(client: TestClient)
     assert back_stage["source"]["qid"] == "Q2"
     assert back_stage["destination"]["qid"] == "Q1"
     assert back_stage["selected_choice_id"] is None
-    assert {choice["target"]["qid"] for choice in back_stage["choices"]} == {"Q1", "Q3"}
+    assert {choice["target"]["qid"] for choice in back_stage["choices"]} == {"Q3"}
     assert "edge_token" not in str(back_stage)
+    assert {
+        edge["target"]["qid"] for group in backed["relation_groups"] for edge in group["edges"]
+    } == {"Q2", "Q5"}
 
     resumed = client.get(f"/api/v1/sessions/{session['id']}", headers=headers).json()
     assert resumed["decision_history"] == backed["decision_history"]

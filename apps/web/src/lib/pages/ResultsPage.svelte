@@ -9,14 +9,12 @@
     onAgain,
     onDaily,
     onHome,
-    onShare,
   }: {
     session: SessionSnapshot;
     leaderboard: LeaderboardEntry[];
     onAgain: () => void;
     onDaily: () => void;
     onHome: () => void;
-    onShare: () => void;
   } = $props();
 
   const time = $derived(
@@ -73,9 +71,6 @@
         <p class="eyebrow">Route reveal</p>
         <h2 id="reveal-title">The path you wove</h2>
       </div>
-      <button class="secondary-action" type="button" onclick={onShare}
-        >Copy spoiler-free result</button
-      >
     </header>
     <ol>
       {#each session.trail as item, index (`${index}:${item.qid}`)}

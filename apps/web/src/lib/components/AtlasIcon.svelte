@@ -11,6 +11,9 @@
     | "lens"
     | "map"
     | "menu"
+    | "minus"
+    | "plus"
+    | "focus"
     | "route"
     | "settings"
     | "sources"
@@ -45,6 +48,16 @@
     <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" /><path d="M9 3v15M15 6v15" />
   {:else if name === "menu"}
     <path d="M4 7h16M4 12h16M4 17h16" />
+  {:else if name === "minus"}
+    <path d="M5 12h14" />
+  {:else if name === "plus"}
+    <path d="M5 12h14M12 5v14" />
+  {:else if name === "focus"}
+    <path d="M8 4H4v4M16 4h4v4M20 16v4h-4M8 20H4v-4" /><circle
+      cx="12"
+      cy="12"
+      r="3"
+    />
   {:else if name === "route"}
     <circle cx="5" cy="18" r="2" /><circle cx="19" cy="6" r="2" /><path
       d="M7 18h4a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3"
