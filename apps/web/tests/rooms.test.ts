@@ -8,7 +8,7 @@ describe("relay room coordination", () => {
 
   it("requires the current explorer to ready before the demo room can start", () => {
     const rooms = new DemoRoomCoordinator();
-    const room = rooms.create();
+    const room = rooms.create("normal");
     const ready = rooms.ready(room.code, true);
     const started = rooms.start(room.code);
 

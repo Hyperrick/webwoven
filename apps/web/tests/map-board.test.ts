@@ -52,7 +52,9 @@ function snapshot(
   return {
     id: "session-1",
     mode: "solo",
+    category: "arts_culture",
     difficulty: "easy",
+    started_at: "2026-07-13T10:00:00Z",
     start,
     target: options.goal ?? target,
     current,

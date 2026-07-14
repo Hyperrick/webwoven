@@ -21,6 +21,7 @@ from webwoven_api.persistence.memory.guests import MemoryGuestRepository
 from webwoven_api.persistence.memory.rate_limits import MemoryRateLimiter
 from webwoven_api.persistence.memory.reports import MemoryContentReportRepository
 from webwoven_api.persistence.memory.rooms import MemoryRoomRepository
+from webwoven_api.persistence.memory.round_selections import MemoryRoundSelectionRepository
 from webwoven_api.persistence.memory.sessions import MemorySessionRepository
 from webwoven_api.persistence.postgres import (
     PostgresCompletedRoomRepository,
@@ -29,6 +30,7 @@ from webwoven_api.persistence.postgres import (
     PostgresDatabase,
     PostgresGraphRegistry,
     PostgresGuestRepository,
+    PostgresRoundSelectionRepository,
     PostgresSessionRepository,
 )
 from webwoven_api.persistence.valkey import (
@@ -46,6 +48,7 @@ from webwoven_api.rooms.service import RoomService
 from webwoven_api.security.rate_limits import RateLimiter
 from webwoven_api.security.tokens import EdgeTokenSigner, GuestCookieSigner
 from webwoven_api.sessions.repository import SessionRepository
+from webwoven_api.sessions.selection import RoundSelectionRepository, RoundSelector
 from webwoven_api.sessions.service import SessionService
 from webwoven_api.settings import Settings
 
@@ -79,6 +82,7 @@ class AppContainer:
 class _PersistenceAdapters:
     guests: GuestRepository
     sessions: SessionRepository
+    round_selections: RoundSelectionRepository
     daily: DailyRepository
     rooms: RoomRepository
     reports: ContentReportRepository
@@ -114,6 +118,7 @@ def build_container(settings: Settings) -> AppContainer:
         settings.edge_secret,
         ttl_seconds=settings.edge_token_ttl_seconds,
     )
+    round_selector = RoundSelector(graph, adapters.round_selections)
     sessions = SessionService(
         graph=graph,
         repository=adapters.sessions,
@@ -121,12 +126,16 @@ def build_container(settings: Settings) -> AppContainer:
         edge_tokens=edge_tokens,
         completion_recorder=completion,
         command_authorizer=RelayCommandAuthorizer(adapters.rooms),
+        round_selector=round_selector,
+        start_delay_seconds=settings.round_intro_seconds,
     )
     rooms = RoomService(
         graph=graph,
         repository=adapters.rooms,
         broker=adapters.room_broker,
         sessions=sessions,
+        round_selector=round_selector,
+        start_delay_seconds=settings.round_intro_seconds,
     )
     return AppContainer(
         settings=settings,
@@ -148,6 +157,7 @@ def _memory_adapters() -> _PersistenceAdapters:
     return _PersistenceAdapters(
         guests=MemoryGuestRepository(),
         sessions=MemorySessionRepository(),
+        round_selections=MemoryRoundSelectionRepository(),
         daily=MemoryDailyRepository(),
         rooms=MemoryRoomRepository(),
         reports=MemoryContentReportRepository(),
@@ -187,6 +197,7 @@ def _production_adapters(settings: Settings, graph: GraphReader) -> _Persistence
     return _PersistenceAdapters(
         guests=PostgresGuestRepository(database),
         sessions=PostgresSessionRepository(database),
+        round_selections=PostgresRoundSelectionRepository(database),
         daily=PostgresDailyRepository(database),
         rooms=room_repository,
         reports=PostgresContentReportRepository(database),

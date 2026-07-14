@@ -7,7 +7,9 @@ import {
 import type {
   AppConfig,
   ContentReportInput,
+  Category,
   DailyRound,
+  Difficulty,
   GameMode,
   Guest,
   LeaderboardEntry,
@@ -87,6 +89,8 @@ export class HttpApi implements WebwovenApi {
   async createSession(input: {
     mode: GameMode;
     round_id?: string;
+    category?: Category;
+    difficulty?: Difficulty;
   }): Promise<SessionSnapshot> {
     const wire = await this.#request<WireSession>("/api/v1/sessions", {
       method: "POST",
@@ -129,11 +133,11 @@ export class HttpApi implements WebwovenApi {
     );
   }
 
-  async createRoom(): Promise<RoomSnapshot> {
+  async createRoom(difficulty: Difficulty): Promise<RoomSnapshot> {
     return mapRoom(
       await this.#request<WireRoom>("/api/v1/rooms", {
         method: "POST",
-        body: {},
+        body: { difficulty },
       }),
     );
   }

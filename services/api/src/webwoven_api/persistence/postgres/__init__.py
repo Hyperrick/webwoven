@@ -7,6 +7,7 @@ from webwoven_api.persistence.postgres.guests import PostgresGuestRepository
 from webwoven_api.persistence.postgres.registry import PostgresGraphRegistry
 from webwoven_api.persistence.postgres.reports import PostgresContentReportRepository
 from webwoven_api.persistence.postgres.rooms import PostgresCompletedRoomRepository
+from webwoven_api.persistence.postgres.round_selections import PostgresRoundSelectionRepository
 from webwoven_api.persistence.postgres.sessions import PostgresSessionRepository
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "PostgresDatabase",
     "PostgresGraphRegistry",
     "PostgresGuestRepository",
+    "PostgresRoundSelectionRepository",
     "PostgresSessionRepository",
 ]

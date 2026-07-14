@@ -68,7 +68,9 @@ function snapshot(
   return {
     id: "history-session",
     mode: "solo",
+    category: "arts_culture",
     difficulty: "easy",
+    started_at: "2026-07-13T10:00:00Z",
     start,
     target: goal,
     current,

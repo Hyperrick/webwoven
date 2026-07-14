@@ -119,6 +119,8 @@ export interface WireRoom {
   is_host: boolean;
   graph_version: string;
   round_id: string;
+  category: string;
+  difficulty: "easy" | "normal" | "hard";
   start: WireEntity;
   target: WireEntity;
   participants: Array<{

@@ -22,6 +22,7 @@ export function persistActiveSession(
   session: SessionSnapshot,
   storage: SessionStorage = window.sessionStorage,
 ): void {
+  if (session.mode === "relay") return;
   if (session.status !== "active") {
     storage.removeItem(keyFor(session.mode));
     return;

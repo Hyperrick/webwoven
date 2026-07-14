@@ -6,6 +6,17 @@ The player receives a start entity, target entity, and par distance. Selecting a
 entity follows one stored relationship and counts as a move. Back returns to the previous
 navigation node and also counts as a move.
 
+Before a new round, Solo players confirm Easy, Normal, or Hard; relay hosts make the same locked
+choice while creating the room. The last choice is remembered for convenience, but every new Solo
+round requires confirmation. Daily difficulty remains part of its curated assignment. The server
+selects unseen eligible rounds within a per-player cycle and avoids an immediate repeat whenever
+more than one eligible route exists.
+
+Every mode reveals its category, difficulty, start, and goal during a five-second introduction that
+ends at the server-owned `started_at` timestamp. Relay participants share exactly one timestamp.
+Movement is unavailable before it, and elapsed play time begins from it. Reduced motion or missing
+WebGL changes the presentation, not the duration or control boundary.
+
 ## Active-round interface
 
 An active round begins with a compact **Round active** HUD for the timer, mode, difficulty, move
@@ -15,7 +26,9 @@ between them. It behaves as an expanding atlas rather than replacing one diagram
 Every Follow or Back command freezes the current decision column and opens the next column to its
 right. The selected entity joins the visible breadcrumb route; the alternatives remain on the map
 as muted, inspectable branches. The spatial canvas expands with every resolved stage and
-automatically pans the newest playable column into view. Repeated entities remain separate visit
+automatically pans the newest playable column into view. Back instead fades the departed node into
+a muted history state and recenters the returned current node, reading as the reverse of forward
+progress. Repeated entities remain separate visit
 occurrences, so a retraced route never collapses the history into one dot.
 
 The expanding atlas is a free spatial canvas rather than a one-directional strip. Players can drag

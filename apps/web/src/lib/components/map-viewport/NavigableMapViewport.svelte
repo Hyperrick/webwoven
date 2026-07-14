@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, tick, type Snippet } from "svelte";
   import type { MapBoard } from "../../domain/map-board";
+  import type { MapTransition } from "../../domain/map-transition";
   import {
     MAP_MAX_ZOOM,
     cameraForBounds,
@@ -10,6 +11,7 @@
     gestureCamera,
     minimumMapZoom,
     panCamera,
+    panCameraToWorldPoint,
     panCameraToWorldX,
     zoomCameraAt,
     type MapCameraEnvironment,
@@ -24,12 +26,12 @@
 
   let {
     board,
-    focusKey,
+    transition,
     children,
     overlay,
   }: {
     board: MapBoard;
-    focusKey: string | number;
+    transition: MapTransition;
     children: Snippet;
     overlay?: Snippet;
   } = $props();
@@ -91,7 +93,7 @@
   });
 
   $effect(() => {
-    const nextFocus = focusKey;
+    const nextFocus = transition.key;
     if (!ready) return;
     void nextFocus;
     void tick().then(() => {
@@ -99,7 +101,7 @@
       if (!positioned) {
         fitActive();
         positioned = true;
-      } else panToActiveStage();
+      } else panToActiveStage(transition);
     });
   });
 
@@ -119,7 +121,7 @@
     camera = next;
   }
 
-  function animateCameraTo(next: MapCameraState): void {
+  function animateCameraTo(next: MapCameraState, duration = 320): void {
     cancelCameraAnimation();
     if (shouldReduceMotion()) {
       camera = next;
@@ -127,7 +129,6 @@
     }
     const start = { ...camera };
     const startedAt = performance.now();
-    const duration = 320;
     const step = (now: number): void => {
       if (shouldReduceMotion()) {
         camera = next;
@@ -195,7 +196,7 @@
   }
 
   function focusCurrent(): void {
-    const bounds = boundsFor("[data-map-current]");
+    const bounds = currentBoundsFor(transition.to_node_id);
     if (!bounds) return;
     setCamera(
       cameraForBounds(bounds, currentEnvironment(), {
@@ -205,9 +206,25 @@
     );
   }
 
-  function panToActiveStage(): void {
-    const currentBounds = boundsFor("[data-map-current]");
+  function panToActiveStage(nextTransition: MapTransition): void {
+    const currentBounds = currentBoundsFor(nextTransition.to_node_id);
     if (!currentBounds) return;
+    if (nextTransition.kind === "back") {
+      const worldPoint = {
+        x: (currentBounds.left + currentBounds.right) / 2,
+        y: (currentBounds.top + currentBounds.bottom) / 2,
+      };
+      animateCameraTo(
+        panCameraToWorldPoint(
+          camera,
+          worldPoint,
+          { x: viewportSize.width / 2, y: viewportSize.height / 2 },
+          currentEnvironment(),
+        ),
+        440,
+      );
+      return;
+    }
     const currentCenterX = (currentBounds.left + currentBounds.right) / 2;
     const screenAnchorX = Math.min(280, viewportSize.width * 0.28);
     const anchored = panCameraToWorldX(
@@ -237,6 +254,14 @@
 
   function boundsFor(selector: string): MapWorldRect | null {
     const elements = [...world.querySelectorAll<HTMLElement>(selector)];
+    if (elements.length === 0) return null;
+    return elements.map(worldBoundsFor).reduce(combineBounds);
+  }
+
+  function currentBoundsFor(nodeId: string): MapWorldRect | null {
+    const elements = [
+      ...world.querySelectorAll<HTMLElement>("[data-map-current]"),
+    ].filter((element) => element.dataset.mapNodeId === nodeId);
     if (elements.length === 0) return null;
     return elements.map(worldBoundsFor).reduce(combineBounds);
   }
@@ -303,7 +328,7 @@
   bind:this={viewport}
   onfocusin={revealFocusedNode}
 >
-  <MapBoardCanvas {board} {view} />
+  <MapBoardCanvas {board} {view} {transition} />
   <div
     class="game-map__surface map-viewport__world"
     style={worldStyle}

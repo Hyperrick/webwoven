@@ -4,11 +4,13 @@ from datetime import datetime
 
 from pydantic import Field
 
+from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.http.contracts.common import ApiModel, EntityResponse
 from webwoven_api.rooms.models import RoomState
 
 
 class RoomCreateRequest(ApiModel):
+    difficulty: Difficulty
     round_id: str | None = None
 
 
@@ -35,6 +37,8 @@ class RoomResponse(ApiModel):
     is_host: bool
     graph_version: str
     round_id: str
+    category: str
+    difficulty: Difficulty
     start: EntityResponse
     target: EntityResponse
     participants: list[RoomParticipantResponse]

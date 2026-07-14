@@ -20,6 +20,8 @@ def room_response(room: Room, guest_id: str, graph: GraphReader) -> RoomResponse
         is_host=room.host_guest_id == guest_id,
         graph_version=room.graph_version,
         round_id=room.round_id,
+        category=round_.category,
+        difficulty=round_.difficulty,
         start=entity_response(start),
         target=entity_response(target),
         participants=[

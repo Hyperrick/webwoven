@@ -44,6 +44,7 @@ const TOKEN_SEGMENTS = 12;
 export class AtlasBoardScene {
   readonly root = new Group();
   readonly settlingNodes: Object3D[] = [];
+  readonly markersByNodeId = new Map<string, Object3D>();
   readonly #toonRamp = createToonRamp();
   readonly #worldWidth: number;
   readonly #worldHeight: number;
@@ -71,11 +72,20 @@ export class AtlasBoardScene {
       const marker = this.#createNodeMarker(node, presentation);
       this.root.add(marker);
       this.settlingNodes.push(marker);
+      this.markersByNodeId.set(node.id, marker);
     }
   }
 
+  detachMarker(nodeId: string): Object3D | undefined {
+    const marker = this.markersByNodeId.get(nodeId);
+    if (!marker) return undefined;
+    this.root.remove(marker);
+    this.markersByNodeId.delete(nodeId);
+    return marker;
+  }
+
   dispose(): void {
-    disposeObject(this.root);
+    disposeSceneObject(this.root);
     this.#toonRamp.dispose();
   }
 
@@ -324,7 +334,7 @@ function createPaperTexture(): CanvasTexture {
   return texture;
 }
 
-function disposeObject(object: Object3D): void {
+export function disposeSceneObject(object: Object3D): void {
   const geometries = new Set<BufferGeometry>();
   const materials = new Set<Material>();
   object.traverse((child) => {

@@ -4,10 +4,10 @@
   import type { HintType, RoomSnapshot, SessionSnapshot } from "../api/types";
   import GameMapBoard from "../components/GameMapBoard.svelte";
   import HintDock from "../components/HintDock.svelte";
-  import RaceCountdown from "../components/RaceCountdown.svelte";
   import RaceStrip from "../components/RaceStrip.svelte";
   import RoundMasthead from "../components/RoundMasthead.svelte";
   import { activeBackDestination } from "../domain/back-navigation";
+  import RoundIntro from "../round-intro/RoundIntro.svelte";
 
   let {
     session,
@@ -27,21 +27,28 @@
     onHint: (type: HintType, propertyId?: string) => void;
   } = $props();
 
-  let liveSeconds = $state(0);
+  let now = $state(Date.now());
+  let completedIntroId = $state<string>();
   let compassSelecting = $state(false);
   let backDestination = $derived(activeBackDestination(session));
   let canGoBack = $derived(Boolean(backDestination));
-
-  onMount(() => {
-    liveSeconds = session.elapsed_seconds;
-    const interval = window.setInterval(() => {
-      if (session.status === "active") liveSeconds += 1;
-    }, 1000);
-    return () => window.clearInterval(interval);
+  let introActive = $derived(
+    completedIntroId !== session.id && Date.parse(session.started_at) > now,
+  );
+  let locked = $derived(busy || introActive);
+  let liveSeconds = $derived.by(() => {
+    const started = Date.parse(session.started_at);
+    const elapsed = Number.isFinite(started)
+      ? Math.max(0, Math.floor((now - started) / 1_000))
+      : 0;
+    return Math.max(session.elapsed_seconds, elapsed);
   });
 
-  $effect(() => {
-    liveSeconds = Math.max(liveSeconds, session.elapsed_seconds);
+  onMount(() => {
+    const interval = window.setInterval(() => {
+      now = Date.now();
+    }, 250);
+    return () => window.clearInterval(interval);
   });
 
   function handleKeydown(event: KeyboardEvent): void {
@@ -52,7 +59,7 @@
       target instanceof HTMLButtonElement
     )
       return;
-    if (event.key.toLowerCase() === "b" && canGoBack && !busy) onBack();
+    if (event.key.toLowerCase() === "b" && canGoBack && !locked) onBack();
   }
 
   function toggleCompassSelection(): void {
@@ -71,55 +78,61 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<main class="game-page" aria-busy={busy}>
-  {#if room}<RaceCountdown active={room.state === "countdown"} />{/if}
-  {#if room}
-    <RaceStrip
-      {room}
-      currentMoves={session.moves}
-      connection={relayConnection}
+<main class="game-page" aria-busy={locked}>
+  <div class="game-page__play" inert={introActive} aria-hidden={introActive}>
+    {#if room}
+      <RaceStrip
+        {room}
+        currentMoves={session.moves}
+        connection={relayConnection}
+      />
+    {/if}
+
+    <RoundMasthead
+      startLabel={session.start.label}
+      targetLabel={session.target.label}
+      modeLabel={session.mode === "daily"
+        ? "Daily connection"
+        : room
+          ? "Live relay"
+          : "Solo route"}
+      difficulty={session.difficulty === "easy"
+        ? "Easy"
+        : session.difficulty === "hard"
+          ? "Hard"
+          : "Normal"}
+      moves={session.moves}
+      par={session.shortest_distance}
+      seconds={liveSeconds}
+      score={session.score}
+      {canGoBack}
+      busy={locked}
+      {onBack}
     />
+
+    <GameMapBoard
+      {session}
+      busy={locked}
+      active={!introActive}
+      {canGoBack}
+      {compassSelecting}
+      {onFollow}
+      {onBack}
+      backDestinationLabel={backDestination?.label}
+      onCompassSelect={useCompass}
+    />
+
+    <HintDock
+      groups={session.relation_groups}
+      used={session.hints_used}
+      disabled={locked}
+      {compassSelecting}
+      {onHint}
+      onCompassToggle={toggleCompassSelection}
+    />
+  </div>
+
+  {#if introActive}
+    <RoundIntro {session} onComplete={() => (completedIntroId = session.id)} />
   {/if}
-
-  <RoundMasthead
-    startLabel={session.start.label}
-    targetLabel={session.target.label}
-    modeLabel={session.mode === "daily"
-      ? "Daily connection"
-      : room
-        ? "Live relay"
-        : "Solo route"}
-    difficulty={session.difficulty === "easy"
-      ? "Easy"
-      : session.difficulty === "hard"
-        ? "Hard"
-        : "Normal"}
-    moves={session.moves}
-    par={session.shortest_distance}
-    seconds={liveSeconds}
-    score={session.score}
-    {canGoBack}
-    {busy}
-    {onBack}
-  />
-
-  <GameMapBoard
-    {session}
-    {busy}
-    {canGoBack}
-    {compassSelecting}
-    {onFollow}
-    {onBack}
-    backDestinationLabel={backDestination?.label}
-    onCompassSelect={useCompass}
-  />
-
-  <HintDock
-    groups={session.relation_groups}
-    used={session.hints_used}
-    disabled={busy}
-    {compassSelecting}
-    {onHint}
-    onCompassToggle={toggleCompassSelection}
-  />
 </main>

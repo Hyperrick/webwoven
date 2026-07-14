@@ -5,6 +5,11 @@
     inspectMapNode,
     isInspectableMapNode,
   } from "../domain/map-inspection";
+  import {
+    deriveMapTransition,
+    initialMapTransition,
+    type MapTransition,
+  } from "../domain/map-transition";
   import GameMapWorld from "./GameMapWorld.svelte";
   import MapNodeInspector from "./MapNodeInspector.svelte";
   import NavigableMapViewport from "./map-viewport/NavigableMapViewport.svelte";
@@ -12,6 +17,7 @@
   let {
     session,
     busy = false,
+    active = true,
     canGoBack = false,
     compassSelecting = false,
     onFollow,
@@ -21,6 +27,7 @@
   }: {
     session: SessionSnapshot;
     busy?: boolean;
+    active?: boolean;
     canGoBack?: boolean;
     compassSelecting?: boolean;
     onFollow: (edgeToken: string) => void;
@@ -31,10 +38,17 @@
 
   let inspectedNodeId = $state<string | null>(null);
   let board = $derived(buildMapBoard(session));
-  let routeCount = $derived(board.choices.length);
-  let focusKey = $derived(
-    `${board.layout.active_choice_column}:${board.trail.length}`,
+  let previousSession: SessionSnapshot | undefined;
+  let previousBoard: ReturnType<typeof buildMapBoard> | undefined;
+  let transition = $state<MapTransition>();
+  let activeTransition = $derived(
+    transition ?? initialMapTransition(board, session.state_version),
   );
+  let viewportTransition = $derived({
+    ...activeTransition,
+    key: `${activeTransition.key}:active:${active}`,
+  });
+  let routeCount = $derived(board.choices.length);
   let inspection = $derived(
     inspectedNodeId ? (inspectMapNode(board, inspectedNodeId) ?? null) : null,
   );
@@ -51,6 +65,27 @@
   function closeInspection(): void {
     inspectedNodeId = null;
   }
+
+  $effect(() => {
+    const nextSession = session;
+    const nextBoard = board;
+    if (
+      previousSession !== undefined &&
+      previousBoard !== undefined &&
+      nextSession !== previousSession
+    ) {
+      transition = deriveMapTransition(
+        previousSession,
+        nextSession,
+        previousBoard,
+        nextBoard,
+      );
+    } else if (previousSession === undefined) {
+      transition = initialMapTransition(nextBoard, nextSession.state_version);
+    }
+    previousSession = nextSession;
+    previousBoard = nextBoard;
+  });
 
   $effect(() => {
     if (!inspectedNodeId) return;
@@ -100,9 +135,10 @@
     </p>
   </header>
 
-  <NavigableMapViewport {board} {focusKey}>
+  <NavigableMapViewport {board} transition={viewportTransition}>
     <GameMapWorld
       {board}
+      transition={activeTransition}
       {busy}
       {canGoBack}
       {compassSelecting}

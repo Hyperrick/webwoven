@@ -2,6 +2,56 @@
 
 from conftest import create_guest
 from fastapi.testclient import TestClient
+from webwoven_api.main import create_app
+from webwoven_api.settings import Settings
+
+
+def test_solo_rounds_cycle_without_an_immediate_repeat(client: TestClient) -> None:
+    headers = create_guest(client, "Varied Explorer")
+    round_ids = [
+        client.post(
+            "/api/v1/sessions",
+            headers=headers,
+            json={"mode": "solo", "difficulty": "normal"},
+        ).json()["round_id"]
+        for _ in range(3)
+    ]
+
+    assert round_ids[0] != round_ids[1]
+    assert round_ids[1] != round_ids[2]
+    assert round_ids[0] == round_ids[2]
+
+
+def test_solo_start_is_scheduled_and_early_commands_are_rejected(
+    app_settings: Settings,
+) -> None:
+    app = create_app(app_settings.model_copy(update={"round_intro_seconds": 5}))
+    with TestClient(app) as client:
+        headers = create_guest(client, "Patient Explorer")
+        created = client.post(
+            "/api/v1/sessions",
+            headers=headers,
+            json={"mode": "solo", "difficulty": "hard"},
+        )
+        session = created.json()
+
+        assert created.status_code == 201
+        assert session["category"] == "history_people"
+        assert session["difficulty"] == "hard"
+        edge = session["relation_groups"][0]["edges"][0]
+        early = client.post(
+            f"/api/v1/sessions/{session['id']}/commands",
+            headers=headers,
+            json={
+                "type": "follow_edge",
+                "client_command_id": "before-intro-finishes",
+                "expected_state_version": 0,
+                "edge_token": edge["edge_token"],
+            },
+        )
+
+        assert early.status_code == 422
+        assert early.json()["code"] == "round_not_started"
 
 
 def test_versioned_follow_is_idempotent_and_stale_returns_snapshot(client: TestClient) -> None:

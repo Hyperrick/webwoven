@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { HttpApi } from "../src/lib/api/http-api";
-import type { WireSession } from "../src/lib/api/wire-types";
+import type { WireRoom, WireSession } from "../src/lib/api/wire-types";
 
 const item = {
   qid: "Q1",
@@ -57,13 +57,47 @@ describe("HTTP API adapter", () => {
     const api = new HttpApi({ fetch: fetchMock });
 
     await api.getGuest();
-    await api.createSession({ mode: "solo" });
+    await api.createSession({ mode: "solo", difficulty: "hard" });
 
     expect(fetchMock.mock.calls[0][0]).toBe("/api/v1/guests/me");
     const sessionRequest = fetchMock.mock.calls[1][1] as RequestInit;
     expect(new Headers(sessionRequest.headers).get("X-CSRF-Token")).toBe(
       "csrf-resumed",
     );
+    expect(JSON.parse(sessionRequest.body as string)).toEqual({
+      mode: "solo",
+      difficulty: "hard",
+    });
+  });
+
+  it("sends the host-selected difficulty when creating a relay", async () => {
+    const room: WireRoom = {
+      code: "MAPS27",
+      state: "lobby",
+      is_host: true,
+      graph_version: "graph",
+      round_id: "round",
+      category: "places",
+      difficulty: "easy",
+      start: item,
+      target: { ...item, qid: "Q2", label: "Target" },
+      participants: [],
+      sequence: 1,
+      countdown_ends_at: null,
+      grace_ends_at: null,
+    };
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(JSON.stringify(room), {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    const api = new HttpApi({ fetch: fetchMock });
+
+    await api.createRoom("easy");
+
+    const request = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(JSON.parse(request.body as string)).toEqual({ difficulty: "easy" });
   });
 
   it("persists the guest CSRF token and maps command response wrappers", async () => {
