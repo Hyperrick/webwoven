@@ -152,8 +152,21 @@
 @media (width <= 50rem) {
   .hint-dock {
     position: relative;
-    z-index: 2;
+    z-index: 12;
     padding: var(--space-2);
+    box-shadow: 0 -0.35rem 1rem
+      color-mix(in srgb, var(--color-ink) 10%, transparent);
+  }
+
+  .hint-dock__heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .hint-dock__actions {
@@ -181,13 +194,27 @@
   }
 
   .hint-dock__message {
+    position: absolute;
+    right: var(--space-2);
+    bottom: calc(100% + var(--space-2));
+    left: var(--space-2);
+    z-index: 2;
     font-size: var(--text-12);
+    box-shadow: var(--shadow-paper);
   }
 }
 
 @media (width <= 32rem) {
+  .hint-dock {
+    padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
+    border-inline: 0;
+  }
+
   .hint-dock__actions button {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-1);
+    min-height: 3.5rem;
+    padding: var(--space-1);
   }
 
   .hint-dock__tool-copy strong {

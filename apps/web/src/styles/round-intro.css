@@ -240,6 +240,16 @@
     display: none;
   }
 
+  .round-intro__card--start {
+    transform: translateY(var(--endpoint-overlap))
+      rotate(var(--endpoint-turn-negative));
+  }
+
+  .round-intro__card--goal {
+    transform: translateY(var(--endpoint-overlap-negative))
+      rotate(var(--endpoint-turn));
+  }
+
   .round-intro__thread {
     width: 1px;
     height: 3rem;

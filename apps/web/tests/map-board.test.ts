@@ -361,14 +361,14 @@ describe("deterministic map board", () => {
 
     expect(board.choices).toHaveLength(10);
     expect(board.layout).toMatchObject({
-      height_units: 89.5,
+      height_units: 112,
       choice_top_units: 12,
-      choice_lane_gap_units: 7.5,
+      choice_lane_gap_units: 10,
       choice_lane_count: 10,
     });
     expect(absoluteY[0]).toBeCloseTo(12);
     for (let index = 1; index < absoluteY.length; index += 1) {
-      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(7.5);
+      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(10);
     }
     expect(absoluteY).toContain(
       (goalNode?.position.y ?? 0) * board.layout.height_units,

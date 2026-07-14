@@ -6,14 +6,12 @@
 
   let {
     timeline,
-    artwork,
     accent,
     start,
     target,
     onUnavailable,
   }: {
     timeline: RoundIntroTimeline;
-    artwork: string;
     accent: string;
     start: EntitySummary;
     target: EntitySummary;
@@ -30,7 +28,6 @@
       .then(({ RoundIntroScene: Scene }) => {
         if (cancelled) return;
         instance = new Scene(host, {
-          artwork,
           accent,
           startImage: start.image_path,
           targetImage: target.image_path,

@@ -201,8 +201,17 @@ test("Solo completes the four-move route and renders results", async ({
   }
 
   const reachableGoal = page.locator("button.map-position--reachable");
+  const reachableGoalCard = reachableGoal.locator(".map-position__goal-card");
   const nearbyChoice = page.locator("button.map-choice").first();
   await expect(reachableGoal).toBeVisible();
+  await page.mouse.move(0, 0);
+  await expect
+    .poll(() =>
+      reachableGoalCard.evaluate(
+        (element) => getComputedStyle(element).animationName,
+      ),
+    )
+    .toBe("reachable-goal-breathe");
   await expect(nearbyChoice).toBeVisible();
   const [goalBox, choiceBox] = await Promise.all([
     reachableGoal.boundingBox(),
@@ -210,6 +219,9 @@ test("Solo completes the four-move route and renders results", async ({
   ]);
   expect(goalBox).not.toBeNull();
   expect(choiceBox).not.toBeNull();
+  expect(
+    Math.abs((goalBox?.width ?? 0) - (choiceBox?.width ?? 0)),
+  ).toBeLessThanOrEqual(1);
   const overlaps =
     (goalBox?.x ?? 0) < (choiceBox?.x ?? 0) + (choiceBox?.width ?? 0) &&
     (goalBox?.x ?? 0) + (goalBox?.width ?? 0) > (choiceBox?.x ?? 0) &&
@@ -220,6 +232,13 @@ test("Solo completes the four-move route and renders results", async ({
   await followTo(page, "United Kingdom");
 
   await expect(page).toHaveURL(/\/results$/);
+  await expect
+    .poll(() =>
+      page
+        .locator(".result-hero__seal")
+        .evaluate((element) => getComputedStyle(element).animationName),
+    )
+    .toBe("route-stamp-land");
   await expect(page.getByRole("heading", { name: /You found/i })).toContainText(
     "United Kingdom",
   );
@@ -366,7 +385,7 @@ test("map stays playable when WebGL is unavailable", async ({ page }) => {
   await expect(page.locator("button.map-choice").first()).toBeVisible();
 });
 
-test("short phone layout keeps hint tools below playable moves", async ({
+test("short phone layout keeps HUD, map, and hints in one viewport", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 568 });
@@ -374,7 +393,12 @@ test("short phone layout keeps hint tools below playable moves", async ({
 
   const firstMove = page.locator("button.map-choice").first();
   const hintDock = page.locator(".hint-dock");
+  await expect(page.locator(".round-masthead")).toBeInViewport();
+  await expect(
+    page.getByRole("toolbar", { name: "Map view" }),
+  ).toBeInViewport();
   await expect(firstMove).toBeVisible();
+  await expect(hintDock).toBeInViewport();
   await expect(hintDock).toHaveCSS("position", "relative");
   const [moveBox, hintBox] = await Promise.all([
     firstMove.boundingBox(),
@@ -391,4 +415,12 @@ test("short phone layout keeps hint tools below playable moves", async ({
   expect(hintBox?.y ?? 0).toBeGreaterThanOrEqual(
     (moveBox?.y ?? 0) + (moveBox?.height ?? 0),
   );
+
+  const viewportHeight = await page.evaluate(() => window.innerHeight);
+  const documentHeight = await page.evaluate(
+    () => document.documentElement.scrollHeight,
+  );
+  expect(documentHeight).toBeLessThanOrEqual(viewportHeight);
+  await page.mouse.wheel(0, 500);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
 });

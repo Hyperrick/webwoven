@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import type { SessionSnapshot } from "../api/types";
   import { shouldReduceMotion } from "../preferences/preferences";
-  import { categoryArtwork } from "./assets";
+  import { categoryTheme } from "./assets";
   import RoundIntroCanvas from "./RoundIntroCanvas.svelte";
   import { roundIntroTimeline } from "./timeline";
 
@@ -14,7 +14,7 @@
     onComplete: () => void;
   } = $props();
 
-  const artwork = $derived(categoryArtwork(session.category));
+  const theme = $derived(categoryTheme(session.category));
   let now = $state(Date.now());
   let webglUnavailable = $state(false);
   let reducedMotion = $state(false);
@@ -26,7 +26,7 @@
   let categoryExit = $derived(Math.min(1, timeline.endpoints * 4));
   let visualStyle = $derived(
     [
-      `--intro-accent: ${artwork.accent}`,
+      `--intro-accent: ${theme.accent}`,
       `--category-opacity: ${timeline.category * (1 - categoryExit)}`,
       `--category-shift: ${categoryExit * -48}px`,
       `--endpoint-opacity: ${timeline.endpoints}`,
@@ -82,8 +82,7 @@
   {#if !reducedMotion && !webglUnavailable}
     <RoundIntroCanvas
       {timeline}
-      artwork={artwork.image}
-      accent={artwork.accent}
+      accent={theme.accent}
       start={session.start}
       target={session.target}
       onUnavailable={() => (webglUnavailable = true)}
@@ -97,7 +96,7 @@
 
   <div class="round-intro__category">
     <p>Atlas category</p>
-    <h1>{artwork.label}</h1>
+    <h1>{theme.label}</h1>
     <span>{session.difficulty} route</span>
   </div>
 

@@ -29,7 +29,6 @@ import {
 import type { RoundIntroTimeline } from "./timeline";
 
 interface SceneOptions {
-  artwork: string;
   accent: string;
   startImage?: string;
   targetImage?: string;
@@ -52,6 +51,8 @@ export class RoundIntroScene {
   readonly #observer: ResizeObserver;
   readonly #onContextLost: (event: Event) => void;
   readonly #textures = new Set<Texture>();
+  #categoryFit = 1;
+  #compact = false;
   #disposed = false;
 
   constructor(host: HTMLElement, options: SceneOptions) {
@@ -82,7 +83,6 @@ export class RoundIntroScene {
     this.#scene.add(key);
 
     this.#categorySheet.add(this.#paperPlane(5.6, 3.8, 0.97));
-    this.#categorySheet.add(this.#artPlane(options.artwork, 5.05, 3.25, 0.03));
     this.#categorySheet.add(...registrationMarks(5.85, 4.05));
     this.#scene.add(this.#categorySheet);
 
@@ -149,18 +149,19 @@ export class RoundIntroScene {
     if (this.#disposed) return;
     const category = ease(timeline.category);
     const endpoints = ease(timeline.endpoints);
-    const categoryExit = Math.min(1, timeline.endpoints * 4);
+    const categoryExit = ease(Math.min(1, timeline.endpoints * 4));
     const orientation = ease(timeline.orientation);
     const launch = ease(timeline.launch);
 
-    this.#categorySheet.position.y = (1 - category) * 0.45 + endpoints * 0.65;
+    this.#categorySheet.position.y =
+      (1 - category) * 0.45 + categoryExit * 5.25;
     this.#categorySheet.rotation.z = (1 - category) * -0.045;
     this.#categorySheet.scale.setScalar(
-      0.82 + category * 0.18 - endpoints * 0.12,
+      (0.82 + category * 0.18 - categoryExit * 0.08) * this.#categoryFit,
     );
-    setOpacity(this.#categorySheet, 1 - categoryExit);
 
-    this.#endpointGroup.visible = timeline.elapsed_ms >= 1_100;
+    this.#endpointGroup.visible =
+      !this.#compact && timeline.elapsed_ms >= 1_100;
     this.#endpointGroup.scale.setScalar(0.78 + endpoints * 0.22);
     setOpacity(this.#endpointGroup, endpoints);
     this.#startCard.position.x = -0.7 - endpoints * 1.85;
@@ -250,6 +251,8 @@ export class RoundIntroScene {
     const width = Math.max(1, host.clientWidth);
     const height = Math.max(1, host.clientHeight);
     const aspect = width / height;
+    this.#compact = width <= 768;
+    this.#categoryFit = Math.min(1, (VIEW_HEIGHT * aspect * 0.84) / 5.6);
     this.#camera.left = (-VIEW_HEIGHT * aspect) / 2;
     this.#camera.right = (VIEW_HEIGHT * aspect) / 2;
     this.#camera.top = VIEW_HEIGHT / 2;

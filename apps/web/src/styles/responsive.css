@@ -39,6 +39,10 @@
     min-height: 4.5rem;
   }
 
+  .results-page {
+    padding-block: 0 var(--space-6);
+  }
+
   .icon-button--label span {
     display: none;
   }
@@ -108,7 +112,9 @@
   }
 
   .race-strip {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    padding-block: var(--space-2);
   }
 
   .race-strip ol {
@@ -152,16 +158,45 @@
 
   .result-hero {
     grid-template-columns: 1fr;
-    gap: var(--space-5);
+    gap: var(--space-4);
+    align-items: start;
+    min-height: 0;
+    padding-block: var(--space-5);
   }
 
   .result-hero__seal {
+    gap: 0.25rem;
     width: 6rem;
     height: 6rem;
+    padding: 0.85rem;
+  }
+
+  .result-hero__seal .atlas-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .result-hero__seal span {
+    max-width: 3.8rem;
+    font-size: 0.625rem;
+    line-height: 1;
   }
 
   .result-score {
     grid-column: 1;
+  }
+
+  .result-hero__copy h1 {
+    margin-block: var(--space-2);
+  }
+
+  .result-hero__copy > p:last-child {
+    line-height: 1.35;
+  }
+
+  .result-score > div,
+  .result-score > .result-score__total {
+    padding-block: var(--space-2);
   }
 
   .cartographer-recap,
@@ -198,6 +233,10 @@
 }
 
 @media (width <= 32rem) {
+  .game-page {
+    width: 100%;
+  }
+
   .hero__actions,
   .exit-dialog__actions {
     align-items: stretch;
@@ -225,8 +264,12 @@
   }
 
   .cartographer-recap {
-    grid-template-columns: 6rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
+  }
+
+  .cartographer-recap__portrait {
+    width: min(9rem, 44vw);
   }
 
   .cartographer-recap blockquote {
