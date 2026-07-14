@@ -30,6 +30,7 @@ export function mapNodeTokenState(
 export function mapNodeTokenPresentation(
   node: MapBoardNode,
 ): MapNodeTokenPresentation | null {
+  if (hasRole(node, "choice")) return null;
   const state = mapNodeTokenState(node);
   return state ? { state, radius: TOKEN_RADIUS[state] } : null;
 }

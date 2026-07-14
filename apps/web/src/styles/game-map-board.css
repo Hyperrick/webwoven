@@ -155,6 +155,85 @@ button.map-position--reachable:hover .map-position__kicker {
   color: var(--color-paper);
 }
 
+button.map-position--goal.map-position--reachable {
+  width: clamp(14rem, 19vw, 18rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: translate(0, -50%);
+}
+
+.map-position__goal-card {
+  display: grid;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-control);
+  color: var(--color-paper);
+  background: var(--color-cartographic);
+  box-shadow: 0 16px 36px
+    color-mix(in srgb, var(--color-cartographic) 30%, transparent);
+  transform-origin: left center;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease;
+}
+
+.map-position__goal-card .map-position__fact {
+  color: color-mix(in srgb, var(--color-paper) 84%, transparent);
+}
+
+.map-position__goal-card .map-position__go {
+  margin: var(--space-2) calc(var(--space-4) * -1) calc(var(--space-3) * -1);
+  padding: var(--space-2) var(--space-4);
+  border-top: 0;
+  border-radius: 0 0 2px 2px;
+  color: var(--color-paper);
+  background: var(--color-signal);
+  letter-spacing: 0.02em;
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled)
+  .map-position__goal-card {
+  animation: reachable-goal-breathe 3.2s ease-in-out infinite;
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover,
+button.map-position--goal.map-position--reachable:not(:disabled):focus-visible {
+  background: transparent;
+  transform: translate(0, -50%);
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover
+  .map-position__goal-card {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover
+  .map-position__goal-card,
+button.map-position--goal.map-position--reachable:not(:disabled):focus-visible
+  .map-position__goal-card {
+  animation: none;
+}
+
+@keyframes reachable-goal-breathe {
+  0%,
+  100% {
+    box-shadow: 0 16px 36px
+      color-mix(in srgb, var(--color-cartographic) 30%, transparent);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 20px 46px
+      color-mix(in srgb, var(--color-cartographic) 46%, transparent);
+    transform: scale(1.045);
+  }
+}
+
 .map-position__go {
   display: flex;
   align-items: center;

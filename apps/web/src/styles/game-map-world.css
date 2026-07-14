@@ -211,10 +211,14 @@
 
 @media (width <= 50rem) {
   .game-map {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-height: 0;
+    margin-block: var(--space-2) 0;
     padding: 0;
+    overflow: hidden;
     border: 0;
     border-radius: 0;
-    overflow: visible;
   }
 
   .game-map__header {
@@ -223,7 +227,8 @@
   }
 
   .game-map__prompt {
-    width: calc(100% - 5rem);
+    width: auto;
+    min-width: 0;
   }
 
   .game-map__prompt h2 {
@@ -258,6 +263,16 @@
     transform: translate(var(--map-node-card-clearance), -50%);
   }
 
+  .game-map__surface button.map-position--goal.map-position--reachable {
+    width: min(14rem, 72vw);
+    padding: 0;
+    transform: translate(-100%, -50%);
+  }
+
+  .game-map__surface .map-position__goal-card {
+    transform-origin: right center;
+  }
+
   .game-map__surface .map-choice {
     width: min(14rem, 72vw);
     min-height: 4.5rem;
@@ -274,6 +289,15 @@
   .game-map__surface
     button.map-position--reachable:not(:disabled):focus-visible {
     transform: translate(calc(var(--map-node-card-clearance) + 0.2rem), -50%);
+  }
+
+  .game-map__surface
+    button.map-position--goal.map-position--reachable:not(:disabled):hover,
+  .game-map__surface
+    button.map-position--goal.map-position--reachable:not(
+      :disabled
+    ):focus-visible {
+    transform: translate(-100%, -50%);
   }
 
   .map-history-node {
@@ -296,15 +320,33 @@
   }
 
   .game-map__last-move {
+    position: absolute;
+    z-index: 8;
+    bottom: var(--space-2);
+    left: var(--space-2);
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-1);
+    width: auto;
+    max-width: min(26rem, calc(100% - var(--space-4)));
+    margin: 0;
+    pointer-events: none;
   }
 }
 
 @media (width <= 32rem) {
   .game-map__header {
+    border-inline: 0;
+    border-radius: 0;
     padding-inline: var(--space-3);
+  }
+
+  .game-map__choice-count {
+    font-size: 0.7rem;
+  }
+
+  .game-map__choice-count strong {
+    font-size: var(--text-16);
   }
 
   .game-map__surface .map-position {
@@ -313,6 +355,10 @@
 
   .game-map__surface .map-choice {
     grid-template-columns: minmax(0, 1fr);
+    width: min(13rem, 76vw);
+  }
+
+  .game-map__surface button.map-position--goal.map-position--reachable {
     width: min(13rem, 76vw);
   }
 
@@ -337,6 +383,10 @@
 
   .map-history-node strong {
     white-space: nowrap;
+  }
+
+  .game-map__last-move {
+    padding: var(--space-1) var(--space-2);
   }
 }
 

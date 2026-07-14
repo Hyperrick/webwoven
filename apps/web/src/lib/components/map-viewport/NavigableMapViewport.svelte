@@ -182,7 +182,7 @@
       setCamera(fitted);
       return;
     }
-    const minimumReadableZoom = viewportSize.width < 360 ? 0.56 : 0.65;
+    const minimumReadableZoom = viewportSize.width <= 360 ? 0.56 : 0.65;
     const readable =
       fitted.zoom < minimumReadableZoom
         ? zoomCameraAt(

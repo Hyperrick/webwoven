@@ -42,7 +42,6 @@
   import NotFoundPage from "./lib/pages/NotFoundPage.svelte";
   import ResultsPage from "./lib/pages/ResultsPage.svelte";
   import RoundSetupPage from "./lib/pages/RoundSetupPage.svelte";
-  import { preloadCategoryArtwork } from "./lib/round-intro/assets";
 
   const api = createRuntimeApi();
   const games = new GameController(api);
@@ -68,7 +67,6 @@
     ["solo", "daily", "race"].includes(route.name);
 
   onMount(() => {
-    preloadCategoryArtwork();
     preferences = loadPreferences();
     persistPreferences(preferences);
     router = new BrowserRouter({

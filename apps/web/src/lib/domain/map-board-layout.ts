@@ -8,7 +8,7 @@ const RIGHT_GUTTER_UNITS = 22;
 // Thirty rem leaves a deliberate visual gutter without relying on CSS nudges.
 const COLUMN_GAP_UNITS = 30;
 const CHOICE_TOP_UNITS = 12;
-const CHOICE_LANE_GAP_UNITS = 7.5;
+const CHOICE_LANE_GAP_UNITS = 10;
 const BOTTOM_CLEARANCE_UNITS = 10;
 
 export interface MapBoardLayoutInput {

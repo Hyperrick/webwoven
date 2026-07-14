@@ -169,23 +169,25 @@
       aria-label={`${compassSelecting ? "Check" : "Finish"}: ${connectionSummary(goalChoice)}`}
       onclick={() => onChoose(goalChoice)}
     >
-      <span class="map-position__kicker">Goal · in reach</span>
-      {#if goalParts}
-        <span class="map-position__fact">
-          {goalParts.before}<strong>{goalParts.match}</strong>{goalParts.after}
+      <span class="map-position__goal-card">
+        {#if goalParts}
+          <span class="map-position__fact">
+            {goalParts.before}<strong>{goalParts.match}</strong
+            >{goalParts.after}
+          </span>
+        {:else}
+          <strong>{goalChoice.target.label}</strong>
+          <span class="map-position__fact">{goalChoice.statement}</span>
+        {/if}
+        {#if goalChoice.connections.length > 1}
+          <small class="map-position__connection-count">
+            {goalChoice.connections.length} documented links
+          </small>
+        {/if}
+        <span class="map-position__go">
+          {compassSelecting ? "CHECK ROUTE" : "FINISH ROUTE"}
+          <AtlasIcon name={compassSelecting ? "compass" : "arrow"} size={18} />
         </span>
-      {:else}
-        <strong>{goalChoice.target.label}</strong>
-        <span class="map-position__fact">{goalChoice.statement}</span>
-      {/if}
-      {#if goalChoice.connections.length > 1}
-        <small class="map-position__connection-count">
-          {goalChoice.connections.length} documented links
-        </small>
-      {/if}
-      <span class="map-position__go">
-        {compassSelecting ? "Check route" : "Finish here"}
-        <AtlasIcon name={compassSelecting ? "compass" : "arrow"} size={18} />
       </span>
     </button>
   {:else}

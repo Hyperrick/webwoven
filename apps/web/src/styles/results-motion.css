@@ -1,0 +1,93 @@
+@layer rooms {
+  .result-hero__seal {
+    position: relative;
+    grid-template-rows: auto auto;
+    gap: 0.35rem;
+    padding: 0.8rem;
+    line-height: 1;
+    animation: route-stamp-land 720ms cubic-bezier(0.2, 0.82, 0.24, 1.18) 140ms
+      both;
+    transform-origin: center;
+    will-change: transform, opacity, filter;
+  }
+
+  .result-hero__seal::before {
+    position: absolute;
+    inset: 0.38rem;
+    border: 1px dashed currentcolor;
+    border-radius: inherit;
+    content: "";
+    opacity: 0.62;
+  }
+
+  .result-hero__seal::after {
+    position: absolute;
+    inset: -0.45rem;
+    border: 2px solid currentcolor;
+    border-radius: inherit;
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+    animation: route-stamp-ink-spread 480ms ease-out 520ms both;
+  }
+
+  .result-hero__seal > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .result-hero__seal .atlas-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .result-hero__seal span {
+    display: block;
+    max-width: 4.25rem;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  @keyframes route-stamp-land {
+    0% {
+      filter: blur(1.5px);
+      opacity: 0;
+      transform: translate3d(2.6rem, -4.4rem, 0) scale(1.72) rotate(13deg);
+    }
+
+    52% {
+      filter: blur(0);
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(0.88) rotate(-6deg);
+    }
+
+    72% {
+      transform: translate3d(0, -0.18rem, 0) scale(1.06) rotate(-3deg);
+    }
+
+    100% {
+      filter: blur(0);
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1) rotate(-4deg);
+    }
+  }
+
+  @keyframes route-stamp-ink-spread {
+    0% {
+      opacity: 0.5;
+      transform: scale(0.86);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .result-hero__seal,
+    .result-hero__seal::after {
+      animation: none;
+    }
+  }
+}
