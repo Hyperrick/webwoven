@@ -14,7 +14,7 @@
     used: UsedHint[];
     disabled?: boolean;
     compassSelecting?: boolean;
-    onHint: (type: HintType, propertyId?: string) => void;
+    onHint: (type: HintType, propertyId?: string, entityQid?: string) => void;
     onCompassToggle: () => void;
   } = $props();
 

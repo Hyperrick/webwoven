@@ -329,14 +329,9 @@ function createPaperTexture(): CanvasTexture {
       const y = (index * 47 + 61) % canvas.height;
       const radius = 28 + ((index * 17) % 44);
       const wash = context.createRadialGradient(x, y, 0, x, y, radius);
-      wash.addColorStop(
-        0,
-        colorWithAlpha(
-          index % 3 === 0 ? palette.ochre : palette.mutedInk,
-          0.018,
-        ),
-      );
+      wash.addColorStop(0, index % 3 === 0 ? palette.ochre : palette.mutedInk);
       wash.addColorStop(1, "transparent");
+      context.globalAlpha = 0.018;
       context.fillStyle = wash;
       context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
     }
@@ -356,10 +351,8 @@ function createPaperTexture(): CanvasTexture {
         x + length,
         y + lift * 0.35,
       );
-      context.strokeStyle = colorWithAlpha(
-        index % 11 === 0 ? palette.ochre : palette.mutedInk,
-        index % 7 === 0 ? 0.045 : 0.026,
-      );
+      context.globalAlpha = index % 7 === 0 ? 0.045 : 0.026;
+      context.strokeStyle = index % 11 === 0 ? palette.ochre : palette.mutedInk;
       context.lineWidth = index % 13 === 0 ? 1.15 : 0.55;
       context.stroke();
     }
@@ -369,26 +362,17 @@ function createPaperTexture(): CanvasTexture {
       const x = (index * 97 + 17) % canvas.width;
       const y = (index * 151 + 31) % canvas.height;
       const size = index % 37 === 0 ? 1.6 : index % 9 === 0 ? 1 : 0.55;
-      context.fillStyle = colorWithAlpha(
-        index % 29 === 0 ? palette.ochre : palette.mutedInk,
-        index % 13 === 0 ? 0.065 : 0.035,
-      );
+      context.globalAlpha = index % 13 === 0 ? 0.065 : 0.035;
+      context.fillStyle = index % 29 === 0 ? palette.ochre : palette.mutedInk;
       context.fillRect(x, y, size, size);
     }
+    context.globalAlpha = 1;
   }
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
   texture.wrapS = RepeatWrapping;
   texture.wrapT = RepeatWrapping;
   return texture;
-}
-
-function colorWithAlpha(hex: string, alpha: number): string {
-  const value = Number.parseInt(hex.replace("#", ""), 16);
-  const red = (value >> 16) & 255;
-  const green = (value >> 8) & 255;
-  const blue = value & 255;
-  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
 
 export function disposeSceneObject(object: Object3D): void {

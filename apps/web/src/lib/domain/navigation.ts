@@ -9,6 +9,7 @@ import type {
 } from "../api/types";
 import {
   DEMO_ENTITIES,
+  demoDistanceToTarget,
   relationGroupsFor,
   resolveDemoEdge,
 } from "./demo-graph";
@@ -228,13 +229,19 @@ export function useHint(
   state: NavigationState,
   type: HintType,
   selectedPropertyId?: string,
+  selectedEntityQid?: string,
 ): NavigationState {
   if (state.snapshot.status !== "active") return state;
-  const result = applyHintToGroups(
-    state.snapshot.relation_groups,
-    type,
+  const result = applyHintToGroups(state.snapshot.relation_groups, type, {
     selectedPropertyId,
-  );
+    selectedEntityQid,
+    distanceToTarget: (entityQid) =>
+      demoDistanceToTarget(
+        entityQid,
+        state.snapshot.target.qid,
+        new Set(state.stack),
+      ),
+  });
   const next: NavigationState = {
     ...state,
     snapshot: {

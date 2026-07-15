@@ -4,7 +4,12 @@ import pytest
 from hypothesis import given
 from hypothesis import strategies as st
 from webwoven_api.domain.errors import DomainError
-from webwoven_api.domain.hints import HintCandidate, HintType, select_hint
+from webwoven_api.domain.hints import (
+    HintCandidate,
+    HintOutcome,
+    HintType,
+    select_hint,
+)
 from webwoven_api.domain.navigation import NavigationState, follow_edge, go_back, start_navigation
 
 
@@ -86,10 +91,46 @@ def test_lens_and_map_choose_stable_shortest_candidate() -> None:
     lens = select_hint(HintType.LENS, candidates)
     fragment = select_hint(HintType.MAP_FRAGMENT, candidates)
     assert lens.relation_key == "P19"
+    assert lens.entity_id == "Q2"
+    assert lens.outcome is HintOutcome.PROMISING
     assert fragment.entity_id == "Q2"
     assert fragment.penalty == 250
 
 
-def test_compass_requires_a_selected_group() -> None:
-    with pytest.raises(DomainError, match="Choose a relationship"):
+def test_compass_requires_a_specific_route() -> None:
+    with pytest.raises(DomainError, match="Choose a specific route"):
         select_hint(HintType.COMPASS, (HintCandidate("P19", "Q2", "Bridge", 1),))
+
+
+def test_compass_evaluates_exact_entities_in_a_shared_relation_group() -> None:
+    candidates = (
+        HintCandidate("P800", "Q2", "Useful work", 2),
+        HintCandidate("P800", "Q3", "Closed work", None),
+        HintCandidate("P19", "Q4", "Longer place", 4),
+    )
+
+    promising = select_hint(
+        HintType.COMPASS,
+        candidates,
+        selected_relation_key="P800",
+        selected_entity_id="Q2",
+    )
+    dead_end = select_hint(
+        HintType.COMPASS,
+        candidates,
+        selected_relation_key="P800",
+        selected_entity_id="Q3",
+    )
+    longer = select_hint(
+        HintType.COMPASS,
+        candidates,
+        selected_relation_key="P19",
+        selected_entity_id="Q4",
+    )
+
+    assert promising.entity_id == "Q2"
+    assert promising.outcome is HintOutcome.PROMISING
+    assert dead_end.entity_id == "Q3"
+    assert dead_end.outcome is HintOutcome.DEAD_END
+    assert "dead end" in dead_end.message
+    assert longer.outcome is HintOutcome.LONGER

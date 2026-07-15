@@ -648,6 +648,15 @@
         "title": "HealthResponse",
         "type": "object"
       },
+      "HintOutcome": {
+        "enum": [
+          "promising",
+          "longer",
+          "dead_end"
+        ],
+        "title": "HintOutcome",
+        "type": "string"
+      },
       "HintResponse": {
         "additionalProperties": false,
         "properties": {
@@ -668,6 +677,16 @@
           "message": {
             "title": "Message",
             "type": "string"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HintOutcome"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "penalty": {
             "title": "Penalty",
@@ -724,6 +743,16 @@
           "message": {
             "title": "Message",
             "type": "string"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HintOutcome"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "penalty": {
             "title": "Penalty",
@@ -1306,6 +1335,17 @@
             "minLength": 1,
             "title": "Client Command Id",
             "type": "string"
+          },
+          "entity_qid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Qid"
           },
           "expected_state_version": {
             "minimum": 0.0,

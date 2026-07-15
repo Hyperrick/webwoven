@@ -122,7 +122,12 @@ export class DemoApi implements WebwovenApi {
       next = followEdge(current, command.edge_token);
     if (command.type === "back") next = moveBack(current);
     if (command.type === "use_hint") {
-      next = useHint(current, command.hint_type, command.relation_property_id);
+      next = useHint(
+        current,
+        command.hint_type,
+        command.relation_property_id,
+        command.entity_qid,
+      );
     }
     this.#sessions.set(sessionId, next);
     this.#commandResults.set(command.client_command_id, next.snapshot);

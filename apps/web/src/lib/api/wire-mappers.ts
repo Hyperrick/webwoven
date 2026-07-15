@@ -8,6 +8,7 @@ import type {
   RelationGroup,
   RoomSnapshot,
   SessionSnapshot,
+  UsedHint,
 } from "./types";
 import type {
   WireConfig,
@@ -69,6 +70,16 @@ export function mapSession(value: WireSession): SessionSnapshot {
   const ended = value.completed_at
     ? Date.parse(value.completed_at)
     : Date.now();
+  const hintsUsed: UsedHint[] = value.hints_used.map((hint) => ({
+    type: hint.hint_type,
+    penalty: hint.penalty,
+    message: hint.message,
+    ...(hint.relation_property_id === null
+      ? {}
+      : { relation_property_id: hint.relation_property_id }),
+    ...(hint.entity_qid === null ? {} : { entity_qid: hint.entity_qid }),
+    ...(hint.outcome == null ? {} : { outcome: hint.outcome }),
+  }));
   return {
     id: value.id,
     mode: value.mode,
@@ -105,11 +116,7 @@ export function mapSession(value: WireSession): SessionSnapshot {
         : { selected_choice_id: stage.selected_choice_id }),
     })),
     moves: value.moves,
-    hints_used: value.hints_used.map((hint) => ({
-      type: hint.hint_type,
-      penalty: hint.penalty,
-      message: hint.message,
-    })),
+    hints_used: hintsUsed,
     score: value.final_score,
     status: value.status,
     state_version: value.state_version,
@@ -127,9 +134,32 @@ export function mapSession(value: WireSession): SessionSnapshot {
         edge_token: edge.edge_token,
         statement: edge.explanation,
         target: entity(edge.target),
+        ...(hintForEdge(hintsUsed, group.property_id, edge.target.qid) ===
+        undefined
+          ? {}
+          : {
+              hint: hintForEdge(hintsUsed, group.property_id, edge.target.qid),
+            }),
       })),
     })),
   };
+}
+
+function hintForEdge(
+  hints: UsedHint[],
+  propertyId: string,
+  entityQid: string,
+): UsedHint["outcome"] {
+  for (let index = hints.length - 1; index >= 0; index -= 1) {
+    const hint = hints[index];
+    if (
+      hint.relation_property_id === propertyId &&
+      hint.entity_qid === entityQid &&
+      hint.outcome !== undefined
+    )
+      return hint.outcome;
+  }
+  return undefined;
 }
 
 export function mapDaily(value: WireDaily): DailyRound {

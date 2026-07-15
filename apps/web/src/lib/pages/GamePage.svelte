@@ -24,7 +24,7 @@
     busy?: boolean;
     onFollow: (token: string) => void;
     onBack: () => void;
-    onHint: (type: HintType, propertyId?: string) => void;
+    onHint: (type: HintType, propertyId?: string, entityQid?: string) => void;
   } = $props();
 
   let now = $state(Date.now());
@@ -66,9 +66,9 @@
     compassSelecting = !compassSelecting;
   }
 
-  function useCompass(propertyId: string): void {
+  function useCompass(propertyId: string, entityQid: string): void {
     compassSelecting = false;
-    onHint("compass", propertyId);
+    onHint("compass", propertyId, entityQid);
   }
 
   $effect(() => {

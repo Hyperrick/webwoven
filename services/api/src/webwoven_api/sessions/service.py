@@ -11,7 +11,7 @@ from webwoven_api.domain.errors import (
     NotFoundError,
     StaleStateError,
 )
-from webwoven_api.domain.hints import HintCandidate, HintResult, select_hint
+from webwoven_api.domain.hints import HintResult, select_hint
 from webwoven_api.domain.navigation import follow_edge, go_back, start_navigation
 from webwoven_api.domain.scoring import Difficulty, calculate_score
 from webwoven_api.graph.contracts import GraphReader, Round
@@ -20,6 +20,7 @@ from webwoven_api.sessions.authorization import SessionCommandAuthorizer
 from webwoven_api.sessions.completion import SessionCompletionRecorder
 from webwoven_api.sessions.exploration import backed_frame, followed_frame
 from webwoven_api.sessions.frontier import playable_edges_for
+from webwoven_api.sessions.hint_candidates import route_aware_hint_candidates
 from webwoven_api.sessions.models import (
     BackCommand,
     CommandExecution,
@@ -207,19 +208,17 @@ class SessionService:
         self, session: GameSession, command: UseHintCommand
     ) -> tuple[GameSession, HintResult]:
         edges = playable_edges_for(self._graph, session.round, session.navigation)
-        candidates = (
-            HintCandidate(
-                relation_key=edge.relation_key,
-                entity_id=edge.target_id,
-                entity_label=edge.target.label,
-                distance=self._graph.distance_to_target(session.round.id, edge.target_id),
-            )
-            for edge in edges
+        candidates = route_aware_hint_candidates(
+            self._graph,
+            session.round,
+            edges,
+            blocked_entity_ids=session.navigation.active_route_ids,
         )
         hint = select_hint(
             command.hint_type,
             candidates,
             selected_relation_key=command.relation_key,
+            selected_entity_id=command.entity_id,
         )
         use = HintUse(
             hint_type=hint.hint_type,
@@ -228,6 +227,7 @@ class SessionService:
             entity_id=hint.entity_id,
             message=hint.message,
             used_at=datetime.now(UTC),
+            outcome=hint.outcome,
         )
         updated = replace(
             session,

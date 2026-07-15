@@ -338,6 +338,29 @@ export function relationGroupsFor(
   return [...grouped.values()];
 }
 
+export function demoDistanceToTarget(
+  startQid: string,
+  targetQid: string,
+  blockedQids: ReadonlySet<string> = new Set(),
+): number | null {
+  if (startQid === targetQid) return 0;
+  const visited = new Set(blockedQids);
+  visited.add(startQid);
+  const queue: Array<{ qid: string; distance: number }> = [
+    { qid: startQid, distance: 0 },
+  ];
+  for (let index = 0; index < queue.length; index += 1) {
+    const current = queue[index];
+    for (const edge of DEMO_EDGES[current.qid] ?? []) {
+      if (visited.has(edge.target)) continue;
+      if (edge.target === targetQid) return current.distance + 1;
+      visited.add(edge.target);
+      queue.push({ qid: edge.target, distance: current.distance + 1 });
+    }
+  }
+  return null;
+}
+
 export function resolveDemoEdge(
   edgeToken: string,
 ): { source: string; target: string; statement: string } | null {

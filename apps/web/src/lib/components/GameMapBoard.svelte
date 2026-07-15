@@ -33,7 +33,7 @@
     onFollow: (edgeToken: string) => void;
     onBack: () => void;
     backDestinationLabel?: string;
-    onCompassSelect: (propertyId: string) => void;
+    onCompassSelect: (propertyId: string, entityQid: string) => void;
   } = $props();
 
   let inspectedNodeId = $state<string | null>(null);
@@ -54,7 +54,8 @@
   );
 
   function choose(choice: MapMoveChoice): void {
-    if (compassSelecting) onCompassSelect(choice.relation.property_id);
+    if (compassSelecting)
+      onCompassSelect(choice.relation.property_id, choice.target.qid);
     else onFollow(choice.edge_token);
   }
 

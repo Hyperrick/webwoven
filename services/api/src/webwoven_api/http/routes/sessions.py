@@ -108,4 +108,5 @@ def _domain_command(body: SessionCommandRequest) -> SessionCommand:
         expected_state_version=body.expected_state_version,
         hint_type=body.hint_type,
         relation_key=body.relation_property_id,
+        entity_id=body.entity_qid,
     )
