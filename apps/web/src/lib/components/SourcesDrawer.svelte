@@ -5,17 +5,20 @@
     provenanceFor,
     verifiedWikidataUrlFor,
   } from "../domain/entity-provenance";
+  import { imageAttributionsFor } from "../domain/image-attribution";
   import AtlasIcon from "./AtlasIcon.svelte";
 
   let {
     open,
     entity,
+    roundEntities = [],
     graphBuild,
     onClose,
     onReport,
   }: {
     open: boolean;
     entity?: EntitySummary;
+    roundEntities?: readonly EntitySummary[];
     graphBuild: string;
     onClose: () => void;
     onReport: () => void;
@@ -25,6 +28,9 @@
   let provenance = $derived(provenanceFor(entity));
   let verifiedWikidataUrl = $derived(
     entity ? verifiedWikidataUrlFor(entity) : undefined,
+  );
+  let imageAttributions = $derived(
+    imageAttributionsFor([entity, ...roundEntities]),
   );
   $effect(() => {
     if (!open) return;
@@ -100,6 +106,46 @@
             fixtures are available only to explicitly configured automated
             tests.
           </p>
+        </section>
+      {/if}
+
+      {#if imageAttributions.length > 0}
+        <section class="source-ledger__media-credit">
+          <p class="source-ledger__index">
+            {imageAttributions.length === 1
+              ? "Image credit"
+              : "Round image credits"}
+          </p>
+          {#each imageAttributions as imageAttribution (imageAttribution.sourceUrl)}
+            <div class="source-ledger__media-item">
+              <p>
+                <strong>{imageAttribution.entityLabel}</strong> ·
+                {imageAttribution.attributionText}
+              </p>
+              <p class="source-ledger__media-links">
+                <a
+                  class="text-link"
+                  href={imageAttribution.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={imageAttribution.fileName}
+                  aria-label={`View ${imageAttribution.fileName} on Wikimedia Commons`}
+                >
+                  Wikimedia Commons <AtlasIcon name="arrow" size={17} />
+                </a>
+                <a
+                  class="text-link"
+                  href={imageAttribution.licenseUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Read ${imageAttribution.licenseLabel} terms`}
+                >
+                  {imageAttribution.licenseLabel}
+                  <AtlasIcon name="arrow" size={17} />
+                </a>
+              </p>
+            </div>
+          {/each}
         </section>
       {/if}
 

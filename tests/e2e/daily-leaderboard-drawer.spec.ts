@@ -18,6 +18,7 @@ test("Daily leaderboard opens without interrupting an active Solo round", async 
     name: "Close Daily leaderboard",
   });
   await expect(drawer).toBeVisible();
+  await expect(drawer.locator(".eyebrow")).toHaveText("Daily leaderboard");
   await expect(drawer).toHaveAttribute("aria-modal", "true");
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(close).toBeFocused();

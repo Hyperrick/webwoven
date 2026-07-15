@@ -71,9 +71,28 @@ class MediaRecord:
     creator: str
     license_url: str
     attribution_text: str
+    restrictions: str = ""
+    explicit_attribution: str = ""
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        """Return the public attribution fields embedded in graph entities."""
+        return {
+            "file_name": self.file_name,
+            "original_url": self.original_url,
+            "derivative_url": self.derivative_url,
+            "source_url": self.source_url,
+            "license_id": self.license_id,
+            "creator": self.creator,
+            "license_url": self.license_url,
+            "attribution_text": self.attribution_text,
+        }
+
+    def policy_evidence(self) -> dict[str, str]:
+        """Return source metadata needed to re-check an automatic license decision."""
+        return {
+            "restrictions": self.restrictions,
+            "explicit_attribution": self.explicit_attribution,
+        }
 
 
 @dataclass(frozen=True, slots=True)

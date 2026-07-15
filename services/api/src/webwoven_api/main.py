@@ -17,7 +17,7 @@ from webwoven_api.http.error_handlers import (
     not_found_handler,
 )
 from webwoven_api.http.rate_limit_middleware import RequestRateLimitMiddleware
-from webwoven_api.http.routes import daily, guests, reports, rooms, sessions, system
+from webwoven_api.http.routes import daily, guests, media, reports, rooms, sessions, system
 from webwoven_api.http.security_middleware import RequestSecurityMiddleware
 from webwoven_api.http.websocket import router as websocket_router
 from webwoven_api.settings import Settings
@@ -48,6 +48,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.add_exception_handler(NotFoundError, cast(ExceptionHandler, not_found_handler))
     application.add_exception_handler(ForbiddenError, cast(ExceptionHandler, forbidden_handler))
     application.include_router(system.router)
+    application.include_router(media.router)
     application.include_router(guests.router)
     application.include_router(daily.router)
     application.include_router(sessions.router)

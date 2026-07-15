@@ -4,15 +4,20 @@ import {
   mapRoom,
   mapSession,
 } from "../src/lib/api/wire-mappers";
-import type { WireRoom, WireSession } from "../src/lib/api/wire-types";
+import type {
+  WireEntity,
+  WireRoom,
+  WireSession,
+} from "../src/lib/api/wire-types";
 
-const entity = (qid: string, label: string) => ({
+const entity = (qid: string, label: string): WireEntity => ({
   qid,
   label,
   description: null,
   category: "Arts & Culture",
   entity_type: "work",
   image_path: null,
+  image_attribution: null,
 });
 
 const session: WireSession = {
@@ -134,6 +139,35 @@ describe("API wire adapters", () => {
       source_kind: "wikidata",
       source_url: "https://www.wikidata.org/wiki/Q1",
     });
+  });
+
+  it("preserves complete Commons attribution on entity summaries", () => {
+    const attributed = entity("Q1", "Start");
+    attributed.image_path = "/media/start.jpg";
+    attributed.image_attribution = {
+      file_name: "Start.jpg",
+      original_url: "https://upload.wikimedia.org/original.jpg",
+      derivative_url: "https://upload.wikimedia.org/thumbnail.jpg",
+      source_url: "https://commons.wikimedia.org/wiki/File:Start.jpg",
+      license_id: "CC_BY_4_0",
+      creator: "Example photographer",
+      license_url: "https://creativecommons.org/licenses/by/4.0/",
+      attribution_text: "Example photographer — CC BY 4.0 — Wikimedia Commons",
+    };
+
+    const mapped = mapSession({
+      ...session,
+      current: attributed,
+      navigation_stack: [attributed],
+    });
+
+    expect(mapped.current.image_attribution).toEqual(
+      expect.objectContaining({
+        creator: "Example photographer",
+        license_id: "CC_BY_4_0",
+        source_url: "https://commons.wikimedia.org/wiki/File:Start.jpg",
+      }),
+    );
   });
 
   it("maps every token-free connection on a grouped historical choice", () => {

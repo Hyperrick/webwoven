@@ -4,13 +4,18 @@ import html
 import re
 from collections.abc import Iterable, Mapping
 from typing import Any, cast
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
 from .http_transport import JsonTransport, UrllibJsonTransport
 from .models import MediaRecord
 
 COMMONS_API_URL = "https://commons.wikimedia.org/w/api.php"
 ALLOWED_LICENSES = frozenset({"PUBLIC_DOMAIN", "CC0_1_0", "CC_BY_4_0"})
+CANONICAL_LICENSE_URLS = {
+    "PUBLIC_DOMAIN": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "CC0_1_0": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "CC_BY_4_0": "https://creativecommons.org/licenses/by/4.0/",
+}
 
 
 class CommonsError(RuntimeError):
@@ -90,16 +95,36 @@ def _parse_record(title: str, info: Mapping[str, Any]) -> MediaRecord | None:
 
     creator = _plain_text(_metadata_value(metadata, "Artist"))
     license_url = _metadata_value(metadata, "LicenseUrl").strip()
-    original_url = _string(info.get("url"))
-    derivative_url = _string(info.get("thumburl")) or original_url
-    source_url = _string(info.get("descriptionurl"))
-    if not original_url or not derivative_url or not source_url:
+    restrictions = _plain_text(_metadata_value(metadata, "Restrictions"))
+    if restrictions:
         return None
-    if license_id == "CC_BY_4_0" and (not creator or not license_url):
+    original_url = _wikimedia_url(_string(info.get("url")), "upload.wikimedia.org")
+    derivative_url = _wikimedia_url(
+        _string(info.get("thumburl")) or (original_url or ""),
+        "upload.wikimedia.org",
+    )
+    source_url = _wikimedia_url(
+        _string(info.get("descriptionurl")),
+        "commons.wikimedia.org",
+    )
+    if original_url is None or derivative_url is None or source_url is None:
+        return None
+    if license_id == "CC_BY_4_0" and (
+        not creator or not _matches_license_url(license_url, license_id)
+    ):
         return None
     if license_id in {"PUBLIC_DOMAIN", "CC0_1_0"}:
         creator = creator or "Unknown creator"
-        license_url = license_url or source_url
+    license_url = CANONICAL_LICENSE_URLS[license_id]
+
+    explicit_attribution = _plain_text(_metadata_value(metadata, "Attribution"))
+    attribution_credit = creator
+    if explicit_attribution:
+        attribution_credit = (
+            explicit_attribution
+            if creator.casefold() in explicit_attribution.casefold()
+            else f"{explicit_attribution} · {creator}"
+        )
 
     readable_license = {
         "PUBLIC_DOMAIN": "Public Domain",
@@ -114,7 +139,9 @@ def _parse_record(title: str, info: Mapping[str, Any]) -> MediaRecord | None:
         license_id=license_id,
         creator=creator,
         license_url=license_url,
-        attribution_text=f"{creator} — {readable_license} — Wikimedia Commons",
+        attribution_text=f"{attribution_credit} — {readable_license} — Wikimedia Commons",
+        restrictions=restrictions,
+        explicit_attribution=explicit_attribution,
     )
 
 
@@ -169,6 +196,23 @@ def _chunked(values: tuple[str, ...], size: int) -> Iterable[tuple[str, ...]]:
 
 def _string(value: Any) -> str:
     return value if isinstance(value, str) else ""
+
+
+def _wikimedia_url(value: str, expected_host: str) -> str | None:
+    parsed = urlparse(value)
+    return value if parsed.scheme == "https" and parsed.hostname == expected_host else None
+
+
+def _matches_license_url(value: str, license_id: str) -> bool:
+    parsed = urlparse(value)
+    expected = urlparse(CANONICAL_LICENSE_URLS[license_id])
+    return (
+        parsed.scheme == "https"
+        and parsed.hostname == expected.hostname
+        and parsed.path.rstrip("/") == expected.path.rstrip("/")
+        and not parsed.query
+        and not parsed.fragment
+    )
 
 
 def _as_mapping(value: object) -> Mapping[str, Any]:

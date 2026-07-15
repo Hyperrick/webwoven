@@ -37,19 +37,27 @@ class WikidataClient:
         *,
         transport: JsonTransport | None = None,
         sleeper: Callable[[float], None] = time.sleep,
-        max_retries: int = 4,
+        max_retries: int = 8,
         timeout: float = 30.0,
+        max_lag: int = 5,
+        request_interval: float = 0.0,
     ) -> None:
         if not user_agent.strip() or "webwoven" not in user_agent.casefold():
             raise ValueError("user_agent must identify the Webwoven project")
         if max_retries < 0:
             raise ValueError("max_retries cannot be negative")
+        if not 1 <= max_lag <= 120:
+            raise ValueError("max_lag must be between 1 and 120 seconds")
+        if request_interval < 0:
+            raise ValueError("request_interval cannot be negative")
         self._cache_dir = cache_dir
         self._user_agent = user_agent
         self._transport = transport or UrllibJsonTransport()
         self._sleeper = sleeper
         self._max_retries = max_retries
         self._timeout = timeout
+        self._max_lag = max_lag
+        self._request_interval = request_interval
 
     def fetch_entities(self, qids: Iterable[str]) -> tuple[WikidataBatch, ...]:
         unique = tuple(sorted(set(qids), key=_qid_number))
@@ -81,7 +89,7 @@ class WikidataClient:
         return WikidataBatch(qids, cache_path, hashlib.sha256(payload_bytes).hexdigest(), payload)
 
     def _request_with_retry(self, qids: tuple[str, ...]) -> dict[str, Any]:
-        url = _build_url(qids)
+        url = _build_url(qids, self._max_lag)
         attempts = self._max_retries + 1
         for attempt in range(attempts):
             try:
@@ -99,13 +107,15 @@ class WikidataClient:
                     raise WikidataError(f"Wikidata API error: {code or 'unknown'}")
                 if not isinstance(payload.get("entities"), dict):
                     raise WikidataError("Wikidata response has no entities object")
+                if self._request_interval:
+                    self._sleeper(self._request_interval)
                 return payload
             except (HTTPError, URLError, TimeoutError, _RetryableWikidataError) as exc:
                 if isinstance(exc, HTTPError) and exc.code not in {429, 500, 502, 503, 504}:
                     raise WikidataError(f"non-retryable Wikidata HTTP error {exc.code}") from exc
                 if attempt == attempts - 1:
                     raise WikidataError(f"Wikidata batch failed after {attempts} attempts") from exc
-                self._sleeper(min(2**attempt, 16))
+                self._sleeper(min(2**attempt, 30))
         raise AssertionError("retry loop did not return or raise")
 
 
@@ -126,7 +136,7 @@ def entities_from_batches(batches: Iterable[WikidataBatch]) -> dict[str, dict[st
     return dict(sorted(entities.items(), key=lambda item: _qid_number(item[0])))
 
 
-def _build_url(qids: tuple[str, ...]) -> str:
+def _build_url(qids: tuple[str, ...], max_lag: int) -> str:
     params = {
         "action": "wbgetentities",
         "format": "json",
@@ -135,7 +145,7 @@ def _build_url(qids: tuple[str, ...]) -> str:
         "props": "labels|descriptions|aliases|claims",
         "languages": "en",
         "languagefallback": "1",
-        "maxlag": "5",
+        "maxlag": str(max_lag),
     }
     return f"{WIKIDATA_API_URL}?{urlencode(params)}"
 

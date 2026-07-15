@@ -91,6 +91,17 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
     )
 
 
+def test_fixture_round_selection_carries_automated_validation_report() -> None:
+    report = _json(FIXTURE / "round-validation-report.json")
+
+    assert report["policy"] == "deterministic-round-publication-v1"
+    assert report["source_kind"] == "synthetic_fixture"
+    assert report["status"] == "passed"
+    assert report["summary"]["candidate_rounds"] == 100
+    assert report["summary"]["published_rounds"] == 40
+    assert all(report["checks"].values())
+
+
 def test_fixture_entities_and_edges_are_readable_but_unmistakably_fictional() -> None:
     entities = _json_list(FIXTURE / "entities.json")
     edges = _json_list(FIXTURE / "edges.json")

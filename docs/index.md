@@ -5,7 +5,7 @@ Webwoven is an explainable knowledge-graph game built for OpenAI Build Week.
 > Connect anything. Discover why it is connected.
 
 Players travel from a known start to a known target by following real, named relationships.
-Every move answers not only *where can I go?* but *why are these things connected?*
+Every move answers not only _where can I go?_ but _why are these things connected?_
 
 ## Two promises
 
@@ -19,5 +19,6 @@ provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 ## Current milestone
 
 The repository is in the Build Week implementation phase. Normal local gameplay now runs against
-an immutable two-hop Wikidata playtest bundle. The synthetic smoke graph is test-only; reviewed
-round decisions, compliant Commons media, and public release bundles are the next data milestones.
+an immutable, release-scale Wikidata bundle with locally served, policy-checked Commons media.
+The synthetic smoke graph remains test-only; editorial expansion and production load validation
+are the next data milestones.

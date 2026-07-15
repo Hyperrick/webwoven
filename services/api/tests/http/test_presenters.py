@@ -1,5 +1,6 @@
 """Focused session-presentation tests for relation group identity."""
 
+import json
 from datetime import UTC, datetime
 from unittest.mock import create_autospec
 
@@ -7,10 +8,129 @@ from webwoven_api.domain.navigation import follow_edge, start_navigation
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import Entity, GraphEdge, Round
 from webwoven_api.graph.memory_reader import MemoryGraphReader
+from webwoven_api.http.presentation.entities import entity_response
 from webwoven_api.http.presentation.sessions import SessionPresenter
 from webwoven_api.sessions.exploration import backed_frame, followed_frame
 from webwoven_api.sessions.models import GameSession, SessionMode, SessionStatus
 from webwoven_api.sessions.service import SessionService
+
+
+def test_entity_response_exposes_only_complete_commons_attribution() -> None:
+    attribution = {
+        "file_name": "The Great Wave off Kanagawa.jpg",
+        "original_url": "https://upload.wikimedia.org/original.jpg",
+        "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+        "source_url": "https://commons.wikimedia.org/wiki/File:The_Great_Wave.jpg",
+        "license_id": "PUBLIC_DOMAIN",
+        "creator": "Katsushika Hokusai",
+        "license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+        "attribution_text": ("Katsushika Hokusai — Public Domain — Wikimedia Commons"),
+    }
+    response = entity_response(
+        Entity(
+            "Q1",
+            "The Great Wave",
+            None,
+            "work",
+            "arts_culture",
+            "/media/great-wave.jpg",
+            json.dumps(attribution),
+        )
+    )
+
+    assert response.image_attribution is not None
+    assert response.image_attribution.creator == "Katsushika Hokusai"
+    assert response.image_attribution.license_id == "PUBLIC_DOMAIN"
+    assert str(response.image_attribution.source_url).startswith("https://commons.wikimedia.org/")
+
+
+def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
+    malformed = entity_response(
+        Entity(
+            "Q1",
+            "The Great Wave",
+            None,
+            "work",
+            "arts_culture",
+            "/media/great-wave.jpg",
+            '{"creator":"Katsushika Hokusai"}',
+        )
+    )
+    unsupported_license = entity_response(
+        Entity(
+            "Q2",
+            "Another image",
+            None,
+            "work",
+            "arts_culture",
+            "/media/other.jpg",
+            json.dumps(
+                {
+                    "file_name": "Other.jpg",
+                    "original_url": "https://upload.wikimedia.org/original.jpg",
+                    "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+                    "source_url": "https://commons.wikimedia.org/wiki/File:Other.jpg",
+                    "license_id": "CC_BY_SA_4_0",
+                    "creator": "Creator",
+                    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                    "attribution_text": "Creator — CC BY-SA 4.0 — Wikimedia Commons",
+                }
+            ),
+        )
+    )
+    mismatched_license_url = entity_response(
+        Entity(
+            "Q3",
+            "Mismatched license",
+            None,
+            "work",
+            "arts_culture",
+            "/api/v1/media/mismatch.jpg",
+            json.dumps(
+                {
+                    "file_name": "Mismatch.jpg",
+                    "original_url": "https://upload.wikimedia.org/original.jpg",
+                    "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+                    "source_url": "https://commons.wikimedia.org/wiki/File:Mismatch.jpg",
+                    "license_id": "CC_BY_4_0",
+                    "creator": "Creator",
+                    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                    "attribution_text": "Creator — CC BY 4.0 — Wikimedia Commons",
+                }
+            ),
+        )
+    )
+    missing_creator_credit = entity_response(
+        Entity(
+            "Q4",
+            "Missing creator credit",
+            None,
+            "work",
+            "arts_culture",
+            "/api/v1/media/missing-credit.jpg",
+            json.dumps(
+                {
+                    "file_name": "Missing credit.jpg",
+                    "original_url": "https://upload.wikimedia.org/original.jpg",
+                    "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+                    "source_url": "https://commons.wikimedia.org/wiki/File:Missing_credit.jpg",
+                    "license_id": "CC_BY_4_0",
+                    "creator": "Named creator",
+                    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+                    "attribution_text": "Some credit — CC BY 4.0 — Wikimedia Commons",
+                }
+            ),
+        )
+    )
+
+    assert malformed.image_attribution is None
+    assert malformed.image_path is None
+    assert unsupported_license.image_attribution is None
+    assert unsupported_license.image_path is None
+    assert mismatched_license_url.image_attribution is None
+    assert mismatched_license_url.image_path is None
+    assert missing_creator_credit.image_attribution is None
+    assert missing_creator_credit.image_path is None
 
 
 def test_relation_groups_distinguish_forward_and_inverse_uses_of_one_property() -> None:

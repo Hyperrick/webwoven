@@ -4,14 +4,14 @@ import hashlib
 import json
 import shutil
 from pathlib import Path
-from typing import Any
 
 from .compiler import compile_graph
 from .fixture_catalog import SMOKE_STORIES, FixtureEntitySpec, FixtureFactSpec, FixtureStory
 from .manifest import build_manifest, write_manifest
-from .models import Edge, Entity, Round
+from .models import Edge, Entity
 from .registry import RelationRegistry
-from .rounds import generate_rounds
+from .round_validation import validate_round_selection
+from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 
 FIXTURE_CREATED_AT = "2026-07-13T00:00:00Z"
 
@@ -30,17 +30,27 @@ def generate_smoke_fixture(
     destination.mkdir(parents=True)
 
     entities, edges = build_smoke_graph()
-    rounds = generate_rounds(entities, edges)
+    rounds = generate_rounds(entities, edges, selection_seed=DEFAULT_SELECTION_SEED)
     entities_path = destination / "entities.json"
     edges_path = destination / "edges.json"
     rounds_path = destination / "candidate-rounds.json"
-    reviews_path = destination / "fixture-review-decisions.json"
+    validation_path = destination / "round-validation-report.json"
     attribution_path = destination / "attribution.json"
     graph_path = destination / "graph.sqlite3"
+    validation_report = validate_round_selection(
+        rounds,
+        entities,
+        edges,
+        endpoint_ids=(item.id for item in entities),
+        playable_relation_keys=registry.playable_keys,
+        source_kind="synthetic_fixture",
+        selection_seed=DEFAULT_SELECTION_SEED,
+        registry_version=registry.version,
+    )
     _write_json(entities_path, [item.to_dict() for item in entities])
     _write_json(edges_path, [item.to_dict() for item in edges])
     _write_json(rounds_path, [item.to_dict() for item in rounds])
-    _write_json(reviews_path, _fixture_reviews(rounds))
+    _write_json(validation_path, validation_report)
     _write_json(
         attribution_path,
         {
@@ -62,7 +72,7 @@ def generate_smoke_fixture(
             (entities_path, "normalized_fixture_entities"),
             (edges_path, "normalized_fixture_edges"),
             (rounds_path, "candidate_rounds"),
-            (reviews_path, "fixture_review_decisions"),
+            (validation_path, "round_validation_report"),
             (attribution_path, "media_attribution"),
         ),
         graph_build_id=graph_build_id,
@@ -148,24 +158,6 @@ def _fixture_edge(
         explanation=explanation,
         inverse=inverse,
     )
-
-
-def _fixture_reviews(rounds: tuple[Round, ...]) -> dict[str, Any]:
-    return {
-        "version": 1,
-        "fixture_only": True,
-        "notice": (
-            "Approvals apply only to synthetic fixture behavior, not production knowledge data."
-        ),
-        "decisions": [
-            {
-                "round_id": item.id,
-                "decision": "approved" if item.published else "held",
-                "approval_scope": "synthetic_fixture",
-            }
-            for item in rounds
-        ],
-    }
 
 
 def _write_json(path: Path, value: object) -> None:

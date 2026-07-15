@@ -19,15 +19,15 @@ deterministic and server-authoritative.
 - Solo Route Race
 - Daily Connection and leaderboard
 - Live Relay for two to four players with reconnect
-- Four knowledge categories, with 100 candidates and 40 human-approved production rounds targeted
+- Four knowledge categories, with 100 candidates and 40 automatically validated production rounds
 - Local, immutable Wikidata graph with licensed Commons media
 - English desktop and mobile web experience
 
 Normal gameplay now requires an immutable Wikidata bundle. The repository retains a clearly
 labelled synthetic smoke fixture only for isolated automated tests; neither the browser nor the API
-silently substitutes it when the real atlas is unavailable. Licensed Commons media, editorial
-round approvals, the load target, and public deployment remain dated milestones in the living
-documentation.
+silently substitutes it when the real atlas is unavailable. The release-scale graph and licensed,
+locally served Commons endpoint media are implemented; editorial content, the load target, and
+public deployment remain dated milestones in the living documentation.
 
 ## Local development
 

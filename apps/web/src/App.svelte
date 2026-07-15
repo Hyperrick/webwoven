@@ -520,6 +520,7 @@
   <SourcesDrawer
     open={drawer === "sources"}
     entity={session?.current}
+    roundEntities={session ? [session.start, session.target] : []}
     {graphBuild}
     onClose={() => (drawer = null)}
     onReport={() => void reportCurrent()}
