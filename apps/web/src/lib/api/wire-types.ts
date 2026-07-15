@@ -109,15 +109,19 @@ export interface WireDaily {
 
 export interface WireLeaderboard {
   day: string;
-  entries: Array<{
-    rank: number;
-    display_name: string;
-    score: number;
-    moves: number;
-    hints_used: number;
-    elapsed_seconds: number;
-    completed_at: string;
-  }>;
+  entries: WireLeaderboardEntry[];
+  current_guest_entry: WireLeaderboardEntry | null;
+}
+
+export interface WireLeaderboardEntry {
+  rank: number;
+  display_name: string;
+  score: number;
+  moves: number;
+  hints_used: number;
+  elapsed_seconds: number;
+  completed_at: string;
+  is_current_guest: boolean;
 }
 
 export interface WireRoom {

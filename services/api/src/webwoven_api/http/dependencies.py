@@ -34,3 +34,21 @@ async def current_guest(
 
 
 GuestDependency = Annotated[Guest, Depends(current_guest)]
+
+
+async def optional_current_guest(
+    request: Request,
+    container: ContainerDependency,
+) -> Guest | None:
+    """Resolve a signed guest when present without requiring one for public reads."""
+    guest_cookie = request.cookies.get(container.settings.cookie_name)
+    if guest_cookie is None:
+        return None
+    try:
+        guest_id = container.guest_cookies.verify(guest_cookie)
+        return await container.guests.get(guest_id)
+    except (ForbiddenError, NotFoundError):
+        return None
+
+
+OptionalGuestDependency = Annotated[Guest | None, Depends(optional_current_guest)]

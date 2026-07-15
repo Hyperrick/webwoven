@@ -251,8 +251,19 @@ describe("API wire adapters", () => {
           hints_used: 0,
           elapsed_seconds: 32,
           completed_at: "2026-07-13T10:01:00Z",
+          is_current_guest: true,
         },
       ],
+      current_guest_entry: {
+        rank: 1,
+        display_name: "Mira",
+        score: 990,
+        moves: 4,
+        hints_used: 0,
+        elapsed_seconds: 32,
+        completed_at: "2026-07-13T10:01:00Z",
+        is_current_guest: true,
+      },
     });
     const room: WireRoom = {
       code: "MAPS27",
@@ -283,7 +294,8 @@ describe("API wire adapters", () => {
       grace_ends_at: null,
     };
 
-    expect(leaderboard[0].score).toBe(990);
+    expect(leaderboard.entries[0].score).toBe(990);
+    expect(leaderboard.current_guest_entry?.is_current_guest).toBe(true);
     expect(mapRoom(room)).toMatchObject({
       category: "arts_culture",
       difficulty: "hard",

@@ -10,6 +10,7 @@
 @import url("./game-map-world.css") layer(game);
 @import url("./map-viewport.css") layer(game);
 @import url("./hint-dock.css") layer(game);
+@import url("./guest-profile.css") layer(shell);
 @import url("./race.css") layer(game);
 @import url("./round-intro.css") layer(game);
 @import url("./round-setup.css") layer(rooms);

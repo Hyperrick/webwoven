@@ -100,6 +100,82 @@ describe("HTTP API adapter", () => {
     expect(JSON.parse(request.body as string)).toEqual({ difficulty: "easy" });
   });
 
+  it("updates the guest name with CSRF protection", async () => {
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "guest",
+            display_name: "Explorer ABCD",
+            csrf_token: "csrf-name",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "guest",
+            display_name: "Paper Fox",
+            csrf_token: "csrf-name",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      );
+    const api = new HttpApi({ fetch: fetchMock });
+
+    await api.getGuest();
+    await expect(api.updateGuest("Paper Fox")).resolves.toMatchObject({
+      display_name: "Paper Fox",
+    });
+
+    const request = fetchMock.mock.calls[1][1] as RequestInit;
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/v1/guests/me");
+    expect(new Headers(request.headers).get("X-CSRF-Token")).toBe("csrf-name");
+    expect(JSON.parse(request.body as string)).toEqual({
+      display_name: "Paper Fox",
+    });
+  });
+
+  it("maps the top field and the current guest position separately", async () => {
+    const entry = {
+      rank: 1,
+      display_name: "Northstar",
+      score: 980,
+      moves: 4,
+      hints_used: 0,
+      elapsed_seconds: 32,
+      completed_at: "2026-07-13T10:01:00Z",
+      is_current_guest: false,
+    };
+    const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          day: "2026-07-13",
+          entries: [entry],
+          current_guest_entry: {
+            ...entry,
+            rank: 27,
+            display_name: "Paper Fox",
+            is_current_guest: true,
+          },
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+    const api = new HttpApi({ fetch: fetchMock });
+
+    const leaderboard = await api.getDailyLeaderboard();
+
+    expect(leaderboard.entries).toEqual([
+      expect.objectContaining({ rank: 1, is_current_guest: false }),
+    ]);
+    expect(leaderboard.current_guest_entry).toEqual(
+      expect.objectContaining({ rank: 27, is_current_guest: true }),
+    );
+  });
+
   it("persists the guest CSRF token and maps command response wrappers", async () => {
     const fetchMock = vi
       .fn<typeof fetch>()

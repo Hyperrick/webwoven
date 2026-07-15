@@ -1,6 +1,7 @@
 """Guest identity creation and profile rules."""
 
 import secrets
+import unicodedata
 from dataclasses import replace
 from datetime import UTC, datetime
 from uuid import uuid4
@@ -8,6 +9,9 @@ from uuid import uuid4
 from webwoven_api.domain.errors import DomainError, NotFoundError
 from webwoven_api.guests.models import Guest
 from webwoven_api.guests.repository import GuestRepository
+
+_ALLOWED_PUNCTUATION = {" ", "'", "’", "-"}
+_RESERVED_WORDS = {"admin", "moderator", "system", "webwoven"}
 
 
 class GuestService:
@@ -43,11 +47,28 @@ class GuestService:
 
 
 def normalize_display_name(value: str) -> str:
-    name = " ".join(value.split())
+    name = unicodedata.normalize("NFKC", " ".join(value.split()))
     if not 2 <= len(name) <= 24:
         raise DomainError("invalid_display_name", "Display name must be 2–24 characters.")
-    if any(ord(character) < 32 for character in name):
-        raise DomainError("invalid_display_name", "Display name contains unsupported characters.")
+    if not name[0].isalnum() or not name[-1].isalnum():
+        raise DomainError(
+            "invalid_display_name",
+            "Display name must begin and end with a letter or number.",
+        )
+    if any(not character.isalnum() and character not in _ALLOWED_PUNCTUATION for character in name):
+        raise DomainError(
+            "invalid_display_name",
+            "Use letters, numbers, spaces, apostrophes, or hyphens only.",
+        )
+    words = {
+        word.casefold()
+        for word in name.replace("-", " ").replace("'", " ").replace("’", " ").split()
+    }
+    if words & _RESERVED_WORDS:
+        raise DomainError(
+            "reserved_display_name",
+            "Choose a name that does not imply an official Webwoven role.",
+        )
     return name
 
 

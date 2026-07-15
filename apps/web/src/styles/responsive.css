@@ -235,11 +235,13 @@
     padding: var(--space-5);
   }
 
-  .leaderboard li {
+  .leaderboard li,
+  .leaderboard__position > div {
     grid-template-columns: 2rem 1fr 3rem;
   }
 
-  .leaderboard li small {
+  .leaderboard li small,
+  .leaderboard__position small {
     display: none;
   }
 

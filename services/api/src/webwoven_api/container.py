@@ -154,11 +154,12 @@ def build_container(settings: Settings) -> AppContainer:
 
 
 def _memory_adapters() -> _PersistenceAdapters:
+    guests = MemoryGuestRepository()
     return _PersistenceAdapters(
-        guests=MemoryGuestRepository(),
+        guests=guests,
         sessions=MemorySessionRepository(),
         round_selections=MemoryRoundSelectionRepository(),
-        daily=MemoryDailyRepository(),
+        daily=MemoryDailyRepository(guests),
         rooms=MemoryRoomRepository(),
         reports=MemoryContentReportRepository(),
         room_broker=MemoryRoomEventBroker(),

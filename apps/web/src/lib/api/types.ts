@@ -148,7 +148,12 @@ export interface LeaderboardEntry {
   score: number;
   moves: number;
   elapsed_seconds: number;
-  is_current_guest?: boolean;
+  is_current_guest: boolean;
+}
+
+export interface DailyLeaderboard {
+  entries: LeaderboardEntry[];
+  current_guest_entry: LeaderboardEntry | null;
 }
 
 export type RoomState =
@@ -205,7 +210,7 @@ export interface WebwovenApi {
   }): Promise<SessionSnapshot>;
   getSession(id: string): Promise<SessionSnapshot>;
   sendCommand(id: string, command: SessionCommand): Promise<SessionSnapshot>;
-  getDailyLeaderboard(): Promise<LeaderboardEntry[]>;
+  getDailyLeaderboard(): Promise<DailyLeaderboard>;
   createRoom(difficulty: Difficulty): Promise<RoomSnapshot>;
   joinRoom(code: string): Promise<RoomSnapshot>;
   setRoomReady(code: string, ready: boolean): Promise<RoomSnapshot>;

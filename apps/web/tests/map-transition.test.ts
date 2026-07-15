@@ -8,7 +8,7 @@ import { buildMapBoard } from "../src/lib/domain/map-board";
 import { deriveMapTransition } from "../src/lib/domain/map-transition";
 
 describe("map transitions", () => {
-  it("describes Back as a reverse move from the exhausted node", () => {
+  it("collapses a dead-end retreat without moving the original node", () => {
     const initial = createNavigationState("transition", "solo");
     const followed = followEdge(initial, "demo:Q5586:P800:Q209772");
     const backed = moveBack(followed);
@@ -22,12 +22,21 @@ describe("map transitions", () => {
     );
 
     expect(transition).toMatchObject({
-      kind: "back",
+      kind: "dead_end_back",
       from_node_id: previousBoard.current_node_id,
       to_node_id: nextBoard.current_node_id,
     });
     expect(
-      nextBoard.nodes.find(({ id }) => id === transition.from_node_id)?.roles,
-    ).toContain("discarded");
+      nextBoard.nodes.find(({ id }) => id === transition.from_node_id),
+    ).toBeUndefined();
+    expect(
+      nextBoard.nodes.find(({ id }) => id === nextBoard.current_node_id)
+        ?.position,
+    ).toEqual(
+      previousBoard.nodes.find(({ id }) => id === previousBoard.start_node_id)
+        ?.position,
+    );
+    expect(nextBoard.layout.width_units).toBe(previousBoard.layout.width_units);
+    expect(nextBoard.trail).toHaveLength(3);
   });
 });

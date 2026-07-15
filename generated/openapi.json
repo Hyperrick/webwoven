@@ -213,6 +213,16 @@
       "DailyLeaderboardResponse": {
         "additionalProperties": false,
         "properties": {
+          "current_guest_entry": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LeaderboardEntry"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "day": {
             "format": "date",
             "title": "Day",
@@ -228,7 +238,8 @@
         },
         "required": [
           "day",
-          "entries"
+          "entries",
+          "current_guest_entry"
         ],
         "title": "DailyLeaderboardResponse",
         "type": "object"
@@ -548,7 +559,8 @@
           "display_name": {
             "anyOf": [
               {
-                "maxLength": 64,
+                "maxLength": 24,
+                "minLength": 2,
                 "type": "string"
               },
               {
@@ -589,8 +601,8 @@
         "additionalProperties": false,
         "properties": {
           "display_name": {
-            "maxLength": 64,
-            "minLength": 1,
+            "maxLength": 24,
+            "minLength": 2,
             "title": "Display Name",
             "type": "string"
           }
@@ -806,6 +818,10 @@
             "title": "Hints Used",
             "type": "integer"
           },
+          "is_current_guest": {
+            "title": "Is Current Guest",
+            "type": "boolean"
+          },
           "moves": {
             "title": "Moves",
             "type": "integer"
@@ -826,7 +842,8 @@
           "moves",
           "hints_used",
           "elapsed_seconds",
-          "completed_at"
+          "completed_at",
+          "is_current_guest"
         ],
         "title": "LeaderboardEntry",
         "type": "object"
@@ -1641,7 +1658,7 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 50,
+              "default": 20,
               "maximum": 100,
               "minimum": 1,
               "title": "Limit",
