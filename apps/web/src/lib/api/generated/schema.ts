@@ -484,6 +484,7 @@ export interface components {
             description: string | null;
             /** Entity Type */
             entity_type: string;
+            image_attribution: components["schemas"]["ImageAttributionResponse"] | null;
             /** Image Path */
             image_path: string | null;
             /** Label */
@@ -581,6 +582,43 @@ export interface components {
              * Format: date-time
              */
             used_at: string;
+        };
+        /**
+         * ImageAttributionResponse
+         * @description Complete attribution for a locally bundled Wikimedia Commons image.
+         */
+        ImageAttributionResponse: {
+            /** Attribution Text */
+            attribution_text: string;
+            /** Creator */
+            creator: string;
+            /**
+             * Derivative Url
+             * Format: uri
+             */
+            derivative_url: string;
+            /** File Name */
+            file_name: string;
+            /**
+             * License Id
+             * @enum {string}
+             */
+            license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+            /**
+             * License Url
+             * Format: uri
+             */
+            license_url: string;
+            /**
+             * Original Url
+             * Format: uri
+             */
+            original_url: string;
+            /**
+             * Source Url
+             * Format: uri
+             */
+            source_url: string;
         };
         /** LeaderboardEntry */
         LeaderboardEntry: {

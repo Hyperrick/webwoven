@@ -26,7 +26,7 @@ def normalize_entities(
         label = _language_value(raw, "labels")
         if not label:
             continue
-        image_name = _commons_file_name(raw)
+        image_name = commons_file_name(raw)
         media = media_records.get(image_name) if image_name else None
         entities.append(
             Entity(
@@ -186,7 +186,8 @@ def _make_edge(
     )
 
 
-def _commons_file_name(raw: Mapping[str, Any]) -> str | None:
+def commons_file_name(raw: Mapping[str, Any]) -> str | None:
+    """Return the deterministic preferred P18 file name for a raw Wikidata entity."""
     claims_value = raw.get("claims")
     if not isinstance(claims_value, dict):
         return None
@@ -195,12 +196,13 @@ def _commons_file_name(raw: Mapping[str, Any]) -> str | None:
     if not isinstance(statements_value, list):
         return None
     statements = cast(list[Any], statements_value)
-    names: list[str] = []
+    names: list[tuple[int, str]] = []
     for statement in statements:
         if not isinstance(statement, dict):
             continue
         statement_object = cast(dict[str, Any], statement)
-        if statement_object.get("rank") == "deprecated":
+        rank = statement_object.get("rank", "normal")
+        if rank == "deprecated":
             continue
         mainsnak_value = statement_object.get("mainsnak")
         mainsnak = cast(dict[str, Any], mainsnak_value) if isinstance(mainsnak_value, dict) else {}
@@ -210,8 +212,8 @@ def _commons_file_name(raw: Mapping[str, Any]) -> str | None:
         )
         name = data_value.get("value")
         if isinstance(name, str) and name.strip():
-            names.append(name.strip().replace("_", " "))
-    return min(names) if names else None
+            names.append((0 if rank == "preferred" else 1, name.strip().replace("_", " ")))
+    return min(names)[1] if names else None
 
 
 def _language_value(raw: Mapping[str, Any], field: str) -> str:

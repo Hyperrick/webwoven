@@ -10,6 +10,7 @@ from .taxonomy import CATEGORIES
 TIME_WINDOWS = {"easy": 120, "normal": 180, "hard": 240}
 CANDIDATE_DISTRIBUTION = {"easy": 10, "normal": 10, "hard": 5}
 PUBLISHED_DISTRIBUTION = {"easy": 4, "normal": 4, "hard": 2}
+DEFAULT_SELECTION_SEED = "webwoven-build-week-v1"
 
 
 class RoundCapacityError(ValueError):
@@ -20,10 +21,10 @@ def generate_rounds(
     entities: Iterable[Entity],
     edges: Iterable[Edge],
     *,
-    selection_seed: str = "webwoven-build-week-v1",
+    selection_seed: str = DEFAULT_SELECTION_SEED,
     endpoint_ids: Iterable[str] | None = None,
 ) -> tuple[Round, ...]:
-    """Choose 100 stable candidates and flag the deterministic 40-round starter review."""
+    """Choose 100 stable candidates and publish the deterministic 40-round selection."""
     entity_values = tuple(entities)
     allowed_endpoints = frozenset(endpoint_ids) if endpoint_ids is not None else None
     playable_edges = tuple(edge for edge in edges if edge.playable)

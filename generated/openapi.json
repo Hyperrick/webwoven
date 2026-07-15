@@ -487,6 +487,16 @@
             "title": "Entity Type",
             "type": "string"
           },
+          "image_attribution": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ImageAttributionResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "image_path": {
             "anyOf": [
               {
@@ -513,7 +523,8 @@
           "description",
           "category",
           "entity_type",
-          "image_path"
+          "image_path",
+          "image_attribution"
         ],
         "title": "EntityResponse",
         "type": "object"
@@ -796,6 +807,73 @@
           "used_at"
         ],
         "title": "HintUseResponse",
+        "type": "object"
+      },
+      "ImageAttributionResponse": {
+        "additionalProperties": false,
+        "description": "Complete attribution for a locally bundled Wikimedia Commons image.",
+        "properties": {
+          "attribution_text": {
+            "title": "Attribution Text",
+            "type": "string"
+          },
+          "creator": {
+            "title": "Creator",
+            "type": "string"
+          },
+          "derivative_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Derivative Url",
+            "type": "string"
+          },
+          "file_name": {
+            "title": "File Name",
+            "type": "string"
+          },
+          "license_id": {
+            "enum": [
+              "PUBLIC_DOMAIN",
+              "CC0_1_0",
+              "CC_BY_4_0"
+            ],
+            "title": "License Id",
+            "type": "string"
+          },
+          "license_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "License Url",
+            "type": "string"
+          },
+          "original_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Original Url",
+            "type": "string"
+          },
+          "source_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Source Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_name",
+          "original_url",
+          "derivative_url",
+          "source_url",
+          "license_id",
+          "creator",
+          "license_url",
+          "attribution_text"
+        ],
+        "title": "ImageAttributionResponse",
         "type": "object"
       },
       "LeaderboardEntry": {

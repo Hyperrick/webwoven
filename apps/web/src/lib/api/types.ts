@@ -7,6 +7,18 @@ export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
   "history_people" | "nature_science" | "arts_culture" | "places";
 export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
+export type ImageLicenseId = "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+
+export interface ImageAttribution {
+  file_name: string;
+  original_url: string;
+  derivative_url: string;
+  source_url: string;
+  license_id: ImageLicenseId;
+  creator: string;
+  license_url: string;
+  attribution_text: string;
+}
 
 export interface EntitySummary {
   qid: string;
@@ -15,6 +27,7 @@ export interface EntitySummary {
   category: Category;
   source_kind: EntitySourceKind;
   image_path?: string;
+  image_attribution?: ImageAttribution;
   fact?: string;
   source_url?: string;
 }

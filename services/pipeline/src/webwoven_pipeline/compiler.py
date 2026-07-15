@@ -142,6 +142,11 @@ def _validate_references(
         raise GraphCompileError("edge IDs must be unique")
     if len(round_ids) != len(rounds):
         raise GraphCompileError("round IDs must be unique")
+    for entity in entities:
+        if (entity.image_path is None) != (entity.image_attribution is None):
+            raise GraphCompileError(
+                f"entity {entity.id} must pair every image with complete attribution"
+            )
     for edge in edges:
         if edge.source_id not in entity_ids or edge.target_id not in entity_ids:
             raise GraphCompileError(f"edge {edge.id} references an unknown entity")

@@ -9,6 +9,7 @@ const item = {
   category: "places",
   entity_type: "place",
   image_path: null,
+  image_attribution: null,
 };
 const wireSession: WireSession = {
   id: "session",

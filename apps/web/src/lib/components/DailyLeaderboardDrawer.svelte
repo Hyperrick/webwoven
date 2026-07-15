@@ -56,7 +56,7 @@
   >
     <header class="drawer__header">
       <div>
-        <p class="eyebrow">Daily leaderboard · UTC</p>
+        <p class="eyebrow">Daily leaderboard</p>
         <h2 id="daily-leaderboard-title">Today’s field</h2>
       </div>
       <button

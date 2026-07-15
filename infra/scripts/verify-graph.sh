@@ -16,21 +16,44 @@ import sys
 
 manifest = json.loads(pathlib.Path(sys.argv[1]).read_text())
 graph_path = pathlib.Path(sys.argv[2])
+bundle_dir = pathlib.Path(sys.argv[1]).parent
 if manifest.get("bundle_kind") != "wikidata":
     raise SystemExit("deployment requires a Wikidata graph bundle")
 if manifest.get("graph_schema_version") != 2:
     raise SystemExit("deployment requires graph schema v2")
 if not manifest.get("source_batches"):
     raise SystemExit("Wikidata bundle has no source batch provenance")
-actual = hashlib.sha256(graph_path.read_bytes()).hexdigest()
-graph_entries = [
-    entry for entry in manifest.get("artifacts", []) if entry.get("role") == "compiled_graph"
-]
+artifacts = manifest.get("artifacts", [])
+if not isinstance(artifacts, list) or not artifacts:
+    raise SystemExit("manifest has no artifacts")
+graph_entries = []
+for entry in artifacts:
+    relative = entry.get("path") if isinstance(entry, dict) else None
+    if not isinstance(relative, str):
+        raise SystemExit("manifest artifact path is invalid")
+    relative_path = pathlib.Path(relative)
+    if relative_path.is_absolute() or ".." in relative_path.parts:
+        raise SystemExit(f"unsafe manifest artifact path: {relative}")
+    artifact_path = bundle_dir / relative_path
+    if not artifact_path.is_file():
+        raise SystemExit(f"manifest artifact is missing: {relative}")
+    actual_size = artifact_path.stat().st_size
+    expected_size = entry.get("bytes")
+    if actual_size != expected_size:
+        raise SystemExit(
+            f"artifact size mismatch for {relative}: expected {expected_size}, got {actual_size}"
+        )
+    actual_hash = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
+    expected_hash = entry.get("sha256")
+    if actual_hash != expected_hash:
+        raise SystemExit(
+            f"artifact checksum mismatch for {relative}: expected {expected_hash}, got {actual_hash}"
+        )
+    if entry.get("role") == "compiled_graph":
+        graph_entries.append(entry)
 if len(graph_entries) != 1:
     raise SystemExit("manifest must contain exactly one compiled_graph artifact")
-expected = graph_entries[0].get("sha256")
-if expected != actual:
-    raise SystemExit(f"graph checksum mismatch: expected {expected}, got {actual}")
+actual = hashlib.sha256(graph_path.read_bytes()).hexdigest()
 with sqlite3.connect(f"file:{graph_path}?mode=ro", uri=True) as connection:
     metadata = dict(connection.execute("SELECT key, value FROM metadata"))
 if metadata.get("graph_build_id") != manifest.get("graph_build_id"):

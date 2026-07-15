@@ -8,13 +8,18 @@ from typing import Any, cast
 from .acquisition import acquire_graph
 from .codex_artifacts import ingest_codex_artifact
 from .commons import CommonsClient
+from .commons_assets import (
+    acquire_commons_assets,
+    enrich_entities_with_commons,
+    load_commons_media_bundle,
+)
 from .compiler import compile_graph
 from .fixture import generate_smoke_fixture
 from .manifest import verify_manifest
 from .models import ContentRequest, Edge, Entity, Fact, Round
-from .normalization import normalize_edges, normalize_entities
+from .normalization import commons_file_name, normalize_edges, normalize_entities
 from .registry import load_registry
-from .rounds import generate_rounds
+from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 from .seeds import load_seeds
 from .wikidata import WikidataClient
 from .wikidata_bundle import build_wikidata_bundle
@@ -36,6 +41,8 @@ def main(argv: list[str] | None = None) -> int:
         _acquire(args)
     elif command == "commons-metadata":
         _commons_metadata(args)
+    elif command == "acquire-commons":
+        _acquire_commons(args)
     elif command == "generate-rounds":
         _generate_rounds(args)
     elif command == "compile":
@@ -78,11 +85,23 @@ def _parser() -> argparse.ArgumentParser:
     acquire.add_argument("--user-agent", required=True)
     acquire.add_argument("--hops", type=int, default=2)
     acquire.add_argument("--max-entities", type=int, default=10_000)
+    acquire.add_argument("--max-lag", type=int, default=5)
+    acquire.add_argument("--request-interval", type=float, default=0.25)
 
     commons = commands.add_parser("commons-metadata", help="fetch and filter Commons metadata")
     commons.add_argument("--files", type=Path, required=True)
     commons.add_argument("--output", type=Path, required=True)
     commons.add_argument("--user-agent", required=True)
+
+    commons_assets = commands.add_parser(
+        "acquire-commons",
+        help="download allowlisted Commons media for curated endpoints",
+    )
+    commons_assets.add_argument("--graph-source", type=Path, required=True)
+    commons_assets.add_argument("--seeds", type=Path, required=True)
+    commons_assets.add_argument("--output", type=Path, required=True)
+    commons_assets.add_argument("--user-agent", required=True)
+    commons_assets.add_argument("--created-at", required=True)
 
     round_command = commands.add_parser(
         "generate-rounds",
@@ -93,9 +112,9 @@ def _parser() -> argparse.ArgumentParser:
     round_command.add_argument(
         "--seeds",
         type=Path,
-        help="restrict round starts and targets to reviewed anchors",
+        help="restrict round starts and targets to curated anchors",
     )
-    round_command.add_argument("--selection-seed", default="webwoven-build-week-v1")
+    round_command.add_argument("--selection-seed", default=DEFAULT_SELECTION_SEED)
 
     compile_command = commands.add_parser("compile", help="compile normalized JSON to SQLite")
     _registry_argument(compile_command)
@@ -105,14 +124,19 @@ def _parser() -> argparse.ArgumentParser:
 
     wikidata_pack = commands.add_parser(
         "build-wikidata-pack",
-        help="assemble a real-data local playtest bundle",
+        help="assemble a validated real-data bundle",
     )
     _registry_argument(wikidata_pack)
     wikidata_pack.add_argument("--seeds", type=Path, required=True)
     wikidata_pack.add_argument("--graph-source", type=Path, required=True)
     wikidata_pack.add_argument("--output", type=Path, required=True)
     wikidata_pack.add_argument("--created-at", required=True)
-    wikidata_pack.add_argument("--selection-seed", default="webwoven-build-week-v1")
+    wikidata_pack.add_argument(
+        "--commons-manifest",
+        type=Path,
+        help="validated local Commons media manifest to include in the bundle",
+    )
+    wikidata_pack.add_argument("--selection-seed", default=DEFAULT_SELECTION_SEED)
 
     smoke = commands.add_parser("generate-smoke", help="create the complete synthetic smoke bundle")
     _registry_argument(smoke)
@@ -143,7 +167,12 @@ def _registry_argument(parser: argparse.ArgumentParser) -> None:
 def _acquire(args: argparse.Namespace) -> None:
     registry = load_registry(args.registry)
     seeds = load_seeds(args.seeds)
-    client = WikidataClient(args.cache, args.user_agent)
+    client = WikidataClient(
+        args.cache,
+        args.user_agent,
+        max_lag=args.max_lag,
+        request_interval=args.request_interval,
+    )
     acquired = acquire_graph(
         seeds,
         registry,
@@ -165,6 +194,11 @@ def _acquire(args: argparse.Namespace) -> None:
         }
         for batch in acquired.batches
     ]
+    media_candidates = {
+        item.id: file_name
+        for item in entities
+        if (file_name := commons_file_name(acquired.entities[item.id])) is not None
+    }
     _write_new_json(
         args.output,
         {
@@ -173,6 +207,7 @@ def _acquire(args: argparse.Namespace) -> None:
             "entities": [item.to_dict() for item in entities],
             "edges": [item.to_dict() for item in edges],
             "source_batches": batches,
+            "commons_media_candidates": media_candidates,
         },
     )
 
@@ -187,6 +222,25 @@ def _commons_metadata(args: argparse.Namespace) -> None:
     file_names = cast(list[str], file_names_items)
     records = CommonsClient(args.user_agent).fetch_metadata(file_names)
     _write_new_json(args.output, {name: record.to_dict() for name, record in records.items()})
+
+
+def _acquire_commons(args: argparse.Namespace) -> None:
+    source = _read_object(args.graph_source)
+    if source.get("schema_version") != 2 or source.get("source") != "wikidata":
+        raise ValueError("graph source must be a Wikidata schema-v2 acquisition")
+    candidates = _string_mapping(
+        source.get("commons_media_candidates"),
+        "commons_media_candidates",
+    )
+    seeds = load_seeds(args.seeds)
+    bundle = acquire_commons_assets(
+        candidates,
+        seeds.qids,
+        args.output,
+        user_agent=args.user_agent,
+        created_at=args.created_at,
+    )
+    print(bundle.manifest_path)
 
 
 def _generate_rounds(args: argparse.Namespace) -> None:
@@ -224,15 +278,31 @@ def _build_wikidata_pack(args: argparse.Namespace) -> None:
     registry = load_registry(args.registry)
     seeds = load_seeds(args.seeds)
     source_batches = _object_list(source.get("source_batches"), "source_batches")
+    commons_media = (
+        load_commons_media_bundle(args.commons_manifest) if args.commons_manifest else None
+    )
+    commons_media_candidates = (
+        _string_mapping(
+            source.get("commons_media_candidates"),
+            "commons_media_candidates",
+        )
+        if commons_media is not None
+        else None
+    )
+    entities = _entities(source.get("entities"))
+    if commons_media is not None:
+        entities = enrich_entities_with_commons(entities, commons_media)
     build_id = build_wikidata_bundle(
         args.output,
         registry,
-        _entities(source.get("entities")),
+        entities,
         _edges(source.get("edges")),
         source_batches,
         endpoint_ids=seeds.qids,
         created_at=args.created_at,
         selection_seed=args.selection_seed,
+        commons_media=commons_media,
+        commons_media_candidates=commons_media_candidates,
     )
     print(build_id)
 
@@ -337,6 +407,17 @@ def _object_list(value: Any, name: str) -> tuple[dict[str, Any], ...]:
             raise ValueError(f"every {name} item must be an object")
         result.append(cast(dict[str, Any], item))
     return tuple(result)
+
+
+def _string_mapping(value: Any, name: str) -> dict[str, str]:
+    if not isinstance(value, dict):
+        raise ValueError(f"{name} must be an object")
+    result: dict[str, str] = {}
+    for key, item in cast(dict[Any, Any], value).items():
+        if not isinstance(key, str) or not isinstance(item, str):
+            raise ValueError(f"every {name} entry must map strings to strings")
+        result[key] = item
+    return result
 
 
 def _write_new_json(path: Path, value: object) -> None:

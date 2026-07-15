@@ -74,7 +74,7 @@ def _parse_category(value: Any) -> tuple[str, tuple[Seed, ...]]:
     anchors = cast(list[Any], anchors_value)
     parsed = tuple(_parse_seed(item, category) for item in anchors)
     if len(parsed) != 40:
-        raise SeedError(f"{category} must contain exactly 40 reviewed anchors")
+        raise SeedError(f"{category} must contain exactly 40 curated anchors")
     return category, parsed
 
 

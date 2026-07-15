@@ -27,7 +27,7 @@ def test_round_generator_locks_candidate_and_publication_distribution() -> None:
         assert _counts(selected, published=True) == {"easy": 4, "normal": 4, "hard": 2}
 
 
-def test_round_endpoints_can_be_restricted_to_reviewed_ids() -> None:
+def test_round_endpoints_can_be_restricted_to_curated_ids() -> None:
     entities, edges = build_smoke_graph()
     allowed = {entity.id for entity in entities if not entity.id.endswith(("01", "07"))}
 
@@ -103,8 +103,10 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
             connection.execute(
                 "UPDATE edges SET inverse = 2 WHERE id = (SELECT id FROM edges LIMIT 1)"
             )
-    reviews = json.loads((first / "fixture-review-decisions.json").read_text())
-    assert sum(item["decision"] == "approved" for item in reviews["decisions"]) == 40
+    validation = json.loads((first / "round-validation-report.json").read_text())
+    assert validation["status"] == "passed"
+    assert validation["summary"]["published_rounds"] == 40
+    assert all(validation["checks"].values())
 
 
 def _counts(rounds, *, published: bool) -> dict[str, int]:

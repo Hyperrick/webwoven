@@ -43,6 +43,9 @@ function entity(value: WireEntity): EntitySummary {
     description: value.description ?? "A reviewed entity in the Webwoven atlas",
     category: category(value.category),
     ...(value.image_path === null ? {} : { image_path: value.image_path }),
+    ...(value.image_attribution === null
+      ? {}
+      : { image_attribution: value.image_attribution }),
     ...sourceMetadataFor(value.qid),
   };
 }

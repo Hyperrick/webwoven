@@ -6,6 +6,17 @@ import type {
   SessionStatus,
 } from "./types";
 
+export interface WireImageAttribution {
+  file_name: string;
+  original_url: string;
+  derivative_url: string;
+  source_url: string;
+  license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+  creator: string;
+  license_url: string;
+  attribution_text: string;
+}
+
 export interface WireEntity {
   qid: string;
   label: string;
@@ -13,6 +24,7 @@ export interface WireEntity {
   category: string;
   entity_type: string;
   image_path: string | null;
+  image_attribution: WireImageAttribution | null;
 }
 
 export interface WireDecisionRelation {
