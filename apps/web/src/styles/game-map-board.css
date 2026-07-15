@@ -509,6 +509,7 @@ button.map-position--goal.map-position--reachable:not(:disabled):focus-visible
   border-left: 3px solid var(--color-moss);
   background: color-mix(in srgb, var(--color-paper) 94%, transparent);
   font-size: var(--text-12);
+  pointer-events: none;
 }
 
 .game-map__last-move strong {

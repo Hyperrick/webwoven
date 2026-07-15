@@ -233,16 +233,10 @@
       screenAnchorX,
       currentEnvironment(),
     );
-    animateCameraTo(
-      isNarrowViewport()
-        ? ensureActiveFrontierVisible(anchored)
-        : ensureBoundsVisible(
-            anchored,
-            currentBounds,
-            currentEnvironment(),
-            28,
-          ),
-    );
+    const withCurrentVisible = isNarrowViewport()
+      ? anchored
+      : ensureBoundsVisible(anchored, currentBounds, currentEnvironment(), 28);
+    animateCameraTo(ensureActiveFrontierVisible(withCurrentVisible));
   }
 
   function ensureActiveFrontierVisible(next: MapCameraState): MapCameraState {
