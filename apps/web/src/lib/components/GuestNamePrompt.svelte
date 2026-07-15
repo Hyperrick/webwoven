@@ -1,11 +1,15 @@
 <script lang="ts">
   import { tick } from "svelte";
-  import type { Guest } from "../api/types";
+  import type { GameMode, Guest } from "../api/types";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import GuestNameForm from "./GuestNameForm.svelte";
+
+  type GuestNameContext = Extract<GameMode, "daily" | "relay">;
 
   let {
     open,
     guest,
+    context,
     busy,
     error,
     onSave,
@@ -14,6 +18,7 @@
   }: {
     open: boolean;
     guest?: Guest;
+    context: GuestNameContext;
     busy: boolean;
     error: string;
     onSave: (name: string) => void;
@@ -22,6 +27,11 @@
   } = $props();
 
   let dialog = $state<HTMLDivElement>();
+  let introCopy = $derived(
+    context === "daily"
+      ? "Choose the public name shown on today’s leaderboard. It stays in this browser only—no registration, password, or cross-device account."
+      : "Choose the public name shown in the room roster and live race. It stays in this browser only—no registration, password, or cross-device account.",
+  );
 
   $effect(() => {
     if (open) void tick().then(() => dialog?.querySelector("input")?.focus());
@@ -54,12 +64,9 @@
     aria-modal="true"
     aria-labelledby="guest-name-title"
   >
-    <p class="eyebrow">Before you join the field</p>
+    <p class="eyebrow">{gameModeLabel(context)}</p>
     <h2 id="guest-name-title">What should other explorers call you?</h2>
-    <p>
-      Keep this generated name or type your own. It stays with this browser—no
-      registration, password, or cross-device account.
-    </p>
+    <p>{introCopy}</p>
     <GuestNameForm
       {guest}
       {busy}

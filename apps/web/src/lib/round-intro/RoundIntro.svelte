@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { SessionSnapshot } from "../api/types";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import { shouldReduceMotion } from "../preferences/preferences";
   import { categoryTheme } from "./assets";
   import RoundIntroCanvas from "./RoundIntroCanvas.svelte";
@@ -89,9 +90,8 @@
     />
   {/if}
 
-  <div class="round-intro__registration" aria-hidden="true">
-    <span>WW / {session.id.slice(0, 6).toUpperCase()}</span>
-    <span>{String(countdown).padStart(2, "0")} SEC</span>
+  <div class="round-intro__registration">
+    <strong class="round-intro__mode">{gameModeLabel(session.mode)}</strong>
   </div>
 
   <div class="round-intro__category">

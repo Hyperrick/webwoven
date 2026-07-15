@@ -53,11 +53,23 @@
   right: var(--space-6);
   left: var(--space-6);
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   color: var(--color-muted-ink);
   font-family: var(--font-technical);
   font-size: var(--text-12);
   letter-spacing: 0.08em;
+}
+
+.round-intro__mode {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--intro-accent);
+  color: var(--intro-accent);
+  background: color-mix(in srgb, var(--color-paper) 92%, transparent);
+  font-size: var(--text-14);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .round-intro__category {

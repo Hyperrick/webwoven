@@ -4,14 +4,6 @@
     gap: var(--space-7);
   }
 
-  .manifesto {
-    grid-template-columns: 6rem 1fr;
-  }
-
-  .manifesto dl {
-    grid-column: 2;
-  }
-
   .result-hero {
     grid-template-columns: 7rem 1fr;
   }
@@ -21,11 +13,22 @@
   }
 }
 
+@media (width <= 60rem) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: var(--space-7);
+  }
+
+  .hero-route {
+    width: calc(100% - 1rem);
+    margin-inline: auto;
+  }
+}
+
 @media (width <= 50rem) {
   .site-header,
   .hero,
-  .mode-ledger,
-  .manifesto,
   .site-footer,
   .game-page,
   .lobby-page,
@@ -52,63 +55,12 @@
     padding: 0;
   }
 
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding-block: var(--space-7);
-  }
-
   .hero__copy h1 {
     font-size: var(--text-64);
   }
 
-  .hero-route {
-    width: calc(100% - 1rem);
-    margin-inline: auto;
-  }
-
-  .section-intro,
   .lab-header {
     grid-template-columns: 1fr;
-  }
-
-  .mode-row {
-    grid-template-columns: 2.5rem 1fr 1.5rem;
-    gap: var(--space-3);
-    min-height: 8rem;
-  }
-
-  .mode-row__copy {
-    display: none;
-  }
-
-  .manifesto {
-    grid-template-columns: 1fr;
-    margin-block: var(--space-7);
-    padding: var(--space-6);
-  }
-
-  .manifesto dl,
-  .manifesto > div {
-    grid-column: 1;
-  }
-
-  .manifesto__mark {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
-
-  .manifesto__mark span {
-    left: 0.75rem;
-    width: 3rem;
-  }
-
-  .site-footer {
-    gap: var(--space-4);
-  }
-
-  .site-footer > p {
-    display: none;
   }
 
   .race-strip {
@@ -268,17 +220,18 @@
     width: 100%;
   }
 
-  .hero__actions,
   .exit-dialog__actions {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .hero__actions .primary-action,
-  .hero__actions .text-action,
   .exit-dialog__actions .primary-action,
   .exit-dialog__actions .text-action {
     width: 100%;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
   }
 
   .hero-route {

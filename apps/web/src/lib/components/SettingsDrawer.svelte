@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Guest } from "../api/types";
+  import { trapDialogFocus } from "../a11y/trap-dialog-focus";
   import type { Preferences } from "../preferences/preferences";
   import AtlasIcon from "./AtlasIcon.svelte";
   import GuestNameForm from "./GuestNameForm.svelte";
@@ -29,7 +30,15 @@
   let closeButton = $state<HTMLButtonElement>();
 
   $effect(() => {
-    if (open) closeButton?.focus();
+    if (!open) return;
+
+    const returnFocusTo =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    closeButton?.focus();
+
+    return () => returnFocusTo?.focus();
   });
 </script>
 
@@ -49,6 +58,7 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="settings-title"
+    use:trapDialogFocus
   >
     <header class="drawer__header">
       <div>
