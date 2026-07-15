@@ -68,6 +68,12 @@
     return positionStyle(nodesById.get(choice.target_node_id));
   }
 
+  function hintLabel(hint: MapMoveChoice["relation"]["hint"]): string {
+    if (hint === "dead_end") return "DEAD END";
+    if (hint === "longer" || hint === "unlikely") return "LONGER ROUTE";
+    return "PROMISING ROUTE";
+  }
+
   function statementParts(
     statement: string,
     targetLabel: string,
@@ -158,6 +164,12 @@
     )}
     <button
       type="button"
+      class:map-position--hint-promising={goalChoice.relation.hint ===
+        "promising"}
+      class:map-position--hint-longer={goalChoice.relation.hint === "longer" ||
+        goalChoice.relation.hint === "unlikely"}
+      class:map-position--hint-dead-end={goalChoice.relation.hint ===
+        "dead_end"}
       class="map-position map-position--goal map-position--reachable"
       style={positionStyle(goalNode)}
       disabled={busy}
@@ -170,6 +182,11 @@
       onclick={() => onChoose(goalChoice)}
     >
       <span class="map-position__goal-card">
+        {#if goalChoice.relation.hint}
+          <span class="map-choice__hint">
+            {hintLabel(goalChoice.relation.hint)}
+          </span>
+        {/if}
         {#if goalParts}
           <span class="map-position__fact">
             {goalParts.before}<strong>{goalParts.match}</strong
@@ -211,6 +228,9 @@
     <button
       type="button"
       class:map-choice--promising={choice.relation.hint === "promising"}
+      class:map-choice--longer={choice.relation.hint === "longer" ||
+        choice.relation.hint === "unlikely"}
+      class:map-choice--dead-end={choice.relation.hint === "dead_end"}
       class="map-choice"
       style={choicePositionStyle(choice)}
       disabled={busy}
@@ -226,6 +246,11 @@
         <AtlasIcon name={choice.relation.glyph} size={20} />
       </span>
       <span class="map-choice__copy">
+        {#if choice.relation.hint}
+          <small class="map-choice__hint">
+            {hintLabel(choice.relation.hint)}
+          </small>
+        {/if}
         {#if parts}
           <span class="map-choice__statement">
             {parts.before}<strong>{parts.match}</strong>{parts.after}

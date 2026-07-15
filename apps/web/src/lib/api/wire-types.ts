@@ -1,4 +1,10 @@
-import type { GameMode, HintType, RoomState, SessionStatus } from "./types";
+import type {
+  GameMode,
+  HintOutcome,
+  HintType,
+  RoomState,
+  SessionStatus,
+} from "./types";
 
 export interface WireEntity {
   qid: string;
@@ -63,6 +69,7 @@ export interface WireSession {
     entity_qid: string | null;
     message: string;
     used_at: string;
+    outcome?: HintOutcome | null;
   }>;
   hint_penalty: number;
   state_version: number;

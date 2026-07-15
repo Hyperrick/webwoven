@@ -1,25 +1,12 @@
 .map-viewport {
   position: relative;
   width: 100%;
-  height: clamp(32rem, 68vh, 46rem);
+  height: auto;
+  min-height: 0;
   overflow: clip;
   border: 1px solid var(--color-rule);
   border-radius: 0 0 var(--radius-sheet) var(--radius-sheet);
   background-color: var(--color-paper);
-  background-image:
-    radial-gradient(
-      circle at 11px 23px,
-      color-mix(in srgb, var(--color-muted-ink) 7%, transparent) 0 0.75px,
-      transparent 1px
-    ),
-    radial-gradient(
-      circle at 37px 41px,
-      color-mix(in srgb, var(--color-muted-ink) 5%, transparent) 0 0.6px,
-      transparent 0.9px
-    );
-  background-size:
-    47px 47px,
-    61px 61px;
   outline-offset: 3px;
   cursor: grab;
   touch-action: none;
@@ -67,9 +54,6 @@
   border: 0;
   border-radius: 0;
   background-color: transparent;
-  background-image: inherit;
-  background-position: inherit;
-  background-size: inherit;
 }
 
 .map-viewport-controls {

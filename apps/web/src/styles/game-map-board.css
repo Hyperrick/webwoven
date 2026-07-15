@@ -272,7 +272,74 @@ button.map-position--goal.map-position--reachable:not(:disabled):focus-visible
 }
 
 .map-choice--promising {
-  border-left-color: var(--color-ochre);
+  border: 2px solid var(--color-ochre);
+  border-left-width: 6px;
+  background: color-mix(in srgb, var(--color-paper) 76%, var(--color-ochre));
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-ochre) 22%, transparent),
+    var(--shadow-paper);
+  animation: map-hint-card-reveal 420ms ease-out both;
+}
+
+.map-choice--longer {
+  border: 2px solid var(--color-cartographic);
+  border-left-width: 6px;
+  background: color-mix(
+    in srgb,
+    var(--color-paper) 82%,
+    var(--color-cartographic)
+  );
+}
+
+.map-choice--dead-end {
+  border: 2px solid var(--color-signal);
+  border-left-width: 6px;
+  background: color-mix(in srgb, var(--color-paper) 82%, var(--color-signal));
+}
+
+.map-choice__hint {
+  justify-self: start;
+  padding: 0.15rem var(--space-1);
+  color: var(--color-ink);
+  background: var(--color-ochre);
+  font-family: var(--font-technical);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+
+.map-choice--longer .map-choice__hint {
+  color: var(--color-paper);
+  background: var(--color-cartographic);
+}
+
+.map-choice--dead-end .map-choice__hint {
+  color: var(--color-paper);
+  background: var(--color-signal);
+}
+
+.map-position--hint-promising .map-position__goal-card,
+.map-position--hint-longer .map-position__goal-card,
+.map-position--hint-dead-end .map-position__goal-card {
+  animation: map-hint-card-reveal 420ms ease-out both;
+}
+
+@keyframes map-hint-card-reveal {
+  0% {
+    filter: saturate(0.65);
+    opacity: 0.72;
+  }
+
+  68% {
+    filter: saturate(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    filter: saturate(1);
+    opacity: 1;
+  }
 }
 
 .game-map--compass .map-board-renderer,

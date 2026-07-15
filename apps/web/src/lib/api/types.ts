@@ -1,6 +1,8 @@
 export type GameMode = "solo" | "daily" | "relay";
 export type SessionStatus = "active" | "completed" | "abandoned" | "expired";
 export type HintType = "compass" | "lens" | "map_fragment";
+export type HintOutcome = "promising" | "longer" | "dead_end";
+export type HintMarker = HintOutcome | "unlikely";
 export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
   "history_people" | "nature_science" | "arts_culture" | "places";
@@ -21,6 +23,7 @@ export interface RelationEdge {
   edge_token: string;
   target: EntitySummary;
   statement: string;
+  hint?: HintMarker;
 }
 
 export interface RelationGroup {
@@ -30,7 +33,8 @@ export interface RelationGroup {
   direction: "outgoing" | "incoming";
   glyph: "origin" | "place" | "work" | "part" | "nature" | "influence";
   edges: RelationEdge[];
-  hint?: "promising" | "unlikely";
+  /** Legacy group-level hint retained for cached demo snapshots. */
+  hint?: HintMarker;
 }
 
 export interface TrailEntry {
@@ -78,6 +82,9 @@ export interface UsedHint {
   type: HintType;
   penalty: number;
   message: string;
+  relation_property_id?: string;
+  entity_qid?: string;
+  outcome?: HintOutcome;
 }
 
 export interface SessionSnapshot {
@@ -117,6 +124,7 @@ export type SessionCommand =
       type: "use_hint";
       hint_type: HintType;
       relation_property_id?: string;
+      entity_qid?: string;
     });
 
 export interface Guest {

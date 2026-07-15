@@ -201,6 +201,30 @@ describe("API wire adapters", () => {
     expect(connections?.every((item) => !("edge_token" in item))).toBe(true);
   });
 
+  it("maps an exact hint outcome onto only its selected edge", () => {
+    const mapped = mapSession({
+      ...session,
+      hints_used: [
+        {
+          hint_type: "lens",
+          penalty: 150,
+          relation_property_id: "P170",
+          entity_qid: "Q2",
+          message: "Lens: Middle is on a near-optimal route.",
+          used_at: "2026-07-13T10:00:01Z",
+          outcome: "promising",
+        },
+      ],
+    });
+
+    expect(mapped.hints_used[0]).toMatchObject({
+      entity_qid: "Q2",
+      outcome: "promising",
+    });
+    expect(mapped.relation_groups[0].edges[0].hint).toBe("promising");
+    expect(mapped.relation_groups[1].edges[0].hint).toBeUndefined();
+  });
+
   it("does not fabricate Wikidata sources for synthetic fixture entities", () => {
     const fixture = entity("fixture:arts_culture:01", "Tobin Rill");
     const mapped = mapSession({

@@ -206,4 +206,25 @@ describe("API-backed game controller trail enrichment", () => {
     expect(result.trail).toEqual(concurrentResult.trail);
     expect(result.last_connection).toBeUndefined();
   });
+
+  it("sends the exact Compass entity with its relationship", async () => {
+    const initial = snapshot(
+      entities.start,
+      [{ qid: entities.start.qid, label: entities.start.label }],
+      relation("edge-compass", entities.middle, "A precise route."),
+    );
+    const { controller, sendCommand } = controllerWith(initial);
+
+    await controller.hint(initial, "compass", "P131", entities.middle.qid);
+
+    expect(sendCommand).toHaveBeenCalledWith(
+      initial.id,
+      expect.objectContaining({
+        type: "use_hint",
+        hint_type: "compass",
+        relation_property_id: "P131",
+        entity_qid: entities.middle.qid,
+      }),
+    );
+  });
 });

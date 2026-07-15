@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from webwoven_api.domain.hints import HintResult, HintType
+from webwoven_api.domain.hints import HintOutcome, HintResult, HintType
 from webwoven_api.domain.navigation import NavigationState
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import Round
@@ -192,6 +192,7 @@ def _hint_use_to_dict(hint: HintUse) -> dict[str, object]:
         "entity_id": hint.entity_id,
         "message": hint.message,
         "used_at": hint.used_at.isoformat(),
+        "outcome": hint.outcome.value if hint.outcome is not None else None,
     }
 
 
@@ -204,6 +205,11 @@ def _hint_use_from_dict(value: object) -> HintUse:
         entity_id=optional_string(data.get("entity_id"), "hint.entity_id"),
         message=require_string(data.get("message"), "hint.message"),
         used_at=require_datetime(data.get("used_at"), "hint.used_at"),
+        outcome=(
+            HintOutcome(outcome)
+            if (outcome := optional_string(data.get("outcome"), "hint.outcome")) is not None
+            else None
+        ),
     )
 
 
@@ -214,6 +220,7 @@ def _hint_result_to_dict(hint: HintResult) -> dict[str, object]:
         "relation_key": hint.relation_key,
         "entity_id": hint.entity_id,
         "message": hint.message,
+        "outcome": hint.outcome.value if hint.outcome is not None else None,
     }
 
 
@@ -225,6 +232,11 @@ def _hint_result_from_dict(value: object) -> HintResult:
         relation_key=optional_string(data.get("relation_key"), "result.relation_key"),
         entity_id=optional_string(data.get("entity_id"), "result.entity_id"),
         message=require_string(data.get("message"), "result.message"),
+        outcome=(
+            HintOutcome(outcome)
+            if (outcome := optional_string(data.get("outcome"), "result.outcome")) is not None
+            else None
+        ),
     )
 
 

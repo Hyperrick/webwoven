@@ -199,6 +199,35 @@
     padding-block: var(--space-2);
   }
 
+  .route-reveal {
+    padding-block: var(--space-5);
+  }
+
+  .route-reveal > header {
+    padding-bottom: var(--space-3);
+  }
+
+  .route-reveal ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .route-reveal li {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: var(--space-3);
+    min-height: 0;
+    padding: var(--space-4) 0;
+    border-right: 0;
+  }
+
+  .route-reveal li:last-child {
+    border-bottom: 0;
+  }
+
+  .route-reveal li div {
+    gap: var(--space-1);
+    align-content: start;
+  }
+
   .cartographer-recap,
   .next-route,
   .leaderboard {
@@ -275,6 +304,10 @@
   .cartographer-recap blockquote {
     margin-block: var(--space-4);
     font-size: var(--text-20);
+  }
+
+  .route-reveal h2 {
+    font-size: var(--text-32);
   }
 
   .roster li {

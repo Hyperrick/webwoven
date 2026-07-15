@@ -540,6 +540,11 @@ export interface components {
              */
             status: "ok" | "degraded";
         };
+        /**
+         * HintOutcome
+         * @enum {string}
+         */
+        HintOutcome: "promising" | "longer" | "dead_end";
         /** HintResponse */
         HintResponse: {
             /** Entity Qid */
@@ -547,6 +552,7 @@ export interface components {
             hint_type: components["schemas"]["HintType"];
             /** Message */
             message: string;
+            outcome?: components["schemas"]["HintOutcome"] | null;
             /** Penalty */
             penalty: number;
             /** Relation Property Id */
@@ -564,6 +570,7 @@ export interface components {
             hint_type: components["schemas"]["HintType"];
             /** Message */
             message: string;
+            outcome?: components["schemas"]["HintOutcome"] | null;
             /** Penalty */
             penalty: number;
             /** Relation Property Id */
@@ -759,6 +766,8 @@ export interface components {
         UseHintRequest: {
             /** Client Command Id */
             client_command_id: string;
+            /** Entity Qid */
+            entity_qid?: string | null;
             /** Expected State Version */
             expected_state_version: number;
             hint_type: components["schemas"]["HintType"];

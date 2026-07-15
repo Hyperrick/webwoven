@@ -138,6 +138,12 @@ test("Solo preserves visible history and guards browser Back", async ({
     page.getByRole("heading", { name: "Hokusai", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("Latest hint", { exact: true })).toBeVisible();
+  await expect(page.locator(".map-choice--promising")).toContainText(
+    "PROMISING ROUTE",
+  );
+  await expect(page.locator(".hint-dock__message")).toContainText(
+    "The Great Wave off Kanagawa",
+  );
   await expect(
     page.getByRole("button", {
       name: /Compass hint, 75 point penalty, used/i,
@@ -182,6 +188,34 @@ test("Solo preserves visible history and guards browser Back", async ({
     .evaluate((element) => (element as HTMLElement).offsetWidth);
   expect(retracedMapWidth).toBeGreaterThan(widenedMapWidth);
   await expect(page.getByText(/retraced the route to Hokusai/i)).toBeVisible();
+});
+
+test("Lens marks one exact card and Compass identifies a shared-relation dead end", async ({
+  page,
+}) => {
+  await startSolo(page, "Hard");
+  const wave = page
+    .locator("button.map-choice")
+    .filter({ hasText: "The Great Wave off Kanagawa" });
+  const series = page
+    .locator("button.map-choice")
+    .filter({ hasText: "Thirty-six Views of Mount Fuji" });
+
+  await page.getByRole("button", { name: /Lens hint.*ready/i }).click();
+  await expect(wave).toHaveClass(/map-choice--promising/);
+  await expect(wave.locator(".map-choice__hint")).toHaveText("PROMISING ROUTE");
+  await expect(series).not.toHaveClass(/map-choice--promising/);
+  await expect(page.locator(".hint-dock__message")).toContainText(
+    "The Great Wave off Kanagawa",
+  );
+
+  await page.getByRole("button", { name: /Compass hint.*ready/i }).click();
+  await series.click();
+  await expect(series).toHaveClass(/map-choice--dead-end/);
+  await expect(series.locator(".map-choice__hint")).toHaveText("DEAD END");
+  await expect(page.locator(".hint-dock__message")).toContainText(
+    "Thirty-six Views of Mount Fuji is a dead end from here",
+  );
 });
 
 test("Solo completes the four-move route and renders results", async ({
@@ -242,6 +276,14 @@ test("Solo completes the four-move route and renders results", async ({
   await expect(page.getByRole("heading", { name: /You found/i })).toContainText(
     "United Kingdom",
   );
+  if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 800) {
+    const routeStepHeights = await page
+      .locator(".route-reveal li")
+      .evaluateAll((steps) =>
+        steps.map((step) => (step as HTMLElement).offsetHeight),
+      );
+    expect(Math.max(...routeStepHeights)).toBeLessThan(120);
+  }
   await expect(page.getByText("Cartographer’s note")).toBeVisible();
   await expect(
     page.getByRole("img", {
@@ -421,6 +463,35 @@ test("short phone layout keeps HUD, map, and hints in one viewport", async ({
     () => document.documentElement.scrollHeight,
   );
   expect(documentHeight).toBeLessThanOrEqual(viewportHeight);
+  await page.mouse.wheel(0, 500);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+});
+
+test("desktop layout keeps HUD, map, and hints in one viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1341, height: 868 });
+  await startSolo(page);
+
+  const hintDock = page.locator(".hint-dock");
+  await expect(page.locator(".round-masthead")).toBeInViewport();
+  await expect(
+    page.getByRole("toolbar", { name: "Map view" }),
+  ).toBeInViewport();
+  await expect(hintDock).toBeInViewport();
+
+  const assertNoPageScroll = async (): Promise<void> => {
+    const viewportHeight = await page.evaluate(() => window.innerHeight);
+    const documentHeight = await page.evaluate(
+      () => document.documentElement.scrollHeight,
+    );
+    expect(documentHeight).toBeLessThanOrEqual(viewportHeight);
+  };
+
+  await assertNoPageScroll();
+  await page.getByRole("button", { name: /Lens hint.*ready/i }).click();
+  await expect(page.locator(".hint-dock__message")).toBeInViewport();
+  await assertNoPageScroll();
   await page.mouse.wheel(0, 500);
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 });

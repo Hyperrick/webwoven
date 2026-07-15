@@ -192,10 +192,14 @@
     });
   }
 
-  async function useHint(type: HintType, propertyId?: string): Promise<void> {
+  async function useHint(
+    type: HintType,
+    propertyId?: string,
+    entityQid?: string,
+  ): Promise<void> {
     if (!session) return;
     await run(async () => {
-      session = await games.hint(session!, type, propertyId);
+      session = await games.hint(session!, type, propertyId, entityQid);
       persistActiveSession(session);
     });
   }
@@ -334,7 +338,8 @@
           {busy}
           onFollow={(token) => void follow(token)}
           onBack={() => void back()}
-          onHint={(type, propertyId) => void useHint(type, propertyId)}
+          onHint={(type, propertyId, entityQid) =>
+            void useHint(type, propertyId, entityQid)}
         />
       {:else}
         <main class="loading-page">
