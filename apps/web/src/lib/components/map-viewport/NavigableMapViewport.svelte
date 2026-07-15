@@ -209,6 +209,7 @@
   function panToActiveStage(nextTransition: MapTransition): void {
     const currentBounds = currentBoundsFor(nextTransition.to_node_id);
     if (!currentBounds) return;
+    if (nextTransition.kind === "dead_end_back") return;
     if (nextTransition.kind === "back") {
       const worldPoint = {
         x: (currentBounds.left + currentBounds.right) / 2,

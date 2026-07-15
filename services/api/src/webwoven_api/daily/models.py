@@ -22,3 +22,9 @@ class DailyScore:
     hints_used: int
     elapsed_seconds: float
     completed_at: datetime
+
+
+@dataclass(frozen=True, slots=True)
+class RankedDailyScore:
+    rank: int
+    score: DailyScore

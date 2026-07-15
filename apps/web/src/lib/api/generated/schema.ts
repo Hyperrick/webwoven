@@ -386,6 +386,7 @@ export interface components {
         };
         /** DailyLeaderboardResponse */
         DailyLeaderboardResponse: {
+            current_guest_entry: components["schemas"]["LeaderboardEntry"] | null;
             /**
              * Day
              * Format: date
@@ -594,6 +595,8 @@ export interface components {
             elapsed_seconds: number;
             /** Hints Used */
             hints_used: number;
+            /** Is Current Guest */
+            is_current_guest: boolean;
             /** Moves */
             moves: number;
             /** Rank */

@@ -2,6 +2,7 @@ import type {
   AppConfig,
   Category,
   DailyRound,
+  DailyLeaderboard,
   DecisionRelation,
   EntitySummary,
   LeaderboardEntry,
@@ -173,14 +174,26 @@ export function mapDaily(value: WireDaily): DailyRound {
   };
 }
 
-export function mapLeaderboard(value: WireLeaderboard): LeaderboardEntry[] {
-  return value.entries.map((entry) => ({
+export function mapLeaderboard(value: WireLeaderboard): DailyLeaderboard {
+  return {
+    entries: value.entries.map(mapLeaderboardEntry),
+    current_guest_entry: value.current_guest_entry
+      ? mapLeaderboardEntry(value.current_guest_entry)
+      : null,
+  };
+}
+
+function mapLeaderboardEntry(
+  entry: WireLeaderboard["entries"][number],
+): LeaderboardEntry {
+  return {
     rank: entry.rank,
     display_name: entry.display_name,
     score: entry.score,
     moves: entry.moves,
     elapsed_seconds: entry.elapsed_seconds,
-  }));
+    is_current_guest: entry.is_current_guest,
+  };
 }
 
 export function mapRoom(value: WireRoom): RoomSnapshot {

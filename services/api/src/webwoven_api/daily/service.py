@@ -3,7 +3,7 @@
 import hashlib
 from datetime import UTC, date, datetime
 
-from webwoven_api.daily.models import DailyAssignment, DailyScore
+from webwoven_api.daily.models import DailyAssignment, DailyScore, RankedDailyScore
 from webwoven_api.daily.repository import DailyRepository
 from webwoven_api.domain.errors import NotFoundError
 from webwoven_api.graph.contracts import GraphReader, Round
@@ -38,7 +38,17 @@ class DailyService:
         await self._repository.save_score(score)
 
     async def leaderboard(
-        self, day: date | None = None, *, limit: int = 50
-    ) -> tuple[DailyScore, ...]:
+        self,
+        day: date | None = None,
+        *,
+        limit: int = 20,
+        guest_id: str | None = None,
+    ) -> tuple[tuple[DailyScore, ...], RankedDailyScore | None]:
         target_day = day or datetime.now(UTC).date()
-        return await self._repository.list_scores(target_day, min(max(limit, 1), 100))
+        scores = await self._repository.list_scores(target_day, min(max(limit, 1), 100))
+        current = (
+            await self._repository.get_ranked_score(target_day, guest_id)
+            if guest_id is not None
+            else None
+        )
+        return scores, current

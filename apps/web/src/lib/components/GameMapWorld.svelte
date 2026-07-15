@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import {
     type MapBoard,
     type MapBoardNode,
@@ -138,7 +138,12 @@
       data-map-focus="current"
       role="status"
       aria-live="polite"
-      in:fade={{ duration: transition.kind === "back" ? 260 : 160 }}
+      in:fade={{
+        duration:
+          transition.kind === "back" || transition.kind === "dead_end_back"
+            ? 260
+            : 160,
+      }}
       out:fade={{ duration: 180 }}
     >
       <span class="map-position__kicker">You are here</span>
@@ -277,7 +282,7 @@
     data-map-near-focus="dead-end"
     role="group"
     aria-labelledby="dead-end-title"
-    out:fade={{ duration: 180 }}
+    out:slide={{ duration: 180, axis: "y" }}
   >
     <div
       class="game-map__dead-end-status"

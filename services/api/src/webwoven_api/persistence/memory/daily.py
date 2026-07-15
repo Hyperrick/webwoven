@@ -1,13 +1,16 @@
 """In-memory UTC Daily assignments and best-per-guest scores."""
 
 import asyncio
+from dataclasses import replace
 from datetime import date, datetime
 
-from webwoven_api.daily.models import DailyAssignment, DailyScore
+from webwoven_api.daily.models import DailyAssignment, DailyScore, RankedDailyScore
+from webwoven_api.guests.repository import GuestRepository
 
 
 class MemoryDailyRepository:
-    def __init__(self) -> None:
+    def __init__(self, guests: GuestRepository) -> None:
+        self._guests = guests
         self._assignments: dict[date, DailyAssignment] = {}
         self._scores: dict[tuple[date, str], DailyScore] = {}
         self._lock = asyncio.Lock()
@@ -30,9 +33,27 @@ class MemoryDailyRepository:
     async def list_scores(self, day: date, limit: int) -> tuple[DailyScore, ...]:
         async with self._lock:
             scores = [score for score in self._scores.values() if score.day == day]
-        return tuple(sorted(scores, key=_rank_key)[:limit])
+        ranked = sorted(scores, key=_rank_key)[:limit]
+        return tuple([await self._with_current_name(score) for score in ranked])
+
+    async def get_ranked_score(self, day: date, guest_id: str) -> RankedDailyScore | None:
+        async with self._lock:
+            scores = [score for score in self._scores.values() if score.day == day]
+        for rank, score in enumerate(sorted(scores, key=_rank_key), start=1):
+            if score.guest_id == guest_id:
+                return RankedDailyScore(rank, await self._with_current_name(score))
+        return None
+
+    async def _with_current_name(self, score: DailyScore) -> DailyScore:
+        guest = await self._guests.get(score.guest_id)
+        return replace(score, display_name=guest.display_name) if guest is not None else score
 
 
-def _rank_key(score: DailyScore) -> tuple[int, float, int, datetime]:
-
-    return (-score.score, score.elapsed_seconds, score.moves, score.completed_at)
+def _rank_key(score: DailyScore) -> tuple[int, float, int, datetime, str]:
+    return (
+        -score.score,
+        score.elapsed_seconds,
+        score.moves,
+        score.completed_at,
+        score.guest_id,
+    )

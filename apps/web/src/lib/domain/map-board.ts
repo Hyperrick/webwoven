@@ -67,11 +67,13 @@ function stagedLiveChoices(
   }));
 }
 
-function visitSummaries(snapshot: SessionSnapshot): EntitySummary[] {
-  const destinations = (snapshot.decision_history ?? []).map(
-    (stage) => stage.destination,
-  );
-  return snapshot.trail.map((entry, index) => {
+function visitSummaries(
+  snapshot: SessionSnapshot,
+  visits: MapBoardTrailVisit[],
+  activeStages: NonNullable<SessionSnapshot["decision_history"]>,
+): EntitySummary[] {
+  const destinations = activeStages.map((stage) => stage.destination);
+  return visits.map((entry, index) => {
     if (index === 0) return snapshot.start;
     const destination = destinations[index - 1];
     if (destination?.qid === entry.qid) return destination;
@@ -94,10 +96,11 @@ function roles(...values: MapBoardNodeRole[]): MapBoardNodeRole[] {
 function visitNodes(
   snapshot: SessionSnapshot,
   visits: MapBoardTrailVisit[],
+  activeStages: NonNullable<SessionSnapshot["decision_history"]>,
   history: ArchivedChoice[][],
   layout: MapBoard["layout"],
 ): MapBoardNode[] {
-  const summaries = visitSummaries(snapshot);
+  const summaries = visitSummaries(snapshot, visits, activeStages);
   return visits.map((visit, index) => {
     const priorChoices = index === 0 ? undefined : history[index - 1];
     const selectedIndex =
@@ -122,6 +125,40 @@ function visitNodes(
       stage_index: index,
     };
   });
+}
+
+function collapsesDeadEnd(
+  stage: NonNullable<SessionSnapshot["decision_history"]>[number] | undefined,
+): boolean {
+  return stage?.action === "back" && stage.choices.length === 0;
+}
+
+function spatialDecisionStages(
+  stages: NonNullable<SessionSnapshot["decision_history"]>,
+): NonNullable<SessionSnapshot["decision_history"]> {
+  const active: NonNullable<SessionSnapshot["decision_history"]> = [];
+  for (const stage of stages) {
+    if (collapsesDeadEnd(stage)) active.pop();
+    else active.push(stage);
+  }
+  return active;
+}
+
+function spatialTrailVisits(
+  visits: MapBoardTrailVisit[],
+  stages: NonNullable<SessionSnapshot["decision_history"]>,
+): MapBoardTrailVisit[] {
+  const active: MapBoardTrailVisit[] = [];
+  for (const visit of visits) {
+    const stage = visit.index === 0 ? undefined : stages[visit.index - 1];
+    if (collapsesDeadEnd(stage)) active.pop();
+    else active.push(visit);
+  }
+  return active.map((visit, index) => ({
+    ...visit,
+    index,
+    node_id: visitNodeId(index, visit.qid),
+  }));
 }
 
 function archivedNodes(
@@ -255,20 +292,21 @@ function buildLinks(
 /** Build the full, ever-widening exploration map from server-owned history. */
 export function buildMapBoard(snapshot: SessionSnapshot): MapBoard {
   const archivedStages = archiveDecisionHistory(snapshot.decision_history);
-  const visits = buildTrailVisits(snapshot.trail, archivedStages);
+  const trail = buildTrailVisits(snapshot.trail, archivedStages);
   const recordedHistory = archivedStages.map((stage) => stage.choices);
-  const resolvedStageCount = Math.max(
-    recordedHistory.length,
-    visits.length - 1,
-  );
-  const history = Array.from(
-    { length: resolvedStageCount },
-    (_, index) => recordedHistory[index] ?? [],
-  );
+  const activeStages = spatialDecisionStages(snapshot.decision_history ?? []);
+  const activeArchivedStages = archiveDecisionHistory(activeStages);
+  const activeHistory = activeArchivedStages.map((stage) => stage.choices);
+  const visits = spatialTrailVisits(trail, snapshot.decision_history ?? []);
+  const resolvedStageCount = Math.max(recordedHistory.length, trail.length - 1);
   const liveChoiceCount = flattenMoveChoices(snapshot).length;
   const layout = createMapBoardLayout({
     resolvedStageCount,
-    laneCounts: [...history.map((choices) => choices.length), liveChoiceCount],
+    currentColumn: Math.max(0, visits.length - 1),
+    laneCounts: [
+      ...recordedHistory.map((choices) => choices.length),
+      liveChoiceCount,
+    ],
   });
   const currentNodeId =
     visits.at(-1)?.node_id ?? visitNodeId(0, snapshot.current.qid);
@@ -277,8 +315,14 @@ export function buildMapBoard(snapshot: SessionSnapshot): MapBoard {
     layout.current_column,
     currentNodeId,
   );
-  const resolvedNodes = visitNodes(snapshot, visits, history, layout);
-  const discardedNodes = archivedNodes(snapshot, history, layout);
+  const resolvedNodes = visitNodes(
+    snapshot,
+    visits,
+    activeStages,
+    activeHistory,
+    layout,
+  );
+  const discardedNodes = archivedNodes(snapshot, activeHistory, layout);
   const liveNodes = activeChoiceNodes(snapshot, choices, layout);
   const marker = goalMarker(snapshot, currentNodeId, liveNodes, layout);
   const currentGoal =
@@ -303,9 +347,9 @@ export function buildMapBoard(snapshot: SessionSnapshot): MapBoard {
     goal_node_id:
       currentGoal?.id ?? marker?.id ?? goalNodeId(snapshot.target.qid),
     nodes,
-    links: buildLinks(visits, history, choices),
+    links: buildLinks(visits, activeHistory, choices),
     choices,
-    trail: visits,
+    trail,
     layout,
   };
 }

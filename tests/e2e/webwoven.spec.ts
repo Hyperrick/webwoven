@@ -316,6 +316,10 @@ test("an exhausted branch offers a contextual Back action", async ({
   await expect(
     page.getByText("Counts as 1 move", { exact: true }),
   ).toBeVisible();
+  const mapWorld = page.locator(".map-viewport__world");
+  const cameraBeforeRecovery = await mapWorld.evaluate(
+    (element) => getComputedStyle(element).transform,
+  );
 
   await recovery.click();
   await expect(
@@ -325,21 +329,20 @@ test("an exhausted branch offers a contextual Back action", async ({
     page.getByRole("button", { name: "Back to Hokusai", exact: true }),
   ).toHaveCount(0);
   await expect(page.locator("button.map-choice")).toHaveCount(2);
-  const mutedBranch = page
-    .locator(".map-history-node--backtracked")
-    .filter({ hasText: "Thirty-six Views of Mount Fuji" });
-  await expect(mutedBranch).toBeVisible();
-  await expect(mutedBranch).toHaveCSS("opacity", "0.58");
-  const [currentBox, viewportBox] = await Promise.all([
-    page.locator(".map-position--current").boundingBox(),
-    page.locator(".game-map__viewport").boundingBox(),
-  ]);
-  expect(currentBox).not.toBeNull();
-  expect(viewportBox).not.toBeNull();
-  expect((currentBox?.x ?? 0) + (currentBox?.width ?? 0) / 2).toBeCloseTo(
-    (viewportBox?.x ?? 0) + (viewportBox?.width ?? 0) / 2,
-    -1,
-  );
+  await expect(
+    page
+      .locator(".map-history-node--backtracked")
+      .filter({ hasText: "Thirty-six Views of Mount Fuji" }),
+  ).toHaveCount(0);
+  await expect
+    .poll(() =>
+      mapWorld.evaluate((element) => getComputedStyle(element).transform),
+    )
+    .toBe(cameraBeforeRecovery);
+  await expect(
+    page.locator(".map-position--current").filter({ hasText: "Hokusai" }),
+  ).toBeVisible();
+  await expect(page.locator(".game-map__dead-end")).toHaveCount(0);
 });
 
 test("Hard selection reveals its category and endpoints before controls unlock", async ({
@@ -368,6 +371,12 @@ test("Daily and Live Relay expose their complete entry states", async ({
   page,
 }) => {
   await page.goto("/play/daily");
+  await expect(
+    page.getByRole("dialog", {
+      name: "What should other explorers call you?",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
   await expect(page.getByRole("radio")).toHaveCount(0);
   await expect(page.locator(".round-intro__category")).toContainText(
     "normal route",
@@ -392,6 +401,63 @@ test("Daily and Live Relay expose their complete entry states", async ({
   await expect(page.locator(".round-masthead__meta")).toContainText(
     "Live relay",
   );
+});
+
+test("a named Daily player is ranked from their completed route", async ({
+  page,
+}) => {
+  await page.goto("/play/daily");
+  const prompt = page.getByRole("dialog", {
+    name: "What should other explorers call you?",
+  });
+  await prompt.getByLabel("Public explorer name").fill("Paper Fox");
+  await prompt.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
+
+  for (const entity of [
+    "The Great Wave off Kanagawa",
+    "British Museum",
+    "London",
+    "United Kingdom",
+  ]) {
+    await followTo(page, entity);
+  }
+
+  await expect(page).toHaveURL(/\/results$/);
+  const current = page.locator(".leaderboard__you");
+  await expect(current).toContainText("Paper Fox");
+  await expect(current.getByText("You", { exact: true })).toBeVisible();
+  await expect(current.locator("span")).toHaveText("1");
+  await expect(current).toContainText("4 moves");
+  await expect(page.locator(".leaderboard__position")).toHaveCount(0);
+});
+
+test("Settings edits the public name and locks it during a Relay", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: /Open settings/i }).click();
+  const input = page.getByLabel("Public explorer name");
+  await input.fill("Atlas Reader");
+  await page.getByRole("button", { name: "Save name" }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "Explorer name updated.",
+  );
+  await page
+    .getByRole("dialog", { name: "Settings" })
+    .getByRole("button", { name: "Close settings" })
+    .click();
+
+  await page
+    .getByRole("button", { name: /Live relay/i })
+    .last()
+    .click();
+  await page.getByRole("button", { name: /Create relay/i }).click();
+  await page.getByRole("button", { name: /Open settings/i }).click();
+  await expect(page.getByLabel("Public explorer name")).toBeDisabled();
+  await expect(
+    page.getByText(/name is locked during a live Relay/i),
+  ).toBeVisible();
 });
 
 test("settings apply the reduced motion preference", async ({ page }) => {

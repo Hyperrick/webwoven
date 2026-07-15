@@ -26,8 +26,10 @@ class LeaderboardEntry(ApiModel):
     hints_used: int
     elapsed_seconds: float
     completed_at: datetime
+    is_current_guest: bool
 
 
 class DailyLeaderboardResponse(ApiModel):
     day: date
     entries: list[LeaderboardEntry]
+    current_guest_entry: LeaderboardEntry | None

@@ -275,3 +275,18 @@ def test_daily_completion_enters_leaderboard(client: TestClient) -> None:
     leaderboard = client.get("/api/v1/leaderboards/daily").json()
     assert leaderboard["entries"][0]["display_name"] == "Daily Player"
     assert leaderboard["entries"][0]["rank"] == 1
+    assert leaderboard["entries"][0]["is_current_guest"] is True
+    assert leaderboard["current_guest_entry"] == leaderboard["entries"][0]
+
+
+def test_daily_leaderboard_is_public_without_exposing_a_current_guest(
+    client: TestClient,
+) -> None:
+    client.cookies.clear()
+    leaderboard = client.get("/api/v1/leaderboards/daily")
+    assert leaderboard.status_code == 200
+    assert leaderboard.json() == {
+        "day": leaderboard.json()["day"],
+        "entries": [],
+        "current_guest_entry": None,
+    }

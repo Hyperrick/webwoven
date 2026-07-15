@@ -6,12 +6,14 @@
   } from "./lib/api/room-event-stream";
   import { createRuntimeApi } from "./lib/api/runtime-api";
   import type {
+    DailyLeaderboard,
     Difficulty,
+    Guest,
     HintType,
-    LeaderboardEntry,
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
+  import GuestNamePrompt from "./lib/components/GuestNamePrompt.svelte";
   import SettingsDrawer from "./lib/components/SettingsDrawer.svelte";
   import SiteHeader from "./lib/components/SiteHeader.svelte";
   import SourcesDrawer from "./lib/components/SourcesDrawer.svelte";
@@ -19,6 +21,10 @@
   import StatusToast from "./lib/components/StatusToast.svelte";
   import { GameController } from "./lib/controllers/game-controller";
   import { RoomController } from "./lib/controllers/room-controller";
+  import {
+    confirmGuestName,
+    isGuestNameConfirmed,
+  } from "./lib/guest-profile/guest-name";
   import {
     BrowserRouter,
     parseRoute,
@@ -49,9 +55,17 @@
   const roomEvents = new RoomEventStream();
 
   let route = $state<AppRoute>(parseRoute(window.location.pathname));
+  let guest = $state<Guest>();
   let session = $state<SessionSnapshot>();
   let room = $state<RoomSnapshot>();
-  let leaderboard = $state<LeaderboardEntry[]>([]);
+  let leaderboard = $state<DailyLeaderboard>({
+    entries: [],
+    current_guest_entry: null,
+  });
+  let leaderboardStatus = $state<"idle" | "loading" | "ready" | "error">(
+    "idle",
+  );
+  let leaderboardError = $state("");
   let preferences = $state<Preferences>(DEFAULT_PREFERENCES);
   let drawer = $state<"settings" | "sources" | null>(null);
   let busy = $state(false);
@@ -60,6 +74,9 @@
   let exitOpen = $state(false);
   let graphBuild = $state("loading-atlas");
   let relayConnection = $state<RelayConnectionState>("connected");
+  let namePromptOpen = $state(false);
+  let profileBusy = $state(false);
+  let profileError = $state("");
   let router: BrowserRouter;
 
   const hasProtectedGame = () =>
@@ -88,9 +105,9 @@
 
   async function initialize(): Promise<void> {
     try {
-      await api.getGuest();
+      guest = await api.getGuest();
     } catch {
-      await api.createGuest();
+      guest = await api.createGuest();
     }
     const config = await api.getConfig();
     graphBuild = config.graph_build;
@@ -98,6 +115,11 @@
   }
 
   async function hydrateRoute(next: AppRoute): Promise<void> {
+    if (requiresGuestName(next)) {
+      namePromptOpen = true;
+      return;
+    }
+    namePromptOpen = false;
     if (next.name === "solo" && !session) {
       await restoreSession("solo");
     }
@@ -116,10 +138,18 @@
     if (
       next.name === "results" &&
       session?.mode === "daily" &&
-      leaderboard.length === 0
+      leaderboardStatus === "idle"
     ) {
-      leaderboard = await api.getDailyLeaderboard();
+      void loadDailyLeaderboard();
     }
+  }
+
+  function requiresGuestName(next: AppRoute): boolean {
+    return Boolean(
+      guest &&
+      ["daily", "lobby", "race"].includes(next.name) &&
+      !isGuestNameConfirmed(guest),
+    );
   }
 
   function navigate(path: string, bypassGuard = false): void {
@@ -129,6 +159,7 @@
   function begin(mode: "solo" | "daily"): void {
     clearActiveSession(mode);
     session = undefined;
+    if (mode === "daily") resetLeaderboard();
     navigate(`/play/${mode}`);
   }
 
@@ -177,8 +208,7 @@
       session = await games.follow(session!, edgeToken);
       persistActiveSession(session);
       if (session.status === "completed") {
-        if (session.mode === "daily")
-          leaderboard = await api.getDailyLeaderboard();
+        if (session.mode === "daily") void loadDailyLeaderboard();
         window.setTimeout(() => navigate("/results", true), 300);
       }
     });
@@ -237,6 +267,73 @@
     });
   }
 
+  function resetLeaderboard(): void {
+    leaderboard = { entries: [], current_guest_entry: null };
+    leaderboardStatus = "idle";
+    leaderboardError = "";
+  }
+
+  async function loadDailyLeaderboard(): Promise<void> {
+    leaderboardStatus = "loading";
+    leaderboardError = "";
+    try {
+      leaderboard = await api.getDailyLeaderboard();
+      leaderboardStatus = "ready";
+    } catch (caught) {
+      leaderboardStatus = "error";
+      leaderboardError =
+        caught instanceof Error
+          ? caught.message
+          : "Today’s field could not be loaded.";
+    }
+  }
+
+  async function updateGuestName(name: string): Promise<boolean> {
+    if (!guest) return false;
+    profileBusy = true;
+    profileError = "";
+    try {
+      guest = await api.updateGuest(name);
+      confirmGuestName(guest);
+      return true;
+    } catch (caught) {
+      profileError =
+        caught instanceof Error
+          ? caught.message
+          : "The explorer name could not be saved.";
+      return false;
+    } finally {
+      profileBusy = false;
+    }
+  }
+
+  async function savePromptName(name: string): Promise<void> {
+    if (!(await updateGuestName(name))) return;
+    namePromptOpen = false;
+    await hydrateRoute(route);
+  }
+
+  function keepGeneratedName(): void {
+    if (!guest) return;
+    confirmGuestName(guest);
+    profileError = "";
+    namePromptOpen = false;
+    void hydrateRoute(route);
+  }
+
+  function cancelNamePrompt(): void {
+    profileError = "";
+    namePromptOpen = false;
+    navigate("/", true);
+  }
+
+  async function saveSettingsName(name: string): Promise<void> {
+    if (!(await updateGuestName(name))) return;
+    showToast("Explorer name updated.");
+    if (route.name === "results" && session?.mode === "daily")
+      void loadDailyLeaderboard();
+  }
+
   async function run(operation: () => Promise<void>): Promise<void> {
     busy = true;
     error = "";
@@ -255,6 +352,11 @@
   function updatePreferences(next: Preferences): void {
     preferences = next;
     persistPreferences(next);
+  }
+
+  function openSettings(): void {
+    profileError = "";
+    drawer = "settings";
   }
 
   function connectRoomEvents(code: string): void {
@@ -317,7 +419,7 @@
     compact={route.name !== "home"}
     onHome={() => navigate("/")}
     onSources={() => (drawer = "sources")}
-    onSettings={() => (drawer = "settings")}
+    onSettings={openSettings}
   />
 
   <div id="page-content">
@@ -360,6 +462,9 @@
       <ResultsPage
         {session}
         {leaderboard}
+        {leaderboardStatus}
+        {leaderboardError}
+        onLeaderboardRetry={() => void loadDailyLeaderboard()}
         onAgain={() => begin("solo")}
         onDaily={() => begin("daily")}
         onHome={() => navigate("/")}
@@ -376,8 +481,13 @@
     </div>{/if}
   <SettingsDrawer
     open={drawer === "settings"}
+    {guest}
     {preferences}
+    nameBusy={profileBusy}
+    nameError={profileError}
+    nameDisabled={route.name === "lobby" || route.name === "race"}
     onChange={updatePreferences}
+    onNameSave={(name) => void saveSettingsName(name)}
     onClose={() => (drawer = null)}
   />
   <SourcesDrawer
@@ -388,5 +498,14 @@
     onReport={() => void reportCurrent()}
   />
   <ExitDialog open={exitOpen} onStay={stayInGame} onLeave={confirmExit} />
+  <GuestNamePrompt
+    open={namePromptOpen}
+    {guest}
+    busy={profileBusy}
+    error={profileError}
+    onSave={(name) => void savePromptName(name)}
+    onKeep={keepGeneratedName}
+    onCancel={cancelNamePrompt}
+  />
   <StatusToast message={toast} />
 </div>
