@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { EntitySummary } from "../api/types";
+  import { trapDialogFocus } from "../a11y/trap-dialog-focus";
   import {
     provenanceFor,
     verifiedWikidataUrlFor,
@@ -26,7 +27,15 @@
     entity ? verifiedWikidataUrlFor(entity) : undefined,
   );
   $effect(() => {
-    if (open) closeButton?.focus();
+    if (!open) return;
+
+    const returnFocusTo =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    closeButton?.focus();
+
+    return () => returnFocusTo?.focus();
   });
 </script>
 
@@ -46,6 +55,7 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="sources-title"
+    use:trapDialogFocus
   >
     <header class="drawer__header">
       <div>

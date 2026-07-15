@@ -13,6 +13,7 @@
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
+  import DailyLeaderboardDrawer from "./lib/components/DailyLeaderboardDrawer.svelte";
   import GuestNamePrompt from "./lib/components/GuestNamePrompt.svelte";
   import SettingsDrawer from "./lib/components/SettingsDrawer.svelte";
   import SiteHeader from "./lib/components/SiteHeader.svelte";
@@ -67,7 +68,7 @@
   );
   let leaderboardError = $state("");
   let preferences = $state<Preferences>(DEFAULT_PREFERENCES);
-  let drawer = $state<"settings" | "sources" | null>(null);
+  let drawer = $state<"leaderboard" | "settings" | "sources" | null>(null);
   let busy = $state(false);
   let error = $state("");
   let toast = $state("");
@@ -161,6 +162,13 @@
     session = undefined;
     if (mode === "daily") resetLeaderboard();
     navigate(`/play/${mode}`);
+  }
+
+  function beginRelay(): void {
+    roomEvents.stop();
+    room = undefined;
+    session = undefined;
+    navigate("/relay");
   }
 
   async function restoreSession(mode: "solo" | "daily"): Promise<boolean> {
@@ -359,6 +367,11 @@
     drawer = "settings";
   }
 
+  function openDailyLeaderboard(): void {
+    drawer = "leaderboard";
+    void loadDailyLeaderboard();
+  }
+
   function connectRoomEvents(code: string): void {
     if (import.meta.env.VITE_API_MODE === "demo") return;
     roomEvents.connect(code, {
@@ -413,21 +426,26 @@
   }
 </script>
 
-<a class="skip-link" href="#page-content">Skip to content</a>
+<a class="skip-link" href="#page-content" inert={drawer !== null}
+  >Skip to content</a
+>
 <div class="app-shell">
   <SiteHeader
     compact={route.name !== "home"}
+    leaderboardOpen={drawer === "leaderboard"}
+    pageInert={drawer !== null}
     onHome={() => navigate("/")}
+    onLeaderboard={openDailyLeaderboard}
     onSources={() => (drawer = "sources")}
     onSettings={openSettings}
   />
 
-  <div id="page-content">
+  <div id="page-content" inert={drawer !== null}>
     {#if route.name === "home"}
       <LandingPage
         onSolo={() => begin("solo")}
         onDaily={() => begin("daily")}
-        onRelay={() => navigate("/relay")}
+        onRelay={beginRelay}
       />
     {:else if route.name === "solo" && !session}
       <RoundSetupPage {busy} onConfirm={(value) => void confirmSolo(value)} />
@@ -465,8 +483,9 @@
         {leaderboardStatus}
         {leaderboardError}
         onLeaderboardRetry={() => void loadDailyLeaderboard()}
-        onAgain={() => begin("solo")}
+        onSolo={() => begin("solo")}
         onDaily={() => begin("daily")}
+        onRelay={beginRelay}
         onHome={() => navigate("/")}
       />
     {:else if route.name === "lab"}
@@ -476,7 +495,7 @@
     {/if}
   </div>
 
-  {#if error}<div class="error-banner" role="alert">
+  {#if error}<div class="error-banner" role="alert" inert={drawer !== null}>
       {error}<button type="button" onclick={() => (error = "")}>Dismiss</button>
     </div>{/if}
   <SettingsDrawer
@@ -490,6 +509,14 @@
     onNameSave={(name) => void saveSettingsName(name)}
     onClose={() => (drawer = null)}
   />
+  <DailyLeaderboardDrawer
+    open={drawer === "leaderboard"}
+    {leaderboard}
+    status={leaderboardStatus}
+    error={leaderboardError}
+    onRetry={() => void loadDailyLeaderboard()}
+    onClose={() => (drawer = null)}
+  />
   <SourcesDrawer
     open={drawer === "sources"}
     entity={session?.current}
@@ -501,6 +528,7 @@
   <GuestNamePrompt
     open={namePromptOpen}
     {guest}
+    context={route.name === "daily" ? "daily" : "relay"}
     busy={profileBusy}
     error={profileError}
     onSave={(name) => void savePromptName(name)}

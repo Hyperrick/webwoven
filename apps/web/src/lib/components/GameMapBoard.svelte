@@ -12,6 +12,7 @@
   } from "../domain/map-transition";
   import GameMapWorld from "./GameMapWorld.svelte";
   import MapNodeInspector from "./MapNodeInspector.svelte";
+  import MapNavigationHelp from "./map-viewport/MapNavigationHelp.svelte";
   import NavigableMapViewport from "./map-viewport/NavigableMapViewport.svelte";
 
   let {
@@ -130,10 +131,13 @@
       </p>
     </div>
 
-    <p class="game-map__choice-count" aria-live="polite">
-      <strong>{routeCount}</strong>
-      {routeCount === 1 ? "route" : "routes"} in reach
-    </p>
+    <div class="game-map__header-meta">
+      <p class="game-map__choice-count" aria-live="polite">
+        <strong>{routeCount}</strong>
+        {routeCount === 1 ? "route" : "routes"} in reach
+      </p>
+      <MapNavigationHelp />
+    </div>
   </header>
 
   <NavigableMapViewport {board} transition={viewportTransition}>

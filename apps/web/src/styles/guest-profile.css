@@ -95,6 +95,26 @@
   }
 
   .guest-name-prompt h2 {
-    font-size: var(--text-32);
+    font-size: var(--text-28);
+  }
+}
+
+@media (height <= 40rem) {
+  .guest-name-prompt {
+    padding: var(--space-4);
+  }
+
+  .guest-name-prompt > p:not(.eyebrow),
+  .guest-name-form > p {
+    line-height: 1.35;
+  }
+
+  .guest-name-form {
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .guest-name-prompt__cancel {
+    margin-top: var(--space-3);
   }
 }

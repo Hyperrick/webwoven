@@ -4,6 +4,7 @@
 @import url("./base.css") layer(base);
 @import url("./shell.css") layer(shell);
 @import url("./landing.css") layer(landing);
+@import url("./play-mode-chooser.css") layer(landing);
 @import url("./round-masthead.css") layer(game);
 @import url("./game.css") layer(game);
 @import url("./game-map-board.css") layer(game);

@@ -9,6 +9,7 @@
     | "close"
     | "compass"
     | "lens"
+    | "leaderboard"
     | "map"
     | "menu"
     | "minus"
@@ -44,6 +45,8 @@
     <circle cx="10.5" cy="10.5" r="6.5" /><path
       d="m15.5 15.5 4 4M8 11h5M10.5 8.5v5"
     />
+  {:else if name === "leaderboard"}
+    <path d="M4 20v-7h4v7M10 20V6h4v14M16 20V10h4v10M3 20h18" />
   {:else if name === "map"}
     <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" /><path d="M9 3v15M15 6v15" />
   {:else if name === "menu"}

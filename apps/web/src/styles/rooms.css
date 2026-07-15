@@ -422,6 +422,11 @@
   padding: var(--space-7);
 }
 
+.leaderboard-drawer__body .leaderboard {
+  min-height: 0;
+  padding: 0;
+}
+
 .cartographer-recap {
   display: grid;
   grid-template-columns: minmax(8rem, 0.42fr) minmax(0, 1fr);

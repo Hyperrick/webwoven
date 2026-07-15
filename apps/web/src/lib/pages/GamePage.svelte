@@ -7,6 +7,7 @@
   import RaceStrip from "../components/RaceStrip.svelte";
   import RoundMasthead from "../components/RoundMasthead.svelte";
   import { activeBackDestination } from "../domain/back-navigation";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import RoundIntro from "../round-intro/RoundIntro.svelte";
 
   let {
@@ -91,11 +92,7 @@
     <RoundMasthead
       startLabel={session.start.label}
       targetLabel={session.target.label}
-      modeLabel={session.mode === "daily"
-        ? "Daily connection"
-        : room
-          ? "Live relay"
-          : "Solo route"}
+      modeLabel={gameModeLabel(session.mode)}
       difficulty={session.difficulty === "easy"
         ? "Easy"
         : session.difficulty === "hard"

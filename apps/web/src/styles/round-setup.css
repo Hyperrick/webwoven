@@ -1,16 +1,18 @@
 .round-setup-page {
+  display: grid;
+  align-items: center;
   width: min(100% - 3rem, 90rem);
+  min-height: calc(100svh - 4.75rem);
   margin-inline: auto;
-  padding-block: var(--space-7) var(--space-8);
+  padding-block: var(--space-6);
 }
 
 .round-setup {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(28rem, 1fr);
   gap: var(--space-8);
-  align-items: end;
-  min-height: min(42rem, calc(100vh - 12rem));
-  padding-block: var(--space-7);
+  align-items: center;
+  padding-block: var(--space-6);
   border-block: 1px solid var(--color-ink);
 }
 

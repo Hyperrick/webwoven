@@ -1,66 +1,14 @@
-import { expect, test, type Page } from "@playwright/test";
-
-async function confirmSolo(
-  page: Page,
-  difficulty: "Easy" | "Normal" | "Hard" = "Normal",
-): Promise<void> {
-  await expect(
-    page.getByRole("heading", { name: /Set the depth of the expedition/i }),
-  ).toBeVisible();
-  await page.getByRole("radio", { name: new RegExp(difficulty, "i") }).check();
-  await page.getByRole("button", { name: /Confirm and reveal/i }).click();
-  await expect(page.locator(".round-intro")).toBeVisible();
-}
-
-async function startSolo(
-  page: Page,
-  difficulty: "Easy" | "Normal" | "Hard" = "Normal",
-): Promise<void> {
-  await page.goto("/play/solo");
-  await confirmSolo(page, difficulty);
-  await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
-}
-
-async function followTo(page: Page, entity: string): Promise<void> {
-  const candidate = page
-    .locator("button.map-choice, button.map-position--reachable")
-    .filter({ hasText: entity })
-    .first();
-  await expect(
-    candidate,
-    `A direct map move should lead to ${entity}`,
-  ).toBeVisible();
-  await candidate.click();
-  await expect(
-    page
-      .locator(".map-position--current h3, .result-hero h1")
-      .filter({ hasText: entity })
-      .first(),
-  ).toBeVisible();
-}
-
-test("landing communicates the game and Codex-native build story", async ({
-  page,
-}) => {
-  await page.goto("/");
-
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "The shortest route is rarely a straight line.",
-  );
-  await expect(
-    page.getByRole("heading", {
-      name: "Everyone with an idea can become a game developer.",
-    }),
-  ).toBeVisible();
-  await expect(page.getByText("AI at runtime")).toBeVisible();
-  await expect(page.getByText("None", { exact: true })).toBeVisible();
-});
+import { expect, test } from "@playwright/test";
+import { confirmSolo, followTo, startSolo } from "./helpers";
 
 test("Solo preserves visible history and guards browser Back", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: /Begin a route/i }).click();
+  await page
+    .getByRole("region", { name: "Select play mode" })
+    .getByRole("button", { name: /Single player/i })
+    .click();
   await expect(page).toHaveURL(/\/play\/solo$/);
   await confirmSolo(page);
   await expect(
@@ -73,6 +21,13 @@ test("Solo preserves visible history and guards browser Back", async ({
   );
   await expect(page.locator(".round-intro__card--goal")).toContainText(
     "United Kingdom",
+  );
+  await expect(page.locator(".round-intro__mode")).toHaveText("Solo route");
+  await expect(page.locator(".round-intro__registration")).not.toContainText(
+    "WW /",
+  );
+  await expect(page.locator(".round-intro__registration")).not.toContainText(
+    "SEC",
   );
   await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   const round = page.getByRole("region", { name: "Reach United Kingdom" });
@@ -88,6 +43,15 @@ test("Solo preserves visible history and guards browser Back", async ({
     "off",
   );
   await expect(page.locator(".game-map")).toBeVisible();
+  const mapHelp = page.getByRole("button", { name: "Map controls help" });
+  await expect(mapHelp).toBeVisible();
+  await expect(page.locator(".map-viewport__instructions")).toHaveCSS(
+    "clip-path",
+    "inset(50%)",
+  );
+  await mapHelp.click();
+  await expect(page.getByRole("note", { name: "Map controls" })).toBeVisible();
+  await mapHelp.click();
   const initialMapWidth = await page
     .locator(".map-viewport__world")
     .evaluate((element) => (element as HTMLElement).offsetWidth);
@@ -276,6 +240,9 @@ test("Solo completes the four-move route and renders results", async ({
   await expect(page.getByRole("heading", { name: /You found/i })).toContainText(
     "United Kingdom",
   );
+  await expect(page.locator(".result-hero__copy")).toContainText(
+    "Solo route complete",
+  );
   if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 800) {
     const routeStepHeights = await page
       .locator(".route-reveal li")
@@ -371,13 +338,19 @@ test("Daily and Live Relay expose their complete entry states", async ({
   page,
 }) => {
   await page.goto("/play/daily");
-  await expect(
-    page.getByRole("dialog", {
-      name: "What should other explorers call you?",
-    }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  const dailyPrompt = page.getByRole("dialog", {
+    name: "What should other explorers call you?",
+  });
+  await expect(dailyPrompt).toBeVisible();
+  await expect(dailyPrompt).toContainText("Daily connection");
+  await expect(dailyPrompt).toContainText("today’s leaderboard");
+  await dailyPrompt
+    .getByRole("button", { name: "Continue", exact: true })
+    .click();
   await expect(page.getByRole("radio")).toHaveCount(0);
+  await expect(page.locator(".round-intro__mode")).toHaveText(
+    "Daily connection",
+  );
   await expect(page.locator(".round-intro__category")).toContainText(
     "normal route",
   );
@@ -397,10 +370,31 @@ test("Daily and Live Relay expose their complete entry states", async ({
   await page.getByRole("button", { name: /Start relay/i }).click();
   await expect(page).toHaveURL(/\/relay\/MAPS27$/);
   await expect(page.locator(".round-intro")).toBeVisible();
+  await expect(page.locator(".round-intro__mode")).toHaveText("Live relay");
   await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   await expect(page.locator(".round-masthead__meta")).toContainText(
     "Live relay",
   );
+
+  for (const entity of [
+    "The Great Wave off Kanagawa",
+    "British Museum",
+    "London",
+    "United Kingdom",
+  ]) {
+    await followTo(page, entity);
+  }
+  await expect(page).toHaveURL(/\/results$/);
+  await expect(page.locator(".result-hero__copy")).toContainText(
+    "Live relay complete",
+  );
+  await page
+    .getByRole("button", { name: /Create or join another Relay/i })
+    .click();
+  await expect(page).toHaveURL(/\/relay$/);
+  await expect(
+    page.getByRole("heading", { name: /One atlas.*Several instincts/i }),
+  ).toBeVisible();
 });
 
 test("a named Daily player is ranked from their completed route", async ({
@@ -424,6 +418,9 @@ test("a named Daily player is ranked from their completed route", async ({
   }
 
   await expect(page).toHaveURL(/\/results$/);
+  await expect(page.locator(".result-hero__copy")).toContainText(
+    "Daily connection complete",
+  );
   const current = page.locator(".leaderboard__you");
   await expect(current).toContainText("Paper Fox");
   await expect(current.getByText("You", { exact: true })).toBeVisible();
@@ -449,8 +446,8 @@ test("Settings edits the public name and locks it during a Relay", async ({
     .click();
 
   await page
-    .getByRole("button", { name: /Live relay/i })
-    .last()
+    .getByRole("region", { name: "Select play mode" })
+    .getByRole("button", { name: /Multiplayer/i })
     .click();
   await page.getByRole("button", { name: /Create relay/i }).click();
   await page.getByRole("button", { name: /Open settings/i }).click();

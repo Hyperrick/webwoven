@@ -42,6 +42,13 @@
   margin: 0;
 }
 
+.game-map__header-meta {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--space-3);
+  align-items: center;
+}
+
 .game-map__history {
   position: absolute;
   z-index: 1;
