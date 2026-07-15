@@ -1,6 +1,6 @@
 .game-map {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr);
   min-height: 0;
   padding: 0;
   overflow: hidden;
@@ -182,15 +182,6 @@
 .game-map__surface .game-map__choices {
   position: static;
   display: block;
-}
-
-.game-map__last-move {
-  position: relative;
-  inset: auto;
-  width: 100%;
-  max-width: none;
-  margin: var(--space-2) 0 0;
-  background: var(--color-paper);
 }
 
 @media (width <= 68rem) {
