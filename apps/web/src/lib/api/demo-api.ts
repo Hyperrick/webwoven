@@ -1,10 +1,10 @@
 import type {
   AppConfig,
   ContentReportInput,
+  DailyLeaderboard,
   DailyRound,
   Difficulty,
   Guest,
-  LeaderboardEntry,
   RoomSnapshot,
   SessionCommand,
   SessionSnapshot,
@@ -18,6 +18,18 @@ import {
   useHint,
 } from "../domain/navigation";
 import { DemoRoomCoordinator } from "../domain/rooms";
+import { calculateScore } from "../domain/scoring";
+
+const SAMPLE_DAILY_FIELD = [
+  { display_name: "PaperFox", moves: 4, elapsed_seconds: 31 },
+  { display_name: "Northstar", moves: 4, elapsed_seconds: 44 },
+  { display_name: "Mira", moves: 5, elapsed_seconds: 52 },
+].map((entry) => ({
+  ...entry,
+  rank: 0,
+  score: dailyScore(entry.moves, entry.elapsed_seconds),
+  is_current_guest: false,
+}));
 
 function id(prefix: string): string {
   const value =
@@ -25,8 +37,18 @@ function id(prefix: string): string {
   return `${prefix}_${value}`;
 }
 
+function dailyScore(moves: number, elapsedSeconds: number): number {
+  return calculateScore({
+    shortestDistance: 4,
+    moves,
+    elapsedSeconds,
+    timeWindow: 180,
+    penalties: 0,
+  });
+}
+
 export class DemoApi implements WebwovenApi {
-  #guest: Guest = { id: "guest_demo", display_name: "Guest Cartographer" };
+  #guest: Guest = { id: "guest_demo", display_name: "Explorer GUES" };
   #sessions = new Map<string, NavigationState>();
   #commandResults = new Map<string, SessionSnapshot>();
   #rooms = new DemoRoomCoordinator();
@@ -57,7 +79,7 @@ export class DemoApi implements WebwovenApi {
     return {
       round_id: "daily-demo-wave",
       date: new Date().toISOString().slice(0, 10),
-      category: "arts_culture",
+      category: "art_design",
       difficulty: "normal",
       optimal_distance: 4,
       completed: false,
@@ -122,45 +144,53 @@ export class DemoApi implements WebwovenApi {
       next = followEdge(current, command.edge_token);
     if (command.type === "back") next = moveBack(current);
     if (command.type === "use_hint") {
-      next = useHint(current, command.hint_type, command.relation_property_id);
+      next = useHint(
+        current,
+        command.hint_type,
+        command.relation_property_id,
+        command.entity_qid,
+      );
     }
     this.#sessions.set(sessionId, next);
     this.#commandResults.set(command.client_command_id, next.snapshot);
     return structuredClone(next.snapshot);
   }
 
-  async getDailyLeaderboard(): Promise<LeaderboardEntry[]> {
-    return [
-      {
-        rank: 1,
-        display_name: "PaperFox",
-        score: 987,
-        moves: 4,
-        elapsed_seconds: 31,
-      },
-      {
-        rank: 2,
-        display_name: "Northstar",
-        score: 965,
-        moves: 4,
-        elapsed_seconds: 44,
-      },
-      {
-        rank: 3,
-        display_name: "Mira",
-        score: 901,
-        moves: 5,
-        elapsed_seconds: 52,
-      },
-      {
-        rank: 17,
-        display_name: this.#guest.display_name,
-        score: 824,
-        moves: 6,
-        elapsed_seconds: 79,
-        is_current_guest: true,
-      },
-    ];
+  async getDailyLeaderboard(): Promise<DailyLeaderboard> {
+    const completed = [...this.#sessions.values()]
+      .reverse()
+      .find(
+        ({ snapshot }) =>
+          snapshot.mode === "daily" && snapshot.status === "completed",
+      )?.snapshot;
+    const ranked = [
+      ...SAMPLE_DAILY_FIELD,
+      ...(completed
+        ? [
+            {
+              rank: 0,
+              display_name: this.#guest.display_name,
+              score: completed.score ?? 0,
+              moves: completed.moves,
+              elapsed_seconds: completed.elapsed_seconds,
+              is_current_guest: true,
+            },
+          ]
+        : []),
+    ]
+      .sort(
+        (left, right) =>
+          right.score - left.score ||
+          left.elapsed_seconds - right.elapsed_seconds ||
+          left.moves - right.moves ||
+          left.display_name.localeCompare(right.display_name),
+      )
+      .map((entry, index) => ({ ...entry, rank: index + 1 }));
+    const current = ranked.find((entry) => entry.is_current_guest) ?? null;
+    return {
+      entries: ranked.slice(0, 20),
+      current_guest_entry: current,
+    };
   }
 
   async createRoom(difficulty: Difficulty): Promise<RoomSnapshot> {

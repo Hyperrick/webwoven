@@ -1,10 +1,46 @@
 export type GameMode = "solo" | "daily" | "relay";
 export type SessionStatus = "active" | "completed" | "abandoned" | "expired";
 export type HintType = "compass" | "lens" | "map_fragment";
+export type HintOutcome = "promising" | "longer" | "dead_end";
+export type HintMarker = HintOutcome | "unlikely";
 export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
-  "history_people" | "nature_science" | "arts_culture" | "places";
+  | "people"
+  | "history_society"
+  | "science_technology"
+  | "nature_life"
+  | "places_architecture"
+  | "art_design"
+  | "literature_language"
+  | "music_performance"
+  | "film_media"
+  | "sports_games";
 export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
+export type ImageLicenseId =
+  | "PUBLIC_DOMAIN"
+  | "CC0_1_0"
+  | "CC_BY_1_0"
+  | "CC_BY_2_0"
+  | "CC_BY_2_5"
+  | "CC_BY_3_0"
+  | "CC_BY_4_0"
+  | "CC_BY_SA_1_0"
+  | "CC_BY_SA_2_0"
+  | "CC_BY_SA_2_5"
+  | "CC_BY_SA_3_0"
+  | "CC_BY_SA_4_0";
+
+export interface ImageAttribution {
+  file_name: string;
+  original_url: string;
+  derivative_url: string;
+  source_url: string;
+  license_id: ImageLicenseId;
+  creator: string;
+  license_url: string;
+  attribution_text: string;
+  context_label?: string;
+}
 
 export interface EntitySummary {
   qid: string;
@@ -13,6 +49,8 @@ export interface EntitySummary {
   category: Category;
   source_kind: EntitySourceKind;
   image_path?: string;
+  image_attribution?: ImageAttribution;
+  wikipedia_url?: string;
   fact?: string;
   source_url?: string;
 }
@@ -21,6 +59,7 @@ export interface RelationEdge {
   edge_token: string;
   target: EntitySummary;
   statement: string;
+  hint?: HintMarker;
 }
 
 export interface RelationGroup {
@@ -30,12 +69,14 @@ export interface RelationGroup {
   direction: "outgoing" | "incoming";
   glyph: "origin" | "place" | "work" | "part" | "nature" | "influence";
   edges: RelationEdge[];
-  hint?: "promising" | "unlikely";
+  /** Legacy group-level hint retained for cached demo snapshots. */
+  hint?: HintMarker;
 }
 
 export interface TrailEntry {
   qid: string;
   label: string;
+  summary?: EntitySummary;
   relation?: string;
   revisited?: boolean;
 }
@@ -78,6 +119,9 @@ export interface UsedHint {
   type: HintType;
   penalty: number;
   message: string;
+  relation_property_id?: string;
+  entity_qid?: string;
+  outcome?: HintOutcome;
 }
 
 export interface SessionSnapshot {
@@ -117,6 +161,7 @@ export type SessionCommand =
       type: "use_hint";
       hint_type: HintType;
       relation_property_id?: string;
+      entity_qid?: string;
     });
 
 export interface Guest {
@@ -140,7 +185,12 @@ export interface LeaderboardEntry {
   score: number;
   moves: number;
   elapsed_seconds: number;
-  is_current_guest?: boolean;
+  is_current_guest: boolean;
+}
+
+export interface DailyLeaderboard {
+  entries: LeaderboardEntry[];
+  current_guest_entry: LeaderboardEntry | null;
 }
 
 export type RoomState =
@@ -197,7 +247,7 @@ export interface WebwovenApi {
   }): Promise<SessionSnapshot>;
   getSession(id: string): Promise<SessionSnapshot>;
   sendCommand(id: string, command: SessionCommand): Promise<SessionSnapshot>;
-  getDailyLeaderboard(): Promise<LeaderboardEntry[]>;
+  getDailyLeaderboard(): Promise<DailyLeaderboard>;
   createRoom(difficulty: Difficulty): Promise<RoomSnapshot>;
   joinRoom(code: string): Promise<RoomSnapshot>;
   setRoomReady(code: string, ready: boolean): Promise<RoomSnapshot>;

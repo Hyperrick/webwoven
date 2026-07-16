@@ -18,8 +18,6 @@ import {
   ShaderMaterial,
   SphereGeometry,
   SRGBColorSpace,
-  Texture,
-  TextureLoader,
   TubeGeometry,
   Vector3,
   WebGLRenderer,
@@ -29,10 +27,7 @@ import {
 import type { RoundIntroTimeline } from "./timeline";
 
 interface SceneOptions {
-  artwork: string;
   accent: string;
-  startImage?: string;
-  targetImage?: string;
   onUnavailable: () => void;
 }
 
@@ -51,7 +46,8 @@ export class RoundIntroScene {
   readonly #grain: Mesh<PlaneGeometry, ShaderMaterial>;
   readonly #observer: ResizeObserver;
   readonly #onContextLost: (event: Event) => void;
-  readonly #textures = new Set<Texture>();
+  #categoryFit = 1;
+  #compact = false;
   #disposed = false;
 
   constructor(host: HTMLElement, options: SceneOptions) {
@@ -82,12 +78,11 @@ export class RoundIntroScene {
     this.#scene.add(key);
 
     this.#categorySheet.add(this.#paperPlane(5.6, 3.8, 0.97));
-    this.#categorySheet.add(this.#artPlane(options.artwork, 5.05, 3.25, 0.03));
     this.#categorySheet.add(...registrationMarks(5.85, 4.05));
     this.#scene.add(this.#categorySheet);
 
-    this.#startCard = this.#card(options.startImage, options.accent);
-    this.#goalCard = this.#card(options.targetImage, palette.ochre);
+    this.#startCard = this.#card(options.accent);
+    this.#goalCard = this.#card(palette.ochre);
     this.#startCard.position.x = -2.55;
     this.#goalCard.position.x = 2.55;
     this.#endpointGroup.add(this.#startCard, this.#goalCard);
@@ -149,18 +144,19 @@ export class RoundIntroScene {
     if (this.#disposed) return;
     const category = ease(timeline.category);
     const endpoints = ease(timeline.endpoints);
-    const categoryExit = Math.min(1, timeline.endpoints * 4);
+    const categoryExit = ease(Math.min(1, timeline.endpoints * 4));
     const orientation = ease(timeline.orientation);
     const launch = ease(timeline.launch);
 
-    this.#categorySheet.position.y = (1 - category) * 0.45 + endpoints * 0.65;
+    this.#categorySheet.position.y =
+      (1 - category) * 0.45 + categoryExit * 5.25;
     this.#categorySheet.rotation.z = (1 - category) * -0.045;
     this.#categorySheet.scale.setScalar(
-      0.82 + category * 0.18 - endpoints * 0.12,
+      (0.82 + category * 0.18 - categoryExit * 0.08) * this.#categoryFit,
     );
-    setOpacity(this.#categorySheet, 1 - categoryExit);
 
-    this.#endpointGroup.visible = timeline.elapsed_ms >= 1_100;
+    this.#endpointGroup.visible =
+      !this.#compact && timeline.elapsed_ms >= 1_100;
     this.#endpointGroup.scale.setScalar(0.78 + endpoints * 0.22);
     setOpacity(this.#endpointGroup, endpoints);
     this.#startCard.position.x = -0.7 - endpoints * 1.85;
@@ -192,15 +188,13 @@ export class RoundIntroScene {
       this.#onContextLost,
     );
     disposeObject(this.#scene);
-    this.#textures.forEach((texture) => texture.dispose());
     this.#renderer.dispose();
     this.#renderer.domElement.remove();
   }
 
-  #card(image: string | undefined, accent: string): Group {
+  #card(accent: string): Group {
     const group = new Group();
     group.add(this.#paperPlane(3.05, 2.1, 0.98));
-    if (image) group.add(this.#artPlane(image, 2.72, 1.76, 0.04));
     const rule = new Mesh(
       new PlaneGeometry(3.05, 0.08),
       new MeshBasicMaterial({ color: new Color(accent) }),
@@ -224,32 +218,12 @@ export class RoundIntroScene {
     );
   }
 
-  #artPlane(path: string, width: number, height: number, z: number): Mesh {
-    const material = new MeshBasicMaterial({
-      color: new Color(palette.paper),
-      transparent: true,
-      opacity: 0.98,
-    });
-    const plane = new Mesh(new PlaneGeometry(width, height), material);
-    plane.position.z = z;
-    new TextureLoader().load(path, (texture) => {
-      if (this.#disposed) {
-        texture.dispose();
-        return;
-      }
-      texture.colorSpace = SRGBColorSpace;
-      this.#textures.add(texture);
-      material.map = texture;
-      material.color.set(0xffffff);
-      material.needsUpdate = true;
-    });
-    return plane;
-  }
-
   #resize(host: HTMLElement): void {
     const width = Math.max(1, host.clientWidth);
     const height = Math.max(1, host.clientHeight);
     const aspect = width / height;
+    this.#compact = width <= 768;
+    this.#categoryFit = Math.min(1, (VIEW_HEIGHT * aspect * 0.84) / 5.6);
     this.#camera.left = (-VIEW_HEIGHT * aspect) / 2;
     this.#camera.right = (VIEW_HEIGHT * aspect) / 2;
     this.#camera.top = VIEW_HEIGHT / 2;

@@ -1,0 +1,1055 @@
+{
+  "categories": [
+    {
+      "anchors": [
+        {
+          "label": "Barack Obama",
+          "qid": "Q76",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Nelson Mandela",
+          "qid": "Q8023",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Mahatma Gandhi",
+          "qid": "Q1001",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Martin Luther King Jr.",
+          "qid": "Q8027",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Rosa Parks",
+          "qid": "Q41921",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Cleopatra",
+          "qid": "Q635",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Julius Caesar",
+          "qid": "Q1048",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Napoleon",
+          "qid": "Q517",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Joan of Arc",
+          "qid": "Q7226",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Florence Nightingale",
+          "qid": "Q37103",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Harriet Tubman",
+          "qid": "Q102870",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Malala Yousafzai",
+          "qid": "Q32732",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Desmond Tutu",
+          "qid": "Q43033",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Eleanor Roosevelt",
+          "qid": "Q83396",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Winston Churchill",
+          "qid": "Q8016",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Emmeline Pankhurst",
+          "qid": "Q211519",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Frederick Douglass",
+          "qid": "Q215562",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Confucius",
+          "qid": "Q4604",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Hypatia",
+          "qid": "Q11903",
+          "reason": "Reviewed starter for people connections."
+        },
+        {
+          "label": "Mansa Musa",
+          "qid": "Q309333",
+          "reason": "Reviewed starter for people connections."
+        }
+      ],
+      "id": "people"
+    },
+    {
+      "anchors": [
+        {
+          "label": "World War II",
+          "qid": "Q362",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "World War I",
+          "qid": "Q361",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "French Revolution",
+          "qid": "Q6534",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Industrial Revolution",
+          "qid": "Q2269",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Roman Empire",
+          "qid": "Q2277",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Ancient Egypt",
+          "qid": "Q11768",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Renaissance",
+          "qid": "Q4692",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Age of Enlightenment",
+          "qid": "Q12539",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Cold War",
+          "qid": "Q8683",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "United Nations",
+          "qid": "Q1065",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Democracy",
+          "qid": "Q7174",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Human rights",
+          "qid": "Q8458",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Feminism",
+          "qid": "Q7252",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Civil rights movement",
+          "qid": "Q48537",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Abolitionism",
+          "qid": "Q169390",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Printing",
+          "qid": "Q11034",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Magna Carta",
+          "qid": "Q12519",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Silk Road",
+          "qid": "Q36288",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Black Death",
+          "qid": "Q42005",
+          "reason": "Reviewed starter for history society connections."
+        },
+        {
+          "label": "Berlin Wall",
+          "qid": "Q5086",
+          "reason": "Reviewed starter for history society connections."
+        }
+      ],
+      "id": "history_society"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Albert Einstein",
+          "qid": "Q937",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Marie Curie",
+          "qid": "Q7186",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Ada Lovelace",
+          "qid": "Q7259",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Alan Turing",
+          "qid": "Q7251",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Katherine Johnson",
+          "qid": "Q11740",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Isaac Newton",
+          "qid": "Q935",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Galileo Galilei",
+          "qid": "Q307",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Nikola Tesla",
+          "qid": "Q9036",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Tim Berners-Lee",
+          "qid": "Q80",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Physics",
+          "qid": "Q413",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Astronomy",
+          "qid": "Q333",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Gene",
+          "qid": "Q7187",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "DNA",
+          "qid": "Q7430",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Atom",
+          "qid": "Q9121",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Periodic table",
+          "qid": "Q10693",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Quantum mechanics",
+          "qid": "Q944",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "General relativity",
+          "qid": "Q11452",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Computer",
+          "qid": "Q68",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Internet",
+          "qid": "Q75",
+          "reason": "Reviewed starter for science technology connections."
+        },
+        {
+          "label": "Telescope",
+          "qid": "Q4213",
+          "reason": "Reviewed starter for science technology connections."
+        }
+      ],
+      "id": "science_technology"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Earth",
+          "qid": "Q2",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Sun",
+          "qid": "Q525",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Star",
+          "qid": "Q523",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "River",
+          "qid": "Q4022",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Mountain",
+          "qid": "Q8502",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Moon",
+          "qid": "Q405",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Mars",
+          "qid": "Q111",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Galaxy",
+          "qid": "Q318",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Ocean",
+          "qid": "Q9430",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Volcano",
+          "qid": "Q8072",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Glacier",
+          "qid": "Q35666",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Desert",
+          "qid": "Q8514",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Rainforest",
+          "qid": "Q9444",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Coral reef",
+          "qid": "Q11292",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Mammal",
+          "qid": "Q7377",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Bird",
+          "qid": "Q5113",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Angiosperms",
+          "qid": "Q25314",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Dinosaur",
+          "qid": "Q430",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Ecosystem",
+          "qid": "Q37813",
+          "reason": "Reviewed starter for nature life connections."
+        },
+        {
+          "label": "Biodiversity",
+          "qid": "Q47041",
+          "reason": "Reviewed starter for nature life connections."
+        }
+      ],
+      "id": "nature_life"
+    },
+    {
+      "anchors": [
+        {
+          "label": "New York City",
+          "qid": "Q60",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "London",
+          "qid": "Q84",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Cairo",
+          "qid": "Q85",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Paris",
+          "qid": "Q90",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Rome",
+          "qid": "Q220",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Tokyo",
+          "qid": "Q1490",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Cape Town",
+          "qid": "Q5465",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Mexico City",
+          "qid": "Q1489",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Istanbul",
+          "qid": "Q406",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Beijing",
+          "qid": "Q956",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Eiffel Tower",
+          "qid": "Q243",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Colosseum",
+          "qid": "Q10285",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Taj Mahal",
+          "qid": "Q9141",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Great Wall of China",
+          "qid": "Q12501",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Sydney Opera House",
+          "qid": "Q45178",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Sagrada Familia",
+          "qid": "Q48435",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Burj Khalifa",
+          "qid": "Q12495",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Fallingwater",
+          "qid": "Q463179",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Guggenheim Museum Bilbao",
+          "qid": "Q179199",
+          "reason": "Reviewed starter for places architecture connections."
+        },
+        {
+          "label": "Notre-Dame de Paris",
+          "qid": "Q2981",
+          "reason": "Reviewed starter for places architecture connections."
+        }
+      ],
+      "id": "places_architecture"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Vincent van Gogh",
+          "qid": "Q5582",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Frida Kahlo",
+          "qid": "Q5588",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Pablo Picasso",
+          "qid": "Q5593",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Mona Lisa",
+          "qid": "Q12418",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "The Starry Night",
+          "qid": "Q45585",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Guernica",
+          "qid": "Q175036",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "The Scream",
+          "qid": "Q471379",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Girl with a Pearl Earring",
+          "qid": "Q185372",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "The Persistence of Memory",
+          "qid": "Q25729",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Claude Monet",
+          "qid": "Q296",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Georgia O'Keeffe",
+          "qid": "Q46408",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Yayoi Kusama",
+          "qid": "Q231121",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Leonardo da Vinci",
+          "qid": "Q762",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Hokusai",
+          "qid": "Q5586",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Michelangelo",
+          "qid": "Q5592",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Rembrandt",
+          "qid": "Q5598",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Salvador Dali",
+          "qid": "Q5577",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Andy Warhol",
+          "qid": "Q5603",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Museum of Modern Art",
+          "qid": "Q188740",
+          "reason": "Reviewed starter for art design connections."
+        },
+        {
+          "label": "Bauhaus",
+          "qid": "Q124354",
+          "reason": "Reviewed starter for art design connections."
+        }
+      ],
+      "id": "art_design"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Douglas Adams",
+          "qid": "Q42",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "William Shakespeare",
+          "qid": "Q692",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Hamlet",
+          "qid": "Q41567",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "The Great Gatsby",
+          "qid": "Q214371",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "The Lord of the Rings",
+          "qid": "Q15228",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Harry Potter",
+          "qid": "Q8337",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Pride and Prejudice",
+          "qid": "Q170583",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Nineteen Eighty-Four",
+          "qid": "Q208460",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Don Quixote",
+          "qid": "Q480",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Odyssey",
+          "qid": "Q35160",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Homer",
+          "qid": "Q6691",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Jane Austen",
+          "qid": "Q36322",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "George Orwell",
+          "qid": "Q3335",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "J. R. R. Tolkien",
+          "qid": "Q892",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Virginia Woolf",
+          "qid": "Q40909",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Toni Morrison",
+          "qid": "Q72334",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Gabriel Garcia Marquez",
+          "qid": "Q5878",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "English",
+          "qid": "Q1860",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Arabic",
+          "qid": "Q13955",
+          "reason": "Reviewed starter for literature language connections."
+        },
+        {
+          "label": "Language",
+          "qid": "Q315",
+          "reason": "Reviewed starter for literature language connections."
+        }
+      ],
+      "id": "literature_language"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Wolfgang Amadeus Mozart",
+          "qid": "Q254",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "The Beatles",
+          "qid": "Q1299",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Ludwig van Beethoven",
+          "qid": "Q255",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Johann Sebastian Bach",
+          "qid": "Q1339",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Beyonce",
+          "qid": "Q36153",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "David Bowie",
+          "qid": "Q5383",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Nina Simone",
+          "qid": "Q174957",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Miles Davis",
+          "qid": "Q93341",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Billie Holiday",
+          "qid": "Q104358",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Bob Dylan",
+          "qid": "Q392",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "The Rolling Stones",
+          "qid": "Q11036",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Taylor Swift",
+          "qid": "Q26876",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Michael Jackson",
+          "qid": "Q2831",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Madonna",
+          "qid": "Q1744",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Aretha Franklin",
+          "qid": "Q125121",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Jazz",
+          "qid": "Q8341",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Hip hop music",
+          "qid": "Q11401",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Opera",
+          "qid": "Q1344",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Ballet",
+          "qid": "Q41425",
+          "reason": "Reviewed starter for music performance connections."
+        },
+        {
+          "label": "Violin",
+          "qid": "Q8355",
+          "reason": "Reviewed starter for music performance connections."
+        }
+      ],
+      "id": "music_performance"
+    },
+    {
+      "anchors": [
+        {
+          "label": "Star Wars",
+          "qid": "Q462",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Spirited Away",
+          "qid": "Q155653",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Citizen Kane",
+          "qid": "Q24815",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "The Godfather",
+          "qid": "Q47703",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Seven Samurai",
+          "qid": "Q189540",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Parasite",
+          "qid": "Q61448040",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Hayao Miyazaki",
+          "qid": "Q55400",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Akira Kurosawa",
+          "qid": "Q8006",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Film",
+          "qid": "Q11424",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Television",
+          "qid": "Q289",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Photography",
+          "qid": "Q11633",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Alfred Hitchcock",
+          "qid": "Q7374",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Steven Spielberg",
+          "qid": "Q8877",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Walt Disney",
+          "qid": "Q8704",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Casablanca",
+          "qid": "Q132689",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "The Matrix",
+          "qid": "Q83495",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Pulp Fiction",
+          "qid": "Q104123",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Animation",
+          "qid": "Q11425",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Academy Awards",
+          "qid": "Q19020",
+          "reason": "Reviewed starter for film media connections."
+        },
+        {
+          "label": "Movie theater",
+          "qid": "Q41253",
+          "reason": "Reviewed starter for film media connections."
+        }
+      ],
+      "id": "film_media"
+    },
+    {
+      "anchors": [
+        {
+          "label": "FIFA World Cup",
+          "qid": "Q19317",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Olympic Games",
+          "qid": "Q5389",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Association football",
+          "qid": "Q2736",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Basketball",
+          "qid": "Q5372",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Tennis",
+          "qid": "Q847",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Chess",
+          "qid": "Q718",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Baseball",
+          "qid": "Q5369",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Cricket",
+          "qid": "Q5375",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Rugby union",
+          "qid": "Q5849",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Formula One",
+          "qid": "Q1968",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Tour de France",
+          "qid": "Q33881",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Super Bowl",
+          "qid": "Q32096",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Wimbledon Championships",
+          "qid": "Q41520",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "National Basketball Association",
+          "qid": "Q155223",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Lionel Messi",
+          "qid": "Q615",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Serena Williams",
+          "qid": "Q11459",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Michael Jordan",
+          "qid": "Q41421",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Muhammad Ali",
+          "qid": "Q36107",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Pele",
+          "qid": "Q12897",
+          "reason": "Reviewed starter for sports games connections."
+        },
+        {
+          "label": "Usain Bolt",
+          "qid": "Q1189",
+          "reason": "Reviewed starter for sports games connections."
+        }
+      ],
+      "id": "sports_games"
+    }
+  ],
+  "version": 2
+}

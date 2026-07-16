@@ -8,16 +8,18 @@ const RIGHT_GUTTER_UNITS = 22;
 // Thirty rem leaves a deliberate visual gutter without relying on CSS nudges.
 const COLUMN_GAP_UNITS = 30;
 const CHOICE_TOP_UNITS = 12;
-const CHOICE_LANE_GAP_UNITS = 7.5;
+const CHOICE_LANE_GAP_UNITS = 10;
 const BOTTOM_CLEARANCE_UNITS = 10;
 
 export interface MapBoardLayoutInput {
   resolvedStageCount: number;
+  currentColumn?: number;
   laneCounts: number[];
 }
 
 export function createMapBoardLayout({
   resolvedStageCount,
+  currentColumn = resolvedStageCount,
   laneCounts,
 }: MapBoardLayoutInput): MapBoardLayout {
   const choiceLaneCount = Math.max(0, ...laneCounts);
@@ -27,13 +29,14 @@ export function createMapBoardLayout({
       : CHOICE_TOP_UNITS +
         (choiceLaneCount - 1) * CHOICE_LANE_GAP_UNITS +
         BOTTOM_CLEARANCE_UNITS;
-  const currentColumn = resolvedStageCount;
   const activeChoiceColumn = currentColumn + 1;
+  const rightmostColumn = Math.max(
+    resolvedStageCount + 1,
+    activeChoiceColumn + 1,
+  );
   const width = Math.max(
     MINIMUM_WIDTH_UNITS,
-    LEFT_GUTTER_UNITS +
-      (activeChoiceColumn + 1) * COLUMN_GAP_UNITS +
-      RIGHT_GUTTER_UNITS,
+    LEFT_GUTTER_UNITS + rightmostColumn * COLUMN_GAP_UNITS + RIGHT_GUTTER_UNITS,
   );
 
   return {

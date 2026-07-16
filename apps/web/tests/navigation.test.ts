@@ -61,15 +61,35 @@ describe("demo navigation", () => {
     expect(state.snapshot.score).toBeGreaterThan(0);
   });
 
-  it("applies each hint once through the dedicated hint policy", () => {
-    const initial = createNavigationState("session", "solo");
+  it("marks only the exact Lens route and identifies a selected dead end", () => {
+    const initial = createNavigationState(
+      "session",
+      "solo",
+      "hard",
+      Date.now(),
+      { startQid: "Q5586", targetQid: "Q21", optimalDistance: 4 },
+    );
     const hinted = useHint(initial, "lens");
+    const lensEdges = hinted.snapshot.relation_groups.flatMap((group) =>
+      group.edges.map((edge) => ({ qid: edge.target.qid, hint: edge.hint })),
+    );
     expect(hinted.snapshot.hints_used).toHaveLength(1);
     expect(hinted.snapshot.hints_used[0].penalty).toBe(150);
-    expect(
-      hinted.snapshot.relation_groups.some(
-        (group) => group.hint === "promising",
-      ),
-    ).toBe(true);
+    expect(hinted.snapshot.hints_used[0].entity_qid).toBe("Q149116");
+    expect(lensEdges).toEqual([
+      { qid: "Q149116", hint: "promising" },
+      { qid: "Q209772", hint: undefined },
+    ]);
+
+    const compass = useHint(initial, "compass", "P800", "Q209772");
+    const checked = compass.snapshot.relation_groups
+      .flatMap((group) => group.edges)
+      .find((edge) => edge.target.qid === "Q209772");
+    expect(compass.snapshot.hints_used[0]).toMatchObject({
+      entity_qid: "Q209772",
+      outcome: "dead_end",
+    });
+    expect(compass.snapshot.hints_used[0].message).toContain("dead end");
+    expect(checked?.hint).toBe("dead_end");
   });
 });

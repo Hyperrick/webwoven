@@ -170,7 +170,18 @@
 }
 
 @media (width <= 32rem) {
+  .round-masthead {
+    margin-top: 0;
+    border-inline: 0;
+  }
+
   .round-masthead__identity {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    padding-block: var(--space-2);
     padding-inline: var(--space-3);
   }
 
@@ -179,6 +190,7 @@
   }
 
   .game-metrics div {
+    min-height: 3rem;
     padding-inline: var(--space-2);
   }
 

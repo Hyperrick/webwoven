@@ -39,6 +39,7 @@ const PATH_DEPTH = 2;
 const NODE_DEPTH = 10;
 const TOKEN_TILT = 0.38;
 const TOKEN_SEGMENTS = 12;
+const PAPER_OVERSCAN = 2_048;
 
 /** Owns one immutable board scene at a fixed logical world size. */
 export class AtlasBoardScene {
@@ -91,12 +92,14 @@ export class AtlasBoardScene {
 
   #createPaperPlane(): Mesh {
     const texture = createPaperTexture();
+    const paperWidth = this.#worldWidth + PAPER_OVERSCAN * 2;
+    const paperHeight = this.#worldHeight + PAPER_OVERSCAN * 2;
     texture.repeat.set(
-      Math.max(2, this.#worldWidth / 240),
-      Math.max(2, this.#worldHeight / 200),
+      Math.max(2, paperWidth / 280),
+      Math.max(2, paperHeight / 240),
     );
     const plane = new Mesh(
-      new PlaneGeometry(this.#worldWidth, this.#worldHeight),
+      new PlaneGeometry(paperWidth, paperHeight),
       new MeshStandardMaterial({
         color: new Color(palette.paper),
         map: texture,
@@ -313,19 +316,57 @@ function createToonRamp(): DataTexture {
 
 function createPaperTexture(): CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = 96;
-  canvas.height = 96;
+  canvas.width = 256;
+  canvas.height = 256;
   const context = canvas.getContext("2d");
   if (context) {
     context.fillStyle = palette.paper;
     context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = palette.mutedInk;
-    context.globalAlpha = 0.055;
-    for (let index = 0; index < 180; index += 1) {
-      const x = (index * 37 + 11) % canvas.width;
-      const y = (index * 61 + 23) % canvas.height;
-      context.fillRect(x, y, index % 7 === 0 ? 2 : 1, index % 7 === 0 ? 2 : 1);
+
+    // Broad, low-contrast pulp clouds keep the sheet from reading as flat fill.
+    for (let index = 0; index < 18; index += 1) {
+      const x = (index * 83 + 29) % canvas.width;
+      const y = (index * 47 + 61) % canvas.height;
+      const radius = 28 + ((index * 17) % 44);
+      const wash = context.createRadialGradient(x, y, 0, x, y, radius);
+      wash.addColorStop(0, index % 3 === 0 ? palette.ochre : palette.mutedInk);
+      wash.addColorStop(1, "transparent");
+      context.globalAlpha = 0.018;
+      context.fillStyle = wash;
+      context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
     }
+
+    // Directional fibers give the map a lightly pressed, handmade grain.
+    context.lineCap = "round";
+    for (let index = 0; index < 92; index += 1) {
+      const x = (index * 71 + 13) % canvas.width;
+      const y = (index * 43 + 7) % canvas.height;
+      const length = 10 + ((index * 19) % 52);
+      const lift = ((index * 11) % 9) - 4;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.quadraticCurveTo(
+        x + length * 0.52,
+        y + lift,
+        x + length,
+        y + lift * 0.35,
+      );
+      context.globalAlpha = index % 7 === 0 ? 0.045 : 0.026;
+      context.strokeStyle = index % 11 === 0 ? palette.ochre : palette.mutedInk;
+      context.lineWidth = index % 13 === 0 ? 1.15 : 0.55;
+      context.stroke();
+    }
+
+    // Fine flecks break up the remaining digital smoothness.
+    for (let index = 0; index < 560; index += 1) {
+      const x = (index * 97 + 17) % canvas.width;
+      const y = (index * 151 + 31) % canvas.height;
+      const size = index % 37 === 0 ? 1.6 : index % 9 === 0 ? 1 : 0.55;
+      context.globalAlpha = index % 13 === 0 ? 0.065 : 0.035;
+      context.fillStyle = index % 29 === 0 ? palette.ochre : palette.mutedInk;
+      context.fillRect(x, y, size, size);
+    }
+    context.globalAlpha = 1;
   }
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;

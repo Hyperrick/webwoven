@@ -1,22 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { EntitySummary } from "../api/types";
   import type { RoundIntroTimeline } from "./timeline";
   import type { RoundIntroScene } from "./scene";
 
   let {
     timeline,
-    artwork,
     accent,
-    start,
-    target,
     onUnavailable,
   }: {
     timeline: RoundIntroTimeline;
-    artwork: string;
     accent: string;
-    start: EntitySummary;
-    target: EntitySummary;
     onUnavailable: () => void;
   } = $props();
 
@@ -30,10 +23,7 @@
       .then(({ RoundIntroScene: Scene }) => {
         if (cancelled) return;
         instance = new Scene(host, {
-          artwork,
           accent,
-          startImage: start.image_path,
-          targetImage: target.image_path,
           onUnavailable,
         });
         scene = instance;

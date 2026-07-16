@@ -13,6 +13,12 @@ const lockedPalette = new Set([
   "#3f6b54",
   "#b68532",
   "#2d6574",
+  "#8b4f3d",
+  "#68713c",
+  "#a8642f",
+  "#2e7770",
+  "#8f4540",
+  "#31516a",
   "#6e6b61",
 ]);
 const colorPattern =

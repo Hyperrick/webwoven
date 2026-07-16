@@ -35,6 +35,11 @@
 ## Validation
 
 - Run the narrowest relevant checks while iterating, then the complete quality gate before publishing.
+- Name the exact test surface and URL in every manual verification update. Browser comments apply only to the URL shown in that comment; never treat a result from one surface as proof that another surface was updated.
+- Use `http://localhost` as **Compose acceptance**: the compiled Caddy client, real API, and active Wikidata pack. This is the canonical manual product check. After frontend changes, run `docker compose build caddy && docker compose up -d caddy`, reload the tab, and verify this surface before reporting acceptance.
+- Use `http://localhost:5173` as **split development**: Vite hot reload against the separately running API on `:8000`. It is for implementation feedback, not proof that the Compose bundle was rebuilt.
+- Use `http://127.0.0.1:4173` as **Playwright isolation**: the temporary `VITE_API_MODE=demo` server owned by `pnpm test:e2e`. Never substitute it for real-data or Compose acceptance.
+- Use `http://localhost:8000` as **API only**; it does not serve the product UI.
 - Runtime gameplay must never call Wikidata, Wikimedia Commons, or an AI service.
 - Codex-assisted content is a reviewed build artifact, never a runtime dependency. Label its
   provenance truthfully as `generator: codex` when model metadata is unavailable.

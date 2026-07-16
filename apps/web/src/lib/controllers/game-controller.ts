@@ -152,11 +152,13 @@ export class GameController {
     session: SessionSnapshot,
     hintType: HintType,
     relationPropertyId?: string,
+    entityQid?: string,
   ): Promise<SessionSnapshot> {
     const result = await this.#command(session, {
       type: "use_hint",
       hint_type: hintType,
       relation_property_id: relationPropertyId,
+      entity_qid: entityQid,
       client_command_id: commandId(),
       expected_state_version: session.state_version,
     });

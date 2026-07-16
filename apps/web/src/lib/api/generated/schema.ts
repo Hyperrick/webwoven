@@ -386,6 +386,7 @@ export interface components {
         };
         /** DailyLeaderboardResponse */
         DailyLeaderboardResponse: {
+            current_guest_entry: components["schemas"]["LeaderboardEntry"] | null;
             /**
              * Day
              * Format: date
@@ -483,12 +484,15 @@ export interface components {
             description: string | null;
             /** Entity Type */
             entity_type: string;
+            image_attribution: components["schemas"]["ImageAttributionResponse"] | null;
             /** Image Path */
             image_path: string | null;
             /** Label */
             label: string;
             /** Qid */
             qid: string;
+            /** Wikipedia Url */
+            wikipedia_url: string | null;
         };
         /** FollowEdgeRequest */
         FollowEdgeRequest: {
@@ -540,6 +544,11 @@ export interface components {
              */
             status: "ok" | "degraded";
         };
+        /**
+         * HintOutcome
+         * @enum {string}
+         */
+        HintOutcome: "promising" | "longer" | "dead_end";
         /** HintResponse */
         HintResponse: {
             /** Entity Qid */
@@ -547,6 +556,7 @@ export interface components {
             hint_type: components["schemas"]["HintType"];
             /** Message */
             message: string;
+            outcome?: components["schemas"]["HintOutcome"] | null;
             /** Penalty */
             penalty: number;
             /** Relation Property Id */
@@ -564,6 +574,7 @@ export interface components {
             hint_type: components["schemas"]["HintType"];
             /** Message */
             message: string;
+            outcome?: components["schemas"]["HintOutcome"] | null;
             /** Penalty */
             penalty: number;
             /** Relation Property Id */
@@ -573,6 +584,45 @@ export interface components {
              * Format: date-time
              */
             used_at: string;
+        };
+        /**
+         * ImageAttributionResponse
+         * @description Complete attribution for a locally bundled Wikimedia Commons image.
+         */
+        ImageAttributionResponse: {
+            /** Attribution Text */
+            attribution_text: string;
+            /** Context Label */
+            context_label?: string | null;
+            /** Creator */
+            creator: string;
+            /**
+             * Derivative Url
+             * Format: uri
+             */
+            derivative_url: string;
+            /** File Name */
+            file_name: string;
+            /**
+             * License Id
+             * @enum {string}
+             */
+            license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_1_0" | "CC_BY_2_0" | "CC_BY_2_5" | "CC_BY_3_0" | "CC_BY_4_0" | "CC_BY_SA_1_0" | "CC_BY_SA_2_0" | "CC_BY_SA_2_5" | "CC_BY_SA_3_0" | "CC_BY_SA_4_0";
+            /**
+             * License Url
+             * Format: uri
+             */
+            license_url: string;
+            /**
+             * Original Url
+             * Format: uri
+             */
+            original_url: string;
+            /**
+             * Source Url
+             * Format: uri
+             */
+            source_url: string;
         };
         /** LeaderboardEntry */
         LeaderboardEntry: {
@@ -587,6 +637,8 @@ export interface components {
             elapsed_seconds: number;
             /** Hints Used */
             hints_used: number;
+            /** Is Current Guest */
+            is_current_guest: boolean;
             /** Moves */
             moves: number;
             /** Rank */
@@ -759,6 +811,8 @@ export interface components {
         UseHintRequest: {
             /** Client Command Id */
             client_command_id: string;
+            /** Entity Qid */
+            entity_qid?: string | null;
             /** Expected State Version */
             expected_state_version: number;
             hint_type: components["schemas"]["HintType"];

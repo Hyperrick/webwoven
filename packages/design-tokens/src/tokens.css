@@ -8,6 +8,12 @@
     --color-moss: #3f6b54;
     --color-ochre: #b68532;
     --color-cartographic: #2d6574;
+    --color-sienna: #8b4f3d;
+    --color-olive: #68713c;
+    --color-copper: #a8642f;
+    --color-teal: #2e7770;
+    --color-rosewood: #8f4540;
+    --color-atlas-blue: #31516a;
     --color-muted-ink: #6e6b61;
     --color-rule: color-mix(in srgb, var(--color-ink) 24%, transparent);
     --color-focus: var(--color-cartographic);

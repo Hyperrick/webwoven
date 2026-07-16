@@ -1,19 +1,31 @@
 <script lang="ts">
-  import type { LeaderboardEntry, SessionSnapshot } from "../api/types";
+  import type { DailyLeaderboard, SessionSnapshot } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
+  import DailyLeaderboardTable from "../components/DailyLeaderboard.svelte";
+  import EndpointArtwork from "../components/EndpointArtwork.svelte";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import { routeRecap } from "../domain/route-recap";
+  import { trailEntityAt } from "../domain/trail-entities";
 
   let {
     session,
     leaderboard,
-    onAgain,
+    leaderboardStatus,
+    leaderboardError,
+    onLeaderboardRetry,
+    onSolo,
     onDaily,
+    onRelay,
     onHome,
   }: {
     session: SessionSnapshot;
-    leaderboard: LeaderboardEntry[];
-    onAgain: () => void;
+    leaderboard: DailyLeaderboard;
+    leaderboardStatus: "idle" | "loading" | "ready" | "error";
+    leaderboardError: string;
+    onLeaderboardRetry: () => void;
+    onSolo: () => void;
     onDaily: () => void;
+    onRelay: () => void;
     onHome: () => void;
   } = $props();
 
@@ -30,20 +42,32 @@
         ),
   );
   const recap = $derived(routeRecap(session));
+  const modeLabel = $derived(gameModeLabel(session.mode));
+  const resultSeal = $derived(
+    session.mode === "daily"
+      ? "Daily complete"
+      : session.mode === "relay"
+        ? "Relay complete"
+        : "Solo complete",
+  );
+  const resultSummary = $derived(
+    session.mode === "daily"
+      ? `Your route through today’s shared connection took ${session.moves} moves. See how it compares with today’s field below.`
+      : session.mode === "relay"
+        ? `You reached the shared destination in ${session.moves} moves. Return to Live Relay to create or join another room.`
+        : `${session.start.label} was ${session.moves} moves away—at least by the route you chose.`,
+  );
 </script>
 
 <main class="results-page">
   <section class="result-hero" aria-labelledby="result-title">
     <div class="result-hero__seal">
-      <AtlasIcon name="check" size={34} /><span>Route complete</span>
+      <AtlasIcon name="check" size={34} /><span>{resultSeal}</span>
     </div>
     <div class="result-hero__copy">
-      <p class="eyebrow">The atlas closes here</p>
+      <p class="eyebrow">{modeLabel} complete</p>
       <h1 id="result-title">You found<br /><em>{session.target.label}.</em></h1>
-      <p>
-        {session.start.label} was {session.moves} moves away—at least by the route
-        you chose.
-      </p>
+      <p>{resultSummary}</p>
     </div>
     <dl class="result-score">
       <div class="result-score__total">
@@ -74,8 +98,31 @@
     </header>
     <ol>
       {#each session.trail as item, index (`${index}:${item.qid}`)}
-        <li class:route-reveal__item--revisited={item.revisited}>
-          <span>{String(index + 1).padStart(2, "0")}</span>
+        {@const routeEntity = trailEntityAt(session, index)}
+        <li
+          class:route-reveal__item--revisited={item.revisited}
+          class:route-reveal__item--with-artwork={Boolean(routeEntity)}
+          data-route-endpoint={index === 0
+            ? "start"
+            : index === session.trail.length - 1
+              ? "goal"
+              : undefined}
+        >
+          {#if routeEntity}
+            <EndpointArtwork
+              entity={routeEntity}
+              endpoint={index === 0
+                ? "start"
+                : index === session.trail.length - 1
+                  ? "goal"
+                  : "node"}
+              className="route-reveal__artwork"
+              loading="eager"
+            />
+          {/if}
+          <span class="route-reveal__number"
+            >{String(index + 1).padStart(2, "0")}</span
+          >
           <div>
             <strong>{item.label}</strong>{#if item.relation}<small
                 >{item.relation}</small
@@ -104,33 +151,45 @@
       </div>
     </div>
     {#if session.mode === "daily"}
-      <div class="leaderboard">
-        <header>
-          <h2>Today’s field</h2>
-          <span>UTC</span>
-        </header>
-        <ol>
-          {#each leaderboard as entry (entry.rank)}
-            <li class:leaderboard__you={entry.is_current_guest}>
-              <span>{entry.rank}</span><strong>{entry.display_name}</strong
-              ><small>{entry.moves} moves · {entry.elapsed_seconds}s</small><b
-                >{entry.score}</b
-              >
-            </li>
-          {/each}
-        </ol>
+      <DailyLeaderboardTable
+        {leaderboard}
+        status={leaderboardStatus}
+        error={leaderboardError}
+        onRetry={onLeaderboardRetry}
+      />
+    {:else if session.mode === "solo"}
+      <div class="next-route">
+        <p class="eyebrow">Solo route</p>
+        <h2>Another route is waiting.</h2>
+        <p>Choose a difficulty and map a fresh path at your own pace.</p>
+        <div class="next-route__actions">
+          <button class="primary-action" type="button" onclick={onSolo}
+            >Try another route · Solo <AtlasIcon
+              name="arrow"
+              size={20}
+            /></button
+          >
+          <button class="text-action" type="button" onclick={onDaily}
+            >Play today’s connection</button
+          >
+        </div>
       </div>
     {:else}
       <div class="next-route">
-        <p class="eyebrow">Keep mapping</p>
-        <h2>A new route is waiting.</h2>
-        <p>The same two points can hold more than one good answer.</p>
-        <button class="primary-action" type="button" onclick={onAgain}
-          >Try another route <AtlasIcon name="arrow" size={20} /></button
-        >
-        <button class="text-action" type="button" onclick={onDaily}
-          >Play today’s connection</button
-        >
+        <p class="eyebrow">Live relay</p>
+        <h2>Keep racing together.</h2>
+        <p>Create a new room or join another explorer with a field code.</p>
+        <div class="next-route__actions">
+          <button class="primary-action" type="button" onclick={onRelay}
+            >Create or join another Relay <AtlasIcon
+              name="arrow"
+              size={20}
+            /></button
+          >
+          <button class="text-action" type="button" onclick={onSolo}
+            >Play a Solo route</button
+          >
+        </div>
       </div>
     {/if}
   </section>

@@ -1,7 +1,8 @@
 import type { SessionSnapshot } from "../api/types";
 import type { MapBoard } from "./map-board";
 
-export type MapTransitionKind = "initial" | "follow" | "back" | "refresh";
+export type MapTransitionKind =
+  "initial" | "follow" | "back" | "dead_end_back" | "refresh";
 
 export interface MapTransition {
   kind: MapTransitionKind;
@@ -36,8 +37,12 @@ export function deriveMapTransition(
   const navigationShrank =
     (next.navigation_stack?.length ?? 0) <
     (previous.navigation_stack?.length ?? 0);
-  const kind: MapTransitionKind =
-    appendedDecision?.action === "back" || navigationShrank
+  const backedOutOfDeadEnd =
+    appendedDecision?.action === "back" &&
+    appendedDecision.choices.length === 0;
+  const kind: MapTransitionKind = backedOutOfDeadEnd
+    ? "dead_end_back"
+    : appendedDecision?.action === "back" || navigationShrank
       ? "back"
       : previous.current.qid !== next.current.qid
         ? "follow"

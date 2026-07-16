@@ -42,8 +42,44 @@ def _fact(
     return FixtureFactSpec(source_index, target_index, relation_key, statement)
 
 
+RING_RELATIONS = (
+    "P361",
+    "P131",
+    "P276",
+    "P170",
+    "P138",
+    "P463",
+    "P108",
+    "P800",
+    "P737",
+    "P166",
+    "P50",
+    "P61",
+)
+
+
+def _ring_story(category: str, subject: str, labels: tuple[str, ...]) -> FixtureStory:
+    if len(labels) != 12:
+        raise ValueError("fixture rings require exactly twelve labels")
+    entities = tuple(
+        _entity(label, f"{subject} subject", f"in the invented {subject} atlas.")
+        for label in labels
+    )
+    facts = tuple(
+        _fact(
+            index,
+            index % len(labels) + 1,
+            RING_RELATIONS[index - 1],
+            f"{labels[index - 1]} connects to {labels[index % len(labels)]} "
+            f"in the fictional {subject} atlas.",
+        )
+        for index in range(1, len(labels) + 1)
+    )
+    return FixtureStory(category=category, entities=entities, facts=facts)
+
+
 HISTORY_PEOPLE = FixtureStory(
-    category="history_people",
+    category="people",
     entities=(
         _entity("Elian Voss", "navigator", "who charted the invented Northglass coast."),
         _entity("Gannet Hollow", "harbor town", "where the Northglass story begins."),
@@ -76,7 +112,7 @@ HISTORY_PEOPLE = FixtureStory(
 
 
 NATURE_SCIENCE = FixtureStory(
-    category="nature_science",
+    category="nature_life",
     entities=(
         _entity("Saffron glider", "moth", "with ochre wings in the Mosslight wetlands."),
         _entity("Glider moths", "moth genus", "containing the imagined Saffron glider."),
@@ -109,7 +145,7 @@ NATURE_SCIENCE = FixtureStory(
 
 
 ARTS_CULTURE = FixtureStory(
-    category="arts_culture",
+    category="art_design",
     entities=(
         _entity("Juniper Vale", "singer", "known for intimate stage performances."),
         _entity("Velvet Current", "song", "with a slow, tidal refrain."),
@@ -142,7 +178,7 @@ ARTS_CULTURE = FixtureStory(
 
 
 PLACES = FixtureStory(
-    category="places",
+    category="places_architecture",
     entities=(
         _entity("Kestrel Bay", "harbor", "on the invented Avenmark coast."),
         _entity("South Kestrel District", "district", "surrounding the fictional harbor."),
@@ -174,4 +210,130 @@ PLACES = FixtureStory(
 )
 
 
-SMOKE_STORIES = (HISTORY_PEOPLE, NATURE_SCIENCE, ARTS_CULTURE, PLACES)
+HISTORY_SOCIETY = _ring_story(
+    "history_society",
+    "history and society",
+    (
+        "Copperleaf Assembly",
+        "Harbor Charter",
+        "Lantern Census",
+        "Common Table Accord",
+        "Northglass Archive",
+        "Meridian March",
+        "Founders' Ledger",
+        "Sable Reform",
+        "Tideway Union",
+        "Ochre Proclamation",
+        "Public Map Room",
+        "New Coast Congress",
+    ),
+)
+
+SCIENCE_TECHNOLOGY = _ring_story(
+    "science_technology",
+    "science and technology",
+    (
+        "Lumen Engine",
+        "Prism Relay",
+        "Copper Coil Array",
+        "Morrow Observatory",
+        "Glasswing Sensor",
+        "Northglass Computer",
+        "Tideclock Network",
+        "Saffron Laboratory",
+        "Meridian Telescope",
+        "Fieldnote Database",
+        "Bracken Robot",
+        "Atlas Signal",
+    ),
+)
+
+LITERATURE_LANGUAGE = _ring_story(
+    "literature_language",
+    "literature and language",
+    (
+        "The Saltline Chronicle",
+        "Mira Quill",
+        "Northglass Lexicon",
+        "The Paper Compass",
+        "Gannet Press",
+        "Lantern Dialect",
+        "Tobin Quill",
+        "The Quiet Estuary",
+        "Harbor Readers Circle",
+        "Blank Margin Prize",
+        "Tideglass Translation",
+        "Dawn Library",
+    ),
+)
+
+MUSIC_PERFORMANCE = _ring_story(
+    "music_performance",
+    "music and performance",
+    (
+        "Juniper Reed",
+        "Velvet Estuary",
+        "Driftglass Concerto",
+        "Sera Chime",
+        "Dawn Concert Hall",
+        "Hearthline Orchestra",
+        "Copper Reed",
+        "Mosslight Chorus",
+        "Northglass Ballet",
+        "Lantern Concerto",
+        "Tideway Opera",
+        "Paper Moon Festival",
+    ),
+)
+
+FILM_MEDIA = _ring_story(
+    "film_media",
+    "film and media",
+    (
+        "Ochre Window",
+        "Orra Fen",
+        "Kestrel Camera",
+        "The Long Crossing",
+        "Harborlight Studio",
+        "Rhea Vale",
+        "Field Reel Archive",
+        "Mossframe Animation",
+        "Lantern Broadcast",
+        "Northglass Documentary",
+        "Silver Route Award",
+        "Tideway Cinema",
+    ),
+)
+
+SPORTS_GAMES = _ring_story(
+    "sports_games",
+    "sports and games",
+    (
+        "Avenmark Games",
+        "Kestrel Eleven",
+        "Northglass Court",
+        "Tideway Regatta",
+        "Copper Knight Club",
+        "Lantern Marathon",
+        "Mosslight Arena",
+        "Sable Racket Cup",
+        "Harbor Board League",
+        "Meridian Wheel Race",
+        "Bracken Field Team",
+        "Atlas Games Medal",
+    ),
+)
+
+
+SMOKE_STORIES = (
+    HISTORY_PEOPLE,
+    HISTORY_SOCIETY,
+    SCIENCE_TECHNOLOGY,
+    NATURE_SCIENCE,
+    PLACES,
+    ARTS_CULTURE,
+    LITERATURE_LANGUAGE,
+    MUSIC_PERFORMANCE,
+    FILM_MEDIA,
+    SPORTS_GAMES,
+)

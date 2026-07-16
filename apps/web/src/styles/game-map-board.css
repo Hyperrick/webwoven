@@ -125,15 +125,6 @@
   line-height: 1.1;
 }
 
-.map-position__connection-count,
-.map-choice__connection-count {
-  color: var(--color-muted-ink);
-  font-family: var(--font-technical);
-  font-size: 0.65rem;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
 button.map-position--reachable {
   color: var(--color-ink);
   cursor: pointer;
@@ -155,6 +146,97 @@ button.map-position--reachable:hover .map-position__kicker {
   color: var(--color-paper);
 }
 
+button.map-position--goal.map-position--reachable {
+  --relation-color: var(--color-cartographic);
+  --relation-icon-color: var(--color-paper);
+
+  width: clamp(18rem, 23vw, 22rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: translate(0, -50%);
+}
+
+.map-position__goal-card {
+  display: grid;
+  gap: var(--space-1);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-control);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: 0 16px 36px
+    color-mix(in srgb, var(--relation-color) 24%, transparent);
+  transform-origin: left center;
+  transition:
+    color var(--motion-fast) ease,
+    background var(--motion-fast) ease;
+}
+
+.map-position__goal-card .map-position__fact {
+  color: var(--color-ink);
+}
+
+.map-position__goal-copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+  padding-block: var(--space-2);
+  padding-right: var(--space-3);
+  text-align: left;
+}
+
+.map-position__goal-card .map-position__go {
+  margin: var(--space-2) calc(var(--space-4) * -1) calc(var(--space-3) * -1);
+  padding: var(--space-2) var(--space-4);
+  border-top: 0;
+  border-radius: 0 0 2px 2px;
+  color: var(--color-paper);
+  background: var(--color-signal);
+  letter-spacing: 0.02em;
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled)
+  .map-position__goal-card {
+  animation: reachable-goal-breathe 3.2s ease-in-out infinite;
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover,
+button.map-position--goal.map-position--reachable:not(:disabled):focus-visible {
+  background: transparent;
+  transform: translate(0, -50%);
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover
+  .map-position__goal-card {
+  color: var(--color-paper);
+  background: var(--color-ink);
+}
+
+button.map-position--goal.map-position--reachable:not(:disabled):hover
+  .map-position__goal-card,
+button.map-position--goal.map-position--reachable:not(:disabled):focus-visible
+  .map-position__goal-card {
+  animation: none;
+}
+
+@keyframes reachable-goal-breathe {
+  0%,
+  100% {
+    box-shadow: 0 16px 36px
+      color-mix(in srgb, var(--relation-color) 24%, transparent);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 20px 46px
+      color-mix(in srgb, var(--relation-color) 42%, transparent);
+    transform: scale(1.045);
+  }
+}
+
 .map-position__go {
   display: flex;
   align-items: center;
@@ -169,17 +251,19 @@ button.map-position--reachable:hover .map-position__kicker {
 }
 
 .map-choice {
+  --relation-color: var(--color-cartographic);
+  --relation-icon-color: var(--color-paper);
+
   left: var(--node-x);
   top: var(--node-y);
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-columns: 1.667rem minmax(0, 1fr) 3.25rem;
   gap: var(--space-2);
   align-items: center;
   width: clamp(14rem, 19vw, 18rem);
   min-height: 4.75rem;
-  padding: var(--space-2) var(--space-3);
+  padding: 0 var(--space-3) 0 0;
   border: 1px solid var(--color-ink);
-  border-left: 4px solid var(--color-cartographic);
   border-radius: var(--radius-control);
   color: var(--color-ink);
   background: color-mix(in srgb, var(--color-paper) 96%, transparent);
@@ -193,7 +277,71 @@ button.map-position--reachable:hover .map-position__kicker {
 }
 
 .map-choice--promising {
-  border-left-color: var(--color-ochre);
+  border: 2px solid var(--color-ochre);
+  background: color-mix(in srgb, var(--color-paper) 76%, var(--color-ochre));
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-ochre) 22%, transparent),
+    var(--shadow-paper);
+  animation: map-hint-card-reveal 420ms ease-out both;
+}
+
+.map-choice--longer {
+  border: 2px solid var(--color-cartographic);
+  background: color-mix(
+    in srgb,
+    var(--color-paper) 82%,
+    var(--color-cartographic)
+  );
+}
+
+.map-choice--dead-end {
+  border: 2px solid var(--color-signal);
+  background: color-mix(in srgb, var(--color-paper) 82%, var(--color-signal));
+}
+
+.map-choice__hint {
+  justify-self: start;
+  padding: 0.15rem var(--space-1);
+  color: var(--color-ink);
+  background: var(--color-ochre);
+  font-family: var(--font-technical);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+
+.map-choice--longer .map-choice__hint {
+  color: var(--color-paper);
+  background: var(--color-cartographic);
+}
+
+.map-choice--dead-end .map-choice__hint {
+  color: var(--color-paper);
+  background: var(--color-signal);
+}
+
+.map-position--hint-promising .map-position__goal-card,
+.map-position--hint-longer .map-position__goal-card,
+.map-position--hint-dead-end .map-position__goal-card {
+  animation: map-hint-card-reveal 420ms ease-out both;
+}
+
+@keyframes map-hint-card-reveal {
+  0% {
+    filter: saturate(0.65);
+    opacity: 0.72;
+  }
+
+  68% {
+    filter: saturate(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    filter: saturate(1);
+    opacity: 1;
+  }
 }
 
 .game-map--compass .map-board-renderer,
@@ -212,20 +360,23 @@ button.map-position--reachable:hover .map-position__kicker {
   transform: translate(0, -50%);
 }
 
-.map-choice__icon {
+.map-choice__relation-mark {
   display: grid;
   place-items: center;
-  align-self: start;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid var(--color-rule);
-  color: var(--color-cartographic);
+  align-self: stretch;
+  width: 1.667rem;
+  height: 5rem;
+  aspect-ratio: 1 / 3;
+  border-radius: 2px 0 0 2px;
+  color: var(--relation-icon-color);
+  background: var(--relation-color);
 }
 
 .map-choice__copy {
   display: grid;
   gap: 0.15rem;
   min-width: 0;
+  padding-block: var(--space-1);
 }
 
 .map-choice__copy strong {
@@ -245,14 +396,48 @@ button.map-position--reachable:hover .map-position__kicker {
   color: var(--color-ink);
 }
 
-.map-choice__copy > .map-choice__connection-count {
-  color: var(--color-muted-ink);
-  line-height: 1.2;
+.map-choice:hover .map-choice__copy > span {
+  color: var(--color-paper);
 }
 
-.map-choice:hover .map-choice__copy > span,
-.map-choice:hover .map-choice__icon {
-  color: var(--color-paper);
+.map-choice[data-relation-kind="origin"],
+.map-position[data-relation-kind="origin"] {
+  --relation-color: var(--color-signal);
+}
+
+.map-choice[data-relation-kind="place"],
+.map-position[data-relation-kind="place"] {
+  --relation-color: var(--color-cartographic);
+}
+
+.map-choice[data-relation-kind="work"],
+.map-position[data-relation-kind="work"] {
+  --relation-color: var(--color-ochre);
+  --relation-icon-color: var(--color-ink);
+}
+
+.map-choice[data-relation-kind="part"],
+.map-position[data-relation-kind="part"] {
+  --relation-color: var(--color-moss);
+}
+
+.map-choice[data-relation-kind="nature"],
+.map-position[data-relation-kind="nature"] {
+  --relation-color: color-mix(
+    in srgb,
+    var(--color-moss) 58%,
+    var(--color-ochre)
+  );
+  --relation-icon-color: var(--color-ink);
+}
+
+.map-choice[data-relation-kind="influence"],
+.map-position[data-relation-kind="influence"] {
+  --relation-color: color-mix(
+    in srgb,
+    var(--color-cartographic) 62%,
+    var(--color-signal)
+  );
 }
 
 .game-map__dead-end {
@@ -363,6 +548,7 @@ button.map-position--reachable:hover .map-position__kicker {
   border-left: 3px solid var(--color-moss);
   background: color-mix(in srgb, var(--color-paper) 94%, transparent);
   font-size: var(--text-12);
+  pointer-events: none;
 }
 
 .game-map__last-move strong {

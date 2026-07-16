@@ -27,11 +27,13 @@
   let {
     board,
     transition,
+    redrawKey = "",
     children,
     overlay,
   }: {
     board: MapBoard;
     transition: MapTransition;
+    redrawKey?: string;
     children: Snippet;
     overlay?: Snippet;
   } = $props();
@@ -182,7 +184,7 @@
       setCamera(fitted);
       return;
     }
-    const minimumReadableZoom = viewportSize.width < 360 ? 0.56 : 0.65;
+    const minimumReadableZoom = viewportSize.width <= 360 ? 0.56 : 0.65;
     const readable =
       fitted.zoom < minimumReadableZoom
         ? zoomCameraAt(
@@ -209,6 +211,7 @@
   function panToActiveStage(nextTransition: MapTransition): void {
     const currentBounds = currentBoundsFor(nextTransition.to_node_id);
     if (!currentBounds) return;
+    if (nextTransition.kind === "dead_end_back") return;
     if (nextTransition.kind === "back") {
       const worldPoint = {
         x: (currentBounds.left + currentBounds.right) / 2,
@@ -233,16 +236,10 @@
       screenAnchorX,
       currentEnvironment(),
     );
-    animateCameraTo(
-      isNarrowViewport()
-        ? ensureActiveFrontierVisible(anchored)
-        : ensureBoundsVisible(
-            anchored,
-            currentBounds,
-            currentEnvironment(),
-            28,
-          ),
-    );
+    const withCurrentVisible = isNarrowViewport()
+      ? anchored
+      : ensureBoundsVisible(anchored, currentBounds, currentEnvironment(), 28);
+    animateCameraTo(ensureActiveFrontierVisible(withCurrentVisible));
   }
 
   function ensureActiveFrontierVisible(next: MapCameraState): MapCameraState {
@@ -328,7 +325,7 @@
   bind:this={viewport}
   onfocusin={revealFocusedNode}
 >
-  <MapBoardCanvas {board} {view} {transition} />
+  <MapBoardCanvas {board} {view} {transition} {redrawKey} />
   <div
     class="game-map__surface map-viewport__world"
     style={worldStyle}

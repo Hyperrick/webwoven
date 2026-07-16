@@ -7,7 +7,7 @@ from typing import Any, Protocol, cast
 from .registry import RelationRegistry
 from .seeds import SeedCatalog
 from .statement_policy import eligible_statements
-from .taxonomy import category_sort_key
+from .taxonomy import CATEGORIES, category_sort_key
 from .wikidata import WikidataBatch, entities_from_batches
 
 
@@ -30,7 +30,7 @@ def acquire_graph(
     hops: int = 2,
     max_entities: int = 10_000,
 ) -> AcquisitionResult:
-    """Expand reviewed anchors through configured outgoing statements."""
+    """Expand curated anchors through configured outgoing statements."""
     if hops < 0:
         raise ValueError("hops cannot be negative")
     if max_entities < len(seeds.seeds):
@@ -61,17 +61,55 @@ def acquire_graph(
                 discovered_categories.setdefault(target_qid, []).append(source_category)
 
         available = max_entities - len(raw_entities)
-        selected = sorted(discovered_categories, key=_qid_number)[:available]
-        for target_qid in selected:
-            categories.setdefault(
-                target_qid,
-                min(discovered_categories[target_qid], key=category_sort_key),
-            )
+        unseen_categories = {
+            target_qid: source_categories
+            for target_qid, source_categories in discovered_categories.items()
+            if target_qid not in raw_entities
+        }
+        selected_categories = _balanced_frontier(unseen_categories, available)
+        selected = tuple(selected_categories)
+        categories.update(selected_categories)
         frontier = set(selected)
 
     ordered_entities = dict(sorted(raw_entities.items(), key=lambda item: _qid_number(item[0])))
     ordered_categories = {qid: categories[qid] for qid in ordered_entities if qid in categories}
     return AcquisitionResult(ordered_entities, ordered_categories, tuple(batches))
+
+
+def _balanced_frontier(
+    discovered_categories: dict[str, list[str]],
+    limit: int,
+) -> dict[str, str]:
+    """Choose a deterministic, category-balanced set of previously unseen targets."""
+    categorized = {
+        qid: min(source_categories, key=category_sort_key)
+        for qid, source_categories in discovered_categories.items()
+    }
+    by_category = {
+        category: sorted(
+            (qid for qid, assigned in categorized.items() if assigned == category),
+            key=_qid_number,
+        )
+        for category in CATEGORIES
+    }
+    selected: dict[str, str] = {}
+    offsets = {category: 0 for category in CATEGORIES}
+    while len(selected) < limit:
+        added = False
+        for category in CATEGORIES:
+            offset = offsets[category]
+            values = by_category[category]
+            if offset >= len(values):
+                continue
+            qid = values[offset]
+            offsets[category] += 1
+            selected[qid] = category
+            added = True
+            if len(selected) == limit:
+                break
+        if not added:
+            break
+    return selected
 
 
 def _outgoing_targets(entity: dict[str, Any], registry: RelationRegistry) -> tuple[str, ...]:

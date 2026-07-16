@@ -213,6 +213,16 @@
       "DailyLeaderboardResponse": {
         "additionalProperties": false,
         "properties": {
+          "current_guest_entry": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LeaderboardEntry"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "day": {
             "format": "date",
             "title": "Day",
@@ -228,7 +238,8 @@
         },
         "required": [
           "day",
-          "entries"
+          "entries",
+          "current_guest_entry"
         ],
         "title": "DailyLeaderboardResponse",
         "type": "object"
@@ -476,6 +487,16 @@
             "title": "Entity Type",
             "type": "string"
           },
+          "image_attribution": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ImageAttributionResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "image_path": {
             "anyOf": [
               {
@@ -494,6 +515,20 @@
           "qid": {
             "title": "Qid",
             "type": "string"
+          },
+          "wikipedia_url": {
+            "anyOf": [
+              {
+                "format": "uri",
+                "maxLength": 2083,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wikipedia Url"
           }
         },
         "required": [
@@ -502,7 +537,9 @@
           "description",
           "category",
           "entity_type",
-          "image_path"
+          "image_path",
+          "image_attribution",
+          "wikipedia_url"
         ],
         "title": "EntityResponse",
         "type": "object"
@@ -548,7 +585,8 @@
           "display_name": {
             "anyOf": [
               {
-                "maxLength": 64,
+                "maxLength": 24,
+                "minLength": 2,
                 "type": "string"
               },
               {
@@ -589,8 +627,8 @@
         "additionalProperties": false,
         "properties": {
           "display_name": {
-            "maxLength": 64,
-            "minLength": 1,
+            "maxLength": 24,
+            "minLength": 2,
             "title": "Display Name",
             "type": "string"
           }
@@ -648,6 +686,15 @@
         "title": "HealthResponse",
         "type": "object"
       },
+      "HintOutcome": {
+        "enum": [
+          "promising",
+          "longer",
+          "dead_end"
+        ],
+        "title": "HintOutcome",
+        "type": "string"
+      },
       "HintResponse": {
         "additionalProperties": false,
         "properties": {
@@ -668,6 +715,16 @@
           "message": {
             "title": "Message",
             "type": "string"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HintOutcome"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "penalty": {
             "title": "Penalty",
@@ -725,6 +782,16 @@
             "title": "Message",
             "type": "string"
           },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HintOutcome"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "penalty": {
             "title": "Penalty",
             "type": "integer"
@@ -757,6 +824,93 @@
         "title": "HintUseResponse",
         "type": "object"
       },
+      "ImageAttributionResponse": {
+        "additionalProperties": false,
+        "description": "Complete attribution for a locally bundled Wikimedia Commons image.",
+        "properties": {
+          "attribution_text": {
+            "title": "Attribution Text",
+            "type": "string"
+          },
+          "context_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Label"
+          },
+          "creator": {
+            "title": "Creator",
+            "type": "string"
+          },
+          "derivative_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Derivative Url",
+            "type": "string"
+          },
+          "file_name": {
+            "title": "File Name",
+            "type": "string"
+          },
+          "license_id": {
+            "enum": [
+              "PUBLIC_DOMAIN",
+              "CC0_1_0",
+              "CC_BY_1_0",
+              "CC_BY_2_0",
+              "CC_BY_2_5",
+              "CC_BY_3_0",
+              "CC_BY_4_0",
+              "CC_BY_SA_1_0",
+              "CC_BY_SA_2_0",
+              "CC_BY_SA_2_5",
+              "CC_BY_SA_3_0",
+              "CC_BY_SA_4_0"
+            ],
+            "title": "License Id",
+            "type": "string"
+          },
+          "license_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "License Url",
+            "type": "string"
+          },
+          "original_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Original Url",
+            "type": "string"
+          },
+          "source_url": {
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Source Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file_name",
+          "original_url",
+          "derivative_url",
+          "source_url",
+          "license_id",
+          "creator",
+          "license_url",
+          "attribution_text"
+        ],
+        "title": "ImageAttributionResponse",
+        "type": "object"
+      },
       "LeaderboardEntry": {
         "additionalProperties": false,
         "properties": {
@@ -776,6 +930,10 @@
           "hints_used": {
             "title": "Hints Used",
             "type": "integer"
+          },
+          "is_current_guest": {
+            "title": "Is Current Guest",
+            "type": "boolean"
           },
           "moves": {
             "title": "Moves",
@@ -797,7 +955,8 @@
           "moves",
           "hints_used",
           "elapsed_seconds",
-          "completed_at"
+          "completed_at",
+          "is_current_guest"
         ],
         "title": "LeaderboardEntry",
         "type": "object"
@@ -1307,6 +1466,17 @@
             "title": "Client Command Id",
             "type": "string"
           },
+          "entity_qid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Qid"
+          },
           "expected_state_version": {
             "minimum": 0.0,
             "title": "Expected State Version",
@@ -1601,7 +1771,7 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "default": 50,
+              "default": 20,
               "maximum": 100,
               "minimum": 1,
               "title": "Limit",

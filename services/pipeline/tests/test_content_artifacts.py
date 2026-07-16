@@ -133,7 +133,10 @@ def test_artifact_rejects_non_english_copy_with_english_marker(tmp_path, content
 def test_content_creation_boundary_is_offline_and_sdk_free() -> None:
     service_root = Path(__file__).parents[1]
     project = tomllib.loads((service_root / "pyproject.toml").read_text(encoding="utf-8"))
-    assert project["project"]["dependencies"] == ["jsonschema[format-nongpl]>=4.25,<5"]
+    assert set(project["project"]["dependencies"]) == {
+        "httpx>=0.28.1,<0.29",
+        "jsonschema[format-nongpl]>=4.25,<5",
+    }
 
     source_root = service_root / "src/webwoven_pipeline"
     creation_modules = (

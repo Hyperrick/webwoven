@@ -33,6 +33,65 @@ def test_health_config_and_guest_cookie(client: TestClient) -> None:
     assert update.json()["display_name"] == "Map Reader"
 
 
+def test_guest_names_are_normalized_and_reserved_roles_are_rejected(
+    client: TestClient,
+) -> None:
+    guest = client.post("/api/v1/guests", json={})
+    headers = {
+        "Origin": "http://testserver",
+        "X-CSRF-Token": guest.json()["csrf_token"],
+    }
+
+    normalized = client.patch(
+        "/api/v1/guests/me",
+        json={"display_name": "  Léa   O’Neil  "},
+        headers=headers,
+    )
+    assert normalized.status_code == 200
+    assert normalized.json()["display_name"] == "Léa O’Neil"
+
+    normalized_before_length_check = client.patch(
+        "/api/v1/guests/me",
+        json={"display_name": "  Atlas                  Reader  "},
+        headers=headers,
+    )
+    assert normalized_before_length_check.status_code == 200
+    assert normalized_before_length_check.json()["display_name"] == "Atlas Reader"
+
+    unsupported = client.patch(
+        "/api/v1/guests/me",
+        json={"display_name": "Atlas<script>"},
+        headers=headers,
+    )
+    assert unsupported.status_code == 422
+    assert unsupported.json()["code"] == "invalid_display_name"
+
+    reserved = client.patch(
+        "/api/v1/guests/me",
+        json={"display_name": "Webwoven Guide"},
+        headers=headers,
+    )
+    assert reserved.status_code == 422
+    assert reserved.json()["code"] == "reserved_display_name"
+
+
+def test_guest_names_do_not_need_to_be_unique(app_settings: Settings) -> None:
+    app = create_app(app_settings)
+    with TestClient(app) as first, TestClient(app) as second:
+        for client in (first, second):
+            guest = client.post("/api/v1/guests", json={}).json()
+            response = client.patch(
+                "/api/v1/guests/me",
+                headers={
+                    "Origin": "http://testserver",
+                    "X-CSRF-Token": guest["csrf_token"],
+                },
+                json={"display_name": "Paper Fox"},
+            )
+            assert response.status_code == 200
+            assert response.json()["display_name"] == "Paper Fox"
+
+
 def test_unsafe_requests_require_csrf_and_validate_origin(client: TestClient) -> None:
     headers = create_guest(client)
     missing = client.post(

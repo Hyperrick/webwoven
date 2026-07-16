@@ -4,7 +4,7 @@ Webwoven source code is MIT licensed. Generated graph bundles include separate m
 provenance and attribution manifests.
 
 - Wikidata structured data is made available under CC0.
-- Wikimedia Commons files retain the license shown in each approved asset record.
+- Wikimedia Commons files retain the license shown in each accepted asset record.
 - Newsreader, IBM Plex Sans, and IBM Plex Mono are distributed under the SIL Open Font License.
 
 No production data or media asset is publishable unless its build manifest contains the source,

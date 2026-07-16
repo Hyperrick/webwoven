@@ -47,6 +47,10 @@ export class AtlasMapRenderer {
       alpha: true,
       antialias: true,
       powerPreference: "low-power",
+      // The map is mostly static. Preserve its last frame so embedded browsers
+      // cannot discard the paper, routes, and markers while another tab or a
+      // backdrop-filter layer is active.
+      preserveDrawingBuffer: true,
     });
     this.#renderer.outputColorSpace = SRGBColorSpace;
     this.#renderer.setClearAlpha(0);
@@ -120,6 +124,12 @@ export class AtlasMapRenderer {
     this.#render();
   }
 
+  /** Redraws the retained scene after the browser restores this tab. */
+  refresh(): void {
+    if (this.#disposed) return;
+    this.#render();
+  }
+
   dispose(): void {
     if (this.#disposed) return;
     this.#disposed = true;
@@ -147,7 +157,9 @@ export class AtlasMapRenderer {
     const previous = this.#board;
     this.#board = null;
     const fadingMarker =
-      animate && transition.kind === "back" && transition.from_node_id
+      animate &&
+      (transition.kind === "back" || transition.kind === "dead_end_back") &&
+      transition.from_node_id
         ? previous?.detachMarker(transition.from_node_id)
         : undefined;
     if (previous) this.#scene.remove(previous.root);
@@ -166,6 +178,11 @@ export class AtlasMapRenderer {
     );
     this.#scene.add(this.#board.root);
 
+    if (animate && transition.kind === "dead_end_back" && fadingMarker) {
+      this.#board.settlingNodes.forEach((node) => node.scale.setScalar(1));
+      this.#animateMarkerFade(fadingMarker);
+      return;
+    }
     if (animate && this.#board.settlingNodes.length > 0) {
       this.#board.settlingNodes.forEach((node) => node.scale.setScalar(0.76));
       this.#animateSettle(this.#board.settlingNodes, fadingMarker);
@@ -173,6 +190,22 @@ export class AtlasMapRenderer {
     }
     this.#board.settlingNodes.forEach((node) => node.scale.setScalar(1));
     this.#render();
+  }
+
+  #animateMarkerFade(marker: Object3D): void {
+    const startedAt = performance.now();
+    const duration = 220;
+    const tick = (now: number): void => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      setObjectOpacity(marker, 1 - progress);
+      this.#render();
+      if (progress < 1) this.#animationFrame = requestAnimationFrame(tick);
+      else {
+        this.#animationFrame = null;
+        this.#disposeRetiredBoard();
+      }
+    };
+    this.#animationFrame = requestAnimationFrame(tick);
   }
 
   #disposeBoard(): void {

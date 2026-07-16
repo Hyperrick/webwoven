@@ -7,6 +7,7 @@ from webwoven_api.daily.repository import DailyRepository
 from webwoven_api.daily.service import DailyService
 from webwoven_api.graph.bundle import load_graph_bundle
 from webwoven_api.graph.contracts import GraphReader
+from webwoven_api.graph.media import GraphMediaCatalog, load_graph_media_catalog
 from webwoven_api.graph.memory_reader import MemoryGraphReader
 from webwoven_api.guests.repository import GuestRepository
 from webwoven_api.guests.service import GuestService
@@ -57,6 +58,7 @@ from webwoven_api.settings import Settings
 class AppContainer:
     settings: Settings
     graph: GraphReader
+    media: GraphMediaCatalog
     guests: GuestService
     daily: DailyService
     sessions: SessionService
@@ -100,8 +102,10 @@ def build_container(settings: Settings) -> AppContainer:
             settings.graph_manifest_path,
             required_kind=("test_fixture" if settings.environment == "testing" else "wikidata"),
         )
+        media = load_graph_media_catalog(settings.graph_manifest_path)
     elif settings.environment == "testing":
         graph = MemoryGraphReader.demo()
+        media = GraphMediaCatalog()
     else:
         raise FileNotFoundError(f"Graph bundle not found: {settings.graph_path}")
 
@@ -140,6 +144,7 @@ def build_container(settings: Settings) -> AppContainer:
     return AppContainer(
         settings=settings,
         graph=graph,
+        media=media,
         guests=guests,
         daily=daily,
         sessions=sessions,
@@ -154,11 +159,12 @@ def build_container(settings: Settings) -> AppContainer:
 
 
 def _memory_adapters() -> _PersistenceAdapters:
+    guests = MemoryGuestRepository()
     return _PersistenceAdapters(
-        guests=MemoryGuestRepository(),
+        guests=guests,
         sessions=MemorySessionRepository(),
         round_selections=MemoryRoundSelectionRepository(),
-        daily=MemoryDailyRepository(),
+        daily=MemoryDailyRepository(guests),
         rooms=MemoryRoomRepository(),
         reports=MemoryContentReportRepository(),
         room_broker=MemoryRoomEventBroker(),

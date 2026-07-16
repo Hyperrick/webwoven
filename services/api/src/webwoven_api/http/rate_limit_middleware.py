@@ -62,10 +62,12 @@ class RequestRateLimitMiddleware(BaseHTTPMiddleware):
 
 
 def _policy_for(request: Request, container: AppContainer) -> _Policy | None:
-    if request.method != "POST":
-        return None
     path = request.url.path.rstrip("/")
     settings = container.settings
+    if request.method == "PATCH" and path == "/api/v1/guests/me":
+        return _Policy("guest-update", settings.rate_limit_guest_updates)
+    if request.method != "POST":
+        return None
     if path == "/api/v1/guests":
         return _Policy("guest-create", settings.rate_limit_guest_creates, False)
     if path == "/api/v1/sessions":

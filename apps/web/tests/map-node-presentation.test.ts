@@ -20,16 +20,13 @@ function node(...roles: MapBoardNodeRole[]): MapBoardNode {
 describe("map node token presentation", () => {
   it("lets an ordinary live choice card own its endpoint", () => {
     expect(mapNodeTokenPresentation(node("choice"))).toBeNull();
+    expect(mapNodeTokenPresentation(node("choice", "goal"))).toBeNull();
   });
 
   it("keeps one typed state and radius contract for both renderers", () => {
     expect(mapNodeTokenPresentation(node())).toEqual({
       state: "discarded",
       radius: 15,
-    });
-    expect(mapNodeTokenPresentation(node("choice", "goal"))).toEqual({
-      state: "goal",
-      radius: 20,
     });
     expect(mapNodeTokenPresentation(node("trail", "current"))).toEqual({
       state: "current",

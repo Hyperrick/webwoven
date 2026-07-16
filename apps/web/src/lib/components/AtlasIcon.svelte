@@ -9,11 +9,13 @@
     | "close"
     | "compass"
     | "lens"
+    | "leaderboard"
     | "map"
     | "menu"
     | "minus"
     | "plus"
     | "focus"
+    | "external"
     | "route"
     | "settings"
     | "sources"
@@ -44,6 +46,8 @@
     <circle cx="10.5" cy="10.5" r="6.5" /><path
       d="m15.5 15.5 4 4M8 11h5M10.5 8.5v5"
     />
+  {:else if name === "leaderboard"}
+    <path d="M4 20v-7h4v7M10 20V6h4v14M16 20V10h4v10M3 20h18" />
   {:else if name === "map"}
     <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z" /><path d="M9 3v15M15 6v15" />
   {:else if name === "menu"}
@@ -58,6 +62,8 @@
       cy="12"
       r="3"
     />
+  {:else if name === "external"}
+    <path d="M14 4h6v6M20 4l-9 9" /><path d="M18 13v7H4V6h7" />
   {:else if name === "route"}
     <circle cx="5" cy="18" r="2" /><circle cx="19" cy="6" r="2" /><path
       d="M7 18h4a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3"

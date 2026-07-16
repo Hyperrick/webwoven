@@ -2,12 +2,14 @@ import type {
   AppConfig,
   Category,
   DailyRound,
+  DailyLeaderboard,
   DecisionRelation,
   EntitySummary,
   LeaderboardEntry,
   RelationGroup,
   RoomSnapshot,
   SessionSnapshot,
+  UsedHint,
 } from "./types";
 import type {
   WireConfig,
@@ -19,28 +21,47 @@ import type {
   WireSession,
 } from "./wire-types";
 import { sourceMetadataFor } from "../domain/entity-provenance";
+import { isCategory } from "../domain/categories";
 
 function category(value: string): Category {
-  if (
-    value === "nature_science" ||
-    value === "places" ||
-    value === "history_people" ||
-    value === "arts_culture"
-  )
-    return value;
-  if (value.toLowerCase().includes("science")) return "nature_science";
-  if (value.toLowerCase().includes("place")) return "places";
-  if (value.toLowerCase().includes("people")) return "history_people";
-  return "arts_culture";
+  if (isCategory(value)) return value;
+  if (value === "history_people") return "people";
+  if (value === "nature_science") return "nature_life";
+  if (value === "arts_culture") return "art_design";
+  if (value === "places") return "places_architecture";
+  if (value.toLowerCase().includes("technology")) return "science_technology";
+  if (value.toLowerCase().includes("science")) return "science_technology";
+  if (value.toLowerCase().includes("place")) return "places_architecture";
+  if (value.toLowerCase().includes("people")) return "people";
+  return "art_design";
 }
 
 function entity(value: WireEntity): EntitySummary {
+  const imageAttribution = value.image_attribution;
   return {
     qid: value.qid,
     label: value.label,
     description: value.description ?? "A reviewed entity in the Webwoven atlas",
     category: category(value.category),
     ...(value.image_path === null ? {} : { image_path: value.image_path }),
+    ...(imageAttribution === null
+      ? {}
+      : {
+          image_attribution: {
+            file_name: imageAttribution.file_name,
+            original_url: imageAttribution.original_url,
+            derivative_url: imageAttribution.derivative_url,
+            source_url: imageAttribution.source_url,
+            license_id: imageAttribution.license_id,
+            creator: imageAttribution.creator,
+            license_url: imageAttribution.license_url,
+            attribution_text: imageAttribution.attribution_text,
+            ...(imageAttribution.context_label
+              ? { context_label: imageAttribution.context_label }
+              : {}),
+          },
+        }),
+    ...(value.wikipedia_url ? { wikipedia_url: value.wikipedia_url } : {}),
     ...sourceMetadataFor(value.qid),
   };
 }
@@ -69,6 +90,16 @@ export function mapSession(value: WireSession): SessionSnapshot {
   const ended = value.completed_at
     ? Date.parse(value.completed_at)
     : Date.now();
+  const hintsUsed: UsedHint[] = value.hints_used.map((hint) => ({
+    type: hint.hint_type,
+    penalty: hint.penalty,
+    message: hint.message,
+    ...(hint.relation_property_id === null
+      ? {}
+      : { relation_property_id: hint.relation_property_id }),
+    ...(hint.entity_qid === null ? {} : { entity_qid: hint.entity_qid }),
+    ...(hint.outcome == null ? {} : { outcome: hint.outcome }),
+  }));
   return {
     id: value.id,
     mode: value.mode,
@@ -78,7 +109,11 @@ export function mapSession(value: WireSession): SessionSnapshot {
     start: entity(value.start),
     target: entity(value.target),
     current: entity(value.current),
-    trail: value.trail.map((item) => ({ qid: item.qid, label: item.label })),
+    trail: value.trail.map((item) => ({
+      qid: item.qid,
+      label: item.label,
+      summary: entity(item),
+    })),
     navigation_stack: value.navigation_stack.map(entity),
     decision_history: (value.decision_history ?? []).map((stage) => ({
       index: stage.index,
@@ -105,11 +140,7 @@ export function mapSession(value: WireSession): SessionSnapshot {
         : { selected_choice_id: stage.selected_choice_id }),
     })),
     moves: value.moves,
-    hints_used: value.hints_used.map((hint) => ({
-      type: hint.hint_type,
-      penalty: hint.penalty,
-      message: hint.message,
-    })),
+    hints_used: hintsUsed,
     score: value.final_score,
     status: value.status,
     state_version: value.state_version,
@@ -127,9 +158,32 @@ export function mapSession(value: WireSession): SessionSnapshot {
         edge_token: edge.edge_token,
         statement: edge.explanation,
         target: entity(edge.target),
+        ...(hintForEdge(hintsUsed, group.property_id, edge.target.qid) ===
+        undefined
+          ? {}
+          : {
+              hint: hintForEdge(hintsUsed, group.property_id, edge.target.qid),
+            }),
       })),
     })),
   };
+}
+
+function hintForEdge(
+  hints: UsedHint[],
+  propertyId: string,
+  entityQid: string,
+): UsedHint["outcome"] {
+  for (let index = hints.length - 1; index >= 0; index -= 1) {
+    const hint = hints[index];
+    if (
+      hint.relation_property_id === propertyId &&
+      hint.entity_qid === entityQid &&
+      hint.outcome !== undefined
+    )
+      return hint.outcome;
+  }
+  return undefined;
 }
 
 export function mapDaily(value: WireDaily): DailyRound {
@@ -143,14 +197,26 @@ export function mapDaily(value: WireDaily): DailyRound {
   };
 }
 
-export function mapLeaderboard(value: WireLeaderboard): LeaderboardEntry[] {
-  return value.entries.map((entry) => ({
+export function mapLeaderboard(value: WireLeaderboard): DailyLeaderboard {
+  return {
+    entries: value.entries.map(mapLeaderboardEntry),
+    current_guest_entry: value.current_guest_entry
+      ? mapLeaderboardEntry(value.current_guest_entry)
+      : null,
+  };
+}
+
+function mapLeaderboardEntry(
+  entry: WireLeaderboard["entries"][number],
+): LeaderboardEntry {
+  return {
     rank: entry.rank,
     display_name: entry.display_name,
     score: entry.score,
     moves: entry.moves,
     elapsed_seconds: entry.elapsed_seconds,
-  }));
+    is_current_guest: entry.is_current_guest,
+  };
 }
 
 export function mapRoom(value: WireRoom): RoomSnapshot {

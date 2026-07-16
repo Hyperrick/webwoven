@@ -214,6 +214,27 @@
   text-transform: uppercase;
 }
 
+.source-ledger__media-credit {
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-rule);
+}
+
+.source-ledger__media-item {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.source-ledger__media-item + .source-ledger__media-item {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-rule);
+}
+
+.source-ledger__media-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+}
+
 .provenance-list {
   border-top: 1px solid var(--color-rule);
 }

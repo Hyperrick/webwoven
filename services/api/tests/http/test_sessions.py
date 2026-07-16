@@ -36,7 +36,7 @@ def test_solo_start_is_scheduled_and_early_commands_are_rejected(
         session = created.json()
 
         assert created.status_code == 201
-        assert session["category"] == "history_people"
+        assert session["category"] == "people"
         assert session["difficulty"] == "hard"
         edge = session["relation_groups"][0]["edges"][0]
         early = client.post(
@@ -146,6 +146,32 @@ def test_hint_is_graph_grounded_and_penalized(client: TestClient) -> None:
     assert response.json()["session"]["decision_history"] == []
 
 
+def test_compass_evaluates_the_exact_selected_entity(client: TestClient) -> None:
+    headers = create_guest(client, "Precise Navigator")
+    session = client.post("/api/v1/sessions", headers=headers, json={"mode": "solo"}).json()
+    selected_group = next(
+        group
+        for group in session["relation_groups"]
+        if any(edge["target"]["qid"] == "Q2" for edge in group["edges"])
+    )
+    response = client.post(
+        f"/api/v1/sessions/{session['id']}/commands",
+        headers=headers,
+        json={
+            "type": "use_hint",
+            "client_command_id": "compass-exact-entity",
+            "expected_state_version": session["state_version"],
+            "hint_type": "compass",
+            "relation_property_id": selected_group["property_id"],
+            "entity_qid": "Q2",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["hint"]["entity_qid"] == "Q2"
+    assert response.json()["hint"]["outcome"] == "longer"
+
+
 def test_follow_and_back_publish_token_free_decision_history(client: TestClient) -> None:
     headers = create_guest(client)
     session = client.post("/api/v1/sessions", headers=headers, json={"mode": "solo"}).json()
@@ -249,3 +275,18 @@ def test_daily_completion_enters_leaderboard(client: TestClient) -> None:
     leaderboard = client.get("/api/v1/leaderboards/daily").json()
     assert leaderboard["entries"][0]["display_name"] == "Daily Player"
     assert leaderboard["entries"][0]["rank"] == 1
+    assert leaderboard["entries"][0]["is_current_guest"] is True
+    assert leaderboard["current_guest_entry"] == leaderboard["entries"][0]
+
+
+def test_daily_leaderboard_is_public_without_exposing_a_current_guest(
+    client: TestClient,
+) -> None:
+    client.cookies.clear()
+    leaderboard = client.get("/api/v1/leaderboards/daily")
+    assert leaderboard.status_code == 200
+    assert leaderboard.json() == {
+        "day": leaderboard.json()["day"],
+        "entries": [],
+        "current_guest_entry": None,
+    }

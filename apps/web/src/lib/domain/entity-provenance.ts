@@ -59,7 +59,7 @@ export function provenanceFor(entity?: EntitySummary): ProvenancePresentation {
       entityIndexLabel: `Current entity · ${entity.qid}`,
       knowledgeSource: "Wikidata structured data",
       knowledgeLicense: "CC0",
-      reviewState: "Snapshot validated · editorial review pending",
+      reviewState: "Snapshot validated · quality gates passed",
     };
   }
 

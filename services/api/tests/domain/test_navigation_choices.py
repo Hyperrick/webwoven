@@ -18,7 +18,7 @@ def test_choice_projection_is_bounded_and_keeps_progress_route() -> None:
 
 
 def test_choice_projection_preserves_multiple_facts_for_selected_target() -> None:
-    shared_target = Entity("Q2", "Shared target", "Description", "item", "places")
+    shared_target = Entity("Q2", "Shared target", "Description", "item", "places_architecture")
     edges = (
         _edge(1),
         GraphEdge(
@@ -46,7 +46,7 @@ def _edge(index: int, *, relation: str = "P19") -> GraphEdge:
         label=f"Target {index:02d}",
         description="Description",
         entity_type="item",
-        category="places",
+        category="places_architecture",
     )
     return GraphEdge(
         id=f"edge-{index}",
