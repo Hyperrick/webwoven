@@ -196,11 +196,13 @@ def test_acquire_enrich_copy_and_attribute_commons_assets(tmp_path: Path) -> Non
         "candidate_entities": 1,
         "published_entities": 1,
         "unique_assets": 1,
+        "reused_assets": 0,
+        "downloaded_assets": 1,
     }
 
     entities = (
-        Entity("Q1", "One", "First", "wikidata_item", "history_people"),
-        Entity("Q2", "Two", "Second", "wikidata_item", "places"),
+        Entity("Q1", "One", "First", "wikidata_item", "people"),
+        Entity("Q2", "Two", "Second", "wikidata_item", "places_architecture"),
     )
     enriched = enrich_entities_with_commons(entities, bundle)
     assert enriched[0].image_path == asset.public_path
@@ -541,7 +543,7 @@ def test_compiler_rejects_unattributed_media(tmp_path: Path, registry) -> None:
         "One",
         "First",
         "wikidata_item",
-        "history_people",
+        "people",
         image_path="/api/v1/media/" + "a" * 64 + ".jpg",
     )
 

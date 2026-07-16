@@ -15,7 +15,7 @@ function entity(
     qid,
     label: "Test entity",
     description: "Test description",
-    category: "places",
+    category: "places_architecture",
     ...source,
   };
 }
@@ -30,10 +30,10 @@ describe("entity source provenance", () => {
     expect(sourceMetadataFor("not-a-qid")).toEqual({
       source_kind: "unknown",
     });
-    expect(wikidataUrlFor("fixture:places:01")).toBeUndefined();
+    expect(wikidataUrlFor("fixture:places_architecture:01")).toBeUndefined();
     expect(
       verifiedWikidataUrlFor({
-        qid: "fixture:places:01",
+        qid: "fixture:places_architecture:01",
         source_kind: "wikidata",
       }),
     ).toBeUndefined();
@@ -43,9 +43,9 @@ describe("entity source provenance", () => {
   });
 
   it("labels fixture content as fictional project-authored test data", () => {
-    const fixtureSource = sourceMetadataFor("fixture:places:01");
+    const fixtureSource = sourceMetadataFor("fixture:places_architecture:01");
     const presentation = provenanceFor(
-      entity("fixture:places:01", fixtureSource),
+      entity("fixture:places_architecture:01", fixtureSource),
     );
 
     expect(fixtureSource).toEqual({ source_kind: "synthetic_fixture" });

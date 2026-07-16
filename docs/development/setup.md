@@ -30,6 +30,21 @@ For the complete credential-free stack after the data build, run `docker compose
 `http://localhost`. Compose uses its same-origin Caddy address independently of the `:5173` and
 `:8000` origins used by the split Vite/API development workflow above.
 
+## Know which app you are testing
+
+| Name used in verification | URL                     | What is running                                                                            |
+| ------------------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
+| **Compose acceptance**    | `http://localhost`      | Production-built web assets served by Caddy, the real API, and the active Wikidata pack.   |
+| **Split development**     | `http://localhost:5173` | Vite hot-module reload, proxying API requests to the separately started server on `:8000`. |
+| **Playwright isolation**  | `http://127.0.0.1:4173` | A disposable `VITE_API_MODE=demo` server started by the Playwright configuration.          |
+| **API only**              | `http://localhost:8000` | FastAPI without the browser client.                                                        |
+
+Manual acceptance uses **Compose acceptance** unless a test explicitly says otherwise. After a web
+change, rebuild that surface with `docker compose build caddy && docker compose up -d caddy`, reload
+the browser tab, and include `Surface: Compose acceptance (http://localhost)` in the verification
+note. Use `:5173` for fast implementation feedback and `:4173` only for automated tests; neither is
+evidence that the compiled Compose bundle was refreshed.
+
 ## Test from another device
 
 `localhost` always means the device that opens the URL. To test from a phone on the same trusted

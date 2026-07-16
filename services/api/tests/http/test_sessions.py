@@ -36,7 +36,7 @@ def test_solo_start_is_scheduled_and_early_commands_are_rejected(
         session = created.json()
 
         assert created.status_code == 201
-        assert session["category"] == "history_people"
+        assert session["category"] == "people"
         assert session["difficulty"] == "hard"
         edge = session["relation_groups"][0]["edges"][0]
         early = client.post(

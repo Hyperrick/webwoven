@@ -18,20 +18,25 @@
     mapNodeTokenState,
   } from "./map-node-presentation";
 
+  const RECOVERY_FRAME_COUNT = 6;
+
   let {
     board,
     transition,
     view,
+    redrawKey = "",
     class: className = "",
   }: {
     board: MapBoard;
     transition: MapTransition;
     view: MapCameraView;
+    redrawKey?: string;
     class?: string;
   } = $props();
 
   let host: HTMLDivElement;
   let renderer = $state<AtlasMapRenderer | null>(null);
+  let requestRecovery = (): void => {};
   let reducedMotion = $state(false);
   let renderState = $state<"loading" | "ready" | "fallback">("loading");
   let nodesById = $derived(new Map(board.nodes.map((node) => [node.id, node])));
@@ -48,6 +53,8 @@
 
   onMount(() => {
     let cancelled = false;
+    let recoveryFrame: number | undefined;
+    let recoveryFramesRemaining = 0;
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const setMotionPreference = (): void => {
       reducedMotion = shouldReduceMotion(undefined, motionQuery.matches);
@@ -78,10 +85,33 @@
     };
     void startRenderer();
 
+    const paintRecoveryFrame = (): void => {
+      recoveryFrame = undefined;
+      instance?.refresh();
+      recoveryFramesRemaining -= 1;
+      if (recoveryFramesRemaining > 0)
+        recoveryFrame = requestAnimationFrame(paintRecoveryFrame);
+    };
+    const recoverRenderer = (): void => {
+      if (document.visibilityState !== "visible") return;
+      if (recoveryFrame !== undefined) cancelAnimationFrame(recoveryFrame);
+      recoveryFramesRemaining = RECOVERY_FRAME_COUNT;
+      recoveryFrame = requestAnimationFrame(paintRecoveryFrame);
+    };
+    requestRecovery = recoverRenderer;
+    document.addEventListener("visibilitychange", recoverRenderer);
+    window.addEventListener("focus", recoverRenderer);
+    window.addEventListener("pageshow", recoverRenderer);
+
     return () => {
       cancelled = true;
+      if (recoveryFrame !== undefined) cancelAnimationFrame(recoveryFrame);
       motionQuery.removeEventListener("change", setMotionPreference);
       motionObserver.disconnect();
+      document.removeEventListener("visibilitychange", recoverRenderer);
+      window.removeEventListener("focus", recoverRenderer);
+      window.removeEventListener("pageshow", recoverRenderer);
+      requestRecovery = (): void => {};
       instance?.dispose();
       renderer = null;
     };
@@ -106,6 +136,12 @@
       transition,
     );
     renderer?.setCameraView(camera);
+  });
+
+  $effect(() => {
+    void redrawKey;
+    if (!renderer || typeof requestAnimationFrame === "undefined") return;
+    requestRecovery();
   });
 </script>
 

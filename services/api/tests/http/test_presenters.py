@@ -32,9 +32,10 @@ def test_entity_response_exposes_only_complete_commons_attribution() -> None:
             "The Great Wave",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/great-wave.jpg",
             json.dumps(attribution),
+            "https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa",
         )
     )
 
@@ -42,6 +43,9 @@ def test_entity_response_exposes_only_complete_commons_attribution() -> None:
     assert response.image_attribution.creator == "Katsushika Hokusai"
     assert response.image_attribution.license_id == "PUBLIC_DOMAIN"
     assert str(response.image_attribution.source_url).startswith("https://commons.wikimedia.org/")
+    assert str(response.wikipedia_url) == (
+        "https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa"
+    )
 
 
 def test_entity_response_accepts_complete_share_alike_attribution() -> None:
@@ -63,7 +67,7 @@ def test_entity_response_accepts_complete_share_alike_attribution() -> None:
             "Portrait",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/portrait.jpg",
             json.dumps(attribution),
         )
@@ -92,7 +96,7 @@ def test_entity_response_accepts_official_commons_thumbnail_endpoint() -> None:
             "Small portrait",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/small-portrait.jpg",
             json.dumps(attribution),
         )
@@ -122,7 +126,7 @@ def test_entity_response_accepts_a_ported_share_alike_license_url() -> None:
             "Portrait",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/portrait.jpg",
             json.dumps(attribution),
         )
@@ -139,7 +143,7 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
             "The Great Wave",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/great-wave.jpg",
             '{"creator":"Katsushika Hokusai"}',
         )
@@ -150,7 +154,7 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
             "Another image",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/media/other.jpg",
             json.dumps(
                 {
@@ -172,7 +176,7 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
             "Mismatched license",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/api/v1/media/mismatch.jpg",
             json.dumps(
                 {
@@ -194,7 +198,7 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
             "Missing creator credit",
             None,
             "work",
-            "arts_culture",
+            "art_design",
             "/api/v1/media/missing-credit.jpg",
             json.dumps(
                 {
@@ -223,9 +227,9 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
 
 def test_relation_groups_distinguish_forward_and_inverse_uses_of_one_property() -> None:
     entities = {
-        "Q1": Entity("Q1", "Crossroads", None, "place", "places"),
-        "Q2": Entity("Q2", "Forward target", None, "place", "places"),
-        "Q3": Entity("Q3", "Inverse target", None, "place", "places"),
+        "Q1": Entity("Q1", "Crossroads", None, "place", "places_architecture"),
+        "Q2": Entity("Q2", "Forward target", None, "place", "places_architecture"),
+        "Q3": Entity("Q3", "Inverse target", None, "place", "places_architecture"),
     }
     edges = (
         GraphEdge(
@@ -255,7 +259,7 @@ def test_relation_groups_distinguish_forward_and_inverse_uses_of_one_property() 
         id="round",
         start_id="Q1",
         target_id="Q2",
-        category="places",
+        category="places_architecture",
         difficulty=Difficulty.EASY,
         optimal_distance=1,
         time_window=120,

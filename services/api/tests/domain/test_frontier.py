@@ -50,6 +50,89 @@ def test_dense_frontier_refills_after_active_route_targets_are_removed() -> None
     assert "Q1" not in {edge.target_id for edge in visible}
 
 
+def test_frontier_stops_before_a_forced_dead_end_corridor() -> None:
+    graph, round_ = _graph(
+        (
+            ("Q1", "Q2"),
+            ("Q2", "Q1"),
+            ("Q2", "Q3"),
+            ("Q3", "Q2"),
+            ("Q3", "Q4"),
+            ("Q4", "Q3"),
+            ("Q4", "Q5"),
+            ("Q5", "Q4"),
+        ),
+        target_id="Q9",
+    )
+    navigation = NavigationState(
+        stack=("Q1", "Q2"),
+        trail=("Q1", "Q2"),
+        moves=1,
+    )
+
+    visible = playable_edges_for(graph, round_, navigation)
+
+    assert visible == ()
+
+
+def test_frontier_keeps_a_forced_corridor_that_reaches_the_target() -> None:
+    graph, round_ = _graph(
+        (
+            ("Q1", "Q2"),
+            ("Q2", "Q1"),
+            ("Q2", "Q3"),
+            ("Q3", "Q2"),
+            ("Q3", "Q4"),
+        ),
+        target_id="Q4",
+    )
+    navigation = NavigationState(
+        stack=("Q1", "Q2"),
+        trail=("Q1", "Q2"),
+        moves=1,
+    )
+
+    visible = playable_edges_for(graph, round_, navigation)
+
+    assert {edge.target_id for edge in visible} == {"Q3"}
+
+
+def test_frontier_keeps_a_forced_corridor_that_reaches_a_real_choice() -> None:
+    graph, round_ = _graph(
+        (
+            ("Q1", "Q2"),
+            ("Q2", "Q1"),
+            ("Q2", "Q3"),
+            ("Q3", "Q2"),
+            ("Q3", "Q4"),
+            ("Q4", "Q3"),
+            ("Q4", "Q5"),
+            ("Q4", "Q6"),
+        ),
+        target_id="Q9",
+    )
+    navigation = NavigationState(
+        stack=("Q1", "Q2"),
+        trail=("Q1", "Q2"),
+        moves=1,
+    )
+
+    visible = playable_edges_for(graph, round_, navigation)
+
+    assert {edge.target_id for edge in visible} == {"Q3"}
+
+
+def test_frontier_keeps_a_one_move_dead_end_among_real_choices() -> None:
+    graph, round_ = _graph(
+        (("Q1", "Q2"), ("Q1", "Q3"), ("Q3", "Q4")),
+        target_id="Q9",
+    )
+
+    visible = playable_edges_for(graph, round_, start_navigation("Q1"))
+
+    assert {edge.target_id for edge in visible} == {"Q2", "Q3"}
+
+
 def _dense_graph() -> tuple[MemoryGraphReader, Round]:
     entities = {
         f"Q{index}": Entity(
@@ -90,3 +173,49 @@ def _dense_graph() -> tuple[MemoryGraphReader, Round]:
     )
     distances[(round_.id, "Q9")] = 0
     return MemoryGraphReader(entities, edges, (round_,), distances), round_
+
+
+def _graph(
+    edge_pairs: tuple[tuple[str, str], ...],
+    *,
+    target_id: str,
+) -> tuple[MemoryGraphReader, Round]:
+    entity_ids = {target_id}
+    for source_id, edge_target_id in edge_pairs:
+        entity_ids.update((source_id, edge_target_id))
+    entities = {
+        entity_id: Entity(
+            id=entity_id,
+            label=f"Entity {entity_id[1:]}",
+            description=None,
+            entity_type="item",
+            category="science_technology",
+        )
+        for entity_id in entity_ids
+    }
+    edges = tuple(
+        GraphEdge(
+            id=f"edge-{index}",
+            source_id=source_id,
+            target_id=edge_target_id,
+            relation_key="P361",
+            relation_label="part of",
+            statement_id=f"statement-{index}",
+            explanation=(
+                f"{entities[source_id].label} connects to {entities[edge_target_id].label}."
+            ),
+            target=entities[edge_target_id],
+        )
+        for index, (source_id, edge_target_id) in enumerate(edge_pairs)
+    )
+    round_ = Round(
+        id="corridor-round",
+        start_id="Q1",
+        target_id=target_id,
+        category="science_technology",
+        difficulty=Difficulty.NORMAL,
+        optimal_distance=3,
+        time_window=180,
+        published=True,
+    )
+    return MemoryGraphReader(entities, edges, (round_,), {}), round_

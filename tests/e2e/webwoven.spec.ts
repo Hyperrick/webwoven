@@ -13,7 +13,7 @@ test("Solo preserves visible history and guards browser Back", async ({
   await confirmSolo(page);
   await expect(
     page.locator(".round-intro__category").getByRole("heading", {
-      name: "Arts & Culture",
+      name: "Art & Design",
     }),
   ).toBeVisible();
   await expect(page.locator(".round-intro__card--start")).toContainText(
@@ -66,6 +66,21 @@ test("Solo preserves visible history and guards browser Back", async ({
   await expect(
     page.getByRole("heading", { name: "Hokusai", exact: true }),
   ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Inspect current entity: Hokusai" })
+    .click();
+  const inspector = page.getByRole("dialog", { name: "Hokusai" });
+  const inspectorBackdrop = page.getByRole("button", {
+    name: "Close entity details backdrop",
+  });
+  await expect(inspectorBackdrop).toBeVisible();
+  await expect(inspectorBackdrop).toHaveCSS("backdrop-filter", /blur\(5px\)/);
+  await expect(
+    inspector.getByRole("link", {
+      name: "Read Hokusai on Wikipedia (opens in a new tab)",
+    }),
+  ).toHaveAttribute("href", "https://en.wikipedia.org/wiki/Hokusai");
+  await inspector.getByRole("button", { name: "Close entity details" }).click();
   await expect(
     page.locator(".map-position--goal").getByText("United Kingdom", {
       exact: true,
@@ -320,6 +335,23 @@ test("Hard selection reveals its category and endpoints before controls unlock",
   await expect(page.locator(".round-intro__card--goal")).toContainText(
     "England",
   );
+  await expect(
+    page.locator(".round-intro__artwork.endpoint-artwork--fit-contain"),
+  ).toHaveCount(2);
+  await expect(
+    page.locator(".round-intro__artwork .endpoint-artwork__backdrop"),
+  ).toHaveCount(2);
+  await expect
+    .poll(() =>
+      page
+        .locator(".round-intro__artwork .endpoint-artwork__image")
+        .evaluateAll((images) =>
+          images.every(
+            (image) => getComputedStyle(image).objectFit === "contain",
+          ),
+        ),
+    )
+    .toBe(true);
   await expect(page.locator(".game-page__play")).toHaveAttribute("inert", "");
   await expect(page.locator(".round-intro")).toHaveCount(0, { timeout: 7_000 });
   await expect(page.locator(".game-page__play")).not.toHaveAttribute(
@@ -358,7 +390,7 @@ test("Daily and Live Relay expose their complete entry states", async ({
   await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
   await expect(page.getByText("2 / 4", { exact: true })).toBeVisible();
   await expect(page.locator(".room-route-stamp")).toContainText(
-    "Arts & Culture · Normal",
+    "Art & Design · Normal",
   );
   await page.getByRole("button", { name: "I’m ready" }).click();
   await page.getByRole("button", { name: /Start relay/i }).click();

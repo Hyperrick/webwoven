@@ -21,19 +21,19 @@ import type {
   WireSession,
 } from "./wire-types";
 import { sourceMetadataFor } from "../domain/entity-provenance";
+import { isCategory } from "../domain/categories";
 
 function category(value: string): Category {
-  if (
-    value === "nature_science" ||
-    value === "places" ||
-    value === "history_people" ||
-    value === "arts_culture"
-  )
-    return value;
-  if (value.toLowerCase().includes("science")) return "nature_science";
-  if (value.toLowerCase().includes("place")) return "places";
-  if (value.toLowerCase().includes("people")) return "history_people";
-  return "arts_culture";
+  if (isCategory(value)) return value;
+  if (value === "history_people") return "people";
+  if (value === "nature_science") return "nature_life";
+  if (value === "arts_culture") return "art_design";
+  if (value === "places") return "places_architecture";
+  if (value.toLowerCase().includes("technology")) return "science_technology";
+  if (value.toLowerCase().includes("science")) return "science_technology";
+  if (value.toLowerCase().includes("place")) return "places_architecture";
+  if (value.toLowerCase().includes("people")) return "people";
+  return "art_design";
 }
 
 function entity(value: WireEntity): EntitySummary {
@@ -61,6 +61,7 @@ function entity(value: WireEntity): EntitySummary {
               : {}),
           },
         }),
+    ...(value.wikipedia_url ? { wikipedia_url: value.wikipedia_url } : {}),
     ...sourceMetadataFor(value.qid),
   };
 }

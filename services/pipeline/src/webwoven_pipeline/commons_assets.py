@@ -12,6 +12,7 @@ from typing import Any, Protocol, cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from .commons import CommonsClient, matches_license_url
+from .commons_asset_reuse import materialize_reused_assets
 from .commons_downloads import CommonsDownloadError, DownloadPacer, download_with_fallback
 from .http_transport import BinaryResponse, BinaryTransport, HttpxBinaryTransport
 from .media_licenses import SUPPORTED_LICENSE_IDS, license_spec
@@ -84,6 +85,7 @@ def acquire_commons_assets(
     max_download_retries: int = 8,
     require_complete: bool = False,
     download_workers: int = 1,
+    reuse_bundle: CommonsMediaBundle | None = None,
 ) -> CommonsMediaBundle:
     """Fetch allowlisted entity media into a new immutable local media pack."""
     if destination.exists():
@@ -99,18 +101,35 @@ def acquire_commons_assets(
     if not selected:
         raise CommonsAssetError("no graph entities have Commons media candidates")
 
+    reusable = {
+        file_name: asset
+        for file_name, asset in (reuse_bundle.assets_by_file if reuse_bundle else {}).items()
+        if file_name in selected.values()
+    }
+    new_files = set(selected.values()) - reusable.keys()
     client = metadata_client or CommonsClient(
         user_agent,
         request_interval=max(download_interval, 0.25),
     )
     transport = binary_transport or HttpxBinaryTransport()
-    records = client.fetch_metadata(selected.values())
+    records = {
+        **{file_name: asset.record for file_name, asset in reusable.items()},
+        **client.fetch_metadata(new_files),
+    }
     destination.mkdir(parents=True)
     assets_dir = destination / "assets"
     assets_dir.mkdir()
     assets: dict[str, CommonsAsset] = {}
     rejections: list[dict[str, str]] = []
     try:
+        if reuse_bundle is not None:
+            assets.update(
+                materialize_reused_assets(
+                    reuse_bundle.manifest_path.parent,
+                    destination,
+                    reusable,
+                )
+            )
         requested_files = set(selected.values())
         rejections.extend(
             {"file_name": file_name, "reason": "metadata_or_license_rejected"}
@@ -119,7 +138,7 @@ def acquire_commons_assets(
         downloadable = {
             file_name: _display_derivative(record)
             for file_name, record in sorted(records.items())
-            if file_name in requested_files
+            if file_name in new_files
         }
         pacer = (
             DownloadPacer(download_interval, sleeper)
@@ -186,6 +205,8 @@ def acquire_commons_assets(
                 "candidate_entities": len(selected),
                 "published_entities": len(entity_files),
                 "unique_assets": len(assets),
+                "reused_assets": len(reusable),
+                "downloaded_assets": len(assets) - len(reusable),
             },
         }
         _write_json(manifest_path, payload)

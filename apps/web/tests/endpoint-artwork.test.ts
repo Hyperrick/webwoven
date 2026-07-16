@@ -14,7 +14,7 @@ describe("endpoint artwork", () => {
   it("prefers an accepted local Commons image", () => {
     expect(
       endpointArtworkFor({
-        ...entity("arts_culture"),
+        ...entity("art_design"),
         image_path: "/api/v1/media/verified.jpg",
       }),
     ).toEqual({
@@ -24,10 +24,16 @@ describe("endpoint artwork", () => {
   });
 
   it.each([
-    ["history_people", "/illustrations/history-people.webp"],
-    ["nature_science", "/illustrations/nature-science.webp"],
-    ["arts_culture", "/illustrations/arts-culture.webp"],
-    ["places", "/illustrations/places.webp"],
+    ["people", "/illustrations/history-people.webp"],
+    ["history_society", "/illustrations/history-people.webp"],
+    ["science_technology", "/illustrations/nature-science.webp"],
+    ["nature_life", "/illustrations/nature-science.webp"],
+    ["art_design", "/illustrations/arts-culture.webp"],
+    ["places_architecture", "/illustrations/places.webp"],
+    ["literature_language", "/illustrations/arts-culture.webp"],
+    ["music_performance", "/illustrations/arts-culture.webp"],
+    ["film_media", "/illustrations/arts-culture.webp"],
+    ["sports_games", "/illustrations/places.webp"],
   ] as const)(
     "uses the authored %s category plate as fallback",
     (category, src) => {

@@ -47,6 +47,10 @@ export class AtlasMapRenderer {
       alpha: true,
       antialias: true,
       powerPreference: "low-power",
+      // The map is mostly static. Preserve its last frame so embedded browsers
+      // cannot discard the paper, routes, and markers while another tab or a
+      // backdrop-filter layer is active.
+      preserveDrawingBuffer: true,
     });
     this.#renderer.outputColorSpace = SRGBColorSpace;
     this.#renderer.setClearAlpha(0);
@@ -117,6 +121,12 @@ export class AtlasMapRenderer {
     this.#camera.top = -visible.y;
     this.#camera.bottom = -(visible.y + visible.height);
     this.#camera.updateProjectionMatrix();
+    this.#render();
+  }
+
+  /** Redraws the retained scene after the browser restores this tab. */
+  refresh(): void {
+    if (this.#disposed) return;
     this.#render();
   }
 

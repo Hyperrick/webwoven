@@ -8,7 +8,7 @@ from webwoven_api.sessions.hint_candidates import route_aware_hint_candidates
 
 def test_hint_candidates_do_not_route_back_through_the_active_path() -> None:
     entities = {
-        qid: Entity(qid, label, None, "work", "arts_culture")
+        qid: Entity(qid, label, None, "work", "art_design")
         for qid, label in {
             "Q1": "Artist",
             "Q2": "Dead-end work",
@@ -26,7 +26,7 @@ def test_hint_candidates_do_not_route_back_through_the_active_path() -> None:
         "round",
         "Q1",
         "Q4",
-        "arts_culture",
+        "art_design",
         Difficulty.HARD,
         2,
         240,

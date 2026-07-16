@@ -32,6 +32,23 @@
   filter: saturate(0.84) contrast(1.04);
 }
 
+.endpoint-artwork--fit-contain .endpoint-artwork__backdrop {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  opacity: 0.28;
+  filter: blur(1rem) saturate(0.62) contrast(0.92);
+  transform: scale(1.04);
+}
+
+.endpoint-artwork--fit-contain .endpoint-artwork__image {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-3);
+  object-fit: contain;
+}
+
 .endpoint-artwork__kind {
   position: absolute;
   z-index: 3;
@@ -82,10 +99,14 @@
   display: none;
 }
 
-.round-intro__artwork img {
+.round-intro__artwork .endpoint-artwork__image {
   opacity: 0.9;
-  object-position: center 36%;
+  object-position: center;
   filter: saturate(0.78) contrast(1.02);
+}
+
+.round-intro__artwork .endpoint-artwork__backdrop {
+  opacity: 0.24;
 }
 
 .round-intro__artwork .endpoint-artwork__kind {

@@ -44,14 +44,12 @@
 
   const hintUsed = (type: HintType) => used.some((hint) => hint.type === type);
   let latest = $derived(used.at(-1));
-  let remaining = $derived(tools.length - used.length);
   let noRoutes = $derived(groups.length === 0);
 </script>
 
 <aside class="hint-dock" aria-labelledby="hint-title">
   <div class="hint-dock__heading">
     <h2 id="hint-title">Hint tools</h2>
-    <p>{remaining} ready</p>
   </div>
   <div class="hint-dock__actions" role="group" aria-label="One-use hints">
     {#each tools as tool}
@@ -80,7 +78,7 @@
               ? "Unavailable"
               : tool.type === "compass" && compassSelecting
                 ? "Choosing"
-                : "Ready"}
+                : ""}
         </span>
       </button>
     {/each}

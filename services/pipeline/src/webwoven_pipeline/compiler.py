@@ -10,8 +10,9 @@ from typing import Any
 from .models import Edge, Entity, GeneratedContent, Round
 from .registry import RelationRegistry
 from .rounds import shortest_distances_to_target
+from .wikipedia_articles import is_wikipedia_article_url
 
-GRAPH_SCHEMA_VERSION = 2
+GRAPH_SCHEMA_VERSION = 3
 
 SCHEMA = """
 PRAGMA foreign_keys = ON;
@@ -26,7 +27,8 @@ CREATE TABLE entities (
     entity_type TEXT NOT NULL,
     category TEXT NOT NULL,
     image_path TEXT,
-    image_attribution_json TEXT
+    image_attribution_json TEXT,
+    wikipedia_url TEXT
 ) WITHOUT ROWID;
 CREATE TABLE relation_types (
     key TEXT PRIMARY KEY,
@@ -147,6 +149,8 @@ def _validate_references(
             raise GraphCompileError(
                 f"entity {entity.id} must pair every image with complete attribution"
             )
+        if entity.wikipedia_url is not None and not is_wikipedia_article_url(entity.wikipedia_url):
+            raise GraphCompileError(f"entity {entity.id} has an invalid Wikipedia article URL")
     for edge in edges:
         if edge.source_id not in entity_ids or edge.target_id not in entity_ids:
             raise GraphCompileError(f"edge {edge.id} references an unknown entity")
@@ -196,7 +200,7 @@ def _insert_relations(connection: sqlite3.Connection, registry: RelationRegistry
 
 def _insert_entities(connection: sqlite3.Connection, entities: tuple[Entity, ...]) -> None:
     connection.executemany(
-        "INSERT INTO entities VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO entities VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         [
             (
                 item.id,
@@ -206,6 +210,7 @@ def _insert_entities(connection: sqlite3.Connection, entities: tuple[Entity, ...
                 item.category,
                 item.image_path,
                 _json(item.image_attribution) if item.image_attribution else None,
+                item.wikipedia_url,
             )
             for item in entities
         ],

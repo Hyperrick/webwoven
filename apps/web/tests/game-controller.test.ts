@@ -10,10 +10,10 @@ import { StaleSessionError } from "../src/lib/api/errors";
 import { GameController } from "../src/lib/controllers/game-controller";
 
 const entities = {
-  start: entity("fixture:history_people:01", "Elian Voss"),
-  middle: entity("fixture:history_people:02", "Gannet Hollow"),
-  target: entity("fixture:history_people:03", "Lantern School"),
-  divergent: entity("fixture:history_people:04", "Nera Sol"),
+  start: entity("fixture:people:01", "Elian Voss"),
+  middle: entity("fixture:people:02", "Gannet Hollow"),
+  target: entity("fixture:people:03", "Lantern School"),
+  divergent: entity("fixture:people:04", "Nera Sol"),
 };
 
 function entity(qid: string, label: string): EntitySummary {
@@ -21,7 +21,7 @@ function entity(qid: string, label: string): EntitySummary {
     qid,
     label,
     description: `${label} description`,
-    category: "history_people",
+    category: "people",
     source_kind: "synthetic_fixture",
   };
 }
@@ -51,7 +51,7 @@ function snapshot(
   return {
     id: "session-1",
     mode: "solo",
-    category: "arts_culture",
+    category: "art_design",
     difficulty: "normal",
     started_at: "2026-07-13T10:00:00Z",
     start: entities.start,

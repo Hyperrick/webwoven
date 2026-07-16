@@ -5,7 +5,16 @@ export type HintOutcome = "promising" | "longer" | "dead_end";
 export type HintMarker = HintOutcome | "unlikely";
 export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
-  "history_people" | "nature_science" | "arts_culture" | "places";
+  | "people"
+  | "history_society"
+  | "science_technology"
+  | "nature_life"
+  | "places_architecture"
+  | "art_design"
+  | "literature_language"
+  | "music_performance"
+  | "film_media"
+  | "sports_games";
 export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
 export type ImageLicenseId =
   | "PUBLIC_DOMAIN"
@@ -41,6 +50,7 @@ export interface EntitySummary {
   source_kind: EntitySourceKind;
   image_path?: string;
   image_attribution?: ImageAttribution;
+  wikipedia_url?: string;
   fact?: string;
   source_url?: string;
 }

@@ -15,6 +15,7 @@
     | "minus"
     | "plus"
     | "focus"
+    | "external"
     | "route"
     | "settings"
     | "sources"
@@ -61,6 +62,8 @@
       cy="12"
       r="3"
     />
+  {:else if name === "external"}
+    <path d="M14 4h6v6M20 4l-9 9" /><path d="M18 13v7H4V6h7" />
   {:else if name === "route"}
     <circle cx="5" cy="18" r="2" /><circle cx="19" cy="6" r="2" /><path
       d="M7 18h4a3 3 0 0 0 3-3V9a3 3 0 0 1 3-3"

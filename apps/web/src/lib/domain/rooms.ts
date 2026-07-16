@@ -16,7 +16,7 @@ export class DemoRoomCoordinator {
     const room: RoomSnapshot = {
       code: "MAPS27",
       state: "lobby",
-      category: "arts_culture",
+      category: "art_design",
       difficulty,
       start: DEMO_ENTITIES.Q5586,
       target: DEMO_ENTITIES.Q145,

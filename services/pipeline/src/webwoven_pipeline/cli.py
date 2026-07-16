@@ -6,6 +6,36 @@ from pathlib import Path
 from typing import Any, cast
 
 from .acquisition import acquire_graph
+from .cli_serialization import (
+    nested_string_mapping as _nested_string_mapping,
+)
+from .cli_serialization import (
+    object_list as _object_list,
+)
+from .cli_serialization import (
+    parse_content_request as _content_request,
+)
+from .cli_serialization import (
+    parse_edges as _edges,
+)
+from .cli_serialization import (
+    parse_entities as _entities,
+)
+from .cli_serialization import (
+    parse_rounds as _rounds,
+)
+from .cli_serialization import (
+    read_json as _read_json,
+)
+from .cli_serialization import (
+    read_object as _read_object,
+)
+from .cli_serialization import (
+    string_mapping as _string_mapping,
+)
+from .cli_serialization import (
+    write_new_json as _write_new_json,
+)
 from .codex_artifacts import ingest_codex_artifact
 from .commons import CommonsClient
 from .commons_assets import (
@@ -21,14 +51,14 @@ from .media_candidates import wikidata_media_candidate
 from .media_context import build_media_context_hints
 from .media_discovery import CommonsLicenseValidator, discover_media
 from .media_discovery_hints import commons_category_name, wikipedia_sitelinks
-from .models import ContentRequest, Edge, Entity, Fact, Round
 from .normalization import normalize_edges, normalize_entities
 from .registry import load_registry
-from .reviewed_media import REVIEWED_MEDIA_CANDIDATES
+from .reviewed_media import REVIEWED_MEDIA_CANDIDATES, REVIEWED_MEDIA_OVERRIDES
 from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 from .seeds import load_seeds
 from .wikidata import WikidataClient
 from .wikidata_bundle import build_wikidata_bundle
+from .wikipedia_articles import attach_wikipedia_articles
 from .wikipedia_media import WikipediaMediaClient
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
@@ -115,6 +145,11 @@ def _parser() -> argparse.ArgumentParser:
         "--require-complete",
         action="store_true",
         help="fail unless every graph entity publishes a validated local image",
+    )
+    commons_assets.add_argument(
+        "--reuse-manifest",
+        type=Path,
+        help="reuse hash-verified assets from an earlier Commons media pack",
     )
     discover_media_command = commands.add_parser(
         "discover-media",
@@ -278,6 +313,9 @@ def _acquire_commons(args: argparse.Namespace) -> None:
         download_interval=args.download_interval,
         download_workers=args.download_workers,
         require_complete=args.require_complete,
+        reuse_bundle=(
+            load_commons_media_bundle(args.reuse_manifest) if args.reuse_manifest else None
+        ),
     )
     print(bundle.manifest_path)
 
@@ -295,6 +333,11 @@ def _discover_media(args: argparse.Namespace) -> None:
         source.get("commons_media_sources"),
         "commons_media_sources",
     )
+    entity_ids = {entity.id for entity in entities}
+    for qid, candidate in REVIEWED_MEDIA_OVERRIDES.items():
+        if qid in entity_ids:
+            direct_candidates[qid] = candidate.file_name
+            direct_sources[qid] = candidate.provenance
     sitelinks = _nested_string_mapping(
         source.get("wikipedia_sitelinks"),
         "wikipedia_sitelinks",
@@ -404,7 +447,10 @@ def _build_wikidata_pack(args: argparse.Namespace) -> None:
         if commons_media is not None
         else None
     )
-    entities = _entities(source.get("entities"))
+    entities = attach_wikipedia_articles(
+        _entities(source.get("entities")),
+        _nested_string_mapping(source.get("wikipedia_sitelinks"), "wikipedia_sitelinks"),
+    )
     commons_media_sources = (
         _string_mapping(source.get("commons_media_sources"), "commons_media_sources")
         if commons_media is not None
@@ -431,170 +477,3 @@ def _build_wikidata_pack(args: argparse.Namespace) -> None:
         require_complete_media=commons_media is not None,
     )
     print(build_id)
-
-
-def _entities(value: Any) -> tuple[Entity, ...]:
-    return tuple(
-        Entity(
-            id=_string(item, "id"),
-            label=_string(item, "label"),
-            description=_string(item, "description"),
-            entity_type=_string(item, "entity_type"),
-            category=_string(item, "category"),
-            image_path=_optional_string(item, "image_path"),
-            image_attribution=_optional_object(item, "image_attribution"),
-        )
-        for item in _object_list(value, "entities")
-    )
-
-
-def _edges(value: Any) -> tuple[Edge, ...]:
-    return tuple(
-        Edge(
-            id=_string(item, "id"),
-            source_id=_string(item, "source_id"),
-            target_id=_string(item, "target_id"),
-            relation_key=_string(item, "relation_key"),
-            statement_id=_string(item, "statement_id"),
-            explanation=_string(item, "explanation"),
-            inverse=_boolean(item, "inverse"),
-            playable=_boolean(item, "playable"),
-        )
-        for item in _object_list(value, "edges")
-    )
-
-
-def _rounds(value: Any) -> tuple[Round, ...]:
-    return tuple(
-        Round(
-            id=_string(item, "id"),
-            start_id=_string(item, "start_id"),
-            target_id=_string(item, "target_id"),
-            category=_string(item, "category"),
-            difficulty=_string(item, "difficulty"),
-            optimal_distance=_integer(item, "optimal_distance"),
-            time_window=_integer(item, "time_window"),
-            published=_boolean(item, "published"),
-        )
-        for item in _object_list(value, "rounds")
-    )
-
-
-def _content_request(value: Any) -> ContentRequest:
-    if not isinstance(value, dict):
-        raise ValueError("fact pack must be an object with facts")
-    content = cast(dict[str, Any], value)
-    facts_value = content.get("facts")
-    if not isinstance(facts_value, list):
-        raise ValueError("fact pack must be an object with facts")
-    aliases_value = content.get("target_aliases", [])
-    if not isinstance(aliases_value, list):
-        raise ValueError("target_aliases must be a string list")
-    alias_items = cast(list[Any], aliases_value)
-    if any(not isinstance(item, str) for item in alias_items):
-        raise ValueError("target_aliases must be a string list")
-    aliases = cast(list[str], alias_items)
-    facts = tuple(
-        Fact(
-            id=_string(item, "id"),
-            subject=_string(item, "subject"),
-            relation=_string(item, "relation"),
-            object=_string(item, "object"),
-        )
-        for item in _object_list(facts_value, "facts")
-    )
-    return ContentRequest(
-        round_id=_string(content, "round_id"),
-        start_label=_string(content, "start_label"),
-        target_label=_string(content, "target_label"),
-        target_aliases=tuple(aliases),
-        facts=facts,
-    )
-
-
-def _read_json(path: Path) -> object:
-    value: object = json.loads(path.read_text(encoding="utf-8"))
-    return value
-
-
-def _read_object(path: Path) -> dict[str, Any]:
-    value = _read_json(path)
-    if not isinstance(value, dict):
-        raise ValueError(f"{path} must contain a JSON object")
-    return cast(dict[str, Any], value)
-
-
-def _object_list(value: Any, name: str) -> tuple[dict[str, Any], ...]:
-    if not isinstance(value, list):
-        raise ValueError(f"{name} must be a list")
-    result: list[dict[str, Any]] = []
-    for item in cast(list[Any], value):
-        if not isinstance(item, dict):
-            raise ValueError(f"every {name} item must be an object")
-        result.append(cast(dict[str, Any], item))
-    return tuple(result)
-
-
-def _string_mapping(value: Any, name: str) -> dict[str, str]:
-    if not isinstance(value, dict):
-        raise ValueError(f"{name} must be an object")
-    result: dict[str, str] = {}
-    for key, item in cast(dict[Any, Any], value).items():
-        if not isinstance(key, str) or not isinstance(item, str):
-            raise ValueError(f"every {name} entry must map strings to strings")
-        result[key] = item
-    return result
-
-
-def _nested_string_mapping(value: Any, name: str) -> dict[str, dict[str, str]]:
-    if not isinstance(value, dict):
-        raise ValueError(f"{name} must be an object")
-    result: dict[str, dict[str, str]] = {}
-    for key, item in cast(dict[Any, Any], value).items():
-        if not isinstance(key, str) or not isinstance(item, dict):
-            raise ValueError(f"every {name} entry must map a string to an object")
-        result[key] = _string_mapping(item, f"{name}.{key}")
-    return result
-
-
-def _write_new_json(path: Path, value: object) -> None:
-    if path.exists():
-        raise FileExistsError(f"refusing to replace output: {path}")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    serialized = json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
-    path.write_text(serialized, encoding="utf-8")
-
-
-def _string(value: dict[str, Any], key: str) -> str:
-    item = value.get(key)
-    if not isinstance(item, str):
-        raise ValueError(f"{key} must be a string")
-    return item
-
-
-def _optional_string(value: dict[str, Any], key: str) -> str | None:
-    item = value.get(key)
-    if item is not None and not isinstance(item, str):
-        raise ValueError(f"{key} must be a string or null")
-    return item
-
-
-def _optional_object(value: dict[str, Any], key: str) -> dict[str, Any] | None:
-    item = value.get(key)
-    if item is not None and not isinstance(item, dict):
-        raise ValueError(f"{key} must be an object or null")
-    return cast(dict[str, Any], item) if item is not None else None
-
-
-def _integer(value: dict[str, Any], key: str) -> int:
-    item = value.get(key)
-    if not isinstance(item, int):
-        raise ValueError(f"{key} must be an integer")
-    return item
-
-
-def _boolean(value: dict[str, Any], key: str) -> bool:
-    item = value.get(key)
-    if not isinstance(item, bool):
-        raise ValueError(f"{key} must be a boolean")
-    return item

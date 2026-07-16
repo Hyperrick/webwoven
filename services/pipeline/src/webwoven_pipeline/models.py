@@ -26,6 +26,7 @@ class Entity:
     category: str
     image_path: str | None = None
     image_attribution: dict[str, Any] | None = None
+    wikipedia_url: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

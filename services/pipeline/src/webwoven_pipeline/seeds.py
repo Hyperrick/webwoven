@@ -7,6 +7,8 @@ from typing import Any, cast
 
 from .taxonomy import CATEGORIES
 
+ANCHORS_PER_CATEGORY = 20
+
 
 class SeedError(ValueError):
     """Raised when the reviewed anchor file is invalid."""
@@ -73,8 +75,8 @@ def _parse_category(value: Any) -> tuple[str, tuple[Seed, ...]]:
         raise SeedError("each known category must contain anchors")
     anchors = cast(list[Any], anchors_value)
     parsed = tuple(_parse_seed(item, category) for item in anchors)
-    if len(parsed) != 40:
-        raise SeedError(f"{category} must contain exactly 40 curated anchors")
+    if len(parsed) != ANCHORS_PER_CATEGORY:
+        raise SeedError(f"{category} must contain exactly {ANCHORS_PER_CATEGORY} curated anchors")
     return category, parsed
 
 

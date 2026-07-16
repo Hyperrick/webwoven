@@ -19,6 +19,7 @@ export interface MapInspectionConnection {
 
 export interface MapNodeInspection extends MapInspectionEntity {
   artwork?: EntitySummary;
+  wikipedia_url?: string;
   description: string;
   status: MapInspectionStatus;
   connections: MapInspectionConnection[];
@@ -63,6 +64,9 @@ export function inspectMapNode(
   return {
     ...target,
     artwork: node.summary,
+    ...(node.summary?.wikipedia_url
+      ? { wikipedia_url: node.summary.wikipedia_url }
+      : {}),
     description: node.summary?.description.trim() || MISSING_DESCRIPTION,
     status: inspectionStatus(node),
     connections,

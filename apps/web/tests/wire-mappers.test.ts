@@ -26,7 +26,7 @@ const session: WireSession = {
   status: "active",
   graph_version: "graph-1",
   round_id: "round-1",
-  category: "arts_culture",
+  category: "art_design",
   difficulty: "normal",
   optimal_distance: 3,
   start: entity("Q1", "Start"),
@@ -97,7 +97,7 @@ describe("API wire adapters", () => {
     const mapped = mapSession(session);
     expect(mapped.score).toBeNull();
     expect(mapped.difficulty).toBe("normal");
-    expect(mapped.category).toBe("arts_culture");
+    expect(mapped.category).toBe("art_design");
     expect(mapped.started_at).toBe("2026-07-13T10:00:00Z");
     expect(mapped.shortest_distance).toBe(3);
     expect(mapped.navigation_stack?.map(({ qid }) => qid)).toEqual(["Q1"]);
@@ -263,7 +263,7 @@ describe("API wire adapters", () => {
   });
 
   it("does not fabricate Wikidata sources for synthetic fixture entities", () => {
-    const fixture = entity("fixture:arts_culture:01", "Tobin Rill");
+    const fixture = entity("fixture:art_design:01", "Tobin Rill");
     const mapped = mapSession({
       ...session,
       start: fixture,
@@ -308,7 +308,7 @@ describe("API wire adapters", () => {
       is_host: true,
       graph_version: "graph-1",
       round_id: "round-1",
-      category: "arts_culture",
+      category: "art_design",
       difficulty: "hard",
       start: entity("Q1", "Start"),
       target: entity("Q3", "Target"),
@@ -334,7 +334,7 @@ describe("API wire adapters", () => {
     expect(leaderboard.entries[0].score).toBe(990);
     expect(leaderboard.current_guest_entry?.is_current_guest).toBe(true);
     expect(mapRoom(room)).toMatchObject({
-      category: "arts_culture",
+      category: "art_design",
       difficulty: "hard",
       start: { qid: "Q1" },
       target: { qid: "Q3" },

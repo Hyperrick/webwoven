@@ -108,6 +108,7 @@
         endpoint="start"
         className="round-intro__artwork"
         loading="eager"
+        fit="contain"
       />
       <span>Start</span>
       <h2>{session.start.label}</h2>
@@ -122,6 +123,7 @@
         endpoint="goal"
         className="round-intro__artwork"
         loading="eager"
+        fit="contain"
       />
       <span>Goal</span>
       <h2>{session.target.label}</h2>

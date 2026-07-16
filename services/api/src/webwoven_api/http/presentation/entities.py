@@ -1,6 +1,6 @@
 """Entity wire presentation shared by HTTP response adapters."""
 
-from pydantic import ValidationError
+from pydantic import HttpUrl, ValidationError
 
 from webwoven_api.graph.contracts import Entity
 from webwoven_api.http.contracts.common import EntityResponse, ImageAttributionResponse
@@ -26,4 +26,5 @@ def entity_response(entity: Entity) -> EntityResponse:
         entity_type=entity.entity_type,
         image_path=entity.image_path if attribution is not None else None,
         image_attribution=attribution,
+        wikipedia_url=HttpUrl(entity.wikipedia_url) if entity.wikipedia_url is not None else None,
     )
