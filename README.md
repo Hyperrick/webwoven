@@ -2,59 +2,122 @@
 
 **Connect anything. Discover why it is connected.**
 
-Webwoven is a competitive, explainable knowledge-graph game. Players move between real
-people, places, events, works, species, and scientific ideas by following named relationships
-rather than opaque hyperlinks.
+Webwoven is a competitive, explainable knowledge-graph game. Players move between real people,
+places, events, works, species, and scientific ideas by following named relationships—not opaque
+hyperlinks. Every move answers both _where can I go?_ and _why are these things connected?_
+
+![Webwoven frontispiece with Single player, Daily challenge, and Multiplayer modes](docs/assets/screenshots/frontispiece.webp)
 
 The project is also an open Build Week case study for a simple belief:
 
 > Everyone with an idea can become a game developer.
 
-Codex is used to turn the product brief into a modular, tested game, validated educational
-content, and a living public build journal. Gameplay, routes, scores, and winners remain
-deterministic and server-authoritative.
+Codex turns the product brief into a modular, tested game, a validated knowledge atlas, and a
+living public build journal. Gameplay, routes, scores, and winners remain deterministic and
+server-authoritative.
 
-## Build Week scope
+## What you can play
 
-- Solo Route Race
-- Daily Connection and leaderboard
-- Live Relay for two to four players with reconnect
-- Four knowledge categories, with 100 candidates and 40 human-approved production rounds targeted
-- Local, immutable Wikidata graph with licensed Commons media
-- English desktop and mobile web experience
+- **Single player** — choose a difficulty and find a route at your own pace.
+- **Daily challenge** — solve the same connection as everyone else and compare scores.
+- **Multiplayer** — race a synchronized route live with two to four players, including reconnect.
 
-Normal gameplay now requires an immutable Wikidata bundle. The repository retains a clearly
-labelled synthetic smoke fixture only for isolated automated tests; neither the browser nor the API
-silently substitutes it when the real atlas is unavailable. Licensed Commons media, editorial
-round approvals, the load target, and public deployment remain dated milestones in the living
-documentation.
+A round reveals a start, a goal, category, difficulty, and known par. Each move follows one
+documented graph relationship. Players can inspect the underlying fact, documentary image,
+attribution, and preferred Wikipedia article without changing position. Efficient routes score
+best; three deterministic hint tools trade points for guidance.
 
-## Local development
+![A live Webwoven Solo map using the real Compose atlas](docs/assets/screenshots/solo-map.webp)
 
-Prerequisites: Node 24+, Corepack, Python 3.13, uv, and Docker.
+## The current atlas
+
+- 3,970 playable Wikidata entities and 22,402 directed, named relationships
+- ten readable knowledge categories
+- 100 validated round candidates, including 40 published routes
+- local, policy-checked Commons media for every entity through 3,621 attributed source files
+- 3,778 preferred Wikipedia article links
+- no Wikidata, Commons, Wikipedia, or AI request during gameplay
+
+The synthetic smoke fixture is test-only. Normal gameplay requires an immutable real-data bundle
+and fails visibly if one is unavailable.
+
+## How it is built
+
+| Layer                 | Responsibility                                                                   |
+| --------------------- | -------------------------------------------------------------------------------- |
+| Svelte 5 + TypeScript | Accessible game UI, responsive modes, and semantic controls                      |
+| Three.js              | Decorative atlas paper, paths, and tokens; gameplay remains usable without WebGL |
+| FastAPI               | Authoritative sessions, route projection, hints, scoring, Daily, and Relay rules |
+| SQLite atlas          | Immutable compiled Wikidata entities, relationships, rounds, and media records   |
+| PostgreSQL + Valkey   | Durable player state and low-latency multiplayer coordination                    |
+| Python pipeline       | Versioned Wikidata acquisition, Commons licensing, validation, and compilation   |
+
+Runtime boundaries keep the network, persistence, UI, and game domains separate. See the
+[architecture overview](docs/architecture/overview.md) and
+[responsibility map](docs/development/responsibility-map.md).
+
+## Run locally
+
+Prerequisites: Node 24+, Corepack, Python 3.13, uv, Docker, and Just.
+
+Build and activate the real Wikidata playtest pack by following the
+[data pipeline guide](docs/data/pipeline.md), then run the complete same-origin stack:
 
 ```sh
-corepack pnpm install
-uv sync --all-packages --group dev
-docker compose up -d postgres valkey
-uv run --package webwoven-api uvicorn webwoven_api.main:create_app --factory --reload
-pnpm dev
+cp .env.example .env
+just install
+docker compose up -d --build
 ```
 
-Build and activate the real Wikidata playtest pack first by following
-[`docs/data/pipeline.md`](docs/data/pipeline.md). Copy `.env.example` to `.env` and replace local
-signing secrets before starting the API. No AI account, key, or runtime service is required to
-build, run, or play the game.
-The local Compose ports bind to loopback. Public deployments must use the separately validated
-production override described in `docs/operations/deployment.md`.
+Open `http://localhost`. Replace the example signing secrets before sharing the stack beyond your
+machine. No AI account, key, or runtime service is required to build or play Webwoven.
+
+For hot-reload development, start the infrastructure, API, and Vite client separately:
+
+```sh
+just dev-infra
+just dev-api
+just dev-web
+```
+
+### Local test surfaces
+
+| Surface              | URL                     | Data and purpose                                                                           |
+| -------------------- | ----------------------- | ------------------------------------------------------------------------------------------ |
+| Compose acceptance   | `http://localhost`      | Compiled Caddy client, real API, and active Wikidata pack. Canonical manual product check. |
+| Split development    | `http://localhost:5173` | Vite hot reload against the separately running API on `:8000`.                             |
+| Playwright isolation | `http://127.0.0.1:4173` | Temporary demo-mode server owned by `pnpm test:e2e`; automated tests only.                 |
+| API only             | `http://localhost:8000` | FastAPI endpoints and health checks; no product UI.                                        |
+
+Every verification note names its surface and URL. After frontend changes, rebuild Compose with
+`docker compose build caddy && docker compose up -d caddy`, reload `http://localhost`, and verify
+there before reporting acceptance. A `:4173` result never substitutes for the real-data stack.
+
+## Quality gate
+
+```sh
+just check
+pnpm test:e2e
+```
+
+The gate covers formatting, linting, type checking, Python and web tests, file-size limits, strict
+documentation builds, desktop/mobile browser flows, deterministic data validation, and container
+builds in CI.
 
 ## Documentation
 
-Run `uv run mkdocs serve` for the living documentation. Data provenance, architecture, rules,
-AI boundaries, operations, and the Codex build log are maintained alongside the code.
+- [Game rules](docs/product/game-rules.md)
+- [Architecture](docs/architecture/overview.md)
+- [Data pipeline and provenance](docs/data/pipeline.md)
+- [Local setup and testing surfaces](docs/development/setup.md)
+- [Build Week journal](docs/build-log/2026-07-16.md)
+- [Deployment](docs/operations/deployment.md)
+
+Run `uv run mkdocs serve` for the complete living documentation.
 
 ## License
 
 Source code and authored documentation are MIT licensed. Imported Wikidata data and Wikimedia
 Commons assets retain their source licenses and are covered by build-specific attribution
-manifests and `THIRD_PARTY_NOTICES.md`.
+manifests and `THIRD_PARTY_NOTICES.md`. Screenshot-specific notices are recorded in
+[`docs/assets/screenshots/README.md`](docs/assets/screenshots/README.md).

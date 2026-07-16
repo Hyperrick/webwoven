@@ -1,0 +1,120 @@
+.guest-name-prompt {
+  position: fixed;
+  z-index: 70;
+  top: 50%;
+  left: 50%;
+  width: min(34rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: var(--space-7);
+  border: 1px solid var(--color-ink);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-paper);
+  transform: translate(-50%, -50%);
+}
+
+.guest-name-prompt h2 {
+  margin-top: var(--space-2);
+  font-size: var(--text-40);
+}
+
+.guest-name-prompt > p:not(.eyebrow) {
+  margin-top: var(--space-3);
+  color: var(--color-muted-ink);
+  line-height: 1.5;
+}
+
+.guest-name-prompt__cancel {
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+.guest-name-form {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.guest-name-form label {
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.guest-name-form > p {
+  color: var(--color-muted-ink);
+  font-size: var(--text-14);
+  line-height: 1.45;
+}
+
+.guest-name-form input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--color-ink);
+  border-radius: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font: inherit;
+}
+
+.guest-name-form input:focus-visible {
+  outline: 3px solid var(--color-ochre);
+  outline-offset: 2px;
+}
+
+.guest-name-form > .guest-name-form__error {
+  min-height: 1.3rem;
+  color: var(--color-signal);
+}
+
+.settings-profile {
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.settings-profile h3 {
+  font-size: var(--text-28);
+}
+
+.settings-profile .guest-name-form {
+  margin-top: var(--space-4);
+}
+
+.settings-profile__locked {
+  margin-top: var(--space-3);
+  color: var(--color-muted-ink);
+  font-size: var(--text-14);
+  line-height: 1.45;
+}
+
+@media (width <= 44rem) {
+  .guest-name-prompt {
+    padding: var(--space-5);
+  }
+
+  .guest-name-prompt h2 {
+    font-size: var(--text-28);
+  }
+}
+
+@media (height <= 40rem) {
+  .guest-name-prompt {
+    padding: var(--space-4);
+  }
+
+  .guest-name-prompt > p:not(.eyebrow),
+  .guest-name-form > p {
+    line-height: 1.35;
+  }
+
+  .guest-name-form {
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .guest-name-prompt__cancel {
+    margin-top: var(--space-3);
+  }
+}

@@ -5,7 +5,7 @@ from typing import Annotated, Literal
 
 from pydantic import Field
 
-from webwoven_api.domain.hints import HintType
+from webwoven_api.domain.hints import HintOutcome, HintType
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import RelationDirection
 from webwoven_api.http.contracts.common import ApiModel, EntityResponse
@@ -38,6 +38,7 @@ class UseHintRequest(ApiModel):
     expected_state_version: int = Field(ge=0)
     hint_type: HintType
     relation_property_id: str | None = None
+    entity_qid: str | None = None
 
 
 SessionCommandRequest = Annotated[
@@ -67,6 +68,7 @@ class HintUseResponse(ApiModel):
     entity_qid: str | None
     message: str
     used_at: datetime
+    outcome: HintOutcome | None = None
 
 
 class HintResponse(ApiModel):
@@ -75,6 +77,7 @@ class HintResponse(ApiModel):
     relation_property_id: str | None
     entity_qid: str | None
     message: str
+    outcome: HintOutcome | None = None
 
 
 class DecisionRelationResponse(ApiModel):

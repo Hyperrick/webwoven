@@ -61,11 +61,19 @@ class MemoryGraphReader:
     def demo(cls) -> "MemoryGraphReader":
         """Return a deterministic graph for the explicit testing environment."""
         entities = {
-            "Q1": Entity("Q1", "Ada Lovelace", "English mathematician", "person", "history"),
-            "Q2": Entity("Q2", "Charles Babbage", "English polymath", "person", "history"),
-            "Q3": Entity("Q3", "Analytical Engine", "Mechanical computer", "work", "science"),
-            "Q4": Entity("Q4", "Computer", "Programmable machine", "concept", "science"),
-            "Q5": Entity("Q5", "London", "Capital of the United Kingdom", "place", "places"),
+            "Q1": Entity("Q1", "Ada Lovelace", "English mathematician", "person", "people"),
+            "Q2": Entity("Q2", "Charles Babbage", "English polymath", "person", "people"),
+            "Q3": Entity(
+                "Q3",
+                "Analytical Engine",
+                "Mechanical computer",
+                "work",
+                "science_technology",
+            ),
+            "Q4": Entity("Q4", "Computer", "Programmable machine", "concept", "science_technology"),
+            "Q5": Entity(
+                "Q5", "London", "Capital of the United Kingdom", "place", "places_architecture"
+            ),
         }
         edge_data = (
             ("edge-1", "Q1", "Q2", "P108", "worked with"),
@@ -93,7 +101,7 @@ class MemoryGraphReader:
                 id=f"demo-history-{difficulty.value}-{index}",
                 start_id="Q1",
                 target_id="Q4",
-                category="history_people",
+                category="people",
                 difficulty=difficulty,
                 optimal_distance=3,
                 time_window=TIME_WINDOWS[difficulty],

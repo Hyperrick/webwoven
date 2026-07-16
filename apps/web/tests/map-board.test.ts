@@ -8,17 +8,17 @@ import type {
 } from "../src/lib/api/types";
 import { buildMapBoard, flattenMoveChoices } from "../src/lib/domain/map-board";
 
-const start = entity("fixture:arts_culture:01", "Tobin Rill");
-const middle = entity("fixture:arts_culture:02", "Paper Moon Libretto");
-const influence = entity("fixture:arts_culture:03", "Orra Venn");
-const target = entity("fixture:arts_culture:04", "Sera Loom");
+const start = entity("fixture:art_design:01", "Tobin Rill");
+const middle = entity("fixture:art_design:02", "Paper Moon Libretto");
+const influence = entity("fixture:art_design:03", "Orra Venn");
+const target = entity("fixture:art_design:04", "Sera Loom");
 
 function entity(qid: string, label: string): EntitySummary {
   return {
     qid,
     label,
     description: `Fictional fixture entity: ${label}.`,
-    category: "arts_culture",
+    category: "art_design",
     source_kind: "synthetic_fixture",
   };
 }
@@ -52,7 +52,7 @@ function snapshot(
   return {
     id: "session-1",
     mode: "solo",
-    category: "arts_culture",
+    category: "art_design",
     difficulty: "easy",
     started_at: "2026-07-13T10:00:00Z",
     start,
@@ -330,7 +330,7 @@ describe("deterministic map board", () => {
   it("uses fixed vertical lanes for every onward choice", () => {
     const destinations = Array.from({ length: 9 }, (_, index) =>
       entity(
-        `fixture:places:${String(index + 1).padStart(2, "0")}`,
+        `fixture:places_architecture:${String(index + 1).padStart(2, "0")}`,
         `Map marker ${index + 1}`,
       ),
     );
@@ -361,14 +361,14 @@ describe("deterministic map board", () => {
 
     expect(board.choices).toHaveLength(10);
     expect(board.layout).toMatchObject({
-      height_units: 89.5,
+      height_units: 112,
       choice_top_units: 12,
-      choice_lane_gap_units: 7.5,
+      choice_lane_gap_units: 10,
       choice_lane_count: 10,
     });
     expect(absoluteY[0]).toBeCloseTo(12);
     for (let index = 1; index < absoluteY.length; index += 1) {
-      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(7.5);
+      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(10);
     }
     expect(absoluteY).toContain(
       (goalNode?.position.y ?? 0) * board.layout.height_units,
@@ -514,7 +514,7 @@ describe("deterministic map board", () => {
     expect(selectedMiddle?.roles).toEqual(["trail", "current"]);
     expect(rejectedInfluence?.roles).toEqual(["discarded"]);
     expect(rejectedInfluence?.choice_ids).toEqual([
-      "history-choice:0:fixture:arts_culture:03",
+      "history-choice:0:fixture:art_design:03",
     ]);
     expect(
       (selectedMiddle?.position.x ?? 0) * widened.layout.width_units,

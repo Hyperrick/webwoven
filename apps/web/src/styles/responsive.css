@@ -4,14 +4,6 @@
     gap: var(--space-7);
   }
 
-  .manifesto {
-    grid-template-columns: 6rem 1fr;
-  }
-
-  .manifesto dl {
-    grid-column: 2;
-  }
-
   .result-hero {
     grid-template-columns: 7rem 1fr;
   }
@@ -21,11 +13,22 @@
   }
 }
 
+@media (width <= 60rem) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-block: var(--space-7);
+  }
+
+  .hero-route {
+    width: calc(100% - 1rem);
+    margin-inline: auto;
+  }
+}
+
 @media (width <= 50rem) {
   .site-header,
   .hero,
-  .mode-ledger,
-  .manifesto,
   .site-footer,
   .game-page,
   .lobby-page,
@@ -39,6 +42,10 @@
     min-height: 4.5rem;
   }
 
+  .results-page {
+    padding-block: 0 var(--space-6);
+  }
+
   .icon-button--label span {
     display: none;
   }
@@ -48,67 +55,18 @@
     padding: 0;
   }
 
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding-block: var(--space-7);
-  }
-
   .hero__copy h1 {
     font-size: var(--text-64);
   }
 
-  .hero-route {
-    width: calc(100% - 1rem);
-    margin-inline: auto;
-  }
-
-  .section-intro,
   .lab-header {
     grid-template-columns: 1fr;
   }
 
-  .mode-row {
-    grid-template-columns: 2.5rem 1fr 1.5rem;
-    gap: var(--space-3);
-    min-height: 8rem;
-  }
-
-  .mode-row__copy {
-    display: none;
-  }
-
-  .manifesto {
-    grid-template-columns: 1fr;
-    margin-block: var(--space-7);
-    padding: var(--space-6);
-  }
-
-  .manifesto dl,
-  .manifesto > div {
-    grid-column: 1;
-  }
-
-  .manifesto__mark {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
-
-  .manifesto__mark span {
-    left: 0.75rem;
-    width: 3rem;
-  }
-
-  .site-footer {
-    gap: var(--space-4);
-  }
-
-  .site-footer > p {
-    display: none;
-  }
-
   .race-strip {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    padding-block: var(--space-2);
   }
 
   .race-strip ol {
@@ -152,16 +110,101 @@
 
   .result-hero {
     grid-template-columns: 1fr;
-    gap: var(--space-5);
+    gap: var(--space-4);
+    align-items: start;
+    min-height: 0;
+    padding-block: var(--space-5);
   }
 
   .result-hero__seal {
+    gap: 0.25rem;
     width: 6rem;
     height: 6rem;
+    padding: 0.85rem;
+  }
+
+  .result-hero__seal .atlas-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .result-hero__seal span {
+    max-width: 3.8rem;
+    font-size: 0.625rem;
+    line-height: 1;
   }
 
   .result-score {
     grid-column: 1;
+  }
+
+  .result-hero__copy h1 {
+    margin-block: var(--space-2);
+  }
+
+  .result-hero__copy > p:last-child {
+    line-height: 1.35;
+  }
+
+  .result-score > div,
+  .result-score > .result-score__total {
+    padding-block: var(--space-2);
+  }
+
+  .route-reveal {
+    padding-block: var(--space-5);
+  }
+
+  .route-reveal > header {
+    padding-bottom: var(--space-3);
+  }
+
+  .route-reveal ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .route-reveal li {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: var(--space-3);
+    min-height: 0;
+    padding: var(--space-4) 0;
+    border-right: 0;
+  }
+
+  .route-reveal li:last-child {
+    border-bottom: 0;
+  }
+
+  .route-reveal li div {
+    gap: var(--space-1);
+    align-content: start;
+  }
+
+  .route-reveal li.route-reveal__item--with-artwork {
+    grid-template-columns: 4.5rem 2rem minmax(0, 1fr);
+    align-items: center;
+    padding-block: var(--space-2);
+  }
+
+  .route-reveal__artwork {
+    grid-column: 1;
+    grid-row: 1;
+    width: 5rem;
+    height: auto;
+    aspect-ratio: 5 / 4;
+    margin: 0;
+    border-radius: 2px;
+  }
+
+  .route-reveal__item--with-artwork > .route-reveal__number {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .route-reveal__item--with-artwork > div {
+    grid-column: 3;
+    grid-row: 1;
+    min-height: 0;
   }
 
   .cartographer-recap,
@@ -171,11 +214,23 @@
     padding: var(--space-5);
   }
 
-  .leaderboard li {
+  .next-route__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .next-route__actions .primary-action,
+  .next-route__actions .text-action {
+    width: 100%;
+  }
+
+  .leaderboard li,
+  .leaderboard__position > div {
     grid-template-columns: 2rem 1fr 3rem;
   }
 
-  .leaderboard li small {
+  .leaderboard li small,
+  .leaderboard__position small {
     display: none;
   }
 
@@ -198,17 +253,22 @@
 }
 
 @media (width <= 32rem) {
-  .hero__actions,
+  .game-page {
+    width: 100%;
+  }
+
   .exit-dialog__actions {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .hero__actions .primary-action,
-  .hero__actions .text-action,
   .exit-dialog__actions .primary-action,
   .exit-dialog__actions .text-action {
     width: 100%;
+  }
+
+  .hero {
+    padding-block: var(--space-6);
   }
 
   .hero-route {
@@ -225,13 +285,21 @@
   }
 
   .cartographer-recap {
-    grid-template-columns: 6rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
+  }
+
+  .cartographer-recap__portrait {
+    width: min(9rem, 44vw);
   }
 
   .cartographer-recap blockquote {
     margin-block: var(--space-4);
     font-size: var(--text-20);
+  }
+
+  .route-reveal h2 {
+    font-size: var(--text-32);
   }
 
   .roster li {

@@ -12,6 +12,8 @@
   } from "../domain/map-transition";
   import GameMapWorld from "./GameMapWorld.svelte";
   import MapNodeInspector from "./MapNodeInspector.svelte";
+  import type { MapInspectorAnchor } from "./map-inspector-position";
+  import MapNavigationHelp from "./map-viewport/MapNavigationHelp.svelte";
   import NavigableMapViewport from "./map-viewport/NavigableMapViewport.svelte";
 
   let {
@@ -33,10 +35,11 @@
     onFollow: (edgeToken: string) => void;
     onBack: () => void;
     backDestinationLabel?: string;
-    onCompassSelect: (propertyId: string) => void;
+    onCompassSelect: (propertyId: string, entityQid: string) => void;
   } = $props();
 
   let inspectedNodeId = $state<string | null>(null);
+  let inspectorAnchor = $state<MapInspectorAnchor | null>(null);
   let board = $derived(buildMapBoard(session));
   let previousSession: SessionSnapshot | undefined;
   let previousBoard: ReturnType<typeof buildMapBoard> | undefined;
@@ -54,16 +57,30 @@
   );
 
   function choose(choice: MapMoveChoice): void {
-    if (compassSelecting) onCompassSelect(choice.relation.property_id);
+    if (compassSelecting)
+      onCompassSelect(choice.relation.property_id, choice.target.qid);
     else onFollow(choice.edge_token);
   }
 
-  function inspect(nodeId: string): void {
+  function inspect(nodeId: string, source: HTMLElement): void {
+    const viewport = source.closest<HTMLElement>(".map-viewport");
+    const node = source.closest<HTMLElement>("[data-map-node]") ?? source;
+    if (viewport) {
+      const viewportBounds = viewport.getBoundingClientRect();
+      const nodeBounds = node.getBoundingClientRect();
+      inspectorAnchor = {
+        left: nodeBounds.left - viewportBounds.left,
+        top: nodeBounds.top - viewportBounds.top,
+        width: nodeBounds.width,
+        height: nodeBounds.height,
+      };
+    } else inspectorAnchor = null;
     inspectedNodeId = nodeId;
   }
 
   function closeInspection(): void {
     inspectedNodeId = null;
+    inspectorAnchor = null;
   }
 
   $effect(() => {
@@ -129,13 +146,20 @@
       </p>
     </div>
 
-    <p class="game-map__choice-count" aria-live="polite">
-      <strong>{routeCount}</strong>
-      {routeCount === 1 ? "route" : "routes"} in reach
-    </p>
+    <div class="game-map__header-meta">
+      <p class="game-map__choice-count" aria-live="polite">
+        <strong>{routeCount}</strong>
+        {routeCount === 1 ? "route" : "routes"} in reach
+      </p>
+      <MapNavigationHelp />
+    </div>
   </header>
 
-  <NavigableMapViewport {board} transition={viewportTransition}>
+  <NavigableMapViewport
+    {board}
+    transition={viewportTransition}
+    redrawKey={inspectedNodeId ?? "inspector-closed"}
+  >
     <GameMapWorld
       {board}
       transition={activeTransition}
@@ -149,7 +173,11 @@
     />
 
     {#snippet overlay()}
-      <MapNodeInspector {inspection} onClose={closeInspection} />
+      <MapNodeInspector
+        {inspection}
+        anchor={inspectorAnchor}
+        onClose={closeInspection}
+      />
     {/snippet}
   </NavigableMapViewport>
 

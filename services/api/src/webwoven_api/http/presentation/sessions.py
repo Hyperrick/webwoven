@@ -120,6 +120,7 @@ class SessionPresenter:
             relation_property_id=hint.relation_key,
             entity_qid=hint.entity_id,
             message=hint.message,
+            outcome=hint.outcome,
         )
 
     def _entity(self, entity_id: str) -> EntityResponse:
@@ -152,6 +153,7 @@ def _hint_use_response(hint: HintUse) -> HintUseResponse:
         entity_qid=hint.entity_id,
         message=hint.message,
         used_at=hint.used_at,
+        outcome=hint.outcome,
     )
 
 

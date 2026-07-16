@@ -1,0 +1,1429 @@
+{
+  "checks": {
+    "all_round_checks": true,
+    "allowlisted_playable_relations": true,
+    "candidate_count": true,
+    "candidate_distribution": true,
+    "playable_edge_metadata_present": true,
+    "published_count": true,
+    "published_distribution": true,
+    "unique_candidate_pairs": true,
+    "unique_round_ids": true
+  },
+  "inputs": {
+    "endpoint_catalog_sha256": "26a89a3445c5fb0e4e0a384f2b424b5ede83507e01348680897b27da233c2248",
+    "registry_version": 1,
+    "selection_seed": "webwoven-build-week-v1"
+  },
+  "policy": "deterministic-round-publication-v1",
+  "rounds": [
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-007048c9e1dbb7ba"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-01c710e1676061bc"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-058684ff960f1ed9"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-086828cd6345a56f"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-08ac54011d791c60"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-0e08a83990955ec5"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-10036b3d9b5fec33"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-1067a972567490ad"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-142cf7aece6eb5cd"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-15b28aaca31fedd6"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-1711fe789be0fcd4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-1cc8337e3d9814d0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-1d9be82434ee9cdb"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-1e37b7512e0a2d7e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-22f1ae08b2db20ac"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-2645fa5ba420ce31"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-26b1f6509c9d0b2d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-29cffb665f65da16"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-2a21db3896250aed"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-2c6d880f47774609"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-34642d2ab4830588"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-35fa7df4d903091f"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-393a7dee6ec15c79"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-39660236cdf61c6e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-3be8f5df3b77ea4e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-3e1853f0e98b1f59"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-3ea96b11a5db4063"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-410f528d96eb20cf"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-4ad7602330b2ae15"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-4b90dc32ce6463e5"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-4f22c64d7bdd8132"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-4f3fc3556623e980"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-548c1a1b9c04b7e2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-58b89f5ce59fcd5c"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-58f87a314e6b9eb3"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-59c9b5074be332ca"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-5eb81a0acf9b1949"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-617f9df6e985012e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-6271d8ff75f2e960"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-6491c4a9bbbc349d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-656094100a0fe581"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-65da7416ad36ddad"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-6c08c5812bcdbda4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-714a2f651ab7b457"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-732bfd2e6e467721"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-778b7dd914a32fc3"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-78d50dc30647d251"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-78fb66cf677c8bf2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-7d646d7b71f4aa59"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-7dbf8fa277d51bb0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-7e198e93d4add630"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-826e2cab314aa3e4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-83d5916c62bd3406"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8989b0b745af4915"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8aa5736774cc2dc5"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-8b4895461d7207ae"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-8cae472c3972c3d5"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-8cbe32d1c11c7d8d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8d292710de12897e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8da99da87aaf6347"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-90df628a1622d9ff"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-92d86bec0f834d88"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-934bef8144eb4a7d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-953fc2326d4a165e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-9558db3b10d8aba7"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-959abec0833f5750"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-9620c913e4a93df0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-96bf3401481cc4be"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-9dee910ced794eec"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-9eb38e3b1efae310"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-a1acea3eaa8d698f"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-a76c4a57cebd6125"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-ab6d3d8bd3f0d0f2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-ace399954ebf492d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b0b4245a5ae03354"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-b17553d474e33bd4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b3665976b596a314"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b428e6d7bf3d8083"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-b5cbf4c309ef8d6a"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b78a423a6454f8da"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b88a0aa0b85de3bf"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-bad0029b1e57fbb4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-bfac565a377da9b6"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-c3268ce486895eb2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-c8c5bc0b07595b54"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-ca6f5a52cc390f81"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-ca942f7974f550a4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-cdc1c2fd866e2a0e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-d0a50a03c2eab687"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-d2bee2a4f3bb26b6"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-d2da6f6e917504b1"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-d6ea12cd5f6c7599"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-d6ec82c7e52cbae4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-d973674d00f89b29"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-e99438dce7a197d9"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-ea9ba68f6bbf7577"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-ee553984729191a0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-ef4859be94b100ae"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-f28ef73168859044"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-feadcd2e7cf83957"
+    }
+  ],
+  "source_kind": "synthetic_fixture",
+  "status": "passed",
+  "summary": {
+    "candidate_rounds": 100,
+    "curated_endpoints": 120,
+    "published_rounds": 40
+  },
+  "version": 1
+}

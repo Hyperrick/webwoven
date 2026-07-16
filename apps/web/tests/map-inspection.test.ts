@@ -14,6 +14,7 @@ function node(
   label: string,
   roles: MapBoardNode["roles"],
   description = `${label} description.`,
+  wikipediaUrl?: string,
 ): MapBoardNode {
   return {
     id,
@@ -23,8 +24,9 @@ function node(
       qid: `Q-${id}`,
       label,
       description,
-      category: "arts_culture",
+      category: "art_design",
       source_kind: "wikidata",
+      ...(wikipediaUrl ? { wikipedia_url: wikipediaUrl } : {}),
     },
     roles,
     position: { x: 0.5, y: 0.5, z: 0.5 },
@@ -64,7 +66,13 @@ function board(nodes: MapBoardNode[], links: MapBoardLink[] = []): MapBoard {
 describe("map node inspection", () => {
   it("shows the source, target, description, and every stored statement", () => {
     const source = node("start", "Hokusai", ["start", "trail"]);
-    const target = node("visit-1", "The Great Wave", ["trail"]);
+    const target = node(
+      "visit-1",
+      "The Great Wave",
+      ["trail"],
+      "The Great Wave description.",
+      "https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa",
+    );
     const map = board(
       [source, target],
       [
@@ -106,6 +114,9 @@ describe("map node inspection", () => {
       node_id: target.id,
       qid: target.qid,
       label: target.label,
+      artwork: target.summary,
+      wikipedia_url:
+        "https://en.wikipedia.org/wiki/The_Great_Wave_off_Kanagawa",
       description: "The Great Wave description.",
       status: "taken",
       connections: [

@@ -7,6 +7,7 @@
   import RaceStrip from "../components/RaceStrip.svelte";
   import RoundMasthead from "../components/RoundMasthead.svelte";
   import { activeBackDestination } from "../domain/back-navigation";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import RoundIntro from "../round-intro/RoundIntro.svelte";
 
   let {
@@ -24,7 +25,7 @@
     busy?: boolean;
     onFollow: (token: string) => void;
     onBack: () => void;
-    onHint: (type: HintType, propertyId?: string) => void;
+    onHint: (type: HintType, propertyId?: string, entityQid?: string) => void;
   } = $props();
 
   let now = $state(Date.now());
@@ -66,9 +67,9 @@
     compassSelecting = !compassSelecting;
   }
 
-  function useCompass(propertyId: string): void {
+  function useCompass(propertyId: string, entityQid: string): void {
     compassSelecting = false;
-    onHint("compass", propertyId);
+    onHint("compass", propertyId, entityQid);
   }
 
   $effect(() => {
@@ -91,11 +92,7 @@
     <RoundMasthead
       startLabel={session.start.label}
       targetLabel={session.target.label}
-      modeLabel={session.mode === "daily"
-        ? "Daily connection"
-        : room
-          ? "Live relay"
-          : "Solo route"}
+      modeLabel={gameModeLabel(session.mode)}
       difficulty={session.difficulty === "easy"
         ? "Easy"
         : session.difficulty === "hard"

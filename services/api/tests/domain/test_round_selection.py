@@ -10,7 +10,7 @@ def _round(round_id: str) -> Round:
         id=round_id,
         start_id="Q1",
         target_id="Q2",
-        category="history_people",
+        category="people",
         difficulty=Difficulty.NORMAL,
         optimal_distance=1,
         time_window=TIME_WINDOWS[Difficulty.NORMAL],

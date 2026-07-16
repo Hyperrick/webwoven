@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     room_event_stream_max_length: int = Field(default=200, ge=50, le=2000)
     rate_limit_window_seconds: int = Field(default=60, ge=1, le=3600)
     rate_limit_guest_creates: int = Field(default=20, ge=1, le=1000)
+    rate_limit_guest_updates: int = Field(default=10, ge=1, le=1000)
     rate_limit_session_creates: int = Field(default=30, ge=1, le=1000)
     rate_limit_session_commands: int = Field(default=180, ge=1, le=5000)
     rate_limit_room_creates: int = Field(default=10, ge=1, le=1000)

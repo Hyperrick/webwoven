@@ -21,13 +21,13 @@ def test_round_generator_locks_candidate_and_publication_distribution() -> None:
     assert sum(item.published for item in rounds) == 40
     for category in CATEGORIES:
         selected = [item for item in rounds if item.category == category]
-        assert len(selected) == 25
-        assert sum(item.published for item in selected) == 10
-        assert _counts(selected, published=False) == {"easy": 10, "normal": 10, "hard": 5}
-        assert _counts(selected, published=True) == {"easy": 4, "normal": 4, "hard": 2}
+        assert len(selected) == 10
+        assert sum(item.published for item in selected) == 4
+        assert _counts(selected, published=False) == {"easy": 4, "normal": 4, "hard": 2}
+        assert _counts(selected, published=True) == {"easy": 2, "normal": 1, "hard": 1}
 
 
-def test_round_endpoints_can_be_restricted_to_reviewed_ids() -> None:
+def test_round_endpoints_can_be_restricted_to_curated_ids() -> None:
     entities, edges = build_smoke_graph()
     allowed = {entity.id for entity in entities if not entity.id.endswith(("01", "07"))}
 
@@ -40,8 +40,8 @@ def test_smoke_graph_is_a_readable_fictional_catalog(registry) -> None:
     entities, edges = build_smoke_graph()
     labels = {entity.id: entity.label for entity in entities}
 
-    assert len(entities) == 48
-    assert len(labels) == 48
+    assert len(entities) == 120
+    assert len(labels) == 120
     assert all("waypoint" not in label.casefold() for label in labels.values())
     assert all(entity.description.startswith("Fictional fixture ") for entity in entities)
     assert all(entity.entity_type.startswith("fictional_") for entity in entities)
@@ -49,19 +49,19 @@ def test_smoke_graph_is_a_readable_fictional_catalog(registry) -> None:
         {category: 12 for category in CATEGORIES}
     )
 
-    assert len(edges) == 96
+    assert len(edges) == 240
     assert {edge.relation_key for edge in edges} == registry.playable_keys
     assert set(Counter(edge.source_id for edge in edges).values()) == {2}
     assert set(Counter(edge.target_id for edge in edges).values()) == {2}
     assert set(Counter(edge.statement_id for edge in edges).values()) == {2}
     assert all(edge.explanation.startswith("Fictional fixture fact: ") for edge in edges)
-    assert len({edge.explanation for edge in edges}) == 48
+    assert len({edge.explanation for edge in edges}) == 120
     assert {
         edge.explanation
         for edge in edges
         if edge.relation_key == "P737" and labels[edge.source_id] == "Tobin Rill"
     } == {"Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments."}
-    assert Counter(edge.inverse for edge in edges) == Counter({False: 48, True: 48})
+    assert Counter(edge.inverse for edge in edges) == Counter({False: 120, True: 120})
     assert all(
         {edge.inverse for edge in edges if edge.statement_id == statement_id} == {False, True}
         for statement_id in {edge.statement_id for edge in edges}
@@ -89,13 +89,13 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
     with sqlite3.connect(first / "graph.sqlite3") as connection:
         metadata = dict(connection.execute("SELECT key, value FROM metadata"))
         assert metadata["graph_build_id"] == first_build
-        assert metadata["schema_version"] == "2"
+        assert metadata["schema_version"] == "3"
         assert metadata["round_count"] == "100"
         assert metadata["published_round_count"] == "40"
-        assert connection.execute("SELECT COUNT(*) FROM entities").fetchone() == (48,)
-        assert connection.execute("SELECT COUNT(*) FROM edges").fetchone() == (96,)
+        assert connection.execute("SELECT COUNT(*) FROM entities").fetchone() == (120,)
+        assert connection.execute("SELECT COUNT(*) FROM edges").fetchone() == (240,)
         assert connection.execute("SELECT COUNT(*) FROM edges WHERE inverse = 1").fetchone() == (
-            48,
+            120,
         )
         assert connection.execute("SELECT COUNT(*) FROM relation_types").fetchone() == (20,)
         assert connection.execute("SELECT COUNT(*) FROM distances").fetchone()[0] > 100
@@ -103,8 +103,10 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
             connection.execute(
                 "UPDATE edges SET inverse = 2 WHERE id = (SELECT id FROM edges LIMIT 1)"
             )
-    reviews = json.loads((first / "fixture-review-decisions.json").read_text())
-    assert sum(item["decision"] == "approved" for item in reviews["decisions"]) == 40
+    validation = json.loads((first / "round-validation-report.json").read_text())
+    assert validation["status"] == "passed"
+    assert validation["summary"]["published_rounds"] == 40
+    assert all(validation["checks"].values())
 
 
 def _counts(rounds, *, published: bool) -> dict[str, int]:

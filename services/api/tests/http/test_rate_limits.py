@@ -19,6 +19,36 @@ def test_anonymous_guest_creation_is_rate_limited(app_settings: Settings) -> Non
     assert int(response.headers["Retry-After"]) >= 1
 
 
+def test_guest_name_updates_are_rate_limited(app_settings: Settings) -> None:
+    settings = app_settings.model_copy(update={"rate_limit_guest_updates": 1})
+    with TestClient(create_app(settings)) as client:
+        headers = create_guest(client)
+        assert (
+            client.patch(
+                "/api/v1/guests/me",
+                headers=headers,
+                json={"display_name": "Atlas One"},
+            ).status_code
+            == 200
+        )
+        response = client.patch(
+            "/api/v1/guests/me",
+            headers=headers,
+            json={"display_name": "Atlas Two"},
+        )
+
+        other_headers = create_guest(client)
+        other_guest = client.patch(
+            "/api/v1/guests/me",
+            headers=other_headers,
+            json={"display_name": "Atlas Three"},
+        )
+
+    assert response.status_code == 429
+    assert response.json()["code"] == "rate_limited"
+    assert other_guest.status_code == 200
+
+
 def test_authenticated_content_reports_are_rate_limited(app_settings: Settings) -> None:
     settings = app_settings.model_copy(update={"rate_limit_content_reports": 1})
     with TestClient(create_app(settings)) as client:

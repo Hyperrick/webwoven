@@ -1,8 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { SessionSnapshot } from "../api/types";
+  import EndpointArtwork from "../components/EndpointArtwork.svelte";
+  import { gameModeLabel } from "../domain/game-mode-presentation";
   import { shouldReduceMotion } from "../preferences/preferences";
-  import { categoryArtwork } from "./assets";
+  import { categoryTheme } from "./assets";
   import RoundIntroCanvas from "./RoundIntroCanvas.svelte";
   import { roundIntroTimeline } from "./timeline";
 
@@ -14,7 +16,7 @@
     onComplete: () => void;
   } = $props();
 
-  const artwork = $derived(categoryArtwork(session.category));
+  const theme = $derived(categoryTheme(session.category));
   let now = $state(Date.now());
   let webglUnavailable = $state(false);
   let reducedMotion = $state(false);
@@ -26,7 +28,7 @@
   let categoryExit = $derived(Math.min(1, timeline.endpoints * 4));
   let visualStyle = $derived(
     [
-      `--intro-accent: ${artwork.accent}`,
+      `--intro-accent: ${theme.accent}`,
       `--category-opacity: ${timeline.category * (1 - categoryExit)}`,
       `--category-shift: ${categoryExit * -48}px`,
       `--endpoint-opacity: ${timeline.endpoints}`,
@@ -82,39 +84,47 @@
   {#if !reducedMotion && !webglUnavailable}
     <RoundIntroCanvas
       {timeline}
-      artwork={artwork.image}
-      accent={artwork.accent}
-      start={session.start}
-      target={session.target}
+      accent={theme.accent}
       onUnavailable={() => (webglUnavailable = true)}
     />
   {/if}
 
-  <div class="round-intro__registration" aria-hidden="true">
-    <span>WW / {session.id.slice(0, 6).toUpperCase()}</span>
-    <span>{String(countdown).padStart(2, "0")} SEC</span>
+  <div class="round-intro__registration">
+    <strong class="round-intro__mode">{gameModeLabel(session.mode)}</strong>
   </div>
 
   <div class="round-intro__category">
     <p>Atlas category</p>
-    <h1>{artwork.label}</h1>
+    <h1>{theme.label}</h1>
     <span>{session.difficulty} route</span>
   </div>
 
   <div class="round-intro__endpoints">
-    <article class="round-intro__card round-intro__card--start">
-      {#if session.start.image_path}
-        <img src={session.start.image_path} alt="" />
-      {/if}
+    <article
+      class="round-intro__card round-intro__card--start round-intro__card--with-artwork"
+    >
+      <EndpointArtwork
+        entity={session.start}
+        endpoint="start"
+        className="round-intro__artwork"
+        loading="eager"
+        fit="contain"
+      />
       <span>Start</span>
       <h2>{session.start.label}</h2>
       <p>{session.start.description}</p>
     </article>
     <div class="round-intro__thread" aria-hidden="true"><i></i></div>
-    <article class="round-intro__card round-intro__card--goal">
-      {#if session.target.image_path}
-        <img src={session.target.image_path} alt="" />
-      {/if}
+    <article
+      class="round-intro__card round-intro__card--goal round-intro__card--with-artwork"
+    >
+      <EndpointArtwork
+        entity={session.target}
+        endpoint="goal"
+        className="round-intro__artwork"
+        loading="eager"
+        fit="contain"
+      />
       <span>Goal</span>
       <h2>{session.target.label}</h2>
       <p>{session.target.description}</p>

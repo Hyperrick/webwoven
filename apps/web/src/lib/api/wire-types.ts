@@ -1,4 +1,23 @@
-import type { GameMode, HintType, RoomState, SessionStatus } from "./types";
+import type {
+  GameMode,
+  HintOutcome,
+  HintType,
+  ImageLicenseId,
+  RoomState,
+  SessionStatus,
+} from "./types";
+
+export interface WireImageAttribution {
+  file_name: string;
+  original_url: string;
+  derivative_url: string;
+  source_url: string;
+  license_id: ImageLicenseId;
+  creator: string;
+  license_url: string;
+  attribution_text: string;
+  context_label?: string | null;
+}
 
 export interface WireEntity {
   qid: string;
@@ -7,6 +26,9 @@ export interface WireEntity {
   category: string;
   entity_type: string;
   image_path: string | null;
+  image_attribution: WireImageAttribution | null;
+  /** Optional while reading responses cached before graph schema v3. */
+  wikipedia_url?: string | null;
 }
 
 export interface WireDecisionRelation {
@@ -63,6 +85,7 @@ export interface WireSession {
     entity_qid: string | null;
     message: string;
     used_at: string;
+    outcome?: HintOutcome | null;
   }>;
   hint_penalty: number;
   state_version: number;
@@ -102,15 +125,19 @@ export interface WireDaily {
 
 export interface WireLeaderboard {
   day: string;
-  entries: Array<{
-    rank: number;
-    display_name: string;
-    score: number;
-    moves: number;
-    hints_used: number;
-    elapsed_seconds: number;
-    completed_at: string;
-  }>;
+  entries: WireLeaderboardEntry[];
+  current_guest_entry: WireLeaderboardEntry | null;
+}
+
+export interface WireLeaderboardEntry {
+  rank: number;
+  display_name: string;
+  score: number;
+  moves: number;
+  hints_used: number;
+  elapsed_seconds: number;
+  completed_at: string;
+  is_current_guest: boolean;
 }
 
 export interface WireRoom {

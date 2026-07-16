@@ -9,6 +9,7 @@ import type {
 } from "../api/types";
 import {
   DEMO_ENTITIES,
+  demoDistanceToTarget,
   relationGroupsFor,
   resolveDemoEdge,
 } from "./demo-graph";
@@ -132,7 +133,7 @@ export function createNavigationState(
       start,
       target,
       current: start,
-      trail: [{ qid: start.qid, label: start.label }],
+      trail: [{ qid: start.qid, label: start.label, summary: start }],
       navigation_stack: [start],
       decision_history: [],
       moves: 0,
@@ -167,7 +168,12 @@ export function followEdge(
   const decision = resolvedStage(state.snapshot, entity, "follow", edgeToken);
   const trail = [
     ...state.snapshot.trail,
-    { qid: entity.qid, label: entity.label, relation: resolved.statement },
+    {
+      qid: entity.qid,
+      label: entity.label,
+      summary: entity,
+      relation: resolved.statement,
+    },
   ];
   const next: NavigationState = {
     ...state,
@@ -202,6 +208,7 @@ export function moveBack(state: NavigationState): NavigationState {
     {
       qid: entity.qid,
       label: entity.label,
+      summary: entity,
       relation: `Returned to ${entity.label}.`,
       revisited: true,
     },
@@ -228,13 +235,19 @@ export function useHint(
   state: NavigationState,
   type: HintType,
   selectedPropertyId?: string,
+  selectedEntityQid?: string,
 ): NavigationState {
   if (state.snapshot.status !== "active") return state;
-  const result = applyHintToGroups(
-    state.snapshot.relation_groups,
-    type,
+  const result = applyHintToGroups(state.snapshot.relation_groups, type, {
     selectedPropertyId,
-  );
+    selectedEntityQid,
+    distanceToTarget: (entityQid) =>
+      demoDistanceToTarget(
+        entityQid,
+        state.snapshot.target.qid,
+        new Set(state.stack),
+      ),
+  });
   const next: NavigationState = {
     ...state,
     snapshot: {

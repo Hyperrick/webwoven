@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from enum import StrEnum
 
-from webwoven_api.domain.hints import HintResult, HintType
+from webwoven_api.domain.hints import HintOutcome, HintResult, HintType
 from webwoven_api.domain.navigation import NavigationState
 from webwoven_api.graph.contracts import Round
 from webwoven_api.sessions.exploration import DecisionFrame
@@ -31,6 +31,7 @@ class HintUse:
     entity_id: str | None
     message: str
     used_at: datetime
+    outcome: HintOutcome | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,6 +84,7 @@ class UseHintCommand:
     expected_state_version: int
     hint_type: HintType
     relation_key: str | None
+    entity_id: str | None
 
 
 SessionCommand = FollowEdgeCommand | BackCommand | UseHintCommand

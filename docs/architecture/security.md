@@ -25,10 +25,12 @@ are supplied at runtime and never enter images, client bundles, graph artifacts,
 
 ## External systems
 
-Wikidata and Commons are build-time data inputs only. Codex-assisted prose and illustrations are
-created during development, validated, manually approved, and compiled into immutable artifacts.
-Runtime containers receive only the graph and approved content; they have no AI integration or
-AI credentials.
+Wikidata and Commons are build-time data inputs only. Commons derivatives pass an automatic,
+fail-closed license, provenance, raster, origin, and content-hash gate before entering the
+immutable bundle. Codex-assisted prose and generated illustrations are created during development,
+validated, manually approved, and compiled into immutable artifacts. Runtime containers receive
+only the graph and accepted content; they have no AI integration or AI credentials and make no
+Wikimedia request.
 
 The credential-free base Compose stack binds its published ports to loopback. Public deployment
 uses the production override, which refuses non-HTTPS origins, insecure cookies, placeholder or

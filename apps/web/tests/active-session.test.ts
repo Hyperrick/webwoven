@@ -26,7 +26,7 @@ function session(status: SessionSnapshot["status"]): SessionSnapshot {
   return {
     id: "session-42",
     mode: "solo",
-    category: "arts_culture",
+    category: "art_design",
     difficulty: "normal",
     started_at: "2026-07-13T10:00:00Z",
     start: entity("Q1"),
@@ -49,7 +49,7 @@ function entity(qid: string): SessionSnapshot["current"] {
     qid,
     label: `Entity ${qid}`,
     description: "Fixture entity",
-    category: "places",
+    category: "places_architecture",
     source_kind: "synthetic_fixture",
   };
 }

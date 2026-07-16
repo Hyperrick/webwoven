@@ -1,0 +1,23 @@
+{
+  "catalog": "data/seeds/anchors.v2.json",
+  "category_counts": {
+    "art_design": 20,
+    "film_media": 20,
+    "history_society": 20,
+    "literature_language": 20,
+    "music_performance": 20,
+    "nature_life": 20,
+    "people": 20,
+    "places_architecture": 20,
+    "science_technology": 20,
+    "sports_games": 20
+  },
+  "qid_count": 200,
+  "sha256": "ac469db70888bff31f23fad6c2247160e73c56504cbd6acb4be5afd0cbd229c8",
+  "verification": {
+    "api_action": "wbgetentities",
+    "result": "200 of 200 English labels resolved to unique Wikidata items",
+    "verified_at": "2026-07-16"
+  },
+  "version": 2
+}

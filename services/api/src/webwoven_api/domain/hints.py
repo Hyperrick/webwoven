@@ -13,6 +13,12 @@ class HintType(StrEnum):
     MAP_FRAGMENT = "map_fragment"
 
 
+class HintOutcome(StrEnum):
+    PROMISING = "promising"
+    LONGER = "longer"
+    DEAD_END = "dead_end"
+
+
 HINT_PENALTIES: dict[HintType, int] = {
     HintType.COMPASS: 75,
     HintType.LENS: 150,
@@ -35,6 +41,7 @@ class HintResult:
     relation_key: str | None
     entity_id: str | None
     message: str
+    outcome: HintOutcome | None = None
 
 
 def select_hint(
@@ -42,39 +49,57 @@ def select_hint(
     candidates: Iterable[HintCandidate],
     *,
     selected_relation_key: str | None = None,
+    selected_entity_id: str | None = None,
 ) -> HintResult:
     """Choose a hint using only precomputed graph distances and stable sorting."""
     available = tuple(candidates)
+    if hint_type is HintType.COMPASS:
+        if selected_relation_key is None or selected_entity_id is None:
+            raise DomainError("route_required", "Choose a specific route for the Compass.")
+        selected = next(
+            (
+                candidate
+                for candidate in available
+                if candidate.relation_key == selected_relation_key
+                and candidate.entity_id == selected_entity_id
+            ),
+            None,
+        )
+        if selected is None:
+            raise DomainError("hint_unavailable", "That route is no longer available.")
+        reachable = tuple(candidate for candidate in available if candidate.distance is not None)
+        best = min(reachable, key=_candidate_sort_key) if reachable else None
+        if selected.distance is None:
+            outcome = HintOutcome.DEAD_END
+            message = f"Compass: {selected.entity_label} is a dead end from here."
+        elif best is not None and selected.distance == best.distance:
+            outcome = HintOutcome.PROMISING
+            message = f"Compass: {selected.entity_label} is a promising route."
+        else:
+            outcome = HintOutcome.LONGER
+            message = f"Compass: {selected.entity_label} takes a longer route."
+        return HintResult(
+            hint_type=hint_type,
+            penalty=HINT_PENALTIES[hint_type],
+            relation_key=selected.relation_key,
+            entity_id=selected.entity_id,
+            message=message,
+            outcome=outcome,
+        )
+
     reachable = tuple(candidate for candidate in available if candidate.distance is not None)
     if not reachable:
         raise DomainError("hint_unavailable", "No grounded hint is available from this entity.")
     best = min(reachable, key=_candidate_sort_key)
-
-    if hint_type is HintType.COMPASS:
-        if selected_relation_key is None:
-            raise DomainError("relation_required", "Choose a relationship group for the Compass.")
-        in_group = tuple(
-            candidate for candidate in reachable if candidate.relation_key == selected_relation_key
-        )
-        promising = (
-            bool(in_group) and min(in_group, key=_candidate_sort_key).distance == best.distance
-        )
-        direction = "promising" if promising else "unlikely to shorten this route"
-        return HintResult(
-            hint_type=hint_type,
-            penalty=HINT_PENALTIES[hint_type],
-            relation_key=selected_relation_key,
-            entity_id=None,
-            message=f"Compass: that kind of connection looks {direction}.",
-        )
 
     if hint_type is HintType.LENS:
         return HintResult(
             hint_type=hint_type,
             penalty=HINT_PENALTIES[hint_type],
             relation_key=best.relation_key,
-            entity_id=None,
-            message="Lens: a connection on a near-optimal route is now marked.",
+            entity_id=best.entity_id,
+            message=f"Lens: {best.entity_label} is on a near-optimal route.",
+            outcome=HintOutcome.PROMISING,
         )
 
     return HintResult(
@@ -83,6 +108,7 @@ def select_hint(
         relation_key=best.relation_key,
         entity_id=best.entity_id,
         message=f"Map Fragment: {best.entity_label} is a valid bridge ahead.",
+        outcome=HintOutcome.PROMISING,
     )
 
 

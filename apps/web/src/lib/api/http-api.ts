@@ -8,11 +8,11 @@ import type {
   AppConfig,
   ContentReportInput,
   Category,
+  DailyLeaderboard,
   DailyRound,
   Difficulty,
   GameMode,
   Guest,
-  LeaderboardEntry,
   RoomSnapshot,
   SessionCommand,
   SessionSnapshot,
@@ -127,7 +127,7 @@ export class HttpApi implements WebwovenApi {
     return mapSession(body.session);
   }
 
-  async getDailyLeaderboard(): Promise<LeaderboardEntry[]> {
+  async getDailyLeaderboard(): Promise<DailyLeaderboard> {
     return mapLeaderboard(
       await this.#request<WireLeaderboard>("/api/v1/leaderboards/daily"),
     );

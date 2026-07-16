@@ -38,7 +38,7 @@ function candidateFor(
     label: group.label,
     direction: group.direction,
     glyph: group.glyph,
-    hint: group.hint,
+    hint: edge.hint ?? group.hint,
   };
   const semanticKey = [
     sourceQid,

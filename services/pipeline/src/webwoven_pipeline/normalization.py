@@ -4,6 +4,7 @@ import hashlib
 from collections.abc import Iterable, Mapping
 from typing import Any, cast
 
+from .media_candidates import wikidata_media_candidate
 from .models import Edge, Entity, MediaRecord
 from .registry import Relation, RelationRegistry
 from .relation_sentences import format_relation_sentence
@@ -26,7 +27,7 @@ def normalize_entities(
         label = _language_value(raw, "labels")
         if not label:
             continue
-        image_name = _commons_file_name(raw)
+        image_name = commons_file_name(raw)
         media = media_records.get(image_name) if image_name else None
         entities.append(
             Entity(
@@ -186,32 +187,10 @@ def _make_edge(
     )
 
 
-def _commons_file_name(raw: Mapping[str, Any]) -> str | None:
-    claims_value = raw.get("claims")
-    if not isinstance(claims_value, dict):
-        return None
-    claims = cast(dict[str, Any], claims_value)
-    statements_value = claims.get("P18")
-    if not isinstance(statements_value, list):
-        return None
-    statements = cast(list[Any], statements_value)
-    names: list[str] = []
-    for statement in statements:
-        if not isinstance(statement, dict):
-            continue
-        statement_object = cast(dict[str, Any], statement)
-        if statement_object.get("rank") == "deprecated":
-            continue
-        mainsnak_value = statement_object.get("mainsnak")
-        mainsnak = cast(dict[str, Any], mainsnak_value) if isinstance(mainsnak_value, dict) else {}
-        data_value_value = mainsnak.get("datavalue")
-        data_value = (
-            cast(dict[str, Any], data_value_value) if isinstance(data_value_value, dict) else {}
-        )
-        name = data_value.get("value")
-        if isinstance(name, str) and name.strip():
-            names.append(name.strip().replace("_", " "))
-    return min(names) if names else None
+def commons_file_name(raw: Mapping[str, Any]) -> str | None:
+    """Return the deterministic preferred entity-specific Commons file name."""
+    candidate = wikidata_media_candidate(raw)
+    return candidate.file_name if candidate is not None else None
 
 
 def _language_value(raw: Mapping[str, Any], field: str) -> str:

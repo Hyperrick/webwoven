@@ -2,7 +2,7 @@
 
 from datetime import date
 
-from webwoven_api.daily.models import DailyAssignment, DailyScore
+from webwoven_api.daily.models import DailyAssignment, DailyScore, RankedDailyScore
 from webwoven_api.graph.contracts import GraphReader, Round
 from webwoven_api.http.contracts.daily import (
     DailyLeaderboardResponse,
@@ -30,19 +30,34 @@ def daily_response(assignment: DailyAssignment, round_: Round, graph: GraphReade
     )
 
 
-def leaderboard_response(day: date, scores: tuple[DailyScore, ...]) -> DailyLeaderboardResponse:
+def leaderboard_response(
+    day: date,
+    scores: tuple[DailyScore, ...],
+    current_guest_id: str | None,
+    current_guest: RankedDailyScore | None,
+) -> DailyLeaderboardResponse:
     return DailyLeaderboardResponse(
         day=day,
         entries=[
-            LeaderboardEntry(
-                rank=index,
-                display_name=score.display_name,
-                score=score.score,
-                moves=score.moves,
-                hints_used=score.hints_used,
-                elapsed_seconds=score.elapsed_seconds,
-                completed_at=score.completed_at,
-            )
+            _leaderboard_entry(score, index, score.guest_id == current_guest_id)
             for index, score in enumerate(scores, start=1)
         ],
+        current_guest_entry=(
+            _leaderboard_entry(current_guest.score, current_guest.rank, True)
+            if current_guest is not None
+            else None
+        ),
+    )
+
+
+def _leaderboard_entry(score: DailyScore, rank: int, is_current_guest: bool) -> LeaderboardEntry:
+    return LeaderboardEntry(
+        rank=rank,
+        display_name=score.display_name,
+        score=score.score,
+        moves=score.moves,
+        hints_used=score.hints_used,
+        elapsed_seconds=score.elapsed_seconds,
+        completed_at=score.completed_at,
+        is_current_guest=is_current_guest,
     )

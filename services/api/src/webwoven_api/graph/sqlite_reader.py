@@ -1,4 +1,4 @@
-"""Read-only adapter for the pipeline-owned SQLite v2 graph schema."""
+"""Read-only adapter for the pipeline-owned SQLite v3 graph schema."""
 
 import sqlite3
 from collections.abc import Generator
@@ -8,7 +8,7 @@ from pathlib import Path
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import Entity, GraphEdge, Round
 
-GRAPH_SCHEMA_VERSION = "2"
+GRAPH_SCHEMA_VERSION = "3"
 
 
 class SQLiteGraphReader:
@@ -52,7 +52,7 @@ class SQLiteGraphReader:
             row = connection.execute(
                 """
                 SELECT id, label, description, entity_type, category,
-                       image_path, image_attribution_json
+                       image_path, image_attribution_json, wikipedia_url
                 FROM entities WHERE id = ?
                 """,
                 (entity_id,),
@@ -147,7 +147,8 @@ SELECT e.id, e.source_id, e.target_id, e.relation_key,
        target.id AS target_entity_id, target.label AS target_label,
        target.description AS target_description, target.entity_type AS target_type,
        target.category AS target_category, target.image_path AS target_image_path,
-       target.image_attribution_json AS target_attribution
+       target.image_attribution_json AS target_attribution,
+       target.wikipedia_url AS target_wikipedia_url
 FROM edges AS e
 JOIN relation_types AS rt ON rt.key = e.relation_key
 JOIN entities AS target ON target.id = e.target_id
@@ -182,6 +183,7 @@ def _entity_from_row(row: sqlite3.Row) -> Entity:
             if row["image_attribution_json"] is not None
             else None
         ),
+        wikipedia_url=(str(row["wikipedia_url"]) if row["wikipedia_url"] is not None else None),
     )
 
 
@@ -199,6 +201,9 @@ def _edge_from_row(row: sqlite3.Row) -> GraphEdge:
         ),
         image_attribution_json=(
             str(row["target_attribution"]) if row["target_attribution"] is not None else None
+        ),
+        wikipedia_url=(
+            str(row["target_wikipedia_url"]) if row["target_wikipedia_url"] is not None else None
         ),
     )
     return GraphEdge(

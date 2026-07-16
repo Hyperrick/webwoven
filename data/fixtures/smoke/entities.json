@@ -1,434 +1,1202 @@
 [
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture navigator who charted the invented Northglass coast.",
     "entity_type": "fictional_navigator",
-    "id": "fixture:history_people:01",
+    "id": "fixture:people:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Elian Voss"
+    "label": "Elian Voss",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture harbor town where the Northglass story begins.",
     "entity_type": "fictional_harbor_town",
-    "id": "fixture:history_people:02",
+    "id": "fixture:people:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "Gannet Hollow"
+    "label": "Gannet Hollow",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture academy for navigators and local historians.",
     "entity_type": "fictional_academy",
-    "id": "fixture:history_people:03",
+    "id": "fixture:people:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Lantern School"
+    "label": "Lantern School",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture historian who reconstructed early coastal journeys.",
     "entity_type": "fictional_historian",
-    "id": "fixture:history_people:04",
+    "id": "fixture:people:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Nera Sol"
+    "label": "Nera Sol",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture book about the imagined Northglass coast.",
     "entity_type": "fictional_book",
-    "id": "fixture:history_people:05",
+    "id": "fixture:people:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Tideglass Atlas"
+    "label": "Tideglass Atlas",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture patron who funded public map rooms.",
     "entity_type": "fictional_patron",
-    "id": "fixture:history_people:06",
+    "id": "fixture:people:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Ada Tideglass"
+    "label": "Ada Tideglass",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture learned society for mapmakers and archivists.",
     "entity_type": "fictional_learned_society",
-    "id": "fixture:history_people:07",
+    "id": "fixture:people:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Wayfinder Circle"
+    "label": "Wayfinder Circle",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture archivist who catalogued the Circle's expeditions.",
     "entity_type": "fictional_archivist",
-    "id": "fixture:history_people:08",
+    "id": "fixture:people:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Rowan Sable"
+    "label": "Rowan Sable",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture award for careful historical fieldwork.",
     "entity_type": "fictional_award",
-    "id": "fixture:history_people:09",
+    "id": "fixture:people:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Hale Medal"
+    "label": "Hale Medal",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture explorer who organized a celebrated survey.",
     "entity_type": "fictional_explorer",
-    "id": "fixture:history_people:10",
+    "id": "fixture:people:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Esten Hale"
+    "label": "Esten Hale",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture expedition across the invented Northglass coast.",
     "entity_type": "fictional_expedition",
-    "id": "fixture:history_people:11",
+    "id": "fixture:people:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Meridian Expedition"
+    "label": "Meridian Expedition",
+    "wikipedia_url": null
   },
   {
-    "category": "history_people",
+    "category": "people",
     "description": "Fictional fixture research society that coordinates coastal studies.",
     "entity_type": "fictional_research_society",
-    "id": "fixture:history_people:12",
+    "id": "fixture:people:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Northglass Society"
+    "label": "Northglass Society",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Copperleaf Assembly",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Harbor Charter",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lantern Census",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Common Table Accord",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Archive",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Meridian March",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Founders' Ledger",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Sable Reform",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideway Union",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Ochre Proclamation",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Public Map Room",
+    "wikipedia_url": null
+  },
+  {
+    "category": "history_society",
+    "description": "Fictional fixture history and society subject in the invented history and society atlas.",
+    "entity_type": "fictional_history_and_society_subject",
+    "id": "fixture:history_society:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "New Coast Congress",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lumen Engine",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Prism Relay",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Copper Coil Array",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Morrow Observatory",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Glasswing Sensor",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Computer",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideclock Network",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Saffron Laboratory",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Meridian Telescope",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Fieldnote Database",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Bracken Robot",
+    "wikipedia_url": null
+  },
+  {
+    "category": "science_technology",
+    "description": "Fictional fixture science and technology subject in the invented science and technology atlas.",
+    "entity_type": "fictional_science_and_technology_subject",
+    "id": "fixture:science_technology:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Atlas Signal",
+    "wikipedia_url": null
+  },
+  {
+    "category": "nature_life",
     "description": "Fictional fixture moth with ochre wings in the Mosslight wetlands.",
     "entity_type": "fictional_moth",
-    "id": "fixture:nature_science:01",
+    "id": "fixture:nature_life:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Saffron glider"
+    "label": "Saffron glider",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture moth genus containing the imagined Saffron glider.",
     "entity_type": "fictional_moth_genus",
-    "id": "fixture:nature_science:02",
+    "id": "fixture:nature_life:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "Glider moths"
+    "label": "Glider moths",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture moth family containing several invented glider moths.",
     "entity_type": "fictional_moth_family",
-    "id": "fixture:nature_science:03",
+    "id": "fixture:nature_life:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Amberwing family"
+    "label": "Amberwing family",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture ecologist who described the Amberwing family.",
     "entity_type": "fictional_ecologist",
-    "id": "fixture:nature_science:04",
+    "id": "fixture:nature_life:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Tavi Morrow"
+    "label": "Tavi Morrow",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture field station for wetland research.",
     "entity_type": "fictional_field_station",
-    "id": "fixture:nature_science:05",
+    "id": "fixture:nature_life:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Bracken Field Station"
+    "label": "Bracken Field Station",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture nature preserve protecting fictional reed wetlands.",
     "entity_type": "fictional_nature_preserve",
-    "id": "fixture:nature_science:06",
+    "id": "fixture:nature_life:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Mosslight Preserve"
+    "label": "Mosslight Preserve",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture country containing the imagined Mosslight wetlands.",
     "entity_type": "fictional_country",
-    "id": "fixture:nature_science:07",
+    "id": "fixture:nature_life:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Fenmere Republic"
+    "label": "Fenmere Republic",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture capital city of the invented Fenmere Republic.",
     "entity_type": "fictional_capital_city",
-    "id": "fixture:nature_science:08",
+    "id": "fixture:nature_life:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Fenmere City"
+    "label": "Fenmere City",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture observatory for nocturnal pollinator research.",
     "entity_type": "fictional_observatory",
-    "id": "fixture:nature_science:09",
+    "id": "fixture:nature_life:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Prism Observatory"
+    "label": "Prism Observatory",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture instrument maker who studies night-flying insects.",
     "entity_type": "fictional_instrument_maker",
-    "id": "fixture:nature_science:10",
+    "id": "fixture:nature_life:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Celia Rune"
+    "label": "Celia Rune",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture scientific instrument for observing moth wing patterns.",
     "entity_type": "fictional_scientific_instrument",
-    "id": "fixture:nature_science:11",
+    "id": "fixture:nature_life:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Lumen Lens"
+    "label": "Lumen Lens",
+    "wikipedia_url": null
   },
   {
-    "category": "nature_science",
+    "category": "nature_life",
     "description": "Fictional fixture research survey of fictional wetland pollinators.",
     "entity_type": "fictional_research_survey",
-    "id": "fixture:nature_science:12",
+    "id": "fixture:nature_life:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Saffron Glider Survey"
+    "label": "Saffron Glider Survey",
+    "wikipedia_url": null
   },
   {
-    "category": "arts_culture",
-    "description": "Fictional fixture singer known for intimate stage performances.",
-    "entity_type": "fictional_singer",
-    "id": "fixture:arts_culture:01",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Juniper Vale"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture song with a slow, tidal refrain.",
-    "entity_type": "fictional_song",
-    "id": "fixture:arts_culture:02",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Velvet Current"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture music collection built around coastal soundscapes.",
-    "entity_type": "fictional_music_collection",
-    "id": "fixture:arts_culture:03",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Driftglass Suite"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture composer who writes for small theatre ensembles.",
-    "entity_type": "fictional_composer",
-    "id": "fixture:arts_culture:04",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Sera Loom"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture libretto for an invented chamber opera.",
-    "entity_type": "fictional_libretto",
-    "id": "fixture:arts_culture:05",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Paper Moon Libretto"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture writer of plays and musical texts.",
-    "entity_type": "fictional_writer",
-    "id": "fixture:arts_culture:06",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Tobin Rill"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture film director inspired by experimental theatre.",
-    "entity_type": "fictional_film_director",
-    "id": "fixture:arts_culture:07",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Orra Venn"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture film adapted from an imaginary stage work.",
-    "entity_type": "fictional_film",
-    "id": "fixture:arts_culture:08",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Ochre Door"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture actor who performed in the Ochre Door ensemble.",
-    "entity_type": "fictional_actor",
-    "id": "fixture:arts_culture:09",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Kei Moss"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture actor whose physical theatre shaped Kei Moss's work.",
-    "entity_type": "fictional_actor",
-    "id": "fixture:arts_culture:10",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Rhea Dune"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture theatre company for collaborative performances.",
-    "entity_type": "fictional_theatre_company",
-    "id": "fixture:arts_culture:11",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Hearthline Ensemble"
-  },
-  {
-    "category": "arts_culture",
-    "description": "Fictional fixture theatre hosting new fictional works.",
-    "entity_type": "fictional_theatre",
-    "id": "fixture:arts_culture:12",
-    "image_attribution": null,
-    "image_path": null,
-    "label": "Dawn Stage"
-  },
-  {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture harbor on the invented Avenmark coast.",
     "entity_type": "fictional_harbor",
-    "id": "fixture:places:01",
+    "id": "fixture:places_architecture:01",
     "image_attribution": null,
     "image_path": null,
-    "label": "Kestrel Bay"
+    "label": "Kestrel Bay",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture district surrounding the fictional harbor.",
     "entity_type": "fictional_district",
-    "id": "fixture:places:02",
+    "id": "fixture:places_architecture:02",
     "image_attribution": null,
     "image_path": null,
-    "label": "South Kestrel District"
+    "label": "South Kestrel District",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture country in this synthetic coastal atlas.",
     "entity_type": "fictional_country",
-    "id": "fixture:places:03",
+    "id": "fixture:places_architecture:03",
     "image_attribution": null,
     "image_path": null,
-    "label": "Republic of Avenmark"
+    "label": "Republic of Avenmark",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture capital city of the invented Republic of Avenmark.",
     "entity_type": "fictional_capital_city",
-    "id": "fixture:places:04",
+    "id": "fixture:places_architecture:04",
     "image_attribution": null,
     "image_path": null,
-    "label": "Calder City"
+    "label": "Calder City",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture city ward known for bookbinders and map printers.",
     "entity_type": "fictional_city_ward",
-    "id": "fixture:places:05",
+    "id": "fixture:places_architecture:05",
     "image_attribution": null,
     "image_path": null,
-    "label": "Lantern Ward"
+    "label": "Lantern Ward",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture museum devoted to imaginary harbor histories.",
     "entity_type": "fictional_museum",
-    "id": "fixture:places:06",
+    "id": "fixture:places_architecture:06",
     "image_attribution": null,
     "image_path": null,
-    "label": "Glasshouse Museum"
+    "label": "Glasshouse Museum",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture book displayed in the Glasshouse Museum.",
     "entity_type": "fictional_book",
-    "id": "fixture:places:07",
+    "id": "fixture:places_architecture:07",
     "image_attribution": null,
     "image_path": null,
-    "label": "Atlas of Small Harbors"
+    "label": "Atlas of Small Harbors",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture cartographer who drew the Atlas of Small Harbors.",
     "entity_type": "fictional_cartographer",
-    "id": "fixture:places:08",
+    "id": "fixture:places_architecture:08",
     "image_attribution": null,
     "image_path": null,
-    "label": "Wren Ilex"
+    "label": "Wren Ilex",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture quay named for the fictional cartographer Wren Ilex.",
     "entity_type": "fictional_quay",
-    "id": "fixture:places:09",
+    "id": "fixture:places_architecture:09",
     "image_attribution": null,
     "image_path": null,
-    "label": "Ilex Quay"
+    "label": "Ilex Quay",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture guild hall near the edge of Ilex Quay.",
     "entity_type": "fictional_guild_hall",
-    "id": "fixture:places:10",
+    "id": "fixture:places_architecture:10",
     "image_attribution": null,
     "image_path": null,
-    "label": "Ferrymakers Hall"
+    "label": "Ferrymakers Hall",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture festival celebrating fictional ferry traditions.",
     "entity_type": "fictional_festival",
-    "id": "fixture:places:11",
+    "id": "fixture:places_architecture:11",
     "image_attribution": null,
     "image_path": null,
-    "label": "Saltline Festival"
+    "label": "Saltline Festival",
+    "wikipedia_url": null
   },
   {
-    "category": "places",
+    "category": "places_architecture",
     "description": "Fictional fixture pavilion overlooking the invented Kestrel Bay.",
     "entity_type": "fictional_pavilion",
-    "id": "fixture:places:12",
+    "id": "fixture:places_architecture:12",
     "image_attribution": null,
     "image_path": null,
-    "label": "Tideway Pavilion"
+    "label": "Tideway Pavilion",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture singer known for intimate stage performances.",
+    "entity_type": "fictional_singer",
+    "id": "fixture:art_design:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Juniper Vale",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture song with a slow, tidal refrain.",
+    "entity_type": "fictional_song",
+    "id": "fixture:art_design:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Velvet Current",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture music collection built around coastal soundscapes.",
+    "entity_type": "fictional_music_collection",
+    "id": "fixture:art_design:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Driftglass Suite",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture composer who writes for small theatre ensembles.",
+    "entity_type": "fictional_composer",
+    "id": "fixture:art_design:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Sera Loom",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture libretto for an invented chamber opera.",
+    "entity_type": "fictional_libretto",
+    "id": "fixture:art_design:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Paper Moon Libretto",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture writer of plays and musical texts.",
+    "entity_type": "fictional_writer",
+    "id": "fixture:art_design:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tobin Rill",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture film director inspired by experimental theatre.",
+    "entity_type": "fictional_film_director",
+    "id": "fixture:art_design:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Orra Venn",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture film adapted from an imaginary stage work.",
+    "entity_type": "fictional_film",
+    "id": "fixture:art_design:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Ochre Door",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture actor who performed in the Ochre Door ensemble.",
+    "entity_type": "fictional_actor",
+    "id": "fixture:art_design:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Kei Moss",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture actor whose physical theatre shaped Kei Moss's work.",
+    "entity_type": "fictional_actor",
+    "id": "fixture:art_design:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Rhea Dune",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture theatre company for collaborative performances.",
+    "entity_type": "fictional_theatre_company",
+    "id": "fixture:art_design:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Hearthline Ensemble",
+    "wikipedia_url": null
+  },
+  {
+    "category": "art_design",
+    "description": "Fictional fixture theatre hosting new fictional works.",
+    "entity_type": "fictional_theatre",
+    "id": "fixture:art_design:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Dawn Stage",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "The Saltline Chronicle",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Mira Quill",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Lexicon",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "The Paper Compass",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Gannet Press",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lantern Dialect",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tobin Quill",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "The Quiet Estuary",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Harbor Readers Circle",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Blank Margin Prize",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideglass Translation",
+    "wikipedia_url": null
+  },
+  {
+    "category": "literature_language",
+    "description": "Fictional fixture literature and language subject in the invented literature and language atlas.",
+    "entity_type": "fictional_literature_and_language_subject",
+    "id": "fixture:literature_language:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Dawn Library",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Juniper Reed",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Velvet Estuary",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Driftglass Concerto",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Sera Chime",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Dawn Concert Hall",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Hearthline Orchestra",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Copper Reed",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Mosslight Chorus",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Ballet",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lantern Concerto",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideway Opera",
+    "wikipedia_url": null
+  },
+  {
+    "category": "music_performance",
+    "description": "Fictional fixture music and performance subject in the invented music and performance atlas.",
+    "entity_type": "fictional_music_and_performance_subject",
+    "id": "fixture:music_performance:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Paper Moon Festival",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Ochre Window",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Orra Fen",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Kestrel Camera",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "The Long Crossing",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Harborlight Studio",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Rhea Vale",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Field Reel Archive",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Mossframe Animation",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lantern Broadcast",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Documentary",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Silver Route Award",
+    "wikipedia_url": null
+  },
+  {
+    "category": "film_media",
+    "description": "Fictional fixture film and media subject in the invented film and media atlas.",
+    "entity_type": "fictional_film_and_media_subject",
+    "id": "fixture:film_media:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideway Cinema",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:01",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Avenmark Games",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:02",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Kestrel Eleven",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:03",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Northglass Court",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:04",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Tideway Regatta",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:05",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Copper Knight Club",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:06",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Lantern Marathon",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:07",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Mosslight Arena",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:08",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Sable Racket Cup",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:09",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Harbor Board League",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:10",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Meridian Wheel Race",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:11",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Bracken Field Team",
+    "wikipedia_url": null
+  },
+  {
+    "category": "sports_games",
+    "description": "Fictional fixture sports and games subject in the invented sports and games atlas.",
+    "entity_type": "fictional_sports_and_games_subject",
+    "id": "fixture:sports_games:12",
+    "image_attribution": null,
+    "image_path": null,
+    "label": "Atlas Games Medal",
+    "wikipedia_url": null
   }
 ]

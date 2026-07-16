@@ -1,16 +1,18 @@
 .round-setup-page {
+  display: grid;
+  align-items: center;
   width: min(100% - 3rem, 90rem);
+  min-height: calc(100svh - 4.75rem);
   margin-inline: auto;
-  padding-block: var(--space-7) var(--space-8);
+  padding-block: var(--space-6);
 }
 
 .round-setup {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(28rem, 1fr);
   gap: var(--space-8);
-  align-items: end;
-  min-height: min(42rem, calc(100vh - 12rem));
-  padding-block: var(--space-7);
+  align-items: center;
+  padding-block: var(--space-6);
   border-block: 1px solid var(--color-ink);
 }
 
@@ -113,5 +115,66 @@
 
   .round-setup__intro h1 {
     font-size: var(--text-48);
+  }
+}
+
+@media (width <= 32rem) {
+  .round-setup-page {
+    width: calc(100% - 2rem);
+    padding-block: var(--space-3) var(--space-4);
+  }
+
+  .round-setup {
+    gap: var(--space-5);
+    padding-block: var(--space-4);
+  }
+
+  .round-setup__intro h1 {
+    margin-block: var(--space-2);
+    font-size: var(--text-40);
+  }
+
+  .round-setup__intro > p:last-child {
+    font-size: var(--text-16);
+    line-height: 1.4;
+  }
+
+  .round-setup__form {
+    gap: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .difficulty-picker legend {
+    margin-bottom: var(--space-2);
+  }
+
+  .difficulty-picker__options {
+    gap: var(--space-1);
+  }
+
+  .difficulty-picker__option {
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .difficulty-picker__option input {
+    margin-top: 0;
+  }
+
+  .difficulty-picker__option span {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem var(--space-2);
+    align-items: baseline;
+  }
+
+  .difficulty-picker__option strong {
+    font-size: var(--text-16);
+  }
+
+  .difficulty-picker__option small {
+    font-size: var(--text-14);
+    line-height: 1.3;
   }
 }

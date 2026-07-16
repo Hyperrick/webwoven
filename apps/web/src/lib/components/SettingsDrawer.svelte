@@ -1,23 +1,44 @@
 <script lang="ts">
+  import type { Guest } from "../api/types";
+  import { trapDialogFocus } from "../a11y/trap-dialog-focus";
   import type { Preferences } from "../preferences/preferences";
   import AtlasIcon from "./AtlasIcon.svelte";
+  import GuestNameForm from "./GuestNameForm.svelte";
 
   let {
     open,
+    guest,
     preferences,
+    nameBusy,
+    nameError,
+    nameDisabled,
     onChange,
+    onNameSave,
     onClose,
   }: {
     open: boolean;
+    guest?: Guest;
     preferences: Preferences;
+    nameBusy: boolean;
+    nameError: string;
+    nameDisabled: boolean;
     onChange: (next: Preferences) => void;
+    onNameSave: (name: string) => void;
     onClose: () => void;
   } = $props();
 
   let closeButton = $state<HTMLButtonElement>();
 
   $effect(() => {
-    if (open) closeButton?.focus();
+    if (!open) return;
+
+    const returnFocusTo =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    closeButton?.focus();
+
+    return () => returnFocusTo?.focus();
   });
 </script>
 
@@ -37,6 +58,7 @@
     role="dialog"
     aria-modal="true"
     aria-labelledby="settings-title"
+    use:trapDialogFocus
   >
     <header class="drawer__header">
       <div>
@@ -55,6 +77,25 @@
     </header>
 
     <div class="drawer__body settings-list">
+      {#if guest}
+        <section class="settings-profile" aria-labelledby="profile-name-title">
+          <h3 id="profile-name-title">Explorer identity</h3>
+          <GuestNameForm
+            {guest}
+            busy={nameBusy}
+            disabled={nameDisabled}
+            error={nameError}
+            inputId="settings-display-name"
+            onSubmit={onNameSave}
+          />
+          {#if nameDisabled}
+            <p class="settings-profile__locked">
+              Your name is locked during a live Relay so every participant sees
+              the same room roster. Change it after leaving the room.
+            </p>
+          {/if}
+        </section>
+      {/if}
       <label class="setting-row">
         <span
           ><strong>Reduce motion</strong><small

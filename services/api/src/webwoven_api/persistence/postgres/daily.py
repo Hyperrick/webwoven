@@ -2,10 +2,11 @@
 
 from datetime import date, datetime
 
-from sqlalchemy import select
+from sqlalchemy import and_, func, or_, select
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.sql.elements import ColumnElement
 
-from webwoven_api.daily.models import DailyAssignment, DailyScore
+from webwoven_api.daily.models import DailyAssignment, DailyScore, RankedDailyScore
 from webwoven_api.persistence.postgres.database import PostgresDatabase
 from webwoven_api.persistence.postgres.locking import acquire_transaction_lock
 from webwoven_api.persistence.postgres.models import DailyAssignmentRow, DailyScoreRow, GuestRow
@@ -65,12 +66,34 @@ class PostgresDailyRepository:
                 DailyScoreRow.elapsed_ms.asc(),
                 DailyScoreRow.moves.asc(),
                 DailyScoreRow.completed_at.asc(),
+                DailyScoreRow.guest_id.asc(),
             )
             .limit(limit)
         )
         async with self._database.session() as session:
             results = (await session.execute(statement)).all()
         return tuple(score_from_row(row, display_name) for row, display_name in results)
+
+    async def get_ranked_score(self, day: date, guest_id: str) -> RankedDailyScore | None:
+        current_statement = (
+            select(DailyScoreRow, GuestRow.display_name)
+            .join(GuestRow, GuestRow.id == DailyScoreRow.guest_id)
+            .where(DailyScoreRow.day == day, DailyScoreRow.guest_id == guest_id)
+        )
+        async with self._database.session() as session:
+            current = (await session.execute(current_statement)).one_or_none()
+            if current is None:
+                return None
+            row, display_name = current
+            better_count = await session.scalar(
+                select(func.count())
+                .select_from(DailyScoreRow)
+                .where(DailyScoreRow.day == day, _ranks_before(row))
+            )
+        return RankedDailyScore(
+            rank=int(better_count or 0) + 1,
+            score=score_from_row(row, display_name),
+        )
 
 
 def assignment_from_row(row: DailyAssignmentRow) -> DailyAssignment:
@@ -113,9 +136,29 @@ def _copy_score(row: DailyScoreRow, score: DailyScore) -> None:
     row.completed_at = score.completed_at
 
 
-def _score_rank_key(score: DailyScore) -> tuple[int, int, int, datetime]:
-    return (-score.score, round(score.elapsed_seconds * 1000), score.moves, score.completed_at)
+def _score_rank_key(score: DailyScore) -> tuple[int, int, int, datetime, str]:
+    return (
+        -score.score,
+        round(score.elapsed_seconds * 1000),
+        score.moves,
+        score.completed_at,
+        score.guest_id,
+    )
 
 
-def _row_rank_key(row: DailyScoreRow) -> tuple[int, int, int, datetime]:
-    return (-row.score, row.elapsed_ms, row.moves, row.completed_at)
+def _row_rank_key(row: DailyScoreRow) -> tuple[int, int, int, datetime, str]:
+    return (-row.score, row.elapsed_ms, row.moves, row.completed_at, row.guest_id)
+
+
+def _ranks_before(current: DailyScoreRow) -> ColumnElement[bool]:
+    same_score = DailyScoreRow.score == current.score
+    same_time = same_score & (DailyScoreRow.elapsed_ms == current.elapsed_ms)
+    same_moves = same_time & (DailyScoreRow.moves == current.moves)
+    same_completion = same_moves & (DailyScoreRow.completed_at == current.completed_at)
+    return or_(
+        DailyScoreRow.score > current.score,
+        and_(same_score, DailyScoreRow.elapsed_ms < current.elapsed_ms),
+        and_(same_time, DailyScoreRow.moves < current.moves),
+        and_(same_moves, DailyScoreRow.completed_at < current.completed_at),
+        and_(same_completion, DailyScoreRow.guest_id < current.guest_id),
+    )

@@ -6,7 +6,7 @@ const entity = (qid: string, label: string) => ({
   qid,
   label,
   description: `${label} description`,
-  category: "arts_culture" as const,
+  category: "art_design" as const,
   source_kind: "synthetic_fixture" as const,
 });
 

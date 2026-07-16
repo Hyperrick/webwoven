@@ -3,18 +3,28 @@
 
   let {
     compact = false,
+    leaderboardOpen,
+    pageInert,
     onHome,
+    onLeaderboard,
     onSources,
     onSettings,
   }: {
     compact?: boolean;
+    leaderboardOpen: boolean;
+    pageInert: boolean;
     onHome: () => void;
+    onLeaderboard: () => void;
     onSources: () => void;
     onSettings: () => void;
   } = $props();
 </script>
 
-<header class:site-header--compact={compact} class="site-header">
+<header
+  class:site-header--compact={compact}
+  class="site-header"
+  inert={pageInert}
+>
   <button
     class="wordmark"
     type="button"
@@ -27,6 +37,18 @@
   </button>
 
   <div class="site-header__actions">
+    <button
+      class="icon-button icon-button--label"
+      type="button"
+      onclick={onLeaderboard}
+      aria-label="Open Daily leaderboard"
+      aria-haspopup="dialog"
+      aria-controls="daily-leaderboard-drawer"
+      aria-expanded={leaderboardOpen}
+    >
+      <AtlasIcon name="leaderboard" size={18} />
+      <span>Daily leaderboard</span>
+    </button>
     <button
       class="icon-button icon-button--label"
       type="button"

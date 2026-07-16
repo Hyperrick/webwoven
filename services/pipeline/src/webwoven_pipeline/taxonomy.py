@@ -1,17 +1,29 @@
 from __future__ import annotations
 
 CATEGORIES = (
-    "history_people",
-    "nature_science",
-    "arts_culture",
-    "places",
+    "people",
+    "history_society",
+    "science_technology",
+    "nature_life",
+    "places_architecture",
+    "art_design",
+    "literature_language",
+    "music_performance",
+    "film_media",
+    "sports_games",
 )
 
 CATEGORY_LABELS = {
-    "history_people": "History & People",
-    "nature_science": "Nature & Science",
-    "arts_culture": "Arts & Culture",
-    "places": "Places",
+    "people": "People",
+    "history_society": "History & Society",
+    "science_technology": "Science & Technology",
+    "nature_life": "Nature & Life",
+    "places_architecture": "Places & Architecture",
+    "art_design": "Art & Design",
+    "literature_language": "Literature & Language",
+    "music_performance": "Music & Performance",
+    "film_media": "Film & Media",
+    "sports_games": "Sports & Games",
 }
 
 
