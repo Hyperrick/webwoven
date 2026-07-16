@@ -38,16 +38,16 @@ def test_acquisition_expands_exactly_two_outgoing_hops(tmp_path, registry) -> No
     client = FixtureBatchClient(raw_entities, tmp_path / "batch.json")
     seeds = SeedCatalog(
         version=1,
-        seeds=(Seed("Q1", "One", "history_people", "Fixture seed"),),
+        seeds=(Seed("Q1", "One", "people", "Fixture seed"),),
     )
 
     result = acquire_graph(seeds, registry, client, hops=2, max_entities=10)
 
     assert tuple(result.entities) == ("Q1", "Q2", "Q3")
     assert result.category_by_qid == {
-        "Q1": "history_people",
-        "Q2": "history_people",
-        "Q3": "history_people",
+        "Q1": "people",
+        "Q2": "people",
+        "Q3": "people",
     }
     assert client.calls == [("Q1",), ("Q2",), ("Q3",)]
 
@@ -62,8 +62,8 @@ def test_acquisition_cap_counts_only_previously_unseen_entities(tmp_path, regist
     seeds = SeedCatalog(
         version=1,
         seeds=(
-            Seed("Q1", "One", "history_people", "Fixture seed"),
-            Seed("Q2", "Two", "history_people", "Fixture seed"),
+            Seed("Q1", "One", "people", "Fixture seed"),
+            Seed("Q2", "Two", "people", "Fixture seed"),
         ),
     )
 
@@ -85,10 +85,10 @@ def test_acquisition_balances_a_capped_frontier_across_categories(tmp_path, regi
     seeds = SeedCatalog(
         version=1,
         seeds=(
-            Seed("Q1", "History", "history_people", "Fixture seed"),
-            Seed("Q2", "Nature", "nature_science", "Fixture seed"),
-            Seed("Q3", "Arts", "arts_culture", "Fixture seed"),
-            Seed("Q4", "Places", "places", "Fixture seed"),
+            Seed("Q1", "History", "people", "Fixture seed"),
+            Seed("Q2", "Nature", "nature_life", "Fixture seed"),
+            Seed("Q3", "Arts", "art_design", "Fixture seed"),
+            Seed("Q4", "Places", "places_architecture", "Fixture seed"),
         ),
     )
 
@@ -96,10 +96,10 @@ def test_acquisition_balances_a_capped_frontier_across_categories(tmp_path, regi
 
     assert client.calls[1] == ("Q10", "Q20", "Q30", "Q40")
     assert {result.category_by_qid[qid] for qid in client.calls[1]} == {
-        "history_people",
-        "nature_science",
-        "arts_culture",
-        "places",
+        "people",
+        "nature_life",
+        "art_design",
+        "places_architecture",
     }
 
 

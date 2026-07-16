@@ -29,7 +29,7 @@
     onChoose: (choice: MapMoveChoice) => void;
     onBack: () => void;
     backDestinationLabel?: string;
-    onInspect: (nodeId: string) => void;
+    onInspect: (nodeId: string, anchor: HTMLElement) => void;
   } = $props();
 
   let nodesById = $derived(new Map(board.nodes.map((node) => [node.id, node])));
@@ -95,6 +95,11 @@
       ...new Set(choice.connections.map(({ statement }) => statement)),
     ].join(" ");
   }
+
+  function inspectFrom(event: MouseEvent, nodeId: string): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLElement) onInspect(nodeId, target);
+  }
 </script>
 
 <div class="game-map__history">
@@ -116,7 +121,7 @@
       data-map-route={taken ? "true" : undefined}
       data-map-interactive="inspect"
       aria-label={`Inspect ${node.label}, ${taken ? "route taken" : "route not taken"}`}
-      onclick={() => onInspect(node.id)}
+      onclick={(event) => inspectFrom(event, node.id)}
     >
       {#if nodeArtwork}
         <EndpointArtwork
@@ -176,7 +181,7 @@
         class="map-position__inspect-button"
         data-map-interactive="inspect"
         aria-label={`Inspect current entity: ${currentNode.label}`}
-        onclick={() => onInspect(currentNode.id)}
+        onclick={(event) => inspectFrom(event, currentNode.id)}
       >
         Inspect
       </button>

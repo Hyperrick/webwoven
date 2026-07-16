@@ -11,7 +11,7 @@
     "unique_round_ids": true
   },
   "inputs": {
-    "endpoint_catalog_sha256": "5e315b44b836a734b2b4c8d091c86da2491f8ea1e16a355d0a80c073bd8adedd",
+    "endpoint_catalog_sha256": "26a89a3445c5fb0e4e0a384f2b424b5ede83507e01348680897b27da233c2248",
     "registry_version": 1,
     "selection_seed": "webwoven-build-week-v1"
   },
@@ -28,8 +28,8 @@
         "time_window": true
       },
       "passed": true,
-      "publication_status": "published",
-      "round_id": "round-0169f30b8d5d4291"
+      "publication_status": "reserve",
+      "round_id": "round-007048c9e1dbb7ba"
     },
     {
       "checks": {
@@ -43,21 +43,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-01d3f5766d8d87f1"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "published",
-      "round_id": "round-034c3b94517f0540"
+      "round_id": "round-01c710e1676061bc"
     },
     {
       "checks": {
@@ -71,7 +57,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-03e3afec0cd83ac0"
+      "round_id": "round-058684ff960f1ed9"
     },
     {
       "checks": {
@@ -85,7 +71,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-064246ffbc56030d"
+      "round_id": "round-086828cd6345a56f"
     },
     {
       "checks": {
@@ -99,7 +85,63 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-13675d7f6fe79c28"
+      "round_id": "round-08ac54011d791c60"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-0e08a83990955ec5"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-10036b3d9b5fec33"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-1067a972567490ad"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-142cf7aece6eb5cd"
     },
     {
       "checks": {
@@ -113,7 +155,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-15dc2fecc231b3c1"
+      "round_id": "round-15b28aaca31fedd6"
     },
     {
       "checks": {
@@ -127,7 +169,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-1927b7258f8320d6"
+      "round_id": "round-1711fe789be0fcd4"
     },
     {
       "checks": {
@@ -141,7 +183,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-20013ac95b21f7f3"
+      "round_id": "round-1cc8337e3d9814d0"
     },
     {
       "checks": {
@@ -155,7 +197,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-2035f9c48f5c38c4"
+      "round_id": "round-1d9be82434ee9cdb"
     },
     {
       "checks": {
@@ -169,7 +211,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-22348369ed9a6ed9"
+      "round_id": "round-1e37b7512e0a2d7e"
     },
     {
       "checks": {
@@ -183,7 +225,21 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-23fc41b10fee48f9"
+      "round_id": "round-22f1ae08b2db20ac"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-2645fa5ba420ce31"
     },
     {
       "checks": {
@@ -197,7 +253,35 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-24969becb7e2af14"
+      "round_id": "round-26b1f6509c9d0b2d"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-29cffb665f65da16"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-2a21db3896250aed"
     },
     {
       "checks": {
@@ -211,7 +295,49 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-26825999954446dd"
+      "round_id": "round-2c6d880f47774609"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-34642d2ab4830588"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-35fa7df4d903091f"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-393a7dee6ec15c79"
     },
     {
       "checks": {
@@ -225,7 +351,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-26f8a57e45183bfb"
+      "round_id": "round-39660236cdf61c6e"
     },
     {
       "checks": {
@@ -239,7 +365,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-2a1a803c931d31a9"
+      "round_id": "round-3be8f5df3b77ea4e"
     },
     {
       "checks": {
@@ -253,7 +379,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-2a23485b94c3b63d"
+      "round_id": "round-3e1853f0e98b1f59"
     },
     {
       "checks": {
@@ -267,35 +393,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-2b3c4626bd0cd575"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-2e951839097b0c1b"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-2e969522c710a295"
+      "round_id": "round-3ea96b11a5db4063"
     },
     {
       "checks": {
@@ -309,7 +407,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-2f274c3c99e33c3f"
+      "round_id": "round-410f528d96eb20cf"
     },
     {
       "checks": {
@@ -323,105 +421,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-302044c95ff9c954"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-3031a3c4aff7a8ad"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-355eaa0c73c93850"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-36d7cfc4dd34e3c4"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-3952f222094767a5"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-3ac0786d2cf50b0d"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-3b2279d0b0e347ad"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-3bc2f65f92fd458b"
+      "round_id": "round-4ad7602330b2ae15"
     },
     {
       "checks": {
@@ -435,7 +435,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-3bef5d6cec6966a7"
+      "round_id": "round-4b90dc32ce6463e5"
     },
     {
       "checks": {
@@ -449,7 +449,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-410892520d38f226"
+      "round_id": "round-4f22c64d7bdd8132"
     },
     {
       "checks": {
@@ -463,21 +463,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-4509fbadb8cc2e9c"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-4be492fd6bea3540"
+      "round_id": "round-4f3fc3556623e980"
     },
     {
       "checks": {
@@ -491,7 +477,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-4d30a2d21881506d"
+      "round_id": "round-548c1a1b9c04b7e2"
     },
     {
       "checks": {
@@ -505,7 +491,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-4d8ce0f4aeb99374"
+      "round_id": "round-58b89f5ce59fcd5c"
     },
     {
       "checks": {
@@ -519,7 +505,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-4dbee8678202a688"
+      "round_id": "round-58f87a314e6b9eb3"
     },
     {
       "checks": {
@@ -533,7 +519,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-507ec89574b53f9f"
+      "round_id": "round-59c9b5074be332ca"
     },
     {
       "checks": {
@@ -547,7 +533,35 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-51ec15a21647d5a1"
+      "round_id": "round-5eb81a0acf9b1949"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-617f9df6e985012e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-6271d8ff75f2e960"
     },
     {
       "checks": {
@@ -561,7 +575,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-52a405112df96410"
+      "round_id": "round-6491c4a9bbbc349d"
     },
     {
       "checks": {
@@ -575,7 +589,35 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-546b112db870e9c5"
+      "round_id": "round-656094100a0fe581"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-65da7416ad36ddad"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-6c08c5812bcdbda4"
     },
     {
       "checks": {
@@ -589,7 +631,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-5475202419e5d993"
+      "round_id": "round-714a2f651ab7b457"
     },
     {
       "checks": {
@@ -603,7 +645,77 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-55e2cadf5dce7ff1"
+      "round_id": "round-732bfd2e6e467721"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-778b7dd914a32fc3"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-78d50dc30647d251"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-78fb66cf677c8bf2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-7d646d7b71f4aa59"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-7dbf8fa277d51bb0"
     },
     {
       "checks": {
@@ -617,7 +729,21 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-571cb89aca0e02b7"
+      "round_id": "round-7e198e93d4add630"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-826e2cab314aa3e4"
     },
     {
       "checks": {
@@ -631,7 +757,35 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-5856725b40a4dfe6"
+      "round_id": "round-83d5916c62bd3406"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8989b0b745af4915"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-8aa5736774cc2dc5"
     },
     {
       "checks": {
@@ -645,49 +799,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-597a0d692cb76d0d"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-5a6d0a6952de9f73"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-5cf5377b10dd5ec9"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-5f220ac8bccd0669"
+      "round_id": "round-8b4895461d7207ae"
     },
     {
       "checks": {
@@ -701,7 +813,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-61981f3e3a5bde9a"
+      "round_id": "round-8cae472c3972c3d5"
     },
     {
       "checks": {
@@ -715,7 +827,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-630b640889c8cc7d"
+      "round_id": "round-8cbe32d1c11c7d8d"
     },
     {
       "checks": {
@@ -729,7 +841,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-647d50767167f524"
+      "round_id": "round-8d292710de12897e"
     },
     {
       "checks": {
@@ -743,7 +855,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-68421aa5b42de179"
+      "round_id": "round-8da99da87aaf6347"
     },
     {
       "checks": {
@@ -757,7 +869,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-69fb9855a3355e75"
+      "round_id": "round-90df628a1622d9ff"
     },
     {
       "checks": {
@@ -771,35 +883,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-6ca2ea245c3d2629"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-70d3f8852dc5b88c"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-77d716de96ce4b8b"
+      "round_id": "round-92d86bec0f834d88"
     },
     {
       "checks": {
@@ -813,7 +897,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-77f329e632c661ca"
+      "round_id": "round-934bef8144eb4a7d"
     },
     {
       "checks": {
@@ -827,7 +911,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-79fbb507169dfba4"
+      "round_id": "round-953fc2326d4a165e"
     },
     {
       "checks": {
@@ -841,7 +925,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-7aa26ceb001251f7"
+      "round_id": "round-9558db3b10d8aba7"
     },
     {
       "checks": {
@@ -855,7 +939,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-7b07709e52f993c3"
+      "round_id": "round-959abec0833f5750"
     },
     {
       "checks": {
@@ -869,7 +953,21 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-7c0cec4afb38b4c9"
+      "round_id": "round-9620c913e4a93df0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-96bf3401481cc4be"
     },
     {
       "checks": {
@@ -883,63 +981,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-853a415906eabda9"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-85b1bc3b353586ac"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-8aad61a5a7450519"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-8afc270b4c4344a7"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-8dc7be8f45f900e1"
+      "round_id": "round-9dee910ced794eec"
     },
     {
       "checks": {
@@ -953,7 +995,21 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-90b67bb9eb29cc0f"
+      "round_id": "round-9eb38e3b1efae310"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-a1acea3eaa8d698f"
     },
     {
       "checks": {
@@ -967,21 +1023,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-92be81975f139b07"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-92f2b8b75d30203f"
+      "round_id": "round-a76c4a57cebd6125"
     },
     {
       "checks": {
@@ -995,7 +1037,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-954f774c917e193c"
+      "round_id": "round-ab6d3d8bd3f0d0f2"
     },
     {
       "checks": {
@@ -1009,7 +1051,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-9603f934c91e30fb"
+      "round_id": "round-ace399954ebf492d"
     },
     {
       "checks": {
@@ -1023,7 +1065,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-a08bb2793f3c1eb4"
+      "round_id": "round-b0b4245a5ae03354"
     },
     {
       "checks": {
@@ -1037,7 +1079,35 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-a1ab1cc3635df4d0"
+      "round_id": "round-b17553d474e33bd4"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b3665976b596a314"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-b428e6d7bf3d8083"
     },
     {
       "checks": {
@@ -1051,7 +1121,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-ac2594a0e1e9ae49"
+      "round_id": "round-b5cbf4c309ef8d6a"
     },
     {
       "checks": {
@@ -1065,7 +1135,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-b48eb79b0bd4534c"
+      "round_id": "round-b78a423a6454f8da"
     },
     {
       "checks": {
@@ -1079,49 +1149,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-b5e7d37ce9277b5f"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-be42262f9946b1ef"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-c01f8c48a22cbf9a"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-c55c20db15127430"
+      "round_id": "round-b88a0aa0b85de3bf"
     },
     {
       "checks": {
@@ -1135,7 +1163,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-c6ff715a3bfcc9dd"
+      "round_id": "round-bad0029b1e57fbb4"
     },
     {
       "checks": {
@@ -1149,7 +1177,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-ca8c129b6fa8e661"
+      "round_id": "round-bfac565a377da9b6"
     },
     {
       "checks": {
@@ -1163,7 +1191,21 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-cb2b356bffc03ff9"
+      "round_id": "round-c3268ce486895eb2"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-c8c5bc0b07595b54"
     },
     {
       "checks": {
@@ -1177,7 +1219,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-cbe0450aaf693086"
+      "round_id": "round-ca6f5a52cc390f81"
     },
     {
       "checks": {
@@ -1191,7 +1233,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-cdfefa624a71d846"
+      "round_id": "round-ca942f7974f550a4"
     },
     {
       "checks": {
@@ -1205,7 +1247,35 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-cfbacf5343ecad84"
+      "round_id": "round-cdc1c2fd866e2a0e"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-d0a50a03c2eab687"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-d2bee2a4f3bb26b6"
     },
     {
       "checks": {
@@ -1219,21 +1289,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-d00db0a4e3f971f9"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-d0a17ed8df931b65"
+      "round_id": "round-d2da6f6e917504b1"
     },
     {
       "checks": {
@@ -1247,21 +1303,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-d14894d70c9dc7c5"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-d27c76e9c8e280d3"
+      "round_id": "round-d6ea12cd5f6c7599"
     },
     {
       "checks": {
@@ -1275,7 +1317,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-d38c740af175a320"
+      "round_id": "round-d6ec82c7e52cbae4"
     },
     {
       "checks": {
@@ -1289,77 +1331,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-d9249a758a87946e"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-d9399f0c10822b90"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-e00c480f36d91363"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-e363446355339d68"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-e3e1baf847b7aa38"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-ed6cae3b67d1745b"
+      "round_id": "round-d973674d00f89b29"
     },
     {
       "checks": {
@@ -1373,7 +1345,7 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-f76dc82284428feb"
+      "round_id": "round-e99438dce7a197d9"
     },
     {
       "checks": {
@@ -1387,21 +1359,7 @@
       },
       "passed": true,
       "publication_status": "reserve",
-      "round_id": "round-f7de543bdce4b484"
-    },
-    {
-      "checks": {
-        "category_endpoints": true,
-        "curated_endpoints": true,
-        "difficulty_band": true,
-        "distinct_endpoints": true,
-        "labeled_endpoints": true,
-        "shortest_distance": true,
-        "time_window": true
-      },
-      "passed": true,
-      "publication_status": "reserve",
-      "round_id": "round-f7e575f64aee22ce"
+      "round_id": "round-ea9ba68f6bbf7577"
     },
     {
       "checks": {
@@ -1415,14 +1373,56 @@
       },
       "passed": true,
       "publication_status": "published",
-      "round_id": "round-f92c77d31eadd9da"
+      "round_id": "round-ee553984729191a0"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "reserve",
+      "round_id": "round-ef4859be94b100ae"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-f28ef73168859044"
+    },
+    {
+      "checks": {
+        "category_endpoints": true,
+        "curated_endpoints": true,
+        "difficulty_band": true,
+        "distinct_endpoints": true,
+        "labeled_endpoints": true,
+        "shortest_distance": true,
+        "time_window": true
+      },
+      "passed": true,
+      "publication_status": "published",
+      "round_id": "round-feadcd2e7cf83957"
     }
   ],
   "source_kind": "synthetic_fixture",
   "status": "passed",
   "summary": {
     "candidate_rounds": 100,
-    "curated_endpoints": 48,
+    "curated_endpoints": 120,
     "published_rounds": 40
   },
   "version": 1

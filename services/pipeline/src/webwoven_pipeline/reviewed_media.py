@@ -18,3 +18,14 @@ REVIEWED_MEDIA_CANDIDATES = {
         ),
     ),
 }
+
+
+# Direct Wikidata media can still fail the bounded raster download policy. These
+# entity-specific replacements are documentary Commons files reviewed for that
+# exact subject and still pass the normal license validator before publication.
+REVIEWED_MEDIA_OVERRIDES = {
+    "Q11425": ReviewedMediaCandidate(
+        "Phenakistiscope.jpg",
+        "reviewed_commons_documentary_subject:early_animation_device:1832",
+    ),
+}

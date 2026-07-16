@@ -9,7 +9,7 @@ const entity: EntitySummary = {
   qid: "Q1",
   label: "The Great Wave",
   description: "woodblock print by Hokusai",
-  category: "arts_culture",
+  category: "art_design",
   source_kind: "wikidata",
   image_attribution: {
     file_name: "The Great Wave off Kanagawa.jpg",

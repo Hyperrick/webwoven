@@ -15,6 +15,7 @@ class Entity:
     category: str
     image_path: str | None = None
     image_attribution_json: str | None = None
+    wikipedia_url: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

@@ -27,6 +27,8 @@ export interface WireEntity {
   entity_type: string;
   image_path: string | null;
   image_attribution: WireImageAttribution | null;
+  /** Optional while reading responses cached before graph schema v3. */
+  wikipedia_url?: string | null;
 }
 
 export interface WireDecisionRelation {

@@ -46,3 +46,6 @@ nav:
   - ADRs:
       - Build Week architecture: adr/0001-build-week-architecture.md
       - Navigable route atlas: adr/0002-navigable-route-atlas.md
+      - Synchronized round introduction: adr/0003-synchronized-round-introduction.md
+      - Ten-category atlas: adr/0004-ten-category-atlas.md
+      - Wikipedia article links: adr/0005-wikipedia-article-links.md

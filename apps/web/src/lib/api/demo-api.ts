@@ -79,7 +79,7 @@ export class DemoApi implements WebwovenApi {
     return {
       round_id: "daily-demo-wave",
       date: new Date().toISOString().slice(0, 10),
-      category: "arts_culture",
+      category: "art_design",
       difficulty: "normal",
       optimal_distance: 4,
       completed: false,

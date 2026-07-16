@@ -27,11 +27,13 @@
   let {
     board,
     transition,
+    redrawKey = "",
     children,
     overlay,
   }: {
     board: MapBoard;
     transition: MapTransition;
+    redrawKey?: string;
     children: Snippet;
     overlay?: Snippet;
   } = $props();
@@ -323,7 +325,7 @@
   bind:this={viewport}
   onfocusin={revealFocusedNode}
 >
-  <MapBoardCanvas {board} {view} {transition} />
+  <MapBoardCanvas {board} {view} {transition} {redrawKey} />
   <div
     class="game-map__surface map-viewport__world"
     style={worldStyle}

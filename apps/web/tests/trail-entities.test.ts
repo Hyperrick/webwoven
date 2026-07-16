@@ -10,7 +10,7 @@ function entity(qid: string): EntitySummary {
     qid,
     label: qid,
     description: `${qid} description`,
-    category: "arts_culture",
+    category: "art_design",
     source_kind: "wikidata",
     image_path: `/api/v1/media/${qid}.jpg`,
   };
@@ -23,7 +23,7 @@ function snapshot(): SessionSnapshot {
   return {
     id: "session",
     mode: "solo",
-    category: "arts_culture",
+    category: "art_design",
     difficulty: "normal",
     started_at: "2026-07-15T12:00:00Z",
     start,

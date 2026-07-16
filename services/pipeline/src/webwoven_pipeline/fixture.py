@@ -84,7 +84,7 @@ def generate_smoke_fixture(
 
 
 def build_smoke_graph() -> tuple[tuple[Entity, ...], tuple[Edge, ...]]:
-    """Build four readable fictional stories as isolated bidirectional rings."""
+    """Build ten readable fictional stories as isolated bidirectional rings."""
     entities: list[Entity] = []
     edges: list[Edge] = []
     for story in SMOKE_STORIES:

@@ -22,28 +22,28 @@ const ROUTE_SAMPLES: readonly LandingRouteSample[] = [
     start: "Hokusai",
     target: "United Kingdom",
     moves: 4,
-    categoryPath: "Culture → Places",
+    categoryPath: "Art & Design → Places & Architecture",
   },
   {
     number: "0187",
     start: "Hokusai",
     target: "England",
     moves: 4,
-    categoryPath: "Culture → Places",
+    categoryPath: "Art & Design → Places & Architecture",
   },
   {
     number: "0264",
     start: "Mount Fuji",
     target: "British Museum",
     moves: 4,
-    categoryPath: "Nature → Culture",
+    categoryPath: "Nature & Life → Art & Design",
   },
   {
     number: "0731",
     start: "Thirty-six Views of Mount Fuji",
     target: "London",
     moves: 4,
-    categoryPath: "Culture → Places",
+    categoryPath: "Art & Design → Places & Architecture",
   },
 ] as const;
 

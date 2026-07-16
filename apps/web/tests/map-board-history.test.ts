@@ -19,7 +19,7 @@ function entity(qid: string, label: string): EntitySummary {
     qid,
     label,
     description: `Fixture entity: ${label}.`,
-    category: "arts_culture",
+    category: "art_design",
     source_kind: "synthetic_fixture",
   };
 }
@@ -68,7 +68,7 @@ function snapshot(
   return {
     id: "history-session",
     mode: "solo",
-    category: "arts_culture",
+    category: "art_design",
     difficulty: "easy",
     started_at: "2026-07-13T10:00:00Z",
     start,

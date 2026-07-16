@@ -22,12 +22,6 @@
   line-height: 1.2;
 }
 
-.hint-dock__heading p {
-  color: var(--color-muted-ink);
-  font-family: var(--font-technical);
-  font-size: var(--text-12);
-}
-
 .hint-dock__actions {
   display: grid;
   grid-template-columns: repeat(3, minmax(9rem, 1fr));
@@ -99,6 +93,10 @@
   font-size: 0.65rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.hint-dock__tool-state:empty {
+  display: none;
 }
 
 .hint-dock__tool--used {
@@ -175,22 +173,33 @@
   }
 
   .hint-dock__actions button {
-    grid-template-columns: auto minmax(0, 1fr);
-    justify-items: center;
-    min-height: 3.75rem;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    justify-items: start;
+    min-height: 3.5rem;
     padding-inline: var(--space-2);
-    text-align: center;
+    text-align: left;
   }
 
   .hint-dock__tool-state {
     display: none;
   }
 
+  .hint-dock__tool-copy {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.1rem;
+    width: 100%;
+  }
+
   .hint-dock__tool-copy strong,
-  .hint-dock__tool-copy small {
+  .hint-dock__tool-penalty {
+    grid-column: 1;
     overflow: visible;
     text-overflow: clip;
     white-space: normal;
+  }
+
+  .hint-dock__tool-help {
+    display: none;
   }
 
   .hint-dock__message {
@@ -211,9 +220,9 @@
   }
 
   .hint-dock__actions button {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 1.35rem minmax(0, 1fr);
     gap: var(--space-1);
-    min-height: 3.5rem;
+    min-height: 3.25rem;
     padding: var(--space-1);
   }
 
@@ -222,13 +231,17 @@
   }
 
   .hint-dock__tool-copy strong,
-  .hint-dock__tool-help,
   .hint-dock__tool-penalty {
     grid-column: 1;
   }
 
   .hint-dock__tool-copy strong {
-    font-size: var(--text-14);
+    font-size: 0.8rem;
+    line-height: 1.05;
+  }
+
+  .hint-dock__tool-penalty {
+    font-size: 0.62rem;
   }
 
   .hint-dock__message {

@@ -7,7 +7,7 @@ function entity(qid: string): EntitySummary {
     qid,
     label: `Entity ${qid}`,
     description: "Fixture entity",
-    category: "places",
+    category: "places_architecture",
     source_kind: "synthetic_fixture",
   };
 }

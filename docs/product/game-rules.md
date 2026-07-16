@@ -44,9 +44,11 @@ move remains tappable even when the current label and frontier cannot both fit i
 Every earlier breadcrumb and muted alternative remains a focusable inspection point. Opening one
 does not move the player or spend a command: it shows the entity description, whether the route was
 taken, its documentary image, its source and target, and every stored fact for that connection.
-These details are rebuilt from the server-owned decision history after refresh or reconnect. Back
-stages suppress a duplicate inverse option for the node they returned to, while the immutable
-visible trail still records the Back action.
+When the acquired data includes a preferred Wikipedia sitelink, the inspector offers that external
+article in a new tab; article text is never copied into the game bundle. These details are rebuilt
+from the server-owned decision history after refresh or reconnect. Back stages suppress a duplicate
+inverse option for the node they returned to, while the immutable visible trail still records the
+Back action.
 
 When the active branch has no playable connections, the map shows a non-modal recovery callout next
 to the current node. Its primary action names the server-owned Back destination, states that Back
@@ -81,6 +83,13 @@ layout uses fixed deterministic 30rem columns and vertical lanes derived from th
 so the same graph state produces the same positions without a hand-authored scene. Only the
 rightmost frontier contains command tokens or move controls. Historical columns contain semantic
 entity and relationship summaries with read-only inspection controls.
+
+Before presenting a frontier with only one distinct destination, the server follows that forced
+continuation through the stored graph. If it reaches neither the round target nor a node with at
+least two route-safe destinations, the current node is treated as exhausted. This stops the player
+at the entrance to a terminal corridor, so one Back returns to the genuine decision node instead of
+inviting repeated moves into the same dead end. Direct one-move dead ends remain valid choices when
+they are presented alongside real alternatives.
 
 The timer is visually prominent but is not a live region, preventing screen readers from
 announcing every second. Interactive nodes remain semantic DOM controls with full labels and fact

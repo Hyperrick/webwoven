@@ -3,7 +3,7 @@
 from typing import Literal, Self
 from urllib.parse import parse_qs, urlparse
 
-from pydantic import BaseModel, ConfigDict, HttpUrl, model_validator
+from pydantic import BaseModel, ConfigDict, HttpUrl, field_validator, model_validator
 
 _LICENSE_URLS = {
     "PUBLIC_DOMAIN": "https://creativecommons.org/publicdomain/mark/1.0",
@@ -122,3 +122,23 @@ class EntityResponse(ApiModel):
     entity_type: str
     image_path: str | None
     image_attribution: ImageAttributionResponse | None
+    wikipedia_url: HttpUrl | None
+
+    @field_validator("wikipedia_url")
+    @classmethod
+    def require_wikipedia_article(cls, value: HttpUrl | None) -> HttpUrl | None:
+        if value is None:
+            return None
+        parsed = urlparse(str(value))
+        host = parsed.hostname or ""
+        if not (
+            parsed.scheme == "https"
+            and host.endswith(".wikipedia.org")
+            and bool(host.removesuffix(".wikipedia.org"))
+            and parsed.path.startswith("/wiki/")
+            and len(parsed.path) > len("/wiki/")
+            and not parsed.query
+            and not parsed.fragment
+        ):
+            raise ValueError("Wikipedia URL must identify a canonical article")
+        return value

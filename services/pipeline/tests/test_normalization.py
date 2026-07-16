@@ -39,7 +39,12 @@ def test_normalizer_filters_claims_and_materializes_configured_inverse(registry)
 
     entities = normalize_entities(
         raw,
-        {"Q1": "history_people", "Q2": "places", "Q3": "places", "Q4": "places"},
+        {
+            "Q1": "people",
+            "Q2": "places_architecture",
+            "Q3": "places_architecture",
+            "Q4": "places_architecture",
+        },
     )
     edges = normalize_edges(raw, registry, allowed_qids=(item.id for item in entities))
 

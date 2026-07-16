@@ -491,6 +491,8 @@ export interface components {
             label: string;
             /** Qid */
             qid: string;
+            /** Wikipedia Url */
+            wikipedia_url: string | null;
         };
         /** FollowEdgeRequest */
         FollowEdgeRequest: {

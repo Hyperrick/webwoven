@@ -33,7 +33,7 @@ def test_round_selection_passes_deterministic_publication_policy(registry) -> No
     assert report["summary"] == {
         "candidate_rounds": 100,
         "published_rounds": 40,
-        "curated_endpoints": 48,
+        "curated_endpoints": 120,
     }
     assert all(report["checks"].values())
     assert sum(item["publication_status"] == "published" for item in report["rounds"]) == 40
@@ -80,12 +80,12 @@ def test_round_selection_rejects_category_swaps_that_preserve_distribution(regis
     first = next(
         index
         for index, item in enumerate(rounds)
-        if item.category == "history_people" and item.difficulty == "easy" and item.published
+        if item.category == "people" and item.difficulty == "easy" and item.published
     )
     second = next(
         index
         for index, item in enumerate(rounds)
-        if item.category == "places" and item.difficulty == "easy" and item.published
+        if item.category == "places_architecture" and item.difficulty == "easy" and item.published
     )
     first_category = rounds[first].category
     rounds[first] = replace(rounds[first], category=rounds[second].category)
@@ -139,7 +139,7 @@ def test_wikidata_bundle_writes_validation_report_for_endpoint_iterator(tmp_path
     report = json.loads((destination / "round-validation-report.json").read_text())
     manifest = json.loads((destination / "manifest.json").read_text())
     assert report["status"] == "passed"
-    assert report["summary"]["curated_endpoints"] == 48
+    assert report["summary"]["curated_endpoints"] == 120
     assert any(
         item["path"] == "round-validation-report.json" and item["role"] == "round_validation_report"
         for item in manifest["artifacts"]

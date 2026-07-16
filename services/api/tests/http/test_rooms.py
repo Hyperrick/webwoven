@@ -13,7 +13,7 @@ def test_two_player_room_and_reconnect_snapshot(app_settings: Settings) -> None:
         guest_headers = create_guest(guest, "Guest Atlas")
         created = host.post("/api/v1/rooms", headers=host_headers, json={"difficulty": "easy"})
         assert created.status_code == 201
-        assert created.json()["category"] == "history_people"
+        assert created.json()["category"] == "people"
         assert created.json()["difficulty"] == "easy"
         assert created.json()["start"]["qid"] == "Q1"
         assert created.json()["target"]["qid"] == "Q4"

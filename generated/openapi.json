@@ -515,6 +515,20 @@
           "qid": {
             "title": "Qid",
             "type": "string"
+          },
+          "wikipedia_url": {
+            "anyOf": [
+              {
+                "format": "uri",
+                "maxLength": 2083,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wikipedia Url"
           }
         },
         "required": [
@@ -524,7 +538,8 @@
           "category",
           "entity_type",
           "image_path",
-          "image_attribution"
+          "image_attribution",
+          "wikipedia_url"
         ],
         "title": "EntityResponse",
         "type": "object"

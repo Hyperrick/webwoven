@@ -23,10 +23,17 @@ license allowlist, content hash, and manifest entry all pass. Normal gameplay lo
 and fails closed unless every graph entity has a verified local image. Project-authored category
 plates remain only as an explicit compatibility fallback for synthetic tests and legacy snapshots.
 
-The full-node July 15 atlas maps all 5,482 graph entities to 5,062 distinct Commons source files,
-stored locally by content hash.
+The active July 16 ten-category atlas maps all 3,970 graph entities to 3,621 distinct Commons
+source files, stored locally by content hash, and carries 3,778 preferred Wikipedia article URLs.
+It compiles 22,402 directed relationships, 100 validated round candidates, and 40 published
+routes. The preceding July 15 atlas remains a reusable acquisition source with 5,482 entities and
+5,062 distinct Commons files. Reuse preserves the original retrieval record and license evidence;
+each new manifest reports reused and newly downloaded asset counts separately.
 Direct Wikidata media and exact Wikipedia lead images are preferred. Exact Commons categories,
 structured depicts matches, entity-specific article media, and documented graph-neighbor context
 fill the long tail. Contextual fallbacks retain the related entity label in the API and Sources
 drawer so a creator portrait or award object is never presented as a literal depiction of an
 abstract work or category.
+
+Preferred Wikipedia article links are stored as external URLs only. Webwoven does not copy article
+text into the bundle; the inspector opens the canonical article on Wikipedia in a new tab.

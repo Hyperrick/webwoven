@@ -1,962 +1,2402 @@
 [
   {
-    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
-    "id": "006fb882b201aa6c333e1679",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:09",
-    "statement_id": "fixture-statement-places-09",
-    "target_id": "fixture:places:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: The capital of the Republic of Avenmark is Calder City.",
-    "id": "0288afc7f4bfc1a65f9835a8",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P36",
-    "source_id": "fixture:places:04",
-    "statement_id": "fixture-statement-places-03",
-    "target_id": "fixture:places:03"
-  },
-  {
     "explanation": "Fictional fixture fact: Bracken Field Station is located in Mosslight Preserve.",
-    "id": "030187e298e404e49c5ad11d",
+    "id": "0011ed190e629da75bc7b960",
     "inverse": false,
     "playable": true,
     "relation_key": "P131",
-    "source_id": "fixture:nature_science:05",
-    "statement_id": "fixture-statement-nature_science-05",
-    "target_id": "fixture:nature_science:06"
+    "source_id": "fixture:nature_life:05",
+    "statement_id": "fixture-statement-nature_life-05",
+    "target_id": "fixture:nature_life:06"
   },
   {
-    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
-    "id": "03169852bf1a568715cafe26",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P171",
-    "source_id": "fixture:nature_science:03",
-    "statement_id": "fixture-statement-nature_science-02",
-    "target_id": "fixture:nature_science:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
-    "id": "07ab5c148c451460b21e8b5f",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:places:07",
-    "statement_id": "fixture-statement-places-06",
-    "target_id": "fixture:places:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
-    "id": "086cffec1dd7161e9a55111d",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P737",
-    "source_id": "fixture:arts_culture:07",
-    "statement_id": "fixture-statement-arts_culture-06",
-    "target_id": "fixture:arts_culture:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
-    "id": "10be3d5432ecc103fd09f782",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:places:11",
-    "statement_id": "fixture-statement-places-10",
-    "target_id": "fixture:places:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
-    "id": "178779de4f8a6c3f57607fbc",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:nature_science:01",
-    "statement_id": "fixture-statement-nature_science-12",
-    "target_id": "fixture:nature_science:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
-    "id": "18657b7122a6e6efcfffe819",
+    "explanation": "Fictional fixture fact: Harbor Charter connects to Lantern Census in the fictional history and society atlas.",
+    "id": "01c5afda86de942e2446c5eb",
     "inverse": true,
     "playable": true,
     "relation_key": "P131",
-    "source_id": "fixture:places:02",
-    "statement_id": "fixture-statement-places-01",
-    "target_id": "fixture:places:01"
+    "source_id": "fixture:history_society:03",
+    "statement_id": "fixture-statement-history_society-02",
+    "target_id": "fixture:history_society:02"
   },
   {
-    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
-    "id": "18c721e4f340e7b3987b5056",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:nature_science:09",
-    "statement_id": "fixture-statement-nature_science-08",
-    "target_id": "fixture:nature_science:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
-    "id": "1c5cadc8521a645d4368eb6d",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:arts_culture:12",
-    "statement_id": "fixture-statement-arts_culture-11",
-    "target_id": "fixture:arts_culture:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
-    "id": "1ecf233f9905130dfb6b7a7e",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P463",
-    "source_id": "fixture:arts_culture:10",
-    "statement_id": "fixture-statement-arts_culture-10",
-    "target_id": "fixture:arts_culture:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
-    "id": "1fcaf85b67d2bd11e7440b2a",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P17",
-    "source_id": "fixture:places:02",
-    "statement_id": "fixture-statement-places-02",
-    "target_id": "fixture:places:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
-    "id": "2319711b881b9ec0bd565339",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:places:06",
-    "statement_id": "fixture-statement-places-06",
-    "target_id": "fixture:places:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
-    "id": "265eb6f54635d40d814d52de",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:places:10",
-    "statement_id": "fixture-statement-places-10",
-    "target_id": "fixture:places:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
-    "id": "27459076e3801332cc7623dc",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P57",
-    "source_id": "fixture:arts_culture:07",
-    "statement_id": "fixture-statement-arts_culture-07",
-    "target_id": "fixture:arts_culture:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
-    "id": "293b6619692a0049e4a1d94c",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:05",
-    "statement_id": "fixture-statement-places-05",
-    "target_id": "fixture:places:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
-    "id": "2f496505053c562d0ef89c2c",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:nature_science:09",
-    "statement_id": "fixture-statement-nature_science-09",
-    "target_id": "fixture:nature_science:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
-    "id": "33101bceb8a96f2febb76e24",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P17",
-    "source_id": "fixture:nature_science:07",
-    "statement_id": "fixture-statement-nature_science-06",
-    "target_id": "fixture:nature_science:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
-    "id": "374b3e24372921ddee4e8981",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P463",
-    "source_id": "fixture:history_people:06",
-    "statement_id": "fixture-statement-history_people-06",
-    "target_id": "fixture:history_people:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
-    "id": "37f006d939a1b92d7ed8cde7",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P175",
-    "source_id": "fixture:arts_culture:01",
-    "statement_id": "fixture-statement-arts_culture-01",
-    "target_id": "fixture:arts_culture:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
-    "id": "3998f04713cde57e1029cc6d",
+    "explanation": "Fictional fixture fact: Common Table Accord connects to Northglass Archive in the fictional history and society atlas.",
+    "id": "01c5dbd6f73bf4cca8f176a9",
     "inverse": true,
     "playable": true,
     "relation_key": "P170",
-    "source_id": "fixture:places:08",
-    "statement_id": "fixture-statement-places-07",
-    "target_id": "fixture:places:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
-    "id": "3c25ee21a18f10aa3be92a5a",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P171",
-    "source_id": "fixture:nature_science:02",
-    "statement_id": "fixture-statement-nature_science-02",
-    "target_id": "fixture:nature_science:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
-    "id": "3fe0a96edf13a6e964eb37f2",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P19",
-    "source_id": "fixture:history_people:01",
-    "statement_id": "fixture-statement-history_people-01",
-    "target_id": "fixture:history_people:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
-    "id": "41d2211e7b6ceac256bc514a",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:12",
-    "statement_id": "fixture-statement-nature_science-11",
-    "target_id": "fixture:nature_science:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
-    "id": "429bb4f8e20cbb98b8794630",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:05",
-    "statement_id": "fixture-statement-places-04",
-    "target_id": "fixture:places:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
-    "id": "44f4def11115e2a0d9626f18",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P61",
-    "source_id": "fixture:nature_science:11",
-    "statement_id": "fixture-statement-nature_science-10",
-    "target_id": "fixture:nature_science:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
-    "id": "4557eedac48c5ba37efe0424",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:12",
-    "statement_id": "fixture-statement-history_people-11",
-    "target_id": "fixture:history_people:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
-    "id": "455c797754b3436301af2064",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:arts_culture:05",
-    "statement_id": "fixture-statement-arts_culture-04",
-    "target_id": "fixture:arts_culture:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
-    "id": "49625438b17501ee04ee29d4",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P463",
-    "source_id": "fixture:history_people:01",
-    "statement_id": "fixture-statement-history_people-12",
-    "target_id": "fixture:history_people:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
-    "id": "4cb487d618e6f53f50a1e794",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:places:09",
-    "statement_id": "fixture-statement-places-08",
-    "target_id": "fixture:places:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
-    "id": "4d2597da1b7c75679759fadb",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P171",
-    "source_id": "fixture:nature_science:01",
-    "statement_id": "fixture-statement-nature_science-01",
-    "target_id": "fixture:nature_science:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
-    "id": "55a9e6af13c7833059f14621",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:02",
-    "statement_id": "fixture-statement-arts_culture-02",
-    "target_id": "fixture:arts_culture:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
-    "id": "59988e6db9c5fec00ba48e95",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P175",
-    "source_id": "fixture:arts_culture:02",
-    "statement_id": "fixture-statement-arts_culture-01",
-    "target_id": "fixture:arts_culture:01"
+    "source_id": "fixture:history_society:05",
+    "statement_id": "fixture-statement-history_society-04",
+    "target_id": "fixture:history_society:04"
   },
   {
     "explanation": "Fictional fixture fact: The Driftglass Suite was created by Sera Loom.",
-    "id": "64cbce35f04ff864f322446a",
+    "id": "04def1326ff165051dda68a3",
     "inverse": true,
     "playable": true,
     "relation_key": "P170",
-    "source_id": "fixture:arts_culture:04",
-    "statement_id": "fixture-statement-arts_culture-03",
-    "target_id": "fixture:arts_culture:03"
+    "source_id": "fixture:art_design:04",
+    "statement_id": "fixture-statement-art_design-03",
+    "target_id": "fixture:art_design:03"
   },
   {
-    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
-    "id": "654c45e8ec5146e619b15c65",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P463",
-    "source_id": "fixture:history_people:12",
-    "statement_id": "fixture-statement-history_people-12",
-    "target_id": "fixture:history_people:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
-    "id": "67e76575665c95425ecc28e5",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:history_people:09",
-    "statement_id": "fixture-statement-history_people-09",
-    "target_id": "fixture:history_people:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
-    "id": "67ed6aeec973cc3e0c8c300d",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:history_people:11",
-    "statement_id": "fixture-statement-history_people-10",
-    "target_id": "fixture:history_people:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
-    "id": "6a84d86d28a982406cb9fa90",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P17",
-    "source_id": "fixture:nature_science:06",
-    "statement_id": "fixture-statement-nature_science-06",
-    "target_id": "fixture:nature_science:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
-    "id": "71a7ad2fa9d9799ed574fd69",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:nature_science:12",
-    "statement_id": "fixture-statement-nature_science-12",
-    "target_id": "fixture:nature_science:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
-    "id": "71be05d8416be631bbeb9641",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:history_people:08",
-    "statement_id": "fixture-statement-history_people-07",
-    "target_id": "fixture:history_people:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
-    "id": "73f19b9a0811a5520568b00b",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P69",
-    "source_id": "fixture:history_people:03",
-    "statement_id": "fixture-statement-history_people-03",
-    "target_id": "fixture:history_people:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
-    "id": "7478414239b3916516409e54",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:history_people:05",
-    "statement_id": "fixture-statement-history_people-04",
-    "target_id": "fixture:history_people:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
-    "id": "768f6b7823a132e451e74cf3",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:history_people:05",
-    "statement_id": "fixture-statement-history_people-05",
-    "target_id": "fixture:history_people:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
-    "id": "76d540f4cbea0d28d36d5fa7",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P161",
-    "source_id": "fixture:arts_culture:09",
-    "statement_id": "fixture-statement-arts_culture-08",
-    "target_id": "fixture:arts_culture:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
-    "id": "7ff99a77aaa26814a747dca5",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P61",
-    "source_id": "fixture:nature_science:10",
-    "statement_id": "fixture-statement-nature_science-10",
-    "target_id": "fixture:nature_science:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
-    "id": "827fa6a2c0a7fd8233f4cd99",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:history_people:03",
-    "statement_id": "fixture-statement-history_people-02",
-    "target_id": "fixture:history_people:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
-    "id": "8356a2fae33725d02e001e26",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:history_people:10",
-    "statement_id": "fixture-statement-history_people-10",
-    "target_id": "fixture:history_people:11"
-  },
-  {
-    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
-    "id": "835da81db0baf8bebf3be4bf",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:arts_culture:01",
-    "statement_id": "fixture-statement-arts_culture-12",
-    "target_id": "fixture:arts_culture:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
-    "id": "83ae1c84da7aa1b8c116476f",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P171",
-    "source_id": "fixture:nature_science:02",
-    "statement_id": "fixture-statement-nature_science-01",
-    "target_id": "fixture:nature_science:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
-    "id": "83f4dad72d6810c251d2fd13",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P61",
-    "source_id": "fixture:nature_science:04",
-    "statement_id": "fixture-statement-nature_science-03",
-    "target_id": "fixture:nature_science:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
-    "id": "8577b108744c62a12c46bde7",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:nature_science:10",
-    "statement_id": "fixture-statement-nature_science-09",
-    "target_id": "fixture:nature_science:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
-    "id": "875665e1769079c945da555e",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:01",
-    "statement_id": "fixture-statement-places-01",
-    "target_id": "fixture:places:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
-    "id": "8922cdd4c34cfbf4fff7a37d",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:arts_culture:04",
-    "statement_id": "fixture-statement-arts_culture-04",
-    "target_id": "fixture:arts_culture:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
-    "id": "8d105d6b0b9e41dc2c3ab3cc",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:04",
-    "statement_id": "fixture-statement-places-04",
-    "target_id": "fixture:places:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
-    "id": "925eafaa588ff291e9f07e66",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:places:11",
-    "statement_id": "fixture-statement-places-11",
-    "target_id": "fixture:places:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Bracken Field Station is located in Mosslight Preserve.",
-    "id": "93c80bc3da623884a9616987",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:nature_science:06",
-    "statement_id": "fixture-statement-nature_science-05",
-    "target_id": "fixture:nature_science:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Driftglass Suite was created by Sera Loom.",
-    "id": "94694f9b612cbbb63f4e1594",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P170",
-    "source_id": "fixture:arts_culture:03",
-    "statement_id": "fixture-statement-arts_culture-03",
-    "target_id": "fixture:arts_culture:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
-    "id": "954b15bf94395cbaf138ebda",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:history_people:11",
-    "statement_id": "fixture-statement-history_people-11",
-    "target_id": "fixture:history_people:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
-    "id": "96d24868005eb7c697fb53db",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P50",
-    "source_id": "fixture:arts_culture:06",
-    "statement_id": "fixture-statement-arts_culture-05",
-    "target_id": "fixture:arts_culture:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
-    "id": "9a513aafcfd61514e628742d",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:nature_science:08",
-    "statement_id": "fixture-statement-nature_science-08",
-    "target_id": "fixture:nature_science:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
-    "id": "9cca8644c2a8eff1af999482",
+    "explanation": "Fictional fixture fact: Tideglass Translation connects to Dawn Library in the fictional literature and language atlas.",
+    "id": "0716927ef184e8470da8c530",
     "inverse": false,
     "playable": true,
     "relation_key": "P50",
-    "source_id": "fixture:arts_culture:05",
-    "statement_id": "fixture-statement-arts_culture-05",
-    "target_id": "fixture:arts_culture:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
-    "id": "a11da2341c71882dec401e20",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P69",
-    "source_id": "fixture:history_people:04",
-    "statement_id": "fixture-statement-history_people-03",
-    "target_id": "fixture:history_people:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
-    "id": "a16ee57626eb6bd8d4a8128c",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:06",
-    "statement_id": "fixture-statement-places-05",
-    "target_id": "fixture:places:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: Kei Moss was influenced by Rhea Dune.",
-    "id": "a7924af99d2ec5ac982b43e0",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P737",
-    "source_id": "fixture:arts_culture:09",
-    "statement_id": "fixture-statement-arts_culture-09",
-    "target_id": "fixture:arts_culture:10"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
-    "id": "a80970e89ed4d1843a4405f4",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P737",
-    "source_id": "fixture:arts_culture:06",
-    "statement_id": "fixture-statement-arts_culture-06",
-    "target_id": "fixture:arts_culture:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
-    "id": "a8413ed8418c8d25554e7888",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:arts_culture:12",
-    "statement_id": "fixture-statement-arts_culture-12",
-    "target_id": "fixture:arts_culture:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
-    "id": "a9803b9b11ae4959802824f2",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:history_people:07",
-    "statement_id": "fixture-statement-history_people-07",
-    "target_id": "fixture:history_people:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
-    "id": "ac42746c2f8b10ac13b81dee",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:12",
-    "statement_id": "fixture-statement-places-12",
-    "target_id": "fixture:places:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
-    "id": "af055586c5e9f3cc9d162eda",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:history_people:06",
-    "statement_id": "fixture-statement-history_people-05",
-    "target_id": "fixture:history_people:05"
+    "source_id": "fixture:literature_language:11",
+    "statement_id": "fixture-statement-literature_language-11",
+    "target_id": "fixture:literature_language:12"
   },
   {
     "explanation": "Fictional fixture fact: The capital of the Republic of Avenmark is Calder City.",
-    "id": "b4badcf5eed228e1f985ea14",
+    "id": "0753cf4741806451d060f134",
     "inverse": false,
     "playable": true,
     "relation_key": "P36",
-    "source_id": "fixture:places:03",
-    "statement_id": "fixture-statement-places-03",
-    "target_id": "fixture:places:04"
+    "source_id": "fixture:places_architecture:03",
+    "statement_id": "fixture-statement-places_architecture-03",
+    "target_id": "fixture:places_architecture:04"
   },
   {
-    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
-    "id": "b825357554c1474ef9210a16",
+    "explanation": "Fictional fixture fact: Tideway Opera connects to Paper Moon Festival in the fictional music and performance atlas.",
+    "id": "080af61ff38d2cc7918de758",
     "inverse": true,
     "playable": true,
-    "relation_key": "P36",
-    "source_id": "fixture:nature_science:08",
-    "statement_id": "fixture-statement-nature_science-07",
-    "target_id": "fixture:nature_science:07"
+    "relation_key": "P50",
+    "source_id": "fixture:music_performance:12",
+    "statement_id": "fixture-statement-music_performance-11",
+    "target_id": "fixture:music_performance:11"
   },
   {
-    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
-    "id": "b9f79efa582fd11742b83cd6",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P276",
-    "source_id": "fixture:arts_culture:11",
-    "statement_id": "fixture-statement-arts_culture-11",
-    "target_id": "fixture:arts_culture:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
-    "id": "baf57f407ea5541113f5a1ba",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:nature_science:04",
-    "statement_id": "fixture-statement-nature_science-04",
-    "target_id": "fixture:nature_science:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
-    "id": "bb00697234e1d866c330bad8",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P166",
-    "source_id": "fixture:history_people:08",
-    "statement_id": "fixture-statement-history_people-08",
-    "target_id": "fixture:history_people:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
-    "id": "bd4d2093256201a75b924751",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P108",
-    "source_id": "fixture:nature_science:05",
-    "statement_id": "fixture-statement-nature_science-04",
-    "target_id": "fixture:nature_science:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
-    "id": "be0531dfb175ca6a33bccdb3",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P36",
-    "source_id": "fixture:nature_science:07",
-    "statement_id": "fixture-statement-nature_science-07",
-    "target_id": "fixture:nature_science:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
-    "id": "be2110ac8b830e25efd64c3a",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P800",
-    "source_id": "fixture:history_people:04",
-    "statement_id": "fixture-statement-history_people-04",
-    "target_id": "fixture:history_people:05"
-  },
-  {
-    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
-    "id": "bfbc9781b272150898b2cfa2",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:history_people:02",
-    "statement_id": "fixture-statement-history_people-02",
-    "target_id": "fixture:history_people:03"
-  },
-  {
-    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
-    "id": "c10e95cb901a8ccf1ea223ce",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:01",
-    "statement_id": "fixture-statement-places-12",
-    "target_id": "fixture:places:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
-    "id": "c6f5e84d43271d41f129487a",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P57",
-    "source_id": "fixture:arts_culture:08",
-    "statement_id": "fixture-statement-arts_culture-07",
-    "target_id": "fixture:arts_culture:07"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
-    "id": "cbc48c804cec205316518af9",
+    "explanation": "Fictional fixture fact: Gannet Press connects to Lantern Dialect in the fictional literature and language atlas.",
+    "id": "083235351eab67fb415085fe",
     "inverse": true,
     "playable": true,
     "relation_key": "P138",
-    "source_id": "fixture:history_people:10",
-    "statement_id": "fixture-statement-history_people-09",
-    "target_id": "fixture:history_people:09"
+    "source_id": "fixture:literature_language:06",
+    "statement_id": "fixture-statement-literature_language-05",
+    "target_id": "fixture:literature_language:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Orra Fen connects to Kestrel Camera in the fictional film and media atlas.",
+    "id": "085cb0d30cc1425d4eb5c9b6",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:film_media:03",
+    "statement_id": "fixture-statement-film_media-02",
+    "target_id": "fixture:film_media:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
+    "id": "092b89a31a984069ff8c5bb9",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:nature_life:01",
+    "statement_id": "fixture-statement-nature_life-12",
+    "target_id": "fixture:nature_life:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Knight Club connects to Lantern Marathon in the fictional sports and games atlas.",
+    "id": "096be51f87da68a323ac3266",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:sports_games:05",
+    "statement_id": "fixture-statement-sports_games-05",
+    "target_id": "fixture:sports_games:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
+    "id": "0b62fce2000046bd998bd3f4",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:art_design:06",
+    "statement_id": "fixture-statement-art_design-06",
+    "target_id": "fixture:art_design:07"
   },
   {
     "explanation": "Fictional fixture fact: Kei Moss was influenced by Rhea Dune.",
-    "id": "ce8f05de5d670f25cef09a28",
-    "inverse": true,
+    "id": "0b665b1061f981501928d83c",
+    "inverse": false,
     "playable": true,
     "relation_key": "P737",
-    "source_id": "fixture:arts_culture:10",
-    "statement_id": "fixture-statement-arts_culture-09",
-    "target_id": "fixture:arts_culture:09"
+    "source_id": "fixture:art_design:09",
+    "statement_id": "fixture-statement-art_design-09",
+    "target_id": "fixture:art_design:10"
   },
   {
-    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
-    "id": "cf13914bac0a26c54a281eeb",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P61",
-    "source_id": "fixture:nature_science:03",
-    "statement_id": "fixture-statement-nature_science-03",
-    "target_id": "fixture:nature_science:04"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
-    "id": "dc09ce20436596de7d6511e2",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P131",
-    "source_id": "fixture:places:10",
-    "statement_id": "fixture-statement-places-09",
-    "target_id": "fixture:places:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
-    "id": "dd32841be55888097e0efb04",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P170",
-    "source_id": "fixture:places:07",
-    "statement_id": "fixture-statement-places-07",
-    "target_id": "fixture:places:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
-    "id": "df7d4a50b19df47b386437c2",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P161",
-    "source_id": "fixture:arts_culture:08",
-    "statement_id": "fixture-statement-arts_culture-08",
-    "target_id": "fixture:arts_culture:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
-    "id": "e87e22949cada5484722a3a4",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P138",
-    "source_id": "fixture:places:08",
-    "statement_id": "fixture-statement-places-08",
-    "target_id": "fixture:places:09"
-  },
-  {
-    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
-    "id": "eb3e76e6f9c81ca14df787f1",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P463",
-    "source_id": "fixture:history_people:07",
-    "statement_id": "fixture-statement-history_people-06",
-    "target_id": "fixture:history_people:06"
-  },
-  {
-    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
-    "id": "edd31695807f4a54cab4b765",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:arts_culture:03",
-    "statement_id": "fixture-statement-arts_culture-02",
-    "target_id": "fixture:arts_culture:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
-    "id": "ee7acfc258c0192dd186934f",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P166",
-    "source_id": "fixture:history_people:09",
-    "statement_id": "fixture-statement-history_people-08",
-    "target_id": "fixture:history_people:08"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
-    "id": "f3143027effbe5fd164410ab",
+    "explanation": "Fictional fixture fact: Driftglass Concerto connects to Sera Chime in the fictional music and performance atlas.",
+    "id": "0b84f737841d94f6ef5a21fd",
     "inverse": true,
     "playable": true,
     "relation_key": "P276",
-    "source_id": "fixture:places:12",
-    "statement_id": "fixture-statement-places-11",
-    "target_id": "fixture:places:11"
+    "source_id": "fixture:music_performance:04",
+    "statement_id": "fixture-statement-music_performance-03",
+    "target_id": "fixture:music_performance:03"
   },
   {
-    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
-    "id": "f46c665003344ee131e1b3c1",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P17",
-    "source_id": "fixture:places:03",
-    "statement_id": "fixture-statement-places-02",
-    "target_id": "fixture:places:02"
-  },
-  {
-    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
-    "id": "f67b4fd1507c27f9da932157",
-    "inverse": false,
-    "playable": true,
-    "relation_key": "P361",
-    "source_id": "fixture:nature_science:11",
-    "statement_id": "fixture-statement-nature_science-11",
-    "target_id": "fixture:nature_science:12"
-  },
-  {
-    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
-    "id": "f88a8822540e448453f24dad",
-    "inverse": true,
-    "playable": true,
-    "relation_key": "P19",
-    "source_id": "fixture:history_people:02",
-    "statement_id": "fixture-statement-history_people-01",
-    "target_id": "fixture:history_people:01"
-  },
-  {
-    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
-    "id": "f9920d9da440228b7798a167",
+    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
+    "id": "0bb51bc520b8b59bc10d6d34",
     "inverse": true,
     "playable": true,
     "relation_key": "P463",
-    "source_id": "fixture:arts_culture:11",
-    "statement_id": "fixture-statement-arts_culture-10",
-    "target_id": "fixture:arts_culture:10"
+    "source_id": "fixture:people:07",
+    "statement_id": "fixture-statement-people-06",
+    "target_id": "fixture:people:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harborlight Studio connects to Rhea Vale in the fictional film and media atlas.",
+    "id": "0c3f24c0522be487b3753e67",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:film_media:06",
+    "statement_id": "fixture-statement-film_media-05",
+    "target_id": "fixture:film_media:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Archive connects to Meridian March in the fictional history and society atlas.",
+    "id": "0cd96f84a3c2b544cbf7c9e8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:history_society:05",
+    "statement_id": "fixture-statement-history_society-05",
+    "target_id": "fixture:history_society:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Field Team connects to Atlas Games Medal in the fictional sports and games atlas.",
+    "id": "0cd973f1b5a848d5f0ffe5a1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:sports_games:11",
+    "statement_id": "fixture-statement-sports_games-11",
+    "target_id": "fixture:sports_games:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
+    "id": "0d051248ea21717d3d2feebd",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_life:03",
+    "statement_id": "fixture-statement-nature_life-02",
+    "target_id": "fixture:nature_life:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Arena connects to Sable Racket Cup in the fictional sports and games atlas.",
+    "id": "0fcef11ea8a4b3f689b7acd5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:sports_games:07",
+    "statement_id": "fixture-statement-sports_games-07",
+    "target_id": "fixture:sports_games:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
+    "id": "0ffea66f2be61727adcb1d00",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:art_design:06",
+    "statement_id": "fixture-statement-art_design-05",
+    "target_id": "fixture:art_design:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Knight Club connects to Lantern Marathon in the fictional sports and games atlas.",
+    "id": "142ea1b318b649f88fc56d8a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:sports_games:06",
+    "statement_id": "fixture-statement-sports_games-05",
+    "target_id": "fixture:sports_games:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Eleven connects to Northglass Court in the fictional sports and games atlas.",
+    "id": "14e2aec83c105b8ed1b91bfb",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:sports_games:03",
+    "statement_id": "fixture-statement-sports_games-02",
+    "target_id": "fixture:sports_games:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Blank Margin Prize connects to Tideglass Translation in the fictional literature and language atlas.",
+    "id": "14f14a0f5675fc9e3d19a31b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:literature_language:11",
+    "statement_id": "fixture-statement-literature_language-10",
+    "target_id": "fixture:literature_language:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Chorus connects to Northglass Ballet in the fictional music and performance atlas.",
+    "id": "15447629f68c89f2c69d934e",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:music_performance:09",
+    "statement_id": "fixture-statement-music_performance-08",
+    "target_id": "fixture:music_performance:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sable Racket Cup connects to Harbor Board League in the fictional sports and games atlas.",
+    "id": "163b1fe1712f2447dbe32abf",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:sports_games:09",
+    "statement_id": "fixture-statement-sports_games-08",
+    "target_id": "fixture:sports_games:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Public Map Room connects to New Coast Congress in the fictional history and society atlas.",
+    "id": "17293f66f79ab9fa7a3fdd7a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:history_society:12",
+    "statement_id": "fixture-statement-history_society-11",
+    "target_id": "fixture:history_society:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Quiet Estuary connects to Harbor Readers Circle in the fictional literature and language atlas.",
+    "id": "18cf8d95eeb17c99bf742f58",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:literature_language:08",
+    "statement_id": "fixture-statement-literature_language-08",
+    "target_id": "fixture:literature_language:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Broadcast connects to Northglass Documentary in the fictional film and media atlas.",
+    "id": "1a75f2d3b39ca0fe8b54a1d4",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:film_media:10",
+    "statement_id": "fixture-statement-film_media-09",
+    "target_id": "fixture:film_media:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lumen Engine connects to Prism Relay in the fictional science and technology atlas.",
+    "id": "1c67a2d14357592c1edcbd92",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:science_technology:02",
+    "statement_id": "fixture-statement-science_technology-01",
+    "target_id": "fixture:science_technology:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lumen Engine connects to Prism Relay in the fictional science and technology atlas.",
+    "id": "1cd1df5aeb6ccc5579d88609",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:science_technology:01",
+    "statement_id": "fixture-statement-science_technology-01",
+    "target_id": "fixture:science_technology:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harbor Readers Circle connects to Blank Margin Prize in the fictional literature and language atlas.",
+    "id": "1d417065087e9b4189151210",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:literature_language:10",
+    "statement_id": "fixture-statement-literature_language-09",
+    "target_id": "fixture:literature_language:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Court connects to Tideway Regatta in the fictional sports and games atlas.",
+    "id": "1dbd011d098f44fc95c69fa4",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:sports_games:03",
+    "statement_id": "fixture-statement-sports_games-03",
+    "target_id": "fixture:sports_games:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Proclamation connects to Public Map Room in the fictional history and society atlas.",
+    "id": "1f3d34df940299400c3cb8fb",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:history_society:10",
+    "statement_id": "fixture-statement-history_society-10",
+    "target_id": "fixture:history_society:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: New Coast Congress connects to Copperleaf Assembly in the fictional history and society atlas.",
+    "id": "1f41b126d41583853e0038a5",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:history_society:01",
+    "statement_id": "fixture-statement-history_society-12",
+    "target_id": "fixture:history_society:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Driftglass Suite was created by Sera Loom.",
+    "id": "202b56ff3829f2b8b39f49be",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:art_design:03",
+    "statement_id": "fixture-statement-art_design-03",
+    "target_id": "fixture:art_design:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Ballet connects to Lantern Concerto in the fictional music and performance atlas.",
+    "id": "2094a806c6ff00f70ff1e2e9",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:music_performance:10",
+    "statement_id": "fixture-statement-music_performance-09",
+    "target_id": "fixture:music_performance:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideglass Translation connects to Dawn Library in the fictional literature and language atlas.",
+    "id": "24db6c069eaa8e64b53e6d88",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:literature_language:12",
+    "statement_id": "fixture-statement-literature_language-11",
+    "target_id": "fixture:literature_language:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tobin Rill was influenced by Orra Venn's stage experiments.",
+    "id": "2566f299c5ae8921d9f15095",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:art_design:07",
+    "statement_id": "fixture-statement-art_design-06",
+    "target_id": "fixture:art_design:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
+    "id": "27ea2003b263e298a3b32401",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:art_design:12",
+    "statement_id": "fixture-statement-art_design-11",
+    "target_id": "fixture:art_design:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sable Reform connects to Tideway Union in the fictional history and society atlas.",
+    "id": "2914ed51df96a511025bc34d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_society:08",
+    "statement_id": "fixture-statement-history_society-08",
+    "target_id": "fixture:history_society:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian March connects to Founders' Ledger in the fictional history and society atlas.",
+    "id": "2b92ddde705cb4b1cf4274bb",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:history_society:07",
+    "statement_id": "fixture-statement-history_society-06",
+    "target_id": "fixture:history_society:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
+    "id": "2baf86515c8bb915b1adba20",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:nature_life:06",
+    "statement_id": "fixture-statement-nature_life-06",
+    "target_id": "fixture:nature_life:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mossframe Animation connects to Lantern Broadcast in the fictional film and media atlas.",
+    "id": "2c50eb842834b2e18c154621",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:film_media:08",
+    "statement_id": "fixture-statement-film_media-08",
+    "target_id": "fixture:film_media:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
+    "id": "2faa5d8720ed4d2a024f6e59",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:people:10",
+    "statement_id": "fixture-statement-people-10",
+    "target_id": "fixture:people:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
+    "id": "3228725f0f45589ded8a4b8f",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P175",
+    "source_id": "fixture:art_design:02",
+    "statement_id": "fixture-statement-art_design-01",
+    "target_id": "fixture:art_design:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harbor Board League connects to Meridian Wheel Race in the fictional sports and games atlas.",
+    "id": "32998809bcfaeedcbddc51bd",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:sports_games:09",
+    "statement_id": "fixture-statement-sports_games-09",
+    "target_id": "fixture:sports_games:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
+    "id": "32dcc9861afa6a4803b8ee89",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P19",
+    "source_id": "fixture:people:01",
+    "statement_id": "fixture-statement-people-01",
+    "target_id": "fixture:people:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Camera connects to The Long Crossing in the fictional film and media atlas.",
+    "id": "32e158469826ddd6c3f6a40d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:film_media:04",
+    "statement_id": "fixture-statement-film_media-03",
+    "target_id": "fixture:film_media:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
+    "id": "34444575557c1e9eea157767",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:people:12",
+    "statement_id": "fixture-statement-people-11",
+    "target_id": "fixture:people:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Reed connects to Mosslight Chorus in the fictional music and performance atlas.",
+    "id": "348a2aefca8e9a6eaf8a9911",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:music_performance:07",
+    "statement_id": "fixture-statement-music_performance-07",
+    "target_id": "fixture:music_performance:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Dawn Library connects to The Saltline Chronicle in the fictional literature and language atlas.",
+    "id": "34db6a0acb3db98b22728c9c",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:literature_language:12",
+    "statement_id": "fixture-statement-literature_language-12",
+    "target_id": "fixture:literature_language:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasswing Sensor connects to Northglass Computer in the fictional science and technology atlas.",
+    "id": "364b7b3b9e22f49ca7af119f",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:science_technology:05",
+    "statement_id": "fixture-statement-science_technology-05",
+    "target_id": "fixture:science_technology:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Morrow Observatory connects to Glasswing Sensor in the fictional science and technology atlas.",
+    "id": "377256afbf354799968393e1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:science_technology:04",
+    "statement_id": "fixture-statement-science_technology-04",
+    "target_id": "fixture:science_technology:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: New Coast Congress connects to Copperleaf Assembly in the fictional history and society atlas.",
+    "id": "38791ff7ea7f84684f090d4d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:history_society:12",
+    "statement_id": "fixture-statement-history_society-12",
+    "target_id": "fixture:history_society:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sable Racket Cup connects to Harbor Board League in the fictional sports and games atlas.",
+    "id": "39187823a8556f058a6e73ff",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:sports_games:08",
+    "statement_id": "fixture-statement-sports_games-08",
+    "target_id": "fixture:sports_games:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Hearthline Orchestra connects to Copper Reed in the fictional music and performance atlas.",
+    "id": "3a0aab1ebfbff603e6214ff0",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:music_performance:06",
+    "statement_id": "fixture-statement-music_performance-06",
+    "target_id": "fixture:music_performance:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
+    "id": "3c2c0f1c77174b1f246a10a1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:people:08",
+    "statement_id": "fixture-statement-people-08",
+    "target_id": "fixture:people:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Court connects to Tideway Regatta in the fictional sports and games atlas.",
+    "id": "3ca2a2f24084ef54024825d5",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:sports_games:04",
+    "statement_id": "fixture-statement-sports_games-03",
+    "target_id": "fixture:sports_games:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
+    "id": "3ccf45d40671d3832e294c4c",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:places_architecture:08",
+    "statement_id": "fixture-statement-places_architecture-08",
+    "target_id": "fixture:places_architecture:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Morrow Observatory connects to Glasswing Sensor in the fictional science and technology atlas.",
+    "id": "3f5b2412afe9d3e25627ab82",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:science_technology:05",
+    "statement_id": "fixture-statement-science_technology-04",
+    "target_id": "fixture:science_technology:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Paper Moon Festival connects to Juniper Reed in the fictional music and performance atlas.",
+    "id": "4672f887df5e5696be95638d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:music_performance:01",
+    "statement_id": "fixture-statement-music_performance-12",
+    "target_id": "fixture:music_performance:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Atlas Signal connects to Lumen Engine in the fictional science and technology atlas.",
+    "id": "48630b0dcc377669c56cf958",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:science_technology:01",
+    "statement_id": "fixture-statement-science_technology-12",
+    "target_id": "fixture:science_technology:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harbor Charter connects to Lantern Census in the fictional history and society atlas.",
+    "id": "48643230cacad47c1a4043ac",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:history_society:02",
+    "statement_id": "fixture-statement-history_society-02",
+    "target_id": "fixture:history_society:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ada Tideglass was a member of the Wayfinder Circle.",
+    "id": "4a09cfd899c829ae9bbd3087",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:people:06",
+    "statement_id": "fixture-statement-people-06",
+    "target_id": "fixture:people:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Lexicon connects to The Paper Compass in the fictional literature and language atlas.",
+    "id": "4a7377d5c119e583a37ad3fe",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:literature_language:04",
+    "statement_id": "fixture-statement-literature_language-03",
+    "target_id": "fixture:literature_language:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Proclamation connects to Public Map Room in the fictional history and society atlas.",
+    "id": "4a757b14a586b652abeb8584",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:history_society:11",
+    "statement_id": "fixture-statement-history_society-10",
+    "target_id": "fixture:history_society:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
+    "id": "4d3d0fb05958b9252be5b984",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:people:05",
+    "statement_id": "fixture-statement-people-04",
+    "target_id": "fixture:people:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
+    "id": "4da8df7ddfdf099f39b71213",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:people:12",
+    "statement_id": "fixture-statement-people-12",
+    "target_id": "fixture:people:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Long Crossing connects to Harborlight Studio in the fictional film and media atlas.",
+    "id": "4eb1cd3dd9497e64f4827ef7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:film_media:05",
+    "statement_id": "fixture-statement-film_media-04",
+    "target_id": "fixture:film_media:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
+    "id": "5225451b1c539ba5507797e2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:art_design:03",
+    "statement_id": "fixture-statement-art_design-02",
+    "target_id": "fixture:art_design:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Archive connects to Meridian March in the fictional history and society atlas.",
+    "id": "52826da385369268da6340d3",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:history_society:06",
+    "statement_id": "fixture-statement-history_society-05",
+    "target_id": "fixture:history_society:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ilex Quay was named after Wren Ilex.",
+    "id": "537dd831f8dfa596f702b789",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:places_architecture:09",
+    "statement_id": "fixture-statement-places_architecture-08",
+    "target_id": "fixture:places_architecture:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Dawn Library connects to The Saltline Chronicle in the fictional literature and language atlas.",
+    "id": "544d3fedaa2801ffeba306e6",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:literature_language:01",
+    "statement_id": "fixture-statement-literature_language-12",
+    "target_id": "fixture:literature_language:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Dawn Concert Hall connects to Hearthline Orchestra in the fictional music and performance atlas.",
+    "id": "5456428838224b5d8c28a0c8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:music_performance:05",
+    "statement_id": "fixture-statement-music_performance-05",
+    "target_id": "fixture:music_performance:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harbor Readers Circle connects to Blank Margin Prize in the fictional literature and language atlas.",
+    "id": "551f0b5a26b6be2f70c490a1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:literature_language:09",
+    "statement_id": "fixture-statement-literature_language-09",
+    "target_id": "fixture:literature_language:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copperleaf Assembly connects to Harbor Charter in the fictional history and society atlas.",
+    "id": "59aaba168ecc25046eb9fb0d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_society:01",
+    "statement_id": "fixture-statement-history_society-01",
+    "target_id": "fixture:history_society:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Dialect connects to Tobin Quill in the fictional literature and language atlas.",
+    "id": "59e3aff60b2ed9a6cd955566",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:literature_language:07",
+    "statement_id": "fixture-statement-literature_language-06",
+    "target_id": "fixture:literature_language:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
+    "id": "5a7b0d65e22d3ce6cbc5546d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:10",
+    "statement_id": "fixture-statement-places_architecture-09",
+    "target_id": "fixture:places_architecture:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sera Chime connects to Dawn Concert Hall in the fictional music and performance atlas.",
+    "id": "5be63ccf09978fb7d5daacf8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:music_performance:04",
+    "statement_id": "fixture-statement-music_performance-04",
+    "target_id": "fixture:music_performance:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
+    "id": "5cf2ae286434cfe1f3e4f374",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:people:06",
+    "statement_id": "fixture-statement-people-05",
+    "target_id": "fixture:people:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Coil Array connects to Morrow Observatory in the fictional science and technology atlas.",
+    "id": "5dc09477ba5f036160907b02",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:science_technology:04",
+    "statement_id": "fixture-statement-science_technology-03",
+    "target_id": "fixture:science_technology:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Field Team connects to Atlas Games Medal in the fictional sports and games atlas.",
+    "id": "5e2c417af437d89293ea1516",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:sports_games:12",
+    "statement_id": "fixture-statement-sports_games-11",
+    "target_id": "fixture:sports_games:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
+    "id": "5f23a5a97d364cb8ed31dd75",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:nature_life:09",
+    "statement_id": "fixture-statement-nature_life-08",
+    "target_id": "fixture:nature_life:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
+    "id": "5fd28ae9b171db02a3011574",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:people:10",
+    "statement_id": "fixture-statement-people-09",
+    "target_id": "fixture:people:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Long Crossing connects to Harborlight Studio in the fictional film and media atlas.",
+    "id": "6319cd68080c921035f92e68",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:film_media:04",
+    "statement_id": "fixture-statement-film_media-04",
+    "target_id": "fixture:film_media:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
+    "id": "64bffdbd773f29d268c48546",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:06",
+    "statement_id": "fixture-statement-places_architecture-05",
+    "target_id": "fixture:places_architecture:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
+    "id": "655d8214200d08381d410ea5",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_life:12",
+    "statement_id": "fixture-statement-nature_life-11",
+    "target_id": "fixture:nature_life:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens is part of the Saffron Glider Survey toolkit.",
+    "id": "6665d02ef267092050af2358",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:nature_life:11",
+    "statement_id": "fixture-statement-nature_life-11",
+    "target_id": "fixture:nature_life:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
+    "id": "67738cd747ba830dfc191cd1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:art_design:10",
+    "statement_id": "fixture-statement-art_design-10",
+    "target_id": "fixture:art_design:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Prism Relay connects to Copper Coil Array in the fictional science and technology atlas.",
+    "id": "683657b547cb0a778b538664",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:science_technology:02",
+    "statement_id": "fixture-statement-science_technology-02",
+    "target_id": "fixture:science_technology:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Reed connects to Mosslight Chorus in the fictional music and performance atlas.",
+    "id": "68c9cea55a351097cc203553",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:music_performance:08",
+    "statement_id": "fixture-statement-music_performance-07",
+    "target_id": "fixture:music_performance:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
+    "id": "69d47e30e49e7a3fac44dc8b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:places_architecture:03",
+    "statement_id": "fixture-statement-places_architecture-02",
+    "target_id": "fixture:places_architecture:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Reed connects to Velvet Estuary in the fictional music and performance atlas.",
+    "id": "6c4c01df6988fda23fc7efe1",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:music_performance:02",
+    "statement_id": "fixture-statement-music_performance-01",
+    "target_id": "fixture:music_performance:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
+    "id": "6cf88a2db6849f4fa8ee2aa7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:01",
+    "statement_id": "fixture-statement-places_architecture-12",
+    "target_id": "fixture:places_architecture:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
+    "id": "6d685401e598f33e7c62fa0e",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:02",
+    "statement_id": "fixture-statement-places_architecture-01",
+    "target_id": "fixture:places_architecture:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Cinema connects to Ochre Window in the fictional film and media atlas.",
+    "id": "6defae2eba692ec00cc9ef9a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:film_media:01",
+    "statement_id": "fixture-statement-film_media-12",
+    "target_id": "fixture:film_media:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copperleaf Assembly connects to Harbor Charter in the fictional history and society atlas.",
+    "id": "6f1d1b2775f9e263a792f424",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:history_society:02",
+    "statement_id": "fixture-statement-history_society-01",
+    "target_id": "fixture:history_society:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Fieldnote Database connects to Bracken Robot in the fictional science and technology atlas.",
+    "id": "6f99df284feae08686bff7c6",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:science_technology:11",
+    "statement_id": "fixture-statement-science_technology-10",
+    "target_id": "fixture:science_technology:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
+    "id": "70254c864715862ca34c8d1a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:12",
+    "statement_id": "fixture-statement-places_architecture-11",
+    "target_id": "fixture:places_architecture:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian March connects to Founders' Ledger in the fictional history and society atlas.",
+    "id": "7062397d8fc6de617b78d873",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:history_society:06",
+    "statement_id": "fixture-statement-history_society-06",
+    "target_id": "fixture:history_society:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
+    "id": "70b79dd008a7237827f97356",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:art_design:01",
+    "statement_id": "fixture-statement-art_design-12",
+    "target_id": "fixture:art_design:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Founders' Ledger connects to Sable Reform in the fictional history and society atlas.",
+    "id": "70cda89571d0894ebdd61db1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:history_society:07",
+    "statement_id": "fixture-statement-history_society-07",
+    "target_id": "fixture:history_society:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
+    "id": "725ecfb9d6188d82f236d62b",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_life:04",
+    "statement_id": "fixture-statement-nature_life-04",
+    "target_id": "fixture:nature_life:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Prism Observatory is located in Fenmere City.",
+    "id": "72a8754307212315f34c3f68",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:nature_life:08",
+    "statement_id": "fixture-statement-nature_life-08",
+    "target_id": "fixture:nature_life:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Regatta connects to Copper Knight Club in the fictional sports and games atlas.",
+    "id": "72e26a43f9d6f4e55ef77924",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:sports_games:04",
+    "statement_id": "fixture-statement-sports_games-04",
+    "target_id": "fixture:sports_games:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Hearthline Orchestra connects to Copper Reed in the fictional music and performance atlas.",
+    "id": "732e59353be349af4a71f543",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:music_performance:07",
+    "statement_id": "fixture-statement-music_performance-06",
+    "target_id": "fixture:music_performance:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
+    "id": "74c4531ae75e36994f17d8ab",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:people:02",
+    "statement_id": "fixture-statement-people-02",
+    "target_id": "fixture:people:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tavi Morrow worked for Bracken Field Station.",
+    "id": "756874867eae03cfa32b1519",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_life:05",
+    "statement_id": "fixture-statement-nature_life-04",
+    "target_id": "fixture:nature_life:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harborlight Studio connects to Rhea Vale in the fictional film and media atlas.",
+    "id": "77324ced4b28ce279ad5d7ef",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:film_media:05",
+    "statement_id": "fixture-statement-film_media-05",
+    "target_id": "fixture:film_media:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ferrymakers Hall is located on Ilex Quay.",
+    "id": "77fc1e103a0baa975a6f940f",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:09",
+    "statement_id": "fixture-statement-places_architecture-09",
+    "target_id": "fixture:places_architecture:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Paper Moon Festival connects to Juniper Reed in the fictional music and performance atlas.",
+    "id": "78f081aaf5f2c4918557aaaa",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:music_performance:12",
+    "statement_id": "fixture-statement-music_performance-12",
+    "target_id": "fixture:music_performance:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Eleven connects to Northglass Court in the fictional sports and games atlas.",
+    "id": "7b30dc5d056dd5092eea31b5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:sports_games:02",
+    "statement_id": "fixture-statement-sports_games-02",
+    "target_id": "fixture:sports_games:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mira Quill connects to Northglass Lexicon in the fictional literature and language atlas.",
+    "id": "7d40f158e8937e9490b18489",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:literature_language:02",
+    "statement_id": "fixture-statement-literature_language-02",
+    "target_id": "fixture:literature_language:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current was performed by Juniper Vale.",
+    "id": "7d429135564fcd2583931152",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P175",
+    "source_id": "fixture:art_design:01",
+    "statement_id": "fixture-statement-art_design-01",
+    "target_id": "fixture:art_design:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Avenmark Games connects to Kestrel Eleven in the fictional sports and games atlas.",
+    "id": "7da4c95eecafa0a08ad9bec7",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:sports_games:01",
+    "statement_id": "fixture-statement-sports_games-01",
+    "target_id": "fixture:sports_games:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable received the Hale Medal.",
+    "id": "7e506c10bed6f47d5221e994",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:people:09",
+    "statement_id": "fixture-statement-people-08",
+    "target_id": "fixture:people:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideclock Network connects to Saffron Laboratory in the fictional science and technology atlas.",
+    "id": "7e9e8b89f0128585825e70fc",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:science_technology:07",
+    "statement_id": "fixture-statement-science_technology-07",
+    "target_id": "fixture:science_technology:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Current is part of the Driftglass Suite.",
+    "id": "7f9eb73cb994df34e7e4bc97",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:art_design:02",
+    "statement_id": "fixture-statement-art_design-02",
+    "target_id": "fixture:art_design:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Window connects to Orra Fen in the fictional film and media atlas.",
+    "id": "81cedf4e1c20f434abb3b831",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:film_media:02",
+    "statement_id": "fixture-statement-film_media-01",
+    "target_id": "fixture:film_media:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Robot connects to Atlas Signal in the fictional science and technology atlas.",
+    "id": "81eb8446e7e7e0f56a18cbdd",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:science_technology:12",
+    "statement_id": "fixture-statement-science_technology-11",
+    "target_id": "fixture:science_technology:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Estuary connects to Driftglass Concerto in the fictional music and performance atlas.",
+    "id": "8360217b6182c06c758fb1e4",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:music_performance:03",
+    "statement_id": "fixture-statement-music_performance-02",
+    "target_id": "fixture:music_performance:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was a member of the Northglass Society.",
+    "id": "83fc26346e35334befa9d4c1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:people:01",
+    "statement_id": "fixture-statement-people-12",
+    "target_id": "fixture:people:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Silver Route Award connects to Tideway Cinema in the fictional film and media atlas.",
+    "id": "840fdb66ca262a6daac619de",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:film_media:11",
+    "statement_id": "fixture-statement-film_media-11",
+    "target_id": "fixture:film_media:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tobin Quill connects to The Quiet Estuary in the fictional literature and language atlas.",
+    "id": "8497c38f237f2454adb61bc6",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:literature_language:07",
+    "statement_id": "fixture-statement-literature_language-07",
+    "target_id": "fixture:literature_language:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
+    "id": "84c89232fa83316be6604c81",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:places_architecture:08",
+    "statement_id": "fixture-statement-places_architecture-07",
+    "target_id": "fixture:places_architecture:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sera Chime connects to Dawn Concert Hall in the fictional music and performance atlas.",
+    "id": "86a5e29db4d434efa3b4f01e",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:music_performance:05",
+    "statement_id": "fixture-statement-music_performance-04",
+    "target_id": "fixture:music_performance:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Saffron Laboratory connects to Meridian Telescope in the fictional science and technology atlas.",
+    "id": "86baaf5cb88bdc943494a51b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:science_technology:09",
+    "statement_id": "fixture-statement-science_technology-08",
+    "target_id": "fixture:science_technology:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Bay is located in South Kestrel District.",
+    "id": "87114dc83845914e03aa6b73",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:01",
+    "statement_id": "fixture-statement-places_architecture-01",
+    "target_id": "fixture:places_architecture:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival also uses Tideway Pavilion.",
+    "id": "8723770ef13f7f5078d9143e",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:11",
+    "statement_id": "fixture-statement-places_architecture-11",
+    "target_id": "fixture:places_architecture:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Pavilion is located at Kestrel Bay.",
+    "id": "875efff7e58ecbca471436d5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:12",
+    "statement_id": "fixture-statement-places_architecture-12",
+    "target_id": "fixture:places_architecture:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Concerto connects to Tideway Opera in the fictional music and performance atlas.",
+    "id": "879e30c5712611547db82c66",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:music_performance:10",
+    "statement_id": "fixture-statement-music_performance-10",
+    "target_id": "fixture:music_performance:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Field Reel Archive connects to Mossframe Animation in the fictional film and media atlas.",
+    "id": "87c21f981a8e26446fbea921",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:film_media:07",
+    "statement_id": "fixture-statement-film_media-07",
+    "target_id": "fixture:film_media:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
+    "id": "88b991b4cc2bed76c4c9d47b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:people:07",
+    "statement_id": "fixture-statement-people-07",
+    "target_id": "fixture:people:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mossframe Animation connects to Lantern Broadcast in the fictional film and media atlas.",
+    "id": "8c011c3f97ddf5a0abdcc703",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:film_media:09",
+    "statement_id": "fixture-statement-film_media-08",
+    "target_id": "fixture:film_media:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
+    "id": "8c49d4d7e72c320a6b0a7ff2",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:art_design:04",
+    "statement_id": "fixture-statement-art_design-04",
+    "target_id": "fixture:art_design:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kestrel Camera connects to The Long Crossing in the fictional film and media atlas.",
+    "id": "8c9273d9b5cc0953c4bf4284",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:film_media:03",
+    "statement_id": "fixture-statement-film_media-03",
+    "target_id": "fixture:film_media:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Ballet connects to Lantern Concerto in the fictional music and performance atlas.",
+    "id": "8e2614c9e12585b833e83050",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:music_performance:09",
+    "statement_id": "fixture-statement-music_performance-09",
+    "target_id": "fixture:music_performance:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian Wheel Race connects to Bracken Field Team in the fictional sports and games atlas.",
+    "id": "905f6208b71e47a8c77b99a2",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:sports_games:10",
+    "statement_id": "fixture-statement-sports_games-10",
+    "target_id": "fixture:sports_games:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Copper Coil Array connects to Morrow Observatory in the fictional science and technology atlas.",
+    "id": "907e588394ab903d0d9b4495",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:science_technology:03",
+    "statement_id": "fixture-statement-science_technology-03",
+    "target_id": "fixture:science_technology:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Esten Hale's notable work is the Meridian Expedition.",
+    "id": "90fc6ff6568ca36add544779",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:people:11",
+    "statement_id": "fixture-statement-people-10",
+    "target_id": "fixture:people:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Vale connects to Field Reel Archive in the fictional film and media atlas.",
+    "id": "9270f04334d109491900abfd",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:film_media:07",
+    "statement_id": "fixture-statement-film_media-06",
+    "target_id": "fixture:film_media:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Vale worked for Dawn Stage.",
+    "id": "92944a5113a507f132f24352",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:art_design:12",
+    "statement_id": "fixture-statement-art_design-12",
+    "target_id": "fixture:art_design:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Avenmark Games connects to Kestrel Eleven in the fictional sports and games atlas.",
+    "id": "92fe128168bce0027290f981",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:sports_games:02",
+    "statement_id": "fixture-statement-sports_games-01",
+    "target_id": "fixture:sports_games:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Vale connects to Field Reel Archive in the fictional film and media atlas.",
+    "id": "95ee762637c71f00917d7259",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:film_media:06",
+    "statement_id": "fixture-statement-film_media-06",
+    "target_id": "fixture:film_media:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Elian Voss was born in Gannet Hollow.",
+    "id": "96c009b81ab5b776829416ab",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P19",
+    "source_id": "fixture:people:02",
+    "statement_id": "fixture-statement-people-01",
+    "target_id": "fixture:people:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
+    "id": "985e8de207eb2cda65f4131b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:06",
+    "statement_id": "fixture-statement-places_architecture-06",
+    "target_id": "fixture:places_architecture:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Concerto connects to Tideway Opera in the fictional music and performance atlas.",
+    "id": "9866ccd91c8d2118fe2740e6",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:music_performance:11",
+    "statement_id": "fixture-statement-music_performance-10",
+    "target_id": "fixture:music_performance:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hearthline Ensemble is based at Dawn Stage.",
+    "id": "98f37f819c4abb5e24b80885",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:art_design:11",
+    "statement_id": "fixture-statement-art_design-11",
+    "target_id": "fixture:art_design:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Opera connects to Paper Moon Festival in the fictional music and performance atlas.",
+    "id": "996a27960f05253f89673cd0",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:music_performance:11",
+    "statement_id": "fixture-statement-music_performance-11",
+    "target_id": "fixture:music_performance:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
+    "id": "99bfdc720c463d4ce01c79f7",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_life:10",
+    "statement_id": "fixture-statement-nature_life-09",
+    "target_id": "fixture:nature_life:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
+    "id": "9a867f713cd0c5a79a02a690",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_life:02",
+    "statement_id": "fixture-statement-nature_life-01",
+    "target_id": "fixture:nature_life:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
+    "id": "9ae54b5181d3eecf40af3395",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P161",
+    "source_id": "fixture:art_design:09",
+    "statement_id": "fixture-statement-art_design-08",
+    "target_id": "fixture:art_design:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
+    "id": "9bcdf54b94d6d0e8f97ea73d",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_life:11",
+    "statement_id": "fixture-statement-nature_life-10",
+    "target_id": "fixture:nature_life:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Atlas Games Medal connects to Avenmark Games in the fictional sports and games atlas.",
+    "id": "9d7435dab3b68b47398490d5",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:sports_games:01",
+    "statement_id": "fixture-statement-sports_games-12",
+    "target_id": "fixture:sports_games:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Compass connects to Gannet Press in the fictional literature and language atlas.",
+    "id": "a29b4980ecc9b2ddc99b2ead",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:literature_language:05",
+    "statement_id": "fixture-statement-literature_language-04",
+    "target_id": "fixture:literature_language:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Chorus connects to Northglass Ballet in the fictional music and performance atlas.",
+    "id": "a306ba6f83c20b7117e42191",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:music_performance:08",
+    "statement_id": "fixture-statement-music_performance-08",
+    "target_id": "fixture:music_performance:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Field Reel Archive connects to Mossframe Animation in the fictional film and media atlas.",
+    "id": "a3a48232abb10c3cd61c0ac2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:film_media:08",
+    "statement_id": "fixture-statement-film_media-07",
+    "target_id": "fixture:film_media:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron glider's parent taxon is Glider moths.",
+    "id": "a4a1ff407bfc77f0fa7e3f14",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_life:01",
+    "statement_id": "fixture-statement-nature_life-01",
+    "target_id": "fixture:nature_life:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mira Quill connects to Northglass Lexicon in the fictional literature and language atlas.",
+    "id": "a4e7722941c6172fb21f8f60",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:literature_language:03",
+    "statement_id": "fixture-statement-literature_language-02",
+    "target_id": "fixture:literature_language:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
+    "id": "a532bd758e09dfebb704b4da",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:nature_life:08",
+    "statement_id": "fixture-statement-nature_life-07",
+    "target_id": "fixture:nature_life:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Robot connects to Atlas Signal in the fictional science and technology atlas.",
+    "id": "a65892f12f6175d30a2e7225",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:science_technology:11",
+    "statement_id": "fixture-statement-science_technology-11",
+    "target_id": "fixture:science_technology:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Lumen Lens was invented by Celia Rune.",
+    "id": "a8b7deb1fded6243db88dc32",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_life:10",
+    "statement_id": "fixture-statement-nature_life-10",
+    "target_id": "fixture:nature_life:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Fieldnote Database connects to Bracken Robot in the fictional science and technology atlas.",
+    "id": "ab09ac7e7dc527efb14e5bcc",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:science_technology:10",
+    "statement_id": "fixture-statement-science_technology-10",
+    "target_id": "fixture:science_technology:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol's notable work is the Tideglass Atlas.",
+    "id": "ab6f88cf337a1e6220de3e94",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:people:04",
+    "statement_id": "fixture-statement-people-04",
+    "target_id": "fixture:people:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Marathon connects to Mosslight Arena in the fictional sports and games atlas.",
+    "id": "aba94f9cf47d35db326f9aa2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:sports_games:07",
+    "statement_id": "fixture-statement-sports_games-06",
+    "target_id": "fixture:sports_games:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Atlas Signal connects to Lumen Engine in the fictional science and technology atlas.",
+    "id": "ac57cb2dfc01f6861eff1635",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:science_technology:12",
+    "statement_id": "fixture-statement-science_technology-12",
+    "target_id": "fixture:science_technology:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Driftglass Concerto connects to Sera Chime in the fictional music and performance atlas.",
+    "id": "af341dd484e89f29f7e5d6ec",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:music_performance:03",
+    "statement_id": "fixture-statement-music_performance-03",
+    "target_id": "fixture:music_performance:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Union connects to Ochre Proclamation in the fictional history and society atlas.",
+    "id": "af67e80fb06f74956cc603d7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:history_society:10",
+    "statement_id": "fixture-statement-history_society-09",
+    "target_id": "fixture:history_society:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Broadcast connects to Northglass Documentary in the fictional film and media atlas.",
+    "id": "b07dced822486f886ca83de9",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:film_media:09",
+    "statement_id": "fixture-statement-film_media-09",
+    "target_id": "fixture:film_media:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sable Reform connects to Tideway Union in the fictional history and society atlas.",
+    "id": "b0cf4f72a910687036446937",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:history_society:09",
+    "statement_id": "fixture-statement-history_society-08",
+    "target_id": "fixture:history_society:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
+    "id": "b36f37f3d123724e00c91b64",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P69",
+    "source_id": "fixture:people:03",
+    "statement_id": "fixture-statement-people-03",
+    "target_id": "fixture:people:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Saffron Laboratory connects to Meridian Telescope in the fictional science and technology atlas.",
+    "id": "b39f42ec7331340db1e52271",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:science_technology:08",
+    "statement_id": "fixture-statement-science_technology-08",
+    "target_id": "fixture:science_technology:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Public Map Room connects to New Coast Congress in the fictional history and society atlas.",
+    "id": "b3a744d174c499f6d6094054",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:history_society:11",
+    "statement_id": "fixture-statement-history_society-11",
+    "target_id": "fixture:history_society:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Census connects to Common Table Accord in the fictional history and society atlas.",
+    "id": "b41d2f8d9cd8ad3712045ec1",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:history_society:03",
+    "statement_id": "fixture-statement-history_society-03",
+    "target_id": "fixture:history_society:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rowan Sable worked for the Wayfinder Circle.",
+    "id": "b78d885a627278d3f609b772",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:people:08",
+    "statement_id": "fixture-statement-people-07",
+    "target_id": "fixture:people:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
+    "id": "b79fe3884e96930687c10ce7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_life:04",
+    "statement_id": "fixture-statement-nature_life-03",
+    "target_id": "fixture:nature_life:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Tideglass Atlas was named after Ada Tideglass.",
+    "id": "b7f60b3b88b3317e4e51d052",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:people:05",
+    "statement_id": "fixture-statement-people-05",
+    "target_id": "fixture:people:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasswing Sensor connects to Northglass Computer in the fictional science and technology atlas.",
+    "id": "b931b7a117238c53c586425c",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:science_technology:06",
+    "statement_id": "fixture-statement-science_technology-05",
+    "target_id": "fixture:science_technology:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors is displayed at Glasshouse Museum.",
+    "id": "b96972ec5ed4c2ddf92e41ab",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:07",
+    "statement_id": "fixture-statement-places_architecture-06",
+    "target_id": "fixture:places_architecture:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Quiet Estuary connects to Harbor Readers Circle in the fictional literature and language atlas.",
+    "id": "bb18f98695ad0b05ac8db86a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:literature_language:09",
+    "statement_id": "fixture-statement-literature_language-08",
+    "target_id": "fixture:literature_language:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Glasshouse Museum is located in Lantern Ward.",
+    "id": "bc15640d3702b130358b8440",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:05",
+    "statement_id": "fixture-statement-places_architecture-05",
+    "target_id": "fixture:places_architecture:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Meridian Expedition is part of Northglass Society research.",
+    "id": "bcec6cd6962d3fcd4becdb9b",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:people:11",
+    "statement_id": "fixture-statement-people-11",
+    "target_id": "fixture:people:12"
+  },
+  {
+    "explanation": "Fictional fixture fact: Kei Moss was influenced by Rhea Dune.",
+    "id": "bcf7f67c302013388c8bac7e",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:art_design:10",
+    "statement_id": "fixture-statement-art_design-09",
+    "target_id": "fixture:art_design:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Nera Sol was educated at Lantern School.",
+    "id": "bd05f5e6a601fe7b51cc0874",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P69",
+    "source_id": "fixture:people:04",
+    "statement_id": "fixture-statement-people-03",
+    "target_id": "fixture:people:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saffron Glider Survey was named after the Saffron glider.",
+    "id": "bd792d8c62fcefc20b7d88d8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:nature_life:12",
+    "statement_id": "fixture-statement-nature_life-12",
+    "target_id": "fixture:nature_life:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tobin Quill connects to The Quiet Estuary in the fictional literature and language atlas.",
+    "id": "bdadd749972da8dd22f4ac83",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:literature_language:08",
+    "statement_id": "fixture-statement-literature_language-07",
+    "target_id": "fixture:literature_language:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Celia Rune worked for Prism Observatory.",
+    "id": "be67ec22d70dc6531c4b0110",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:nature_life:09",
+    "statement_id": "fixture-statement-nature_life-09",
+    "target_id": "fixture:nature_life:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
+    "id": "c00e81e1490c8509e7b48782",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P57",
+    "source_id": "fixture:art_design:07",
+    "statement_id": "fixture-statement-art_design-07",
+    "target_id": "fixture:art_design:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Blank Margin Prize connects to Tideglass Translation in the fictional literature and language atlas.",
+    "id": "c2a1425cae277dd6d4cb9839",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:literature_language:10",
+    "statement_id": "fixture-statement-literature_language-10",
+    "target_id": "fixture:literature_language:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Common Table Accord connects to Northglass Archive in the fictional history and society atlas.",
+    "id": "c36254df8aebe26304ea7565",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:history_society:04",
+    "statement_id": "fixture-statement-history_society-04",
+    "target_id": "fixture:history_society:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Cinema connects to Ochre Window in the fictional film and media atlas.",
+    "id": "c3c86645b433075e2bec02d4",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:film_media:12",
+    "statement_id": "fixture-statement-film_media-12",
+    "target_id": "fixture:film_media:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Gannet Press connects to Lantern Dialect in the fictional literature and language atlas.",
+    "id": "c41df47e051ad289a43e9e54",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:literature_language:05",
+    "statement_id": "fixture-statement-literature_language-05",
+    "target_id": "fixture:literature_language:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Computer connects to Tideclock Network in the fictional science and technology atlas.",
+    "id": "c4d5402d03bb3cb7d77f1f9a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:science_technology:07",
+    "statement_id": "fixture-statement-science_technology-06",
+    "target_id": "fixture:science_technology:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Chronicle connects to Mira Quill in the fictional literature and language atlas.",
+    "id": "c4e5f215521d779e0fc4d083",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:literature_language:01",
+    "statement_id": "fixture-statement-literature_language-01",
+    "target_id": "fixture:literature_language:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern School is located in Gannet Hollow.",
+    "id": "c79fa8f5a41795613745fc20",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:people:03",
+    "statement_id": "fixture-statement-people-02",
+    "target_id": "fixture:people:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian Wheel Race connects to Bracken Field Team in the fictional sports and games atlas.",
+    "id": "c9dd6a9f43b409c27d783d7a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:sports_games:11",
+    "statement_id": "fixture-statement-sports_games-10",
+    "target_id": "fixture:sports_games:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Lexicon connects to The Paper Compass in the fictional literature and language atlas.",
+    "id": "cb4e309212133dcc1faa600b",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:literature_language:03",
+    "statement_id": "fixture-statement-literature_language-03",
+    "target_id": "fixture:literature_language:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
+    "id": "cc3e3463621fa6314632ffba",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:11",
+    "statement_id": "fixture-statement-places_architecture-10",
+    "target_id": "fixture:places_architecture:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Dialect connects to Tobin Quill in the fictional literature and language atlas.",
+    "id": "cc7964ce4f746071369742ef",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:literature_language:06",
+    "statement_id": "fixture-statement-literature_language-06",
+    "target_id": "fixture:literature_language:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Silver Route Award connects to Tideway Cinema in the fictional film and media atlas.",
+    "id": "cd5121e9051cfa16f2ea6e23",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:film_media:12",
+    "statement_id": "fixture-statement-film_media-11",
+    "target_id": "fixture:film_media:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Union connects to Ochre Proclamation in the fictional history and society atlas.",
+    "id": "ce043481392fabcc8a60f269",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:history_society:09",
+    "statement_id": "fixture-statement-history_society-09",
+    "target_id": "fixture:history_society:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Juniper Reed connects to Velvet Estuary in the fictional music and performance atlas.",
+    "id": "ce287fbd6688c88912534737",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:music_performance:01",
+    "statement_id": "fixture-statement-music_performance-01",
+    "target_id": "fixture:music_performance:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
+    "id": "cf1f58731cf8663bc002409d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:04",
+    "statement_id": "fixture-statement-places_architecture-04",
+    "target_id": "fixture:places_architecture:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Documentary connects to Silver Route Award in the fictional film and media atlas.",
+    "id": "d155dab69644485eb915189f",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:film_media:11",
+    "statement_id": "fixture-statement-film_media-10",
+    "target_id": "fixture:film_media:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door features cast member Kei Moss.",
+    "id": "d45e19e3c7b46663f70e185e",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P161",
+    "source_id": "fixture:art_design:08",
+    "statement_id": "fixture-statement-art_design-08",
+    "target_id": "fixture:art_design:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Compass connects to Gannet Press in the fictional literature and language atlas.",
+    "id": "d59c74574362f7c2210d57a8",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:literature_language:04",
+    "statement_id": "fixture-statement-literature_language-04",
+    "target_id": "fixture:literature_language:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Rhea Dune is a member of the Hearthline Ensemble.",
+    "id": "d5b26a668230fd7734442be7",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:art_design:11",
+    "statement_id": "fixture-statement-art_design-10",
+    "target_id": "fixture:art_design:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Atlas of Small Harbors was created by Wren Ilex.",
+    "id": "d82617763f0519a1a5337730",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:places_architecture:07",
+    "statement_id": "fixture-statement-places_architecture-07",
+    "target_id": "fixture:places_architecture:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Dawn Concert Hall connects to Hearthline Orchestra in the fictional music and performance atlas.",
+    "id": "d88ff1b9482d0afc3c391027",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:music_performance:06",
+    "statement_id": "fixture-statement-music_performance-05",
+    "target_id": "fixture:music_performance:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Harbor Board League connects to Meridian Wheel Race in the fictional sports and games atlas.",
+    "id": "da2672439f5f7980f287f85d",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:sports_games:10",
+    "statement_id": "fixture-statement-sports_games-09",
+    "target_id": "fixture:sports_games:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideclock Network connects to Saffron Laboratory in the fictional science and technology atlas.",
+    "id": "da8c0dd18ec29683e92e98e9",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:science_technology:08",
+    "statement_id": "fixture-statement-science_technology-07",
+    "target_id": "fixture:science_technology:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Bracken Field Station is located in Mosslight Preserve.",
+    "id": "de47cec1fe3e06aa8cec314b",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:nature_life:06",
+    "statement_id": "fixture-statement-nature_life-05",
+    "target_id": "fixture:nature_life:05"
+  },
+  {
+    "explanation": "Fictional fixture fact: Tideway Regatta connects to Copper Knight Club in the fictional sports and games atlas.",
+    "id": "df4a1d41d6ea9bf0688a8cb8",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P170",
+    "source_id": "fixture:sports_games:05",
+    "statement_id": "fixture-statement-sports_games-04",
+    "target_id": "fixture:sports_games:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Amberwing family was described by Tavi Morrow.",
+    "id": "e149572a94132093ed66e9c5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:nature_life:03",
+    "statement_id": "fixture-statement-nature_life-03",
+    "target_id": "fixture:nature_life:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian Telescope connects to Fieldnote Database in the fictional science and technology atlas.",
+    "id": "e2114afaee03183349554a04",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:science_technology:10",
+    "statement_id": "fixture-statement-science_technology-09",
+    "target_id": "fixture:science_technology:09"
+  },
+  {
+    "explanation": "Fictional fixture fact: Founders' Ledger connects to Sable Reform in the fictional history and society atlas.",
+    "id": "e5746b1a1c748fd1a7f5a275",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:history_society:08",
+    "statement_id": "fixture-statement-history_society-07",
+    "target_id": "fixture:history_society:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Atlas Games Medal connects to Avenmark Games in the fictional sports and games atlas.",
+    "id": "e5eccbbb37c8acdbd48dbc99",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P61",
+    "source_id": "fixture:sports_games:12",
+    "statement_id": "fixture-statement-sports_games-12",
+    "target_id": "fixture:sports_games:01"
+  },
+  {
+    "explanation": "Fictional fixture fact: Sera Loom's notable work is the Paper Moon Libretto.",
+    "id": "e6d36efdc80f4fb547ea8407",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P800",
+    "source_id": "fixture:art_design:05",
+    "statement_id": "fixture-statement-art_design-04",
+    "target_id": "fixture:art_design:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Festival is held at Ferrymakers Hall.",
+    "id": "e76c72c257703839634b5c26",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:places_architecture:10",
+    "statement_id": "fixture-statement-places_architecture-10",
+    "target_id": "fixture:places_architecture:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Door was directed by Orra Venn.",
+    "id": "e8203122b8495d2ad3f07e86",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P57",
+    "source_id": "fixture:art_design:08",
+    "statement_id": "fixture-statement-art_design-07",
+    "target_id": "fixture:art_design:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: South Kestrel District is in the Republic of Avenmark.",
+    "id": "e996111964ba43138439bf42",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:places_architecture:02",
+    "statement_id": "fixture-statement-places_architecture-02",
+    "target_id": "fixture:places_architecture:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Marathon connects to Mosslight Arena in the fictional sports and games atlas.",
+    "id": "e9b00b54c7756b5fb4a69ce6",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:sports_games:06",
+    "statement_id": "fixture-statement-sports_games-06",
+    "target_id": "fixture:sports_games:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Fenmere Republic is Fenmere City.",
+    "id": "e9e339e82c3c906da3c1fc7a",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:nature_life:07",
+    "statement_id": "fixture-statement-nature_life-07",
+    "target_id": "fixture:nature_life:08"
+  },
+  {
+    "explanation": "Fictional fixture fact: Meridian Telescope connects to Fieldnote Database in the fictional science and technology atlas.",
+    "id": "ea75bf885772f54b513e2358",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P737",
+    "source_id": "fixture:science_technology:09",
+    "statement_id": "fixture-statement-science_technology-09",
+    "target_id": "fixture:science_technology:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Ward is located in Calder City.",
+    "id": "ebbf2e74d7385c61945f92f5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:places_architecture:05",
+    "statement_id": "fixture-statement-places_architecture-04",
+    "target_id": "fixture:places_architecture:04"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Preserve is in the Fenmere Republic.",
+    "id": "f4c8db96e3ef7c39c0aede6a",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P17",
+    "source_id": "fixture:nature_life:07",
+    "statement_id": "fixture-statement-nature_life-06",
+    "target_id": "fixture:nature_life:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Computer connects to Tideclock Network in the fictional science and technology atlas.",
+    "id": "f576b2723a298ca44c77f372",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P463",
+    "source_id": "fixture:science_technology:06",
+    "statement_id": "fixture-statement-science_technology-06",
+    "target_id": "fixture:science_technology:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Northglass Documentary connects to Silver Route Award in the fictional film and media atlas.",
+    "id": "f5cf197c97aacb4d4f87a5b6",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P166",
+    "source_id": "fixture:film_media:10",
+    "statement_id": "fixture-statement-film_media-10",
+    "target_id": "fixture:film_media:11"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Paper Moon Libretto was written by Tobin Rill.",
+    "id": "f5fdc23e2b7505b0b1e7fada",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P50",
+    "source_id": "fixture:art_design:05",
+    "statement_id": "fixture-statement-art_design-05",
+    "target_id": "fixture:art_design:06"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Hale Medal was named after Esten Hale.",
+    "id": "f65d348047c234c34afe0a76",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P138",
+    "source_id": "fixture:people:09",
+    "statement_id": "fixture-statement-people-09",
+    "target_id": "fixture:people:10"
+  },
+  {
+    "explanation": "Fictional fixture fact: The parent taxon of Glider moths is the Amberwing family.",
+    "id": "f6b593e5880ef1ea10b9405c",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P171",
+    "source_id": "fixture:nature_life:02",
+    "statement_id": "fixture-statement-nature_life-02",
+    "target_id": "fixture:nature_life:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Velvet Estuary connects to Driftglass Concerto in the fictional music and performance atlas.",
+    "id": "f988d97fc03e61ef8ce51a0f",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:music_performance:02",
+    "statement_id": "fixture-statement-music_performance-02",
+    "target_id": "fixture:music_performance:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Orra Fen connects to Kestrel Camera in the fictional film and media atlas.",
+    "id": "fb405132099500e4a930a7b5",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:film_media:02",
+    "statement_id": "fixture-statement-film_media-02",
+    "target_id": "fixture:film_media:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: The capital of the Republic of Avenmark is Calder City.",
+    "id": "fc1b6d4bdc44daacf7422ede",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P36",
+    "source_id": "fixture:places_architecture:04",
+    "statement_id": "fixture-statement-places_architecture-03",
+    "target_id": "fixture:places_architecture:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Lantern Census connects to Common Table Accord in the fictional history and society atlas.",
+    "id": "fc67da81b5180381b1a610ba",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P276",
+    "source_id": "fixture:history_society:04",
+    "statement_id": "fixture-statement-history_society-03",
+    "target_id": "fixture:history_society:03"
+  },
+  {
+    "explanation": "Fictional fixture fact: Mosslight Arena connects to Sable Racket Cup in the fictional sports and games atlas.",
+    "id": "fc76c86ffa077b0068fb5dc2",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P108",
+    "source_id": "fixture:sports_games:08",
+    "statement_id": "fixture-statement-sports_games-07",
+    "target_id": "fixture:sports_games:07"
+  },
+  {
+    "explanation": "Fictional fixture fact: Prism Relay connects to Copper Coil Array in the fictional science and technology atlas.",
+    "id": "fd4f2253c006eb74d011a6fa",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P131",
+    "source_id": "fixture:science_technology:03",
+    "statement_id": "fixture-statement-science_technology-02",
+    "target_id": "fixture:science_technology:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: Ochre Window connects to Orra Fen in the fictional film and media atlas.",
+    "id": "ff211db0f043c34496724ac0",
+    "inverse": false,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:film_media:01",
+    "statement_id": "fixture-statement-film_media-01",
+    "target_id": "fixture:film_media:02"
+  },
+  {
+    "explanation": "Fictional fixture fact: The Saltline Chronicle connects to Mira Quill in the fictional literature and language atlas.",
+    "id": "ff46ac903244f8895c65579e",
+    "inverse": true,
+    "playable": true,
+    "relation_key": "P361",
+    "source_id": "fixture:literature_language:02",
+    "statement_id": "fixture-statement-literature_language-01",
+    "target_id": "fixture:literature_language:01"
   }
 ]
