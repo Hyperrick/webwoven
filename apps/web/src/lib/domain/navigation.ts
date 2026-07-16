@@ -133,7 +133,7 @@ export function createNavigationState(
       start,
       target,
       current: start,
-      trail: [{ qid: start.qid, label: start.label }],
+      trail: [{ qid: start.qid, label: start.label, summary: start }],
       navigation_stack: [start],
       decision_history: [],
       moves: 0,
@@ -168,7 +168,12 @@ export function followEdge(
   const decision = resolvedStage(state.snapshot, entity, "follow", edgeToken);
   const trail = [
     ...state.snapshot.trail,
-    { qid: entity.qid, label: entity.label, relation: resolved.statement },
+    {
+      qid: entity.qid,
+      label: entity.label,
+      summary: entity,
+      relation: resolved.statement,
+    },
   ];
   const next: NavigationState = {
     ...state,
@@ -203,6 +208,7 @@ export function moveBack(state: NavigationState): NavigationState {
     {
       qid: entity.qid,
       label: entity.label,
+      summary: entity,
       relation: `Returned to ${entity.label}.`,
       revisited: true,
     },

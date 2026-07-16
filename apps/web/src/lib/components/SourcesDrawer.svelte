@@ -122,6 +122,12 @@
                 <strong>{imageAttribution.entityLabel}</strong> ·
                 {imageAttribution.attributionText}
               </p>
+              {#if imageAttribution.contextLabel}
+                <p>
+                  Documentary context: this image depicts
+                  <strong>{imageAttribution.contextLabel}</strong>.
+                </p>
+              {/if}
               <p class="source-ledger__media-links">
                 <a
                   class="text-link"

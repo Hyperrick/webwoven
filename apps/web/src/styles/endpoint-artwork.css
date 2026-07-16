@@ -1,0 +1,223 @@
+.endpoint-artwork {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-paper) 84%, var(--color-rule));
+  isolation: isolate;
+}
+
+.endpoint-artwork::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+  box-shadow: inset 0 -3px 0 var(--color-signal);
+  content: "";
+  pointer-events: none;
+}
+
+.endpoint-artwork--goal::after {
+  box-shadow: inset 0 -3px 0 var(--color-ochre);
+}
+
+.endpoint-artwork--node::after {
+  box-shadow: inset 0 -3px 0 var(--color-moss);
+}
+
+.endpoint-artwork img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.84) contrast(1.04);
+}
+
+.endpoint-artwork__kind {
+  position: absolute;
+  z-index: 3;
+  right: var(--space-1);
+  bottom: var(--space-1);
+  padding: 0.12rem 0.28rem;
+  color: var(--color-paper);
+  background: color-mix(in srgb, var(--color-ink) 78%, transparent);
+  font-family: var(--font-technical);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.round-intro__card--with-artwork {
+  background: var(--color-paper);
+  isolation: isolate;
+}
+
+.round-intro__card--with-artwork::before {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 62%;
+  background: color-mix(in srgb, var(--color-paper) 94%, transparent);
+  box-shadow: 0 -1.6rem 2.4rem
+    color-mix(in srgb, var(--color-paper) 84%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.round-intro__card--with-artwork > :not(.round-intro__artwork) {
+  position: relative;
+  z-index: 2;
+}
+
+.round-intro__artwork {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+}
+
+.round-intro__artwork::after {
+  display: none;
+}
+
+.round-intro__artwork img {
+  opacity: 0.9;
+  object-position: center 36%;
+  filter: saturate(0.78) contrast(1.02);
+}
+
+.round-intro__artwork .endpoint-artwork__kind {
+  top: var(--space-3);
+  right: var(--space-3);
+  bottom: auto;
+}
+
+.map-history-node--with-artwork {
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+  align-items: center;
+  width: clamp(9rem, 12vw, 11.5rem);
+}
+
+.map-history-node__artwork {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 2px;
+}
+
+.map-history-node__artwork .endpoint-artwork__kind {
+  display: none;
+}
+
+.map-history-node__copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.map-position--with-artwork {
+  grid-template-columns: 3.35rem minmax(0, 1fr);
+  column-gap: var(--space-3);
+  width: clamp(12rem, 17vw, 15rem);
+}
+
+.map-position--with-artwork > :not(.map-position__artwork) {
+  grid-column: 2;
+}
+
+.map-position__artwork {
+  grid-row: 1 / span 3;
+  align-self: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  border-radius: 2px;
+}
+
+.map-position__artwork .endpoint-artwork__kind {
+  display: none;
+}
+
+.map-choice__visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.map-choice__artwork {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+}
+
+.map-choice__artwork .endpoint-artwork__kind {
+  display: none;
+}
+
+.map-position__goal-card--with-artwork {
+  grid-template-columns: 1.667rem minmax(0, 1fr) 3.5rem;
+  gap: 0 var(--space-2);
+  align-items: center;
+  min-height: 4.75rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.map-position__goal-card--with-artwork .map-position__goal-copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.map-position__goal-card--with-artwork .map-choice__relation-mark {
+  grid-column: 1;
+  grid-row: 1;
+  border-radius: 2px 0 0;
+}
+
+.map-position__goal-artwork {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 2px;
+}
+
+.map-position__goal-artwork .endpoint-artwork__kind {
+  display: none;
+}
+
+.map-position__goal-card--with-artwork .map-position__go {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+}
+
+.route-reveal li.route-reveal__item--with-artwork {
+  gap: var(--space-4);
+  padding-top: 0;
+  overflow: hidden;
+}
+
+.route-reveal__artwork {
+  width: calc(100% + var(--space-4) * 2);
+  height: auto;
+  aspect-ratio: 5 / 4;
+  margin-inline: calc(var(--space-4) * -1);
+}
+
+.route-reveal__item--with-artwork > div {
+  min-height: 4rem;
+}
+
+@media (forced-colors: active) {
+  .endpoint-artwork {
+    border: 1px solid CanvasText;
+  }
+
+  .endpoint-artwork__kind {
+    color: CanvasText;
+    background: Canvas;
+  }
+}

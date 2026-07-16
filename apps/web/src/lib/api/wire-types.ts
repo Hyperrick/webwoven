@@ -2,6 +2,7 @@ import type {
   GameMode,
   HintOutcome,
   HintType,
+  ImageLicenseId,
   RoomState,
   SessionStatus,
 } from "./types";
@@ -11,10 +12,11 @@ export interface WireImageAttribution {
   original_url: string;
   derivative_url: string;
   source_url: string;
-  license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+  license_id: ImageLicenseId;
   creator: string;
   license_url: string;
   attribution_text: string;
+  context_label?: string | null;
 }
 
 export interface WireEntity {

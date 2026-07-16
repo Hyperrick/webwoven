@@ -19,11 +19,24 @@
   } = $props();
 
   const tools = [
-    { type: "compass", label: "Compass", penalty: 75, icon: "compass" },
-    { type: "lens", label: "Lens", penalty: 150, icon: "lens" },
+    {
+      type: "compass",
+      label: "Compass",
+      help: "Check one route: promising, longer, or a dead end.",
+      penalty: 75,
+      icon: "compass",
+    },
+    {
+      type: "lens",
+      label: "Lens",
+      help: "Reveal one near-optimal next move.",
+      penalty: 150,
+      icon: "lens",
+    },
     {
       type: "map_fragment",
       label: "Map fragment",
+      help: "Reveal one valid bridge toward the goal.",
       penalty: 250,
       icon: "map",
     },
@@ -41,12 +54,12 @@
     <p>{remaining} ready</p>
   </div>
   <div class="hint-dock__actions" role="group" aria-label="One-use hints">
-    {#each tools as tool, index}
+    {#each tools as tool}
       {@const isUsed = hintUsed(tool.type)}
       <button
         type="button"
         class:hint-dock__tool--used={isUsed}
-        aria-label={`${tool.label} hint, ${tool.penalty} point penalty, ${isUsed ? "used" : tool.type === "compass" && compassSelecting ? "choose a route to evaluate" : "ready"}`}
+        aria-label={`${tool.label} hint. ${tool.help} ${tool.penalty} point penalty. ${isUsed ? "Used" : tool.type === "compass" && compassSelecting ? "Choose a route to evaluate" : "Ready"}.`}
         aria-pressed={tool.type === "compass" ? compassSelecting : undefined}
         disabled={disabled || isUsed || noRoutes}
         onclick={() => {
@@ -54,11 +67,11 @@
           else onHint(tool.type);
         }}
       >
-        <span class="hint-dock__slot" aria-hidden="true">{index + 1}</span>
-        <AtlasIcon name={tool.icon} size={20} />
+        <AtlasIcon name={tool.icon} size={22} />
         <span class="hint-dock__tool-copy">
           <strong>{tool.label}</strong>
-          <small>−{tool.penalty} pts</small>
+          <small class="hint-dock__tool-help">{tool.help}</small>
+          <small class="hint-dock__tool-penalty">−{tool.penalty} pts</small>
         </span>
         <span class="hint-dock__tool-state" aria-hidden="true">
           {isUsed

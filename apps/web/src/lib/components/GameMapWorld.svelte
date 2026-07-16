@@ -8,6 +8,7 @@
   } from "../domain/map-board";
   import type { MapTransition } from "../domain/map-transition";
   import AtlasIcon from "./AtlasIcon.svelte";
+  import EndpointArtwork from "./EndpointArtwork.svelte";
 
   let {
     board,
@@ -100,9 +101,11 @@
   {#each historicalNodes as node (node.id)}
     {@const visit = visitsByNodeId.get(node.id)}
     {@const taken = hasRole(node, "trail")}
+    {@const nodeArtwork = node.summary}
     <button
       type="button"
       class="map-history-node"
+      class:map-history-node--with-artwork={Boolean(nodeArtwork)}
       class:map-history-node--breadcrumb={taken}
       class:map-history-node--discarded={hasRole(node, "discarded") && !taken}
       class:map-history-node--backtracked={transition.kind === "back" &&
@@ -115,22 +118,34 @@
       aria-label={`Inspect ${node.label}, ${taken ? "route taken" : "route not taken"}`}
       onclick={() => onInspect(node.id)}
     >
-      <span class="map-history-node__kicker">
-        {#if visit}
-          {visit.index === 0 ? "Start" : `Move ${visit.index}`}
-        {:else}
-          Not taken
-        {/if}
+      {#if nodeArtwork}
+        <EndpointArtwork
+          entity={nodeArtwork}
+          endpoint={hasRole(node, "start") ? "start" : "node"}
+          className="map-history-node__artwork"
+          loading="eager"
+        />
+      {/if}
+      <span class="map-history-node__copy">
+        <span class="map-history-node__kicker">
+          {#if visit}
+            {visit.index === 0 ? "Start" : `Move ${visit.index}`}
+          {:else}
+            Not taken
+          {/if}
+        </span>
+        <strong>{node.label}</strong>
       </span>
-      <strong>{node.label}</strong>
     </button>
   {/each}
 </div>
 
 {#if currentNode}
   {#key currentNode.id}
+    {@const currentArtwork = currentNode.summary}
     <div
       class="map-position map-position--current map-position--inspectable"
+      class:map-position--with-artwork={Boolean(currentArtwork)}
       style={positionStyle(currentNode)}
       data-map-node
       data-map-node-id={currentNode.id}
@@ -146,6 +161,14 @@
       }}
       out:fade={{ duration: 180 }}
     >
+      {#if currentArtwork}
+        <EndpointArtwork
+          entity={currentArtwork}
+          endpoint={hasRole(currentNode, "start") ? "start" : "node"}
+          className="map-position__artwork"
+          loading="eager"
+        />
+      {/if}
       <span class="map-position__kicker">You are here</span>
       <h3>{currentNode.label}</h3>
       <button
@@ -183,29 +206,38 @@
       data-map-focus="goal"
       data-map-near-focus="goal"
       data-map-interactive="move"
+      data-relation-kind={goalChoice.relation.glyph}
       aria-label={`${compassSelecting ? "Check" : "Finish"}: ${connectionSummary(goalChoice)}`}
       onclick={() => onChoose(goalChoice)}
     >
-      <span class="map-position__goal-card">
-        {#if goalChoice.relation.hint}
-          <span class="map-choice__hint">
-            {hintLabel(goalChoice.relation.hint)}
-          </span>
-        {/if}
-        {#if goalParts}
-          <span class="map-position__fact">
-            {goalParts.before}<strong>{goalParts.match}</strong
-            >{goalParts.after}
-          </span>
-        {:else}
-          <strong>{goalChoice.target.label}</strong>
-          <span class="map-position__fact">{goalChoice.statement}</span>
-        {/if}
-        {#if goalChoice.connections.length > 1}
-          <small class="map-position__connection-count">
-            {goalChoice.connections.length} documented links
-          </small>
-        {/if}
+      <span
+        class="map-position__goal-card map-position__goal-card--with-artwork"
+      >
+        <span class="map-choice__relation-mark" aria-hidden="true">
+          <AtlasIcon name={goalChoice.relation.glyph} size={20} />
+        </span>
+        <span class="map-position__goal-copy">
+          {#if goalChoice.relation.hint}
+            <span class="map-choice__hint">
+              {hintLabel(goalChoice.relation.hint)}
+            </span>
+          {/if}
+          {#if goalParts}
+            <span class="map-position__fact">
+              {goalParts.before}<strong>{goalParts.match}</strong
+              >{goalParts.after}
+            </span>
+          {:else}
+            <strong>{goalChoice.target.label}</strong>
+            <span class="map-position__fact">{goalChoice.statement}</span>
+          {/if}
+        </span>
+        <EndpointArtwork
+          entity={goalChoice.target}
+          endpoint="goal"
+          className="map-position__goal-artwork"
+          loading="eager"
+        />
         <span class="map-position__go">
           {compassSelecting ? "CHECK ROUTE" : "FINISH ROUTE"}
           <AtlasIcon name={compassSelecting ? "compass" : "arrow"} size={18} />
@@ -215,11 +247,20 @@
   {:else}
     <div
       class="map-position map-position--goal"
+      class:map-position--with-artwork={Boolean(goalNode.summary)}
       style={positionStyle(goalNode)}
       data-map-node
       data-map-node-id={goalNode.id}
       data-map-goal="true"
     >
+      {#if goalNode.summary}
+        <EndpointArtwork
+          entity={goalNode.summary}
+          endpoint="goal"
+          className="map-position__artwork"
+          loading="eager"
+        />
+      {/if}
       <span class="map-position__kicker">Your goal</span>
       <h3>{goalNode.label}</h3>
       <span class="map-position__distance">Find a route to this marker</span>
@@ -244,10 +285,11 @@
       data-map-focus="choice"
       data-map-near-focus={index < 2 ? "choice" : undefined}
       data-map-interactive="move"
+      data-relation-kind={choice.relation.glyph}
       aria-label={`${compassSelecting ? `Check route to ${choice.target.label}` : `Move to ${choice.target.label}`}: ${connectionSummary(choice)}`}
       onclick={() => onChoose(choice)}
     >
-      <span class="map-choice__icon" aria-hidden="true">
+      <span class="map-choice__relation-mark" aria-hidden="true">
         <AtlasIcon name={choice.relation.glyph} size={20} />
       </span>
       <span class="map-choice__copy">
@@ -264,11 +306,14 @@
           <strong>{choice.target.label}</strong>
           <span>{choice.statement}</span>
         {/if}
-        {#if choice.connections.length > 1}
-          <small class="map-choice__connection-count">
-            {choice.connections.length} documented links
-          </small>
-        {/if}
+      </span>
+      <span class="map-choice__visual" aria-hidden="true">
+        <EndpointArtwork
+          entity={choice.target}
+          endpoint="node"
+          className="map-choice__artwork"
+          loading="eager"
+        />
       </span>
     </button>
   {/each}

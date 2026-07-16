@@ -5,19 +5,28 @@ import json
 import shutil
 import time
 from collections.abc import Callable, Iterable, Mapping
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, Protocol, cast
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlencode, urlparse
 
-from .commons import CANONICAL_LICENSE_URLS, CommonsClient
-from .http_transport import BinaryResponse, BinaryTransport, UrllibBinaryTransport
+from .commons import CommonsClient, matches_license_url
+from .commons_downloads import CommonsDownloadError, DownloadPacer, download_with_fallback
+from .http_transport import BinaryResponse, BinaryTransport, HttpxBinaryTransport
+from .media_licenses import SUPPORTED_LICENSE_IDS, license_spec
 from .models import Entity, MediaRecord
 
-MEDIA_MANIFEST_VERSION = 2
+MEDIA_MANIFEST_VERSION = 3
 MAX_MEDIA_BYTES = 12 * 1024 * 1024
+DISPLAY_DERIVATIVE_WIDTH = 640
+ANIMATED_DISPLAY_DERIVATIVE_WIDTH = 480
+DISPLAY_DERIVATIVE_WIDTHS = {
+    DISPLAY_DERIVATIVE_WIDTH,
+    ANIMATED_DISPLAY_DERIVATIVE_WIDTH,
+}
 _CONTENT_EXTENSIONS = {
+    "image/gif": ".gif",
     "image/jpeg": ".jpg",
     "image/png": ".png",
     "image/webp": ".webp",
@@ -26,10 +35,6 @@ _CONTENT_EXTENSIONS = {
 
 class CommonsAssetError(ValueError):
     """Raised when a Commons media pack is malformed or unsafe."""
-
-
-class CommonsDownloadError(RuntimeError):
-    """Raised when a Commons derivative remains unavailable after bounded retries."""
 
 
 class MetadataClient(Protocol):
@@ -67,7 +72,7 @@ class CommonsMediaBundle:
 
 def acquire_commons_assets(
     candidates: Mapping[str, str],
-    endpoint_ids: Iterable[str],
+    entity_ids: Iterable[str],
     destination: Path,
     *,
     user_agent: str,
@@ -75,25 +80,30 @@ def acquire_commons_assets(
     metadata_client: MetadataClient | None = None,
     binary_transport: BinaryTransport | None = None,
     sleeper: Callable[[float], None] = time.sleep,
-    download_interval: float = 0.25,
-    max_download_retries: int = 4,
+    download_interval: float = 1.0,
+    max_download_retries: int = 8,
+    require_complete: bool = False,
+    download_workers: int = 1,
 ) -> CommonsMediaBundle:
-    """Fetch allowlisted endpoint media into a new immutable local media pack."""
+    """Fetch allowlisted entity media into a new immutable local media pack."""
     if destination.exists():
         raise FileExistsError(f"refusing to replace Commons media pack: {destination}")
     if download_interval < 0 or max_download_retries < 0:
         raise ValueError("Commons download pacing and retries cannot be negative")
-    endpoint_values = set(endpoint_ids)
+    if not 1 <= download_workers <= 16:
+        raise ValueError("Commons download workers must be between 1 and 16")
+    entity_values = set(entity_ids)
     selected = {
-        qid: candidates[qid]
-        for qid in sorted(endpoint_values, key=_qid_number)
-        if qid in candidates
+        qid: candidates[qid] for qid in sorted(entity_values, key=_qid_number) if qid in candidates
     }
     if not selected:
-        raise CommonsAssetError("no curated endpoints have Commons media candidates")
+        raise CommonsAssetError("no graph entities have Commons media candidates")
 
-    client = metadata_client or CommonsClient(user_agent)
-    transport = binary_transport or UrllibBinaryTransport()
+    client = metadata_client or CommonsClient(
+        user_agent,
+        request_interval=max(download_interval, 0.25),
+    )
+    transport = binary_transport or HttpxBinaryTransport()
     records = client.fetch_metadata(selected.values())
     destination.mkdir(parents=True)
     assets_dir = destination / "assets"
@@ -106,48 +116,75 @@ def acquire_commons_assets(
             {"file_name": file_name, "reason": "metadata_or_license_rejected"}
             for file_name in sorted(requested_files - records.keys())
         )
-        for file_name, record in sorted(records.items()):
-            if file_name not in requested_files:
-                continue
-            try:
-                derivative_url = _required_upload_url(record.derivative_url)
-                response = _download_with_retry(
+        downloadable = {
+            file_name: _display_derivative(record)
+            for file_name, record in sorted(records.items())
+            if file_name in requested_files
+        }
+        pacer = (
+            DownloadPacer(download_interval, sleeper)
+            if download_workers > 1 and download_interval
+            else None
+        )
+        with ThreadPoolExecutor(max_workers=download_workers) as executor:
+            futures = {
+                executor.submit(
+                    download_with_fallback,
                     transport,
-                    derivative_url,
+                    _required_derivative_url(record.derivative_url),
+                    _required_derivative_url(record.original_url),
                     user_agent=user_agent,
                     sleeper=sleeper,
                     interval=download_interval,
                     max_retries=max_download_retries,
-                )
-                _required_upload_url(response.final_url)
-                asset = _store_asset(assets_dir, record, response, created_at)
-                assets[file_name] = asset
-            except ValueError as exc:
-                rejections.append({"file_name": file_name, "reason": type(exc).__name__})
+                    max_bytes=MAX_MEDIA_BYTES,
+                    pacer=pacer,
+                ): (file_name, record)
+                for file_name, record in downloadable.items()
+            }
+            for future in as_completed(futures):
+                file_name, record = futures[future]
+                try:
+                    downloaded_url, response = future.result()
+                    _required_derivative_url(response.final_url)
+                    assets[file_name] = _store_asset(
+                        assets_dir,
+                        replace(record, derivative_url=downloaded_url),
+                        response,
+                        created_at,
+                    )
+                except (ValueError, CommonsDownloadError) as exc:
+                    rejections.append({"file_name": file_name, "reason": type(exc).__name__})
         if not assets:
             raise CommonsAssetError("no Commons candidates passed metadata and binary validation")
 
         entity_files = tuple(
             (qid, file_name) for qid, file_name in selected.items() if file_name in assets
         )
+        if require_complete and len(entity_files) != len(entity_values):
+            missing = sorted(entity_values - {qid for qid, _ in entity_files}, key=_qid_number)
+            raise CommonsAssetError(
+                f"Commons media coverage incomplete for {len(missing)} entities; "
+                f"first missing: {', '.join(missing[:10])}"
+            )
         manifest_path = destination / "media-manifest.json"
         payload = {
             "version": MEDIA_MANIFEST_VERSION,
             "created_at": created_at,
             "policy": {
-                "licenses": ["PUBLIC_DOMAIN", "CC0_1_0", "CC_BY_4_0"],
+                "licenses": sorted(SUPPORTED_LICENSE_IDS),
                 "max_bytes": MAX_MEDIA_BYTES,
                 "review": "automatic_allowlist",
             },
             "entities": [
                 {"entity_id": qid, "file_name": file_name} for qid, file_name in entity_files
             ],
-            "assets": [_asset_dict(asset) for asset in assets.values()],
+            "assets": [_asset_dict(assets[file_name]) for file_name in sorted(assets)],
             "rejections": sorted(rejections, key=lambda item: item["file_name"]),
             "coverage": {
-                "requested_endpoints": len(endpoint_values),
-                "candidate_endpoints": len(selected),
-                "published_endpoints": len(entity_files),
+                "requested_entities": len(entity_values),
+                "candidate_entities": len(selected),
+                "published_entities": len(entity_files),
                 "unique_assets": len(assets),
             },
         }
@@ -198,6 +235,7 @@ def load_commons_media_bundle(manifest_path: Path) -> CommonsMediaBundle:
 def enrich_entities_with_commons(
     entities: Iterable[Entity],
     bundle: CommonsMediaBundle,
+    selection_sources: Mapping[str, str] | None = None,
 ) -> tuple[Entity, ...]:
     assets = bundle.assets_by_file
     entity_files = bundle.file_by_entity
@@ -208,11 +246,15 @@ def enrich_entities_with_commons(
         if asset is None:
             enriched.append(entity)
             continue
+        attribution = asset.record.to_dict()
+        context_label = media_context_label((selection_sources or {}).get(entity.id))
+        if context_label is not None:
+            attribution["context_label"] = context_label
         enriched.append(
             replace(
                 entity,
                 image_path=asset.public_path,
-                image_attribution=asset.record.to_dict(),
+                image_attribution=attribution,
             )
         )
     return tuple(enriched)
@@ -288,65 +330,17 @@ def _store_asset(
     )
 
 
-def _download_with_retry(
-    transport: BinaryTransport,
-    url: str,
-    *,
-    user_agent: str,
-    sleeper: Callable[[float], None],
-    interval: float,
-    max_retries: int,
-) -> BinaryResponse:
-    attempts = max_retries + 1
-    for attempt in range(attempts):
-        try:
-            response = transport.get_bytes(
-                url,
-                headers={"User-Agent": user_agent, "Accept": "image/webp,image/png,image/jpeg"},
-                timeout=45.0,
-                max_bytes=MAX_MEDIA_BYTES,
-            )
-            if interval:
-                sleeper(interval)
-            return response
-        except (HTTPError, URLError, TimeoutError) as exc:
-            retryable = not isinstance(exc, HTTPError) or exc.code in {
-                429,
-                500,
-                502,
-                503,
-                504,
-            }
-            if not retryable or attempt == attempts - 1:
-                raise CommonsDownloadError(
-                    f"Commons derivative failed after {attempt + 1} attempts"
-                ) from exc
-            sleeper(_retry_delay(exc, attempt))
-    raise AssertionError("Commons retry loop did not return or raise")
-
-
-def _retry_delay(error: OSError, attempt: int) -> float:
-    header_value = error.headers.get("Retry-After") if isinstance(error, HTTPError) else None
-    try:
-        retry_after = float(header_value) if header_value is not None else 0.0
-    except ValueError:
-        retry_after = 0.0
-    return min(max(2**attempt, retry_after), 30.0)
-
-
 def _parse_asset(value: dict[str, Any], root: Path) -> CommonsAsset:
     policy_evidence_value = value.get("policy_evidence")
     if not isinstance(policy_evidence_value, dict):
         raise CommonsAssetError("Commons asset must include policy evidence")
     policy_evidence = cast(dict[str, Any], policy_evidence_value)
     restrictions = _required_string_allow_empty(policy_evidence, "restrictions")
-    if restrictions:
-        raise CommonsAssetError("Commons asset has source restrictions")
     explicit_attribution = _required_string_allow_empty(policy_evidence, "explicit_attribution")
     record = MediaRecord(
         file_name=_required_string(value, "file_name"),
         original_url=_required_host_url(value, "original_url", "upload.wikimedia.org"),
-        derivative_url=_required_host_url(value, "derivative_url", "upload.wikimedia.org"),
+        derivative_url=_required_derivative_url(_required_string(value, "derivative_url")),
         source_url=_required_host_url(value, "source_url", "commons.wikimedia.org"),
         license_id=_required_string(value, "license_id"),
         creator=_required_string(value, "creator"),
@@ -355,9 +349,9 @@ def _parse_asset(value: dict[str, Any], root: Path) -> CommonsAsset:
         restrictions=restrictions,
         explicit_attribution=explicit_attribution,
     )
-    if record.license_id not in {"PUBLIC_DOMAIN", "CC0_1_0", "CC_BY_4_0"}:
+    if record.license_id not in SUPPORTED_LICENSE_IDS:
         raise CommonsAssetError("Commons asset has an unsupported license")
-    if record.license_url != CANONICAL_LICENSE_URLS[record.license_id]:
+    if not matches_license_url(record.license_url, record.license_id):
         raise CommonsAssetError("Commons asset license URL does not match its license")
     if record.attribution_text != _expected_attribution_text(record):
         raise CommonsAssetError("Commons asset attribution text is incomplete")
@@ -417,6 +411,8 @@ def _matches_signature(response: BinaryResponse) -> bool:
         return body.startswith(b"\x89PNG\r\n\x1a\n")
     if response.content_type == "image/webp":
         return len(body) >= 12 and body.startswith(b"RIFF") and body[8:12] == b"WEBP"
+    if response.content_type == "image/gif":
+        return body.startswith((b"GIF87a", b"GIF89a"))
     return False
 
 
@@ -465,18 +461,23 @@ def _expected_attribution_text(record: MediaRecord) -> str:
             if record.creator.casefold() in record.explicit_attribution.casefold()
             else f"{record.explicit_attribution} · {record.creator}"
         )
-    readable_license = {
-        "PUBLIC_DOMAIN": "Public Domain",
-        "CC0_1_0": "CC0 1.0",
-        "CC_BY_4_0": "CC BY 4.0",
-    }[record.license_id]
-    return f"{credit} — {readable_license} — Wikimedia Commons"
+    spec = license_spec(record.license_id)
+    if spec is None:
+        raise CommonsAssetError("Commons asset has an unsupported license")
+    return f"{credit} — {spec.label} — Wikimedia Commons"
 
 
 def _storage_note(record: MediaRecord) -> str:
     if record.derivative_url == record.original_url:
         return "Original Commons file stored without local edits"
-    return "Commons 1200 px derivative stored without local edits"
+    return "Commons display derivative stored without local edits"
+
+
+def media_context_label(selection_source: str | None) -> str | None:
+    if not selection_source or not selection_source.startswith("graph_context:"):
+        return None
+    parts = selection_source.split(":", 3)
+    return parts[3] if len(parts) == 4 and parts[3].strip() else None
 
 
 def _required_integer(value: Mapping[str, Any], key: str) -> int:
@@ -494,11 +495,36 @@ def _required_host_url(value: Mapping[str, Any], key: str, host: str) -> str:
     return item
 
 
-def _required_upload_url(value: str) -> str:
+def _required_derivative_url(value: str) -> str:
     parsed = urlparse(value)
-    if parsed.scheme != "https" or parsed.hostname != "upload.wikimedia.org":
-        raise CommonsAssetError("Commons derivative must use upload.wikimedia.org over HTTPS")
+    upload_url = parsed.scheme == "https" and parsed.hostname == "upload.wikimedia.org"
+    query = parse_qs(parsed.query, strict_parsing=True)
+    official_thumbnail = (
+        parsed.scheme == "https"
+        and parsed.hostname == "commons.wikimedia.org"
+        and parsed.path == "/w/thumb.php"
+        and set(query) == {"f", "w"}
+        and len(query["f"]) == 1
+        and bool(query["f"][0].strip())
+        and len(query["w"]) == 1
+        and query["w"][0].isdigit()
+        and int(query["w"][0]) in DISPLAY_DERIVATIVE_WIDTHS
+    )
+    if not upload_url and not official_thumbnail:
+        raise CommonsAssetError("Commons derivative must use an approved Wikimedia HTTPS URL")
     return value
+
+
+def _display_derivative(record: MediaRecord) -> MediaRecord:
+    if record.derivative_url != record.original_url:
+        return record
+    width = (
+        ANIMATED_DISPLAY_DERIVATIVE_WIDTH
+        if record.file_name.casefold().endswith(".gif")
+        else DISPLAY_DERIVATIVE_WIDTH
+    )
+    query = urlencode({"f": record.file_name, "w": str(width)})
+    return replace(record, derivative_url=f"https://commons.wikimedia.org/w/thumb.php?{query}")
 
 
 def _review_status(value: Mapping[str, Any]) -> str:

@@ -13,16 +13,23 @@ from .commons_assets import (
     enrich_entities_with_commons,
     load_commons_media_bundle,
 )
+from .commons_discovery import CommonsDiscoveryClient
 from .compiler import compile_graph
 from .fixture import generate_smoke_fixture
 from .manifest import verify_manifest
+from .media_candidates import wikidata_media_candidate
+from .media_context import build_media_context_hints
+from .media_discovery import CommonsLicenseValidator, discover_media
+from .media_discovery_hints import commons_category_name, wikipedia_sitelinks
 from .models import ContentRequest, Edge, Entity, Fact, Round
-from .normalization import commons_file_name, normalize_edges, normalize_entities
+from .normalization import normalize_edges, normalize_entities
 from .registry import load_registry
+from .reviewed_media import REVIEWED_MEDIA_CANDIDATES
 from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 from .seeds import load_seeds
 from .wikidata import WikidataClient
 from .wikidata_bundle import build_wikidata_bundle
+from .wikipedia_media import WikipediaMediaClient
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_REGISTRY = PROJECT_ROOT / "data/relation-registry/relations.v1.json"
@@ -43,6 +50,8 @@ def main(argv: list[str] | None = None) -> int:
         _commons_metadata(args)
     elif command == "acquire-commons":
         _acquire_commons(args)
+    elif command == "discover-media":
+        _discover_media(args)
     elif command == "generate-rounds":
         _generate_rounds(args)
     elif command == "compile":
@@ -92,17 +101,30 @@ def _parser() -> argparse.ArgumentParser:
     commons.add_argument("--files", type=Path, required=True)
     commons.add_argument("--output", type=Path, required=True)
     commons.add_argument("--user-agent", required=True)
-
     commons_assets = commands.add_parser(
         "acquire-commons",
-        help="download allowlisted Commons media for curated endpoints",
+        help="download allowlisted Commons media for every graph entity",
     )
     commons_assets.add_argument("--graph-source", type=Path, required=True)
-    commons_assets.add_argument("--seeds", type=Path, required=True)
     commons_assets.add_argument("--output", type=Path, required=True)
     commons_assets.add_argument("--user-agent", required=True)
     commons_assets.add_argument("--created-at", required=True)
-
+    commons_assets.add_argument("--download-interval", type=float, default=1.0)
+    commons_assets.add_argument("--download-workers", type=int, default=4)
+    commons_assets.add_argument(
+        "--require-complete",
+        action="store_true",
+        help="fail unless every graph entity publishes a validated local image",
+    )
+    discover_media_command = commands.add_parser(
+        "discover-media",
+        help="select license-validated Commons media for exact graph entities",
+    )
+    discover_media_command.add_argument("--graph-source", type=Path, required=True)
+    discover_media_command.add_argument("--cache", type=Path, required=True)
+    discover_media_command.add_argument("--output", type=Path, required=True)
+    discover_media_command.add_argument("--user-agent", required=True)
+    discover_media_command.add_argument("--request-interval", type=float, default=0.1)
     round_command = commands.add_parser(
         "generate-rounds",
         help="generate locked round distribution",
@@ -115,13 +137,11 @@ def _parser() -> argparse.ArgumentParser:
         help="restrict round starts and targets to curated anchors",
     )
     round_command.add_argument("--selection-seed", default=DEFAULT_SELECTION_SEED)
-
     compile_command = commands.add_parser("compile", help="compile normalized JSON to SQLite")
     _registry_argument(compile_command)
     compile_command.add_argument("--graph-source", type=Path, required=True)
     compile_command.add_argument("--rounds", type=Path, required=True)
     compile_command.add_argument("--output", type=Path, required=True)
-
     wikidata_pack = commands.add_parser(
         "build-wikidata-pack",
         help="assemble a validated real-data bundle",
@@ -137,7 +157,6 @@ def _parser() -> argparse.ArgumentParser:
         help="validated local Commons media manifest to include in the bundle",
     )
     wikidata_pack.add_argument("--selection-seed", default=DEFAULT_SELECTION_SEED)
-
     smoke = commands.add_parser("generate-smoke", help="create the complete synthetic smoke bundle")
     _registry_argument(smoke)
     smoke.add_argument("--output", type=Path, required=True)
@@ -194,10 +213,20 @@ def _acquire(args: argparse.Namespace) -> None:
         }
         for batch in acquired.batches
     ]
-    media_candidates = {
-        item.id: file_name
+    media_candidate_records = {
+        item.id: candidate
         for item in entities
-        if (file_name := commons_file_name(acquired.entities[item.id])) is not None
+        if (candidate := wikidata_media_candidate(acquired.entities[item.id])) is not None
+    }
+    commons_categories = {
+        item.id: category_name
+        for item in entities
+        if (category_name := commons_category_name(acquired.entities[item.id])) is not None
+    }
+    article_sitelinks = {
+        item.id: sitelinks
+        for item in entities
+        if (sitelinks := wikipedia_sitelinks(acquired.entities[item.id]))
     }
     _write_new_json(
         args.output,
@@ -207,7 +236,14 @@ def _acquire(args: argparse.Namespace) -> None:
             "entities": [item.to_dict() for item in entities],
             "edges": [item.to_dict() for item in edges],
             "source_batches": batches,
-            "commons_media_candidates": media_candidates,
+            "commons_media_candidates": {
+                qid: candidate.file_name for qid, candidate in media_candidate_records.items()
+            },
+            "commons_media_sources": {
+                qid: candidate.property_id for qid, candidate in media_candidate_records.items()
+            },
+            "commons_category_candidates": commons_categories,
+            "wikipedia_sitelinks": article_sitelinks,
         },
     )
 
@@ -232,15 +268,94 @@ def _acquire_commons(args: argparse.Namespace) -> None:
         source.get("commons_media_candidates"),
         "commons_media_candidates",
     )
-    seeds = load_seeds(args.seeds)
+    entities = _entities(source.get("entities"))
     bundle = acquire_commons_assets(
         candidates,
-        seeds.qids,
+        (item.id for item in entities),
         args.output,
         user_agent=args.user_agent,
         created_at=args.created_at,
+        download_interval=args.download_interval,
+        download_workers=args.download_workers,
+        require_complete=args.require_complete,
     )
     print(bundle.manifest_path)
+
+
+def _discover_media(args: argparse.Namespace) -> None:
+    source = _read_object(args.graph_source)
+    if source.get("schema_version") != 2 or source.get("source") != "wikidata":
+        raise ValueError("graph source must be a Wikidata schema-v2 acquisition")
+    entities = _entities(source.get("entities"))
+    direct_candidates = _string_mapping(
+        source.get("commons_media_candidates"),
+        "commons_media_candidates",
+    )
+    direct_sources = _string_mapping(
+        source.get("commons_media_sources"),
+        "commons_media_sources",
+    )
+    sitelinks = _nested_string_mapping(
+        source.get("wikipedia_sitelinks"),
+        "wikipedia_sitelinks",
+    )
+    commons_categories = _string_mapping(
+        source.get("commons_category_candidates"),
+        "commons_category_candidates",
+    )
+    labels = {entity.id: entity.label for entity in entities}
+    edges = _edges(source.get("edges"))
+    result = discover_media(
+        (entity.id for entity in entities),
+        direct_candidates,
+        direct_sources,
+        sitelinks,
+        wikipedia_client=WikipediaMediaClient(
+            args.cache / "wikipedia",
+            args.user_agent,
+            request_interval=args.request_interval,
+        ),
+        license_validator=CommonsLicenseValidator(
+            args.cache / "commons-validation",
+            args.user_agent,
+        ),
+        commons_client=CommonsDiscoveryClient(
+            args.cache / "commons-discovery",
+            args.user_agent,
+            request_interval=args.request_interval,
+        ),
+        commons_categories=commons_categories,
+        entity_labels=labels,
+        context_hints=build_media_context_hints(
+            (entity.id for entity in entities),
+            labels,
+            edges,
+        ),
+        reviewed_candidates=REVIEWED_MEDIA_CANDIDATES,
+    )
+    enriched = dict(source)
+    enriched["commons_media_candidates"] = result.files_by_entity
+    enriched["commons_media_sources"] = result.sources_by_entity
+    enriched["media_discovery"] = {
+        "strategy": "ranked_wikimedia_entity_media_with_documented_graph_context",
+        "requested_entities": len(entities),
+        "published_entities": len(result.selections),
+        "direct_entities": result.direct_count,
+        "wikipedia_entities": result.wikipedia_count,
+        "category_entities": result.category_count,
+        "depicts_entities": result.depicts_count,
+        "search_entities": result.search_count,
+        "broad_search_entities": result.broad_search_count,
+        "wikipedia_article_entities": result.wikipedia_article_count,
+        "context_entities": result.context_count,
+        "reviewed_entities": result.reviewed_count,
+        "missing_entities": list(result.missing_entity_ids),
+    }
+    _write_new_json(args.output, enriched)
+    print(
+        f"{len(result.selections)}/{len(entities)} entities selected; "
+        f"{len(result.missing_entity_ids)} unresolved"
+    )
 
 
 def _generate_rounds(args: argparse.Namespace) -> None:
@@ -290,8 +405,17 @@ def _build_wikidata_pack(args: argparse.Namespace) -> None:
         else None
     )
     entities = _entities(source.get("entities"))
+    commons_media_sources = (
+        _string_mapping(source.get("commons_media_sources"), "commons_media_sources")
+        if commons_media is not None
+        else None
+    )
     if commons_media is not None:
-        entities = enrich_entities_with_commons(entities, commons_media)
+        entities = enrich_entities_with_commons(
+            entities,
+            commons_media,
+            commons_media_sources,
+        )
     build_id = build_wikidata_bundle(
         args.output,
         registry,
@@ -303,6 +427,8 @@ def _build_wikidata_pack(args: argparse.Namespace) -> None:
         selection_seed=args.selection_seed,
         commons_media=commons_media,
         commons_media_candidates=commons_media_candidates,
+        commons_media_sources=commons_media_sources,
+        require_complete_media=commons_media is not None,
     )
     print(build_id)
 
@@ -417,6 +543,17 @@ def _string_mapping(value: Any, name: str) -> dict[str, str]:
         if not isinstance(key, str) or not isinstance(item, str):
             raise ValueError(f"every {name} entry must map strings to strings")
         result[key] = item
+    return result
+
+
+def _nested_string_mapping(value: Any, name: str) -> dict[str, dict[str, str]]:
+    if not isinstance(value, dict):
+        raise ValueError(f"{name} must be an object")
+    result: dict[str, dict[str, str]] = {}
+    for key, item in cast(dict[Any, Any], value).items():
+        if not isinstance(key, str) or not isinstance(item, dict):
+            raise ValueError(f"every {name} entry must map a string to an object")
+        result[key] = _string_mapping(item, f"{name}.{key}")
     return result
 
 

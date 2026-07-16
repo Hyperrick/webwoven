@@ -5,7 +5,8 @@ versioned relationship registry.
 
 ```text
 anchors → cached Wikidata batches → normalized entities/edges
-        → Commons metadata and license filters
+        → ranked exact-media discovery → Commons license filters
+        → bounded local downloads and attribution records
         → quality and hub pruning → immutable SQLite graph
         → candidate rounds → deterministic validation → published bundle
 ```
@@ -61,30 +62,44 @@ uv run --package webwoven-pipeline webwoven-pipeline acquire \
   --registry data/relation-registry/relations.v1.json \
   --seeds data/seeds/anchors.v1.json \
   --cache data/raw/wikidata-2026-07-15-scale-v1 \
-  --output data/builds/wikidata-2026-07-15-scale-v1/graph-source.json \
+  --output data/builds/wikidata-2026-07-15-full-media/source.json \
   --user-agent "$WEBWOVEN_WIKIMEDIA_USER_AGENT" \
   --hops 3 \
   --max-entities 5500
 
+uv run --package webwoven-pipeline webwoven-pipeline discover-media \
+  --graph-source data/builds/wikidata-2026-07-15-full-media/source.json \
+  --cache data/raw/media-discovery-2026-07-15-v1 \
+  --output data/builds/wikidata-2026-07-15-full-media/discovered.json \
+  --user-agent "$WEBWOVEN_WIKIMEDIA_USER_AGENT"
+
 uv run --package webwoven-pipeline webwoven-pipeline acquire-commons \
-  --graph-source data/builds/wikidata-2026-07-15-scale-v1/graph-source.json \
-  --seeds data/seeds/anchors.v1.json \
-  --output data/builds/wikidata-2026-07-15-scale-v1/commons \
+  --graph-source data/builds/wikidata-2026-07-15-full-media/discovered.json \
+  --output data/builds/wikidata-2026-07-15-full-media/commons \
   --user-agent "$WEBWOVEN_WIKIMEDIA_USER_AGENT" \
-  --created-at "$SNAPSHOT_CREATED_AT"
+  --created-at "$SNAPSHOT_CREATED_AT" \
+  --download-interval 0.25 \
+  --download-workers 16 \
+  --require-complete
 
 uv run --package webwoven-pipeline webwoven-pipeline build-wikidata-pack \
   --registry data/relation-registry/relations.v1.json \
   --seeds data/seeds/anchors.v1.json \
-  --graph-source data/builds/wikidata-2026-07-15-scale-v1/graph-source.json \
-  --commons-manifest data/builds/wikidata-2026-07-15-scale-v1/commons/media-manifest.json \
-  --output data/builds/wikidata-2026-07-15-scale-v1/bundle \
+  --graph-source data/builds/wikidata-2026-07-15-full-media/discovered.json \
+  --commons-manifest data/builds/wikidata-2026-07-15-full-media/commons/media-manifest.json \
+  --output data/builds/wikidata-2026-07-15-full-media/bundle \
   --created-at "$SNAPSHOT_CREATED_AT"
 
-ln -sfn wikidata-2026-07-15-scale-v1/bundle data/builds/current
+ln -sfn wikidata-2026-07-15-full-media/bundle data/builds/current
 uv run --package webwoven-pipeline webwoven-pipeline verify-manifest \
   data/builds/current/manifest.json
 ```
+
+Download starts are globally spaced even when multiple workers overlap response bodies. When the
+Commons metadata API cannot provide a resized upload URL for a small source file, acquisition uses
+Wikimedia Commons' own `w/thumb.php` endpoint for a 640-pixel display derivative—or a 480-pixel
+derivative for animated GIFs that would exceed the local size gate—instead of requesting the
+rate-limited original upload.
 
 Wikidata requests default to a five-second maximum replica lag, nine bounded retries, and a
 quarter-second interval between uncached batches. If the service reports sustained `maxlag`, wait
@@ -98,13 +113,19 @@ locked category and difficulty distribution. `round-validation-report.json` reco
 Round starts and targets are restricted to the 160 curated, recognizable anchors; intermediary
 nodes may come from any expansion hop. When the final hop reaches the entity cap, its unseen
 frontier is selected evenly across the four release categories instead of favoring low-numbered
-QIDs. Commons acquisition is limited to curated endpoints, stores only content-addressed local
-raster files, and records rejected metadata or licenses. Project-authored category illustrations
-remain the explicitly non-documentary fallback for endpoints without an accepted image.
+QIDs. Media discovery covers every graph entity. It prefers direct depictions and exact article
+lead images, then tries exact Commons categories, structured depicts matches, entity-specific
+article images, and a labelled graph-neighbor context fallback. Article-page flags, stub graphics,
+logos, and other generic chrome are rejected unless the filename contains entity-specific
+evidence. Acquisition stores only content-addressed local raster files and records rejected
+metadata or licenses. The strict build fails unless all entity mappings survive download and
+manifest validation.
 
-The July 15 release snapshot contains 5,481 labelled entities and 32,972 directed playable edges,
+The full-node July 15 snapshot contains 5,482 labelled entities and 33,000 directed playable edges,
 up from 2,214 and 12,130 in the two-hop playtest pack. Its 112 immutable source batches retain the
-same relation registry, curated endpoints, and four-category round contract.
-Its Commons stage adds 75 locally served endpoint images (65 Public Domain, three CC0, and seven
-CC BY 4.0) and records every rejected candidate without turning a transient HTTP failure into a
-policy decision.
+same relation registry, curated endpoints, and four-category round contract. All 5,482 nodes have
+an image mapping backed by 5,062 distinct Commons source files stored locally; shared media remains
+only where it has a documented exact or graph-context relationship.
+The final asset pack is an exact-coverage merge: a paced repair pass recovered the transient gaps
+from the bulk download, leaving 5,482 published mappings and zero rejected records. One small
+source file uses its bounded original because Commons could not render a thumbnail for it.

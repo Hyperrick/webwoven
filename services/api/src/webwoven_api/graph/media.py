@@ -11,8 +11,9 @@ from typing import Any, cast
 
 from webwoven_api.graph.bundle import GraphBundleError
 
-_MEDIA_NAME = re.compile(r"^(?P<digest>[0-9a-f]{64})\.(?P<extension>jpg|png|webp)$")
+_MEDIA_NAME = re.compile(r"^(?P<digest>[0-9a-f]{64})\.(?P<extension>gif|jpg|png|webp)$")
 _MEDIA_TYPES = {
+    "gif": "image/gif",
     "jpg": "image/jpeg",
     "png": "image/png",
     "webp": "image/webp",
@@ -105,4 +106,6 @@ def _matches_signature(path: Path, extension: str) -> bool:
         return prefix.startswith(b"\xff\xd8\xff")
     if extension == "png":
         return prefix.startswith(b"\x89PNG\r\n\x1a\n")
+    if extension == "gif":
+        return prefix.startswith((b"GIF87a", b"GIF89a"))
     return len(prefix) >= 12 and prefix.startswith(b"RIFF") and prefix[8:12] == b"WEBP"

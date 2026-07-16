@@ -37,11 +37,11 @@
 .hint-dock__actions button {
   position: relative;
   display: grid;
-  grid-template-columns: 1.5rem 1.5rem minmax(0, 1fr) auto;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-2);
-  min-height: 3.25rem;
-  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  min-height: 4.25rem;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--color-ochre) 8%, var(--color-paper));
@@ -58,34 +58,35 @@
   transform: translateY(-1px);
 }
 
-.hint-dock__slot {
-  display: grid;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1px solid currentcolor;
-  border-radius: 2px;
-  font-family: var(--font-technical);
-  font-size: var(--text-12);
-}
-
 .hint-dock__tool-copy {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.15rem var(--space-2);
+  align-items: baseline;
   min-width: 0;
   line-height: 1.15;
 }
 
 .hint-dock__tool-copy strong {
+  grid-column: 1 / -1;
   overflow: hidden;
-  font-size: var(--text-12);
+  font-size: var(--text-16);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .hint-dock__tool-copy small {
   color: var(--color-muted-ink);
+  font-size: 0.68rem;
+}
+
+.hint-dock__tool-help {
+  line-height: 1.25;
+}
+
+.hint-dock__tool-penalty {
   font-family: var(--font-technical);
-  font-size: var(--text-12);
+  white-space: nowrap;
 }
 
 .hint-dock__actions button:hover .hint-dock__tool-copy small {
@@ -181,7 +182,6 @@
     text-align: center;
   }
 
-  .hint-dock__slot,
   .hint-dock__tool-state {
     display: none;
   }
@@ -217,8 +217,18 @@
     padding: var(--space-1);
   }
 
+  .hint-dock__tool-copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hint-dock__tool-copy strong,
+  .hint-dock__tool-help,
+  .hint-dock__tool-penalty {
+    grid-column: 1;
+  }
+
   .hint-dock__tool-copy strong {
-    font-size: 0.7rem;
+    font-size: var(--text-14);
   }
 
   .hint-dock__message {

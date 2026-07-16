@@ -106,6 +106,7 @@ describe("map node inspection", () => {
       node_id: target.id,
       qid: target.qid,
       label: target.label,
+      artwork: target.summary,
       description: "The Great Wave description.",
       status: "taken",
       connections: [

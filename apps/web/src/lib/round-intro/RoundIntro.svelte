@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { SessionSnapshot } from "../api/types";
+  import EndpointArtwork from "../components/EndpointArtwork.svelte";
   import { gameModeLabel } from "../domain/game-mode-presentation";
   import { shouldReduceMotion } from "../preferences/preferences";
   import { categoryTheme } from "./assets";
@@ -84,8 +85,6 @@
     <RoundIntroCanvas
       {timeline}
       accent={theme.accent}
-      start={session.start}
-      target={session.target}
       onUnavailable={() => (webglUnavailable = true)}
     />
   {/if}
@@ -101,19 +100,29 @@
   </div>
 
   <div class="round-intro__endpoints">
-    <article class="round-intro__card round-intro__card--start">
-      {#if session.start.image_path}
-        <img src={session.start.image_path} alt="" />
-      {/if}
+    <article
+      class="round-intro__card round-intro__card--start round-intro__card--with-artwork"
+    >
+      <EndpointArtwork
+        entity={session.start}
+        endpoint="start"
+        className="round-intro__artwork"
+        loading="eager"
+      />
       <span>Start</span>
       <h2>{session.start.label}</h2>
       <p>{session.start.description}</p>
     </article>
     <div class="round-intro__thread" aria-hidden="true"><i></i></div>
-    <article class="round-intro__card round-intro__card--goal">
-      {#if session.target.image_path}
-        <img src={session.target.image_path} alt="" />
-      {/if}
+    <article
+      class="round-intro__card round-intro__card--goal round-intro__card--with-artwork"
+    >
+      <EndpointArtwork
+        entity={session.target}
+        endpoint="goal"
+        className="round-intro__artwork"
+        loading="eager"
+      />
       <span>Goal</span>
       <h2>{session.target.label}</h2>
       <p>{session.target.description}</p>

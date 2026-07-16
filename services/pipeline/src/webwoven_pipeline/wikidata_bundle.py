@@ -11,6 +11,7 @@ from .commons_assets import (
     CommonsMediaBundle,
     commons_attribution_records,
     copy_commons_assets,
+    media_context_label,
 )
 from .compiler import compile_graph
 from .manifest import build_manifest, write_manifest
@@ -32,6 +33,8 @@ def build_wikidata_bundle(
     selection_seed: str = DEFAULT_SELECTION_SEED,
     commons_media: CommonsMediaBundle | None = None,
     commons_media_candidates: Mapping[str, str] | None = None,
+    commons_media_sources: Mapping[str, str] | None = None,
+    require_complete_media: bool = False,
 ) -> str:
     """Assemble an immutable, validated real-data bundle."""
     if destination.exists():
@@ -45,9 +48,10 @@ def build_wikidata_bundle(
         raise ValueError("Wikidata bundles require immutable source batch records")
     _validate_commons_bindings(
         entity_values,
-        endpoint_values,
         commons_media,
         commons_media_candidates,
+        commons_media_sources,
+        require_complete=require_complete_media,
     )
 
     destination.mkdir(parents=True)
@@ -129,9 +133,9 @@ def _attribution(
         "snapshot_created_at": created_at,
         "media_records": media_records,
         "notice": (
-            "Documentary media is stored locally after an automatic Public Domain, CC0, or "
-            "complete CC BY 4.0 provenance gate. Project-authored category illustrations remain "
-            "the non-documentary fallback when an endpoint has no accepted asset."
+            "Every published graph entity is paired with locally stored Wikimedia Commons media "
+            "after a Public Domain, CC0, CC BY, or CC BY-SA provenance gate. Required creator, "
+            "license, source, and additional-rights notices are preserved."
             if media_records
             else "This pack contains no accepted Commons media; project-authored category "
             "illustrations are used as non-documentary fallbacks."
@@ -141,9 +145,11 @@ def _attribution(
 
 def _validate_commons_bindings(
     entities: tuple[Entity, ...],
-    endpoint_ids: tuple[str, ...],
     commons_media: CommonsMediaBundle | None,
     candidates: Mapping[str, str] | None,
+    selection_sources: Mapping[str, str] | None,
+    *,
+    require_complete: bool = False,
 ) -> None:
     attributed = tuple(
         entity
@@ -160,11 +166,14 @@ def _validate_commons_bindings(
     assets = commons_media.assets_by_file
     entity_files = commons_media.file_by_entity
     entity_ids = {entity.id for entity in entities}
-    endpoint_set = set(endpoint_ids)
     if set(entity_files) - entity_ids:
         raise CommonsAssetError("Commons media maps an entity outside the graph")
-    if set(entity_files) - endpoint_set:
-        raise CommonsAssetError("Commons media maps an entity outside the curated endpoints")
+    if require_complete and set(entity_files) != entity_ids:
+        missing = sorted(entity_ids - set(entity_files), key=lambda value: int(value[1:]))
+        raise CommonsAssetError(
+            f"Commons media coverage is incomplete for {len(missing)} graph entities; "
+            f"first missing: {', '.join(missing[:10])}"
+        )
     if any(candidates.get(entity_id) != file_name for entity_id, file_name in entity_files.items()):
         raise CommonsAssetError("Commons media mapping does not match the graph source")
     if set(assets) - set(entity_files.values()):
@@ -177,9 +186,13 @@ def _validate_commons_bindings(
             if entity.image_path is not None or entity.image_attribution is not None:
                 raise CommonsAssetError(f"entity {entity.id} media is absent from the manifest")
             continue
+        expected_attribution = asset.record.to_dict()
+        context_label = media_context_label((selection_sources or {}).get(entity.id))
+        if context_label is not None:
+            expected_attribution["context_label"] = context_label
         if (
             entity.image_path != asset.public_path
-            or entity.image_attribution != asset.record.to_dict()
+            or entity.image_attribution != expected_attribution
         ):
             raise CommonsAssetError(f"entity {entity.id} media does not match the manifest")
 

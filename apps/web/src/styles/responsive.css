@@ -180,11 +180,48 @@
     align-content: start;
   }
 
+  .route-reveal li.route-reveal__item--with-artwork {
+    grid-template-columns: 4.5rem 2rem minmax(0, 1fr);
+    align-items: center;
+    padding-block: var(--space-2);
+  }
+
+  .route-reveal__artwork {
+    grid-column: 1;
+    grid-row: 1;
+    width: 5rem;
+    height: auto;
+    aspect-ratio: 5 / 4;
+    margin: 0;
+    border-radius: 2px;
+  }
+
+  .route-reveal__item--with-artwork > .route-reveal__number {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .route-reveal__item--with-artwork > div {
+    grid-column: 3;
+    grid-row: 1;
+    min-height: 0;
+  }
+
   .cartographer-recap,
   .next-route,
   .leaderboard {
     min-height: auto;
     padding: var(--space-5);
+  }
+
+  .next-route__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .next-route__actions .primary-action,
+  .next-route__actions .text-action {
+    width: 100%;
   }
 
   .leaderboard li,

@@ -231,6 +231,26 @@ def test_wikidata_bundle_copies_and_manifests_attributed_commons_media(tmp_path,
     assert any(item["role"] == "commons_media" for item in manifest["artifacts"])
     assert attribution["media_records"][0]["entity_ids"] == [entities[0].id]
 
+    context_source = {entities[0].id: "graph_context:P170:Q42:Fixture creator"}
+    contextual = enrich_entities_with_commons(entities, commons, context_source)
+    contextual_destination = tmp_path / "contextual-bundle"
+    build_wikidata_bundle(
+        contextual_destination,
+        registry,
+        contextual,
+        edges,
+        ({"path": "batch.json", "qids": [], "sha256": "0" * 64},),
+        endpoint_ids=(item.id for item in contextual),
+        created_at="2026-07-15T00:00:00Z",
+        commons_media=commons,
+        commons_media_candidates={entities[0].id: record.file_name},
+        commons_media_sources=context_source,
+    )
+    contextual_entities = json.loads(
+        (contextual_destination / "entities.json").read_text(encoding="utf-8")
+    )
+    assert contextual_entities[0]["image_attribution"]["context_label"] == "Fixture creator"
+
     tampered = (
         replace(enriched[0], image_path=f"/api/v1/media/{'f' * 64}.jpg"),
         *enriched[1:],

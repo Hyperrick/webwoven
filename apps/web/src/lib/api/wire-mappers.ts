@@ -37,15 +37,30 @@ function category(value: string): Category {
 }
 
 function entity(value: WireEntity): EntitySummary {
+  const imageAttribution = value.image_attribution;
   return {
     qid: value.qid,
     label: value.label,
     description: value.description ?? "A reviewed entity in the Webwoven atlas",
     category: category(value.category),
     ...(value.image_path === null ? {} : { image_path: value.image_path }),
-    ...(value.image_attribution === null
+    ...(imageAttribution === null
       ? {}
-      : { image_attribution: value.image_attribution }),
+      : {
+          image_attribution: {
+            file_name: imageAttribution.file_name,
+            original_url: imageAttribution.original_url,
+            derivative_url: imageAttribution.derivative_url,
+            source_url: imageAttribution.source_url,
+            license_id: imageAttribution.license_id,
+            creator: imageAttribution.creator,
+            license_url: imageAttribution.license_url,
+            attribution_text: imageAttribution.attribution_text,
+            ...(imageAttribution.context_label
+              ? { context_label: imageAttribution.context_label }
+              : {}),
+          },
+        }),
     ...sourceMetadataFor(value.qid),
   };
 }
@@ -93,7 +108,11 @@ export function mapSession(value: WireSession): SessionSnapshot {
     start: entity(value.start),
     target: entity(value.target),
     current: entity(value.current),
-    trail: value.trail.map((item) => ({ qid: item.qid, label: item.label })),
+    trail: value.trail.map((item) => ({
+      qid: item.qid,
+      label: item.label,
+      summary: entity(item),
+    })),
     navigation_stack: value.navigation_stack.map(entity),
     decision_history: (value.decision_history ?? []).map((stage) => ({
       index: stage.index,

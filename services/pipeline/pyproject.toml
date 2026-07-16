@@ -3,7 +3,7 @@ name = "webwoven-pipeline"
 version = "0.1.0"
 description = "Deterministic offline knowledge-graph pipeline for Webwoven"
 requires-python = ">=3.13,<3.14"
-dependencies = ["jsonschema[format-nongpl]>=4.25,<5"]
+dependencies = ["httpx>=0.28.1,<0.29", "jsonschema[format-nongpl]>=4.25,<5"]
 
 [project.scripts]
 webwoven-pipeline = "webwoven_pipeline.cli:main"
