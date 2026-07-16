@@ -26,8 +26,8 @@ deterministic and server-authoritative.
 Normal gameplay now requires an immutable Wikidata bundle. The repository retains a clearly
 labelled synthetic smoke fixture only for isolated automated tests; neither the browser nor the API
 silently substitutes it when the real atlas is unavailable. The release-scale graph and licensed,
-locally served Commons endpoint media are implemented; editorial content, the load target, and
-public deployment remain dated milestones in the living documentation.
+locally served Commons media for every graph entity are implemented; editorial content, the load
+target, and public deployment remain dated milestones in the living documentation.
 
 ## Local development
 

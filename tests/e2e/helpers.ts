@@ -10,6 +10,9 @@ export async function confirmSolo(
   await page.getByRole("radio", { name: new RegExp(difficulty, "i") }).check();
   await page.getByRole("button", { name: /Confirm and reveal/i }).click();
   await expect(page.locator(".round-intro")).toBeVisible();
+  await expect(page.locator(".round-intro__category")).toContainText(
+    `${difficulty.toLowerCase()} route`,
+  );
 }
 
 export async function startSolo(

@@ -44,6 +44,94 @@ def test_entity_response_exposes_only_complete_commons_attribution() -> None:
     assert str(response.image_attribution.source_url).startswith("https://commons.wikimedia.org/")
 
 
+def test_entity_response_accepts_complete_share_alike_attribution() -> None:
+    attribution = {
+        "file_name": "Portrait.jpg",
+        "original_url": "https://upload.wikimedia.org/original.jpg",
+        "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Portrait.jpg",
+        "license_id": "CC_BY_SA_4_0",
+        "creator": "Example photographer",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "attribution_text": ("Example photographer — CC BY-SA 4.0 — Wikimedia Commons"),
+        "context_label": "Related award recipient",
+    }
+
+    response = entity_response(
+        Entity(
+            "Q2",
+            "Portrait",
+            None,
+            "work",
+            "arts_culture",
+            "/media/portrait.jpg",
+            json.dumps(attribution),
+        )
+    )
+
+    assert response.image_attribution is not None
+    assert response.image_attribution.license_id == "CC_BY_SA_4_0"
+    assert response.image_attribution.context_label == "Related award recipient"
+
+
+def test_entity_response_accepts_official_commons_thumbnail_endpoint() -> None:
+    attribution = {
+        "file_name": "Small portrait.jpg",
+        "original_url": "https://upload.wikimedia.org/small-portrait.jpg",
+        "derivative_url": ("https://commons.wikimedia.org/w/thumb.php?f=Small+portrait.jpg&w=480"),
+        "source_url": "https://commons.wikimedia.org/wiki/File:Small_portrait.jpg",
+        "license_id": "CC0_1_0",
+        "creator": "Example photographer",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "attribution_text": "Example photographer — CC0 1.0 — Wikimedia Commons",
+    }
+
+    response = entity_response(
+        Entity(
+            "Q3",
+            "Small portrait",
+            None,
+            "work",
+            "arts_culture",
+            "/media/small-portrait.jpg",
+            json.dumps(attribution),
+        )
+    )
+
+    assert response.image_attribution is not None
+    assert str(response.image_attribution.derivative_url).startswith(
+        "https://commons.wikimedia.org/w/thumb.php?"
+    )
+
+
+def test_entity_response_accepts_a_ported_share_alike_license_url() -> None:
+    attribution = {
+        "file_name": "Portrait.jpg",
+        "original_url": "https://upload.wikimedia.org/original.jpg",
+        "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
+        "source_url": "https://commons.wikimedia.org/wiki/File:Portrait.jpg",
+        "license_id": "CC_BY_SA_3_0",
+        "creator": "Example photographer",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/de/",
+        "attribution_text": ("Example photographer — CC BY-SA 3.0 — Wikimedia Commons"),
+    }
+
+    response = entity_response(
+        Entity(
+            "Q3",
+            "Portrait",
+            None,
+            "work",
+            "arts_culture",
+            "/media/portrait.jpg",
+            json.dumps(attribution),
+        )
+    )
+
+    assert response.image_attribution is not None
+    assert str(response.image_attribution.license_url).endswith("/3.0/de/")
+
+
 def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
     malformed = entity_response(
         Entity(
@@ -70,7 +158,7 @@ def test_entity_response_hides_malformed_or_incomplete_attribution() -> None:
                     "original_url": "https://upload.wikimedia.org/original.jpg",
                     "derivative_url": "https://upload.wikimedia.org/thumbnail.jpg",
                     "source_url": "https://commons.wikimedia.org/wiki/File:Other.jpg",
-                    "license_id": "CC_BY_SA_4_0",
+                    "license_id": "FAL_1_3",
                     "creator": "Creator",
                     "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
                     "attribution_text": "Creator — CC BY-SA 4.0 — Wikimedia Commons",

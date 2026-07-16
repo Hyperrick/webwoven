@@ -28,12 +28,30 @@
   }
 
   .map-inspector__header {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--space-4);
     align-items: start;
-    justify-content: space-between;
     padding-bottom: var(--space-3);
     border-bottom: 1px solid var(--color-rule);
+  }
+
+  .map-inspector__header--with-artwork {
+    grid-template-columns: 6rem minmax(0, 1fr) auto;
+  }
+
+  .map-inspector__header > div {
+    min-width: 0;
+  }
+
+  .map-inspector__artwork {
+    width: 6rem;
+    aspect-ratio: 1;
+    border-radius: 2px;
+  }
+
+  .map-inspector__artwork .endpoint-artwork__kind {
+    display: none;
   }
 
   .map-inspector__header h3 {
@@ -175,6 +193,15 @@
 
     .map-inspector__header h3 {
       font-size: var(--text-20);
+    }
+
+    .map-inspector__header--with-artwork {
+      grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+      gap: var(--space-3);
+    }
+
+    .map-inspector__artwork {
+      width: 4.5rem;
     }
   }
 }

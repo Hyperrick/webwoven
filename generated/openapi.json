@@ -817,6 +817,17 @@
             "title": "Attribution Text",
             "type": "string"
           },
+          "context_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Label"
+          },
           "creator": {
             "title": "Creator",
             "type": "string"
@@ -836,7 +847,16 @@
             "enum": [
               "PUBLIC_DOMAIN",
               "CC0_1_0",
-              "CC_BY_4_0"
+              "CC_BY_1_0",
+              "CC_BY_2_0",
+              "CC_BY_2_5",
+              "CC_BY_3_0",
+              "CC_BY_4_0",
+              "CC_BY_SA_1_0",
+              "CC_BY_SA_2_0",
+              "CC_BY_SA_2_5",
+              "CC_BY_SA_3_0",
+              "CC_BY_SA_4_0"
             ],
             "title": "License Id",
             "type": "string"

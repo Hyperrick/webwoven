@@ -41,6 +41,18 @@ describe("image attribution presentation", () => {
     ).toBe(undefined);
   });
 
+  it("explains when an image depicts a documented related entity", () => {
+    expect(
+      imageAttributionFor({
+        ...entity,
+        image_attribution: {
+          ...entity.image_attribution!,
+          context_label: "Katsushika Hokusai",
+        },
+      }),
+    ).toEqual(expect.objectContaining({ contextLabel: "Katsushika Hokusai" }));
+  });
+
   it("credits every distinct image used by the round", () => {
     const target = {
       ...entity,

@@ -50,6 +50,7 @@ def test_client_retries_maxlag_then_reuses_immutable_cache(tmp_path) -> None:
     assert query["action"] == ["wbgetentities"]
     assert query["maxlag"] == ["5"]
     assert query["ids"] == ["Q1|Q2"]
+    assert query["props"] == ["labels|descriptions|aliases|claims|sitelinks"]
     assert transport.calls[0][1]["User-Agent"].startswith("Webwoven/")
 
 

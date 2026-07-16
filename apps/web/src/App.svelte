@@ -22,6 +22,7 @@
   import StatusToast from "./lib/components/StatusToast.svelte";
   import { GameController } from "./lib/controllers/game-controller";
   import { RoomController } from "./lib/controllers/room-controller";
+  import { sessionMediaEntities } from "./lib/domain/trail-entities";
   import {
     confirmGuestName,
     isGuestNameConfirmed,
@@ -79,6 +80,7 @@
   let profileBusy = $state(false);
   let profileError = $state("");
   let router: BrowserRouter;
+  let sourceEntities = $derived(session ? sessionMediaEntities(session) : []);
 
   const hasProtectedGame = () =>
     session?.status === "active" &&
@@ -520,7 +522,7 @@
   <SourcesDrawer
     open={drawer === "sources"}
     entity={session?.current}
-    roundEntities={session ? [session.start, session.target] : []}
+    roundEntities={sourceEntities}
     {graphBuild}
     onClose={() => (drawer = null)}
     onReport={() => void reportCurrent()}

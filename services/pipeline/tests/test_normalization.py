@@ -74,6 +74,27 @@ def test_commons_candidate_prefers_preferred_rank_before_file_name() -> None:
     assert commons_file_name(raw) == "Z preferred image.jpg"
 
 
+def test_commons_candidate_uses_ranked_entity_specific_media_properties() -> None:
+    raw = {
+        "claims": {
+            "P154": [_media_statement("Entity logo.svg", rank="preferred")],
+            "P242": [_media_statement("Entity locator map.png", rank="normal")],
+        }
+    }
+
+    assert commons_file_name(raw) == "Entity locator map.png"
+
+
+def test_commons_candidate_never_uses_audio_media() -> None:
+    raw = {
+        "claims": {
+            "P443": [_media_statement("Pronunciation.ogg", rank="preferred")],
+        }
+    }
+
+    assert commons_file_name(raw) is None
+
+
 def _media_statement(file_name: str, *, rank: str) -> dict:
     return {
         "rank": rank,

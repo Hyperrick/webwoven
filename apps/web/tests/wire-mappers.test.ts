@@ -153,6 +153,7 @@ describe("API wire adapters", () => {
       creator: "Example photographer",
       license_url: "https://creativecommons.org/licenses/by/4.0/",
       attribution_text: "Example photographer — CC BY 4.0 — Wikimedia Commons",
+      context_label: "Related subject",
     };
 
     const mapped = mapSession({
@@ -161,11 +162,13 @@ describe("API wire adapters", () => {
       navigation_stack: [attributed],
     });
 
+    expect(mapped.current.image_path).toBe("/media/start.jpg");
     expect(mapped.current.image_attribution).toEqual(
       expect.objectContaining({
         creator: "Example photographer",
         license_id: "CC_BY_4_0",
         source_url: "https://commons.wikimedia.org/wiki/File:Start.jpg",
+        context_label: "Related subject",
       }),
     );
   });

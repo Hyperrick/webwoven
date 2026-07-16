@@ -3,6 +3,7 @@
   import type { MapNodeInspection } from "../domain/map-inspection";
   import "../../styles/map-inspector.css";
   import AtlasIcon from "./AtlasIcon.svelte";
+  import EndpointArtwork from "./EndpointArtwork.svelte";
 
   let {
     inspection,
@@ -70,7 +71,18 @@
     data-map-interactive="inspector"
     data-map-scrollable
   >
-    <header class="map-inspector__header">
+    <header
+      class="map-inspector__header"
+      class:map-inspector__header--with-artwork={Boolean(inspection.artwork)}
+    >
+      {#if inspection.artwork}
+        <EndpointArtwork
+          entity={inspection.artwork}
+          endpoint="node"
+          className="map-inspector__artwork"
+          loading="eager"
+        />
+      {/if}
       <div>
         <p class="map-inspector__status">
           {statusLabel(inspection.status)}

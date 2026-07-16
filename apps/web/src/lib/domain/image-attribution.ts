@@ -7,6 +7,7 @@ export interface ImageAttributionPresentation {
   licenseLabel: string;
   licenseUrl: string;
   attributionText: string;
+  contextLabel?: string;
 }
 
 export interface EntityImageAttributionPresentation extends ImageAttributionPresentation {
@@ -16,7 +17,16 @@ export interface EntityImageAttributionPresentation extends ImageAttributionPres
 const LICENSE_LABELS: Record<ImageLicenseId, string> = {
   PUBLIC_DOMAIN: "Public domain",
   CC0_1_0: "CC0 1.0",
+  CC_BY_1_0: "CC BY 1.0",
+  CC_BY_2_0: "CC BY 2.0",
+  CC_BY_2_5: "CC BY 2.5",
+  CC_BY_3_0: "CC BY 3.0",
   CC_BY_4_0: "CC BY 4.0",
+  CC_BY_SA_1_0: "CC BY-SA 1.0",
+  CC_BY_SA_2_0: "CC BY-SA 2.0",
+  CC_BY_SA_2_5: "CC BY-SA 2.5",
+  CC_BY_SA_3_0: "CC BY-SA 3.0",
+  CC_BY_SA_4_0: "CC BY-SA 4.0",
 };
 
 export function imageAttributionFor(
@@ -25,7 +35,7 @@ export function imageAttributionFor(
   const attribution = entity?.image_attribution;
   if (attribution === undefined) return undefined;
 
-  return {
+  const presentation: ImageAttributionPresentation = {
     creator: attribution.creator,
     fileName: attribution.file_name,
     sourceUrl: attribution.source_url,
@@ -33,6 +43,9 @@ export function imageAttributionFor(
     licenseUrl: attribution.license_url,
     attributionText: attribution.attribution_text,
   };
+  return attribution.context_label
+    ? { ...presentation, contextLabel: attribution.context_label }
+    : presentation;
 }
 
 export function imageAttributionsFor(

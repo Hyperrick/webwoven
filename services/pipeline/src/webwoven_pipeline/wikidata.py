@@ -13,6 +13,8 @@ from urllib.parse import urlencode
 from .http_transport import JsonTransport, UrllibJsonTransport
 
 WIKIDATA_API_URL = "https://www.wikidata.org/w/api.php"
+WIKIDATA_ENTITY_PROPS = "labels|descriptions|aliases|claims|sitelinks"
+WIKIDATA_CACHE_VERSION = 2
 
 
 class WikidataError(RuntimeError):
@@ -142,7 +144,7 @@ def _build_url(qids: tuple[str, ...], max_lag: int) -> str:
         "format": "json",
         "formatversion": "2",
         "ids": "|".join(qids),
-        "props": "labels|descriptions|aliases|claims",
+        "props": WIKIDATA_ENTITY_PROPS,
         "languages": "en",
         "languagefallback": "1",
         "maxlag": str(max_lag),
@@ -152,7 +154,7 @@ def _build_url(qids: tuple[str, ...], max_lag: int) -> str:
 
 def _cache_name(qids: tuple[str, ...]) -> str:
     digest = hashlib.sha256("\n".join(qids).encode()).hexdigest()[:20]
-    return f"wbgetentities-{qids[0]}-{len(qids)}-{digest}.json"
+    return f"wbgetentities-v{WIKIDATA_CACHE_VERSION}-{qids[0]}-{len(qids)}-{digest}.json"
 
 
 def _chunked(values: tuple[str, ...], size: int) -> Iterable[tuple[str, ...]]:

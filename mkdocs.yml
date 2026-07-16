@@ -41,6 +41,8 @@ nav:
   - Build log:
       - July 13: build-log/2026-07-13.md
       - July 14: build-log/2026-07-14.md
+      - July 15: build-log/2026-07-15.md
+      - July 16: build-log/2026-07-16.md
   - ADRs:
       - Build Week architecture: adr/0001-build-week-architecture.md
       - Navigable route atlas: adr/0002-navigable-route-atlas.md

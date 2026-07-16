@@ -1,0 +1,8 @@
+from webwoven_pipeline.reviewed_media import REVIEWED_MEDIA_CANDIDATES
+
+
+def test_reviewed_tail_media_documents_its_entity_specific_match() -> None:
+    candidate = REVIEWED_MEDIA_CANDIDATES["Q23017623"][0]
+
+    assert candidate.file_name == "Cerous nitrate 6 water.png"
+    assert candidate.provenance.startswith("reviewed_commons_work_by_subject:")

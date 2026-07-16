@@ -1,3 +1,4 @@
+import type { EntitySummary } from "../api/types";
 import type { MapBoard, MapBoardLink, MapBoardNode } from "./map-board";
 
 export type MapInspectionStatus = "taken" | "not_taken" | "current";
@@ -17,6 +18,7 @@ export interface MapInspectionConnection {
 }
 
 export interface MapNodeInspection extends MapInspectionEntity {
+  artwork?: EntitySummary;
   description: string;
   status: MapInspectionStatus;
   connections: MapInspectionConnection[];
@@ -60,6 +62,7 @@ export function inspectMapNode(
 
   return {
     ...target,
+    artwork: node.summary,
     description: node.summary?.description.trim() || MISSING_DESCRIPTION,
     status: inspectionStatus(node),
     connections,

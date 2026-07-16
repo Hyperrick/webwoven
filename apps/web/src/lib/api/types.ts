@@ -7,7 +7,19 @@ export type Difficulty = "easy" | "normal" | "hard";
 export type Category =
   "history_people" | "nature_science" | "arts_culture" | "places";
 export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
-export type ImageLicenseId = "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+export type ImageLicenseId =
+  | "PUBLIC_DOMAIN"
+  | "CC0_1_0"
+  | "CC_BY_1_0"
+  | "CC_BY_2_0"
+  | "CC_BY_2_5"
+  | "CC_BY_3_0"
+  | "CC_BY_4_0"
+  | "CC_BY_SA_1_0"
+  | "CC_BY_SA_2_0"
+  | "CC_BY_SA_2_5"
+  | "CC_BY_SA_3_0"
+  | "CC_BY_SA_4_0";
 
 export interface ImageAttribution {
   file_name: string;
@@ -18,6 +30,7 @@ export interface ImageAttribution {
   creator: string;
   license_url: string;
   attribution_text: string;
+  context_label?: string;
 }
 
 export interface EntitySummary {
@@ -53,6 +66,7 @@ export interface RelationGroup {
 export interface TrailEntry {
   qid: string;
   label: string;
+  summary?: EntitySummary;
   relation?: string;
   revisited?: boolean;
 }

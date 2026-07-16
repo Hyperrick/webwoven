@@ -590,6 +590,8 @@ export interface components {
         ImageAttributionResponse: {
             /** Attribution Text */
             attribution_text: string;
+            /** Context Label */
+            context_label?: string | null;
             /** Creator */
             creator: string;
             /**
@@ -603,7 +605,7 @@ export interface components {
              * License Id
              * @enum {string}
              */
-            license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_4_0";
+            license_id: "PUBLIC_DOMAIN" | "CC0_1_0" | "CC_BY_1_0" | "CC_BY_2_0" | "CC_BY_2_5" | "CC_BY_3_0" | "CC_BY_4_0" | "CC_BY_SA_1_0" | "CC_BY_SA_2_0" | "CC_BY_SA_2_5" | "CC_BY_SA_3_0" | "CC_BY_SA_4_0";
             /**
              * License Url
              * Format: uri

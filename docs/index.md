@@ -19,6 +19,7 @@ provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 ## Current milestone
 
 The repository is in the Build Week implementation phase. Normal local gameplay now runs against
-an immutable, release-scale Wikidata bundle with locally served, policy-checked Commons media.
+an immutable, release-scale Wikidata bundle with locally served, policy-checked Commons media for
+every graph entity.
 The synthetic smoke graph remains test-only; editorial expansion and production load validation
 are the next data milestones.

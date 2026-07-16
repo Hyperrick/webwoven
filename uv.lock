@@ -1110,11 +1110,15 @@ name = "webwoven-pipeline"
 version = "0.1.0"
 source = { editable = "services/pipeline" }
 dependencies = [
+    { name = "httpx" },
     { name = "jsonschema", extra = ["format-nongpl"] },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "jsonschema", extras = ["format-nongpl"], specifier = ">=4.25,<5" }]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28.1,<0.29" },
+    { name = "jsonschema", extras = ["format-nongpl"], specifier = ">=4.25,<5" },
+]
 
 [[package]]
 name = "webwoven-workspace"

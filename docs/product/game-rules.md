@@ -43,10 +43,10 @@ move remains tappable even when the current label and frontier cannot both fit i
 
 Every earlier breadcrumb and muted alternative remains a focusable inspection point. Opening one
 does not move the player or spend a command: it shows the entity description, whether the route was
-taken, its source and target, and every stored fact for that connection. These details are rebuilt
-from the server-owned decision history after refresh or reconnect. Back stages suppress a duplicate
-inverse option for the node they returned to, while the immutable visible trail still records the
-Back action.
+taken, its documentary image, its source and target, and every stored fact for that connection.
+These details are rebuilt from the server-owned decision history after refresh or reconnect. Back
+stages suppress a duplicate inverse option for the node they returned to, while the immutable
+visible trail still records the Back action.
 
 When the active branch has no playable connections, the map shows a non-modal recovery callout next
 to the current node. Its primary action names the server-owned Back destination, states that Back
@@ -56,12 +56,15 @@ round leaves the active state.
 
 Each reachable entity is a direct move button. It shows the entity name and the complete stored
 fact sentence that justifies the connection; raw property labels are supporting metadata, not the
-player's main instruction. For an ordinary connection the graph line terminates directly at the
-button, without a duplicate choice token, sequence number, or repeated action label. A reachable
-goal retains its Ochre marker and places the finish card beside that marker within the same vertical
-lane. Multiple semantic edges to the same entity are grouped into one move; all facts remain
-attached while the deterministic primary fact is shown. Selecting a button follows that edge.
-Forward connections never offer an entity already present in the active navigation route.
+player's main instruction. Its compact card orders a color-coded relationship glyph, the fact
+sentence, and a square documentary image. Complete connection details remain in the inspector
+rather than consuming decision-card space. For an ordinary connection the graph line terminates
+directly at the button, without a duplicate choice token, sequence number, or repeated action
+label. A reachable goal retains its Ochre marker and places the finish card beside that marker
+within the same vertical lane. Multiple semantic edges to the same entity are grouped into one
+move; all facts remain attached while the deterministic primary fact is shown. Selecting a button
+follows that edge. Forward connections never offer an entity already present in the active
+navigation route.
 
 The raw knowledge graph deliberately retains useful inverse relationships, but the server removes
 active-route targets before ranking the playable frontier, issuing command tokens, or calculating

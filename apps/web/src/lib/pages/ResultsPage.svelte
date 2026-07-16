@@ -2,8 +2,10 @@
   import type { DailyLeaderboard, SessionSnapshot } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
   import DailyLeaderboardTable from "../components/DailyLeaderboard.svelte";
+  import EndpointArtwork from "../components/EndpointArtwork.svelte";
   import { gameModeLabel } from "../domain/game-mode-presentation";
   import { routeRecap } from "../domain/route-recap";
+  import { trailEntityAt } from "../domain/trail-entities";
 
   let {
     session,
@@ -96,8 +98,31 @@
     </header>
     <ol>
       {#each session.trail as item, index (`${index}:${item.qid}`)}
-        <li class:route-reveal__item--revisited={item.revisited}>
-          <span>{String(index + 1).padStart(2, "0")}</span>
+        {@const routeEntity = trailEntityAt(session, index)}
+        <li
+          class:route-reveal__item--revisited={item.revisited}
+          class:route-reveal__item--with-artwork={Boolean(routeEntity)}
+          data-route-endpoint={index === 0
+            ? "start"
+            : index === session.trail.length - 1
+              ? "goal"
+              : undefined}
+        >
+          {#if routeEntity}
+            <EndpointArtwork
+              entity={routeEntity}
+              endpoint={index === 0
+                ? "start"
+                : index === session.trail.length - 1
+                  ? "goal"
+                  : "node"}
+              className="route-reveal__artwork"
+              loading="eager"
+            />
+          {/if}
+          <span class="route-reveal__number"
+            >{String(index + 1).padStart(2, "0")}</span
+          >
           <div>
             <strong>{item.label}</strong>{#if item.relation}<small
                 >{item.relation}</small
@@ -137,27 +162,34 @@
         <p class="eyebrow">Solo route</p>
         <h2>Another route is waiting.</h2>
         <p>Choose a difficulty and map a fresh path at your own pace.</p>
-        <button class="primary-action" type="button" onclick={onSolo}
-          >Try another route · Solo <AtlasIcon name="arrow" size={20} /></button
-        >
-        <button class="text-action" type="button" onclick={onDaily}
-          >Play today’s connection</button
-        >
+        <div class="next-route__actions">
+          <button class="primary-action" type="button" onclick={onSolo}
+            >Try another route · Solo <AtlasIcon
+              name="arrow"
+              size={20}
+            /></button
+          >
+          <button class="text-action" type="button" onclick={onDaily}
+            >Play today’s connection</button
+          >
+        </div>
       </div>
     {:else}
       <div class="next-route">
         <p class="eyebrow">Live relay</p>
         <h2>Keep racing together.</h2>
         <p>Create a new room or join another explorer with a field code.</p>
-        <button class="primary-action" type="button" onclick={onRelay}
-          >Create or join another Relay <AtlasIcon
-            name="arrow"
-            size={20}
-          /></button
-        >
-        <button class="text-action" type="button" onclick={onSolo}
-          >Play a Solo route</button
-        >
+        <div class="next-route__actions">
+          <button class="primary-action" type="button" onclick={onRelay}
+            >Create or join another Relay <AtlasIcon
+              name="arrow"
+              size={20}
+            /></button
+          >
+          <button class="text-action" type="button" onclick={onSolo}
+            >Play a Solo route</button
+          >
+        </div>
       </div>
     {/if}
   </section>

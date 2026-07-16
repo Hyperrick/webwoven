@@ -18,8 +18,6 @@ import {
   ShaderMaterial,
   SphereGeometry,
   SRGBColorSpace,
-  Texture,
-  TextureLoader,
   TubeGeometry,
   Vector3,
   WebGLRenderer,
@@ -30,8 +28,6 @@ import type { RoundIntroTimeline } from "./timeline";
 
 interface SceneOptions {
   accent: string;
-  startImage?: string;
-  targetImage?: string;
   onUnavailable: () => void;
 }
 
@@ -50,7 +46,6 @@ export class RoundIntroScene {
   readonly #grain: Mesh<PlaneGeometry, ShaderMaterial>;
   readonly #observer: ResizeObserver;
   readonly #onContextLost: (event: Event) => void;
-  readonly #textures = new Set<Texture>();
   #categoryFit = 1;
   #compact = false;
   #disposed = false;
@@ -86,8 +81,8 @@ export class RoundIntroScene {
     this.#categorySheet.add(...registrationMarks(5.85, 4.05));
     this.#scene.add(this.#categorySheet);
 
-    this.#startCard = this.#card(options.startImage, options.accent);
-    this.#goalCard = this.#card(options.targetImage, palette.ochre);
+    this.#startCard = this.#card(options.accent);
+    this.#goalCard = this.#card(palette.ochre);
     this.#startCard.position.x = -2.55;
     this.#goalCard.position.x = 2.55;
     this.#endpointGroup.add(this.#startCard, this.#goalCard);
@@ -193,15 +188,13 @@ export class RoundIntroScene {
       this.#onContextLost,
     );
     disposeObject(this.#scene);
-    this.#textures.forEach((texture) => texture.dispose());
     this.#renderer.dispose();
     this.#renderer.domElement.remove();
   }
 
-  #card(image: string | undefined, accent: string): Group {
+  #card(accent: string): Group {
     const group = new Group();
     group.add(this.#paperPlane(3.05, 2.1, 0.98));
-    if (image) group.add(this.#artPlane(image, 2.72, 1.76, 0.04));
     const rule = new Mesh(
       new PlaneGeometry(3.05, 0.08),
       new MeshBasicMaterial({ color: new Color(accent) }),
@@ -223,28 +216,6 @@ export class RoundIntroScene {
         side: DoubleSide,
       }),
     );
-  }
-
-  #artPlane(path: string, width: number, height: number, z: number): Mesh {
-    const material = new MeshBasicMaterial({
-      color: new Color(palette.paper),
-      transparent: true,
-      opacity: 0.98,
-    });
-    const plane = new Mesh(new PlaneGeometry(width, height), material);
-    plane.position.z = z;
-    new TextureLoader().load(path, (texture) => {
-      if (this.#disposed) {
-        texture.dispose();
-        return;
-      }
-      texture.colorSpace = SRGBColorSpace;
-      this.#textures.add(texture);
-      material.map = texture;
-      material.color.set(0xffffff);
-      material.needsUpdate = true;
-    });
-    return plane;
   }
 
   #resize(host: HTMLElement): void {
