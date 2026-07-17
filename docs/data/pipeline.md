@@ -15,6 +15,23 @@ anchors → cached Wikidata batches → normalized entities/edges
 unknown-value, and no-value statements. Only configured inverses are materialized. Output order is
 deterministic and never relies on response order.
 
+Relationship wording is resolved from the canonical fact plus a source-neutral semantic profile,
+not from the property ID alone. Direct `P31`/`P279` classifications, explicit adapter tags, relation
+context, and conservative recognition evidence distinguish ranked selections, awards, recognition
+targets, organizations, and physical places. Language, organization, and physical-place wording
+requires positive structured evidence; merely mentioning “language,” “school,” “state,” or a place
+name in a description is not enough. Unclassified country relationships use neutral association
+copy. `P1545` series
+ordinals are retained for ranked selections. Forward and inverse navigation edges reuse the same
+resolved sentence. Wikidata normalization generates these sentences. The compiler is the common
+trust boundary for every graph source—including authored fixtures and imported normalized
+JSON—and requires normalized labels, recognized semantic tags, nonblank statement IDs, and
+single-line complete explanations that mention both fact endpoints. It rejects ambiguous `P166`
+targets, noncanonical `P17`/`P166` sentences, duplicated punctuation, every Unicode formatting
+control, and direction-dependent prose, qualifiers, or playability. Source-neutral
+semantic tags and supported qualifiers survive normalized JSON so another importer can supply
+structured evidence without adopting Wikidata's raw response shape.
+
 Graph schema v3 stores each edge's direction explicitly and preserves one optional preferred
 Wikipedia article URL per entity. Runtime relation groups use the registry's
 forward label for forward edges and inverse label for inverse edges, while the edge's complete
@@ -97,6 +114,45 @@ uv run --package webwoven-pipeline webwoven-pipeline verify-manifest \
   data/builds/current/manifest.json
 ```
 
+## Refresh relationship semantics without refetching media
+
+When semantic rules change but the underlying Wikidata snapshot and Commons choices do not, rebuild
+only the edges from the source batches recorded by the enriched graph source. This command performs
+no network access: every cached batch must exist and match its recorded SHA-256 digest. All media
+candidate mappings, discovery provenance, sitelinks, and source-batch records are copied unchanged.
+
+```sh
+# The snapshot identity does not change when only normalization rules change.
+SNAPSHOT_CREATED_AT=$(jq -r '.created_at' data/builds/current/manifest.json)
+
+uv run --package webwoven-pipeline webwoven-pipeline renormalize-semantics \
+  --registry data/relation-registry/relations.v1.json \
+  --graph-source \
+    data/builds/wikidata-2026-07-16-taxonomy-v2/graph-source-media-v2.json \
+  --cache data/raw/wikidata-2026-07-16-taxonomy-v2 \
+  --output \
+    data/builds/wikidata-2026-07-16-relation-semantics-v4/graph-source-media-v8.json
+
+uv run --package webwoven-pipeline webwoven-pipeline build-wikidata-pack \
+  --registry data/relation-registry/relations.v1.json \
+  --seeds data/seeds/anchors.v2.json \
+  --graph-source \
+    data/builds/wikidata-2026-07-16-relation-semantics-v4/graph-source-media-v8.json \
+  --commons-manifest \
+    data/builds/wikidata-2026-07-16-media-assets-v1/media-manifest.json \
+  --output data/builds/wikidata-2026-07-16-ten-categories-v9 \
+  --created-at "$SNAPSHOT_CREATED_AT"
+
+uv run --package webwoven-pipeline webwoven-pipeline verify-manifest \
+  data/builds/wikidata-2026-07-16-ten-categories-v9/manifest.json
+```
+
+Compare the candidate and active `graph_build_id` values before promotion. A graph ID is an
+immutable registry identity: when the IDs match, the compiled content did not change, so keep the
+existing active bundle rather than publishing a timestamp-only manifest under the same ID. When
+the IDs differ, promote the verified candidate with
+`ln -sfn <candidate-directory> data/builds/current` and restart the API.
+
 Previously verified media packs can be supplied through `--reuse-manifest`. Matching source files
 are hash-verified and hard-linked into the new immutable pack where the filesystem permits it;
 only new or changed Commons selections are downloaded. Download starts are globally spaced even
@@ -113,8 +169,9 @@ for replication to recover. A non-time-sensitive snapshot may explicitly use `--
 source responses are hashed.
 
 The generated bundle automatically publishes 40 deterministic routes after a fail-closed quality
-gate verifies their curated endpoints, labels, allowed relationships, shortest distances, and
-locked category and difficulty distribution. `round-validation-report.json` records every check.
+gate verifies their curated endpoints, labels, allowed relationships, shortest distances,
+choice-first starting nodes, and locked category and difficulty distribution under
+`deterministic-round-publication-v2`. `round-validation-report.json` records every check.
 Round starts and targets are restricted to the 200 curated, recognizable anchors; intermediary
 nodes may come from any expansion hop. When the final hop reaches the entity cap, its unseen
 frontier is selected evenly across the ten release categories instead of favoring low-numbered

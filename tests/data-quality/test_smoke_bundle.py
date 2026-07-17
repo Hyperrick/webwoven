@@ -7,6 +7,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from webwoven_pipeline.fixture import build_smoke_graph
+
 ROOT = Path(__file__).parents[2]
 FIXTURE = ROOT / "data" / "fixtures" / "smoke"
 CATEGORIES = {
@@ -105,7 +107,7 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
 def test_fixture_round_selection_carries_automated_validation_report() -> None:
     report = _json(FIXTURE / "round-validation-report.json")
 
-    assert report["policy"] == "deterministic-round-publication-v1"
+    assert report["policy"] == "deterministic-round-publication-v2"
     assert report["source_kind"] == "synthetic_fixture"
     assert report["status"] == "passed"
     assert report["summary"]["candidate_rounds"] == 100
@@ -136,6 +138,20 @@ def test_fixture_entities_and_edges_are_readable_but_unmistakably_fictional() ->
     assert all(edge["explanation"].startswith("Fictional fixture fact: ") for edge in edges)
     assert len({edge["explanation"] for edge in edges}) == 120
     assert Counter(edge["inverse"] for edge in edges) == Counter({False: 120, True: 120})
+
+
+def test_committed_smoke_graph_matches_the_deterministic_fixture_source() -> None:
+    generated_entities, generated_edges = build_smoke_graph()
+
+    serialized_entities = json.loads(
+        json.dumps([entity.to_dict() for entity in generated_entities], ensure_ascii=False)
+    )
+    serialized_edges = json.loads(
+        json.dumps([edge.to_dict() for edge in generated_edges], ensure_ascii=False)
+    )
+
+    assert _json_list(FIXTURE / "entities.json") == serialized_entities
+    assert _json_list(FIXTURE / "edges.json") == serialized_edges
 
 
 def test_relation_registry_is_locked_and_has_explicit_inverses() -> None:

@@ -208,16 +208,16 @@ def test_follow_and_back_publish_token_free_decision_history(client: TestClient)
         if choice["id"] == follow_stage["selected_choice_id"]
     )
     assert selected_choice["target"]["qid"] == "Q2"
-    assert selected_choice["statement"] == "Ada Lovelace worked with Charles Babbage."
+    assert selected_choice["statement"] == "Ada Lovelace was influenced by Charles Babbage."
     assert selected_choice["connections"] == [
         {
             "id": "connection:0:Q1:edge-1",
             "relation": {
-                "property_id": "P108",
-                "label": "worked with",
+                "property_id": "P737",
+                "label": "influenced by",
                 "direction": "outgoing",
             },
-            "statement": "Ada Lovelace worked with Charles Babbage.",
+            "statement": "Ada Lovelace was influenced by Charles Babbage.",
         }
     ]
     assert "edge_token" not in str(follow_stage)

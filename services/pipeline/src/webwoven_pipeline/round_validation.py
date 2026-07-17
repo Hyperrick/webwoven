@@ -73,7 +73,7 @@ def validate_round_selection(
 
     return {
         "version": 1,
-        "policy": "deterministic-round-publication-v1",
+        "policy": "deterministic-round-publication-v2",
         "source_kind": source_kind,
         "status": "passed",
         "inputs": {
@@ -99,6 +99,9 @@ def _round_result(
     categories: dict[str, str],
 ) -> dict[str, Any]:
     actual_distance = shortest_distances_to_target(item.target_id, edges).get(item.start_id)
+    opening_targets = {
+        edge.target_id for edge in edges if edge.playable and edge.source_id == item.start_id
+    }
     checks = {
         "distinct_endpoints": item.start_id != item.target_id,
         "curated_endpoints": item.start_id in allowed_endpoints
@@ -109,6 +112,7 @@ def _round_result(
         "shortest_distance": actual_distance == item.optimal_distance,
         "difficulty_band": _difficulty_matches(item.difficulty, actual_distance),
         "time_window": TIME_WINDOWS.get(item.difficulty) == item.time_window,
+        "choice_first_start": len(opening_targets) >= 2,
     }
     return {
         "round_id": item.id,

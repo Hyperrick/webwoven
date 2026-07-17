@@ -36,6 +36,25 @@ def test_round_endpoints_can_be_restricted_to_curated_ids() -> None:
     assert all(item.start_id in allowed and item.target_id in allowed for item in rounds)
 
 
+def test_round_generator_excludes_forced_opening_starts() -> None:
+    entities, edges = build_smoke_graph()
+    forced_start = entities[0].id
+    outgoing = [edge for edge in edges if edge.source_id == forced_start]
+    forced_edges = tuple(
+        edge for edge in edges if edge.source_id != forced_start or edge.id == outgoing[0].id
+    )
+
+    rounds = generate_rounds(entities, forced_edges)
+
+    assert all(round_.start_id != forced_start for round_ in rounds)
+    starts = {round_.start_id for round_ in rounds}
+    adjacency = {
+        source_id: {edge.target_id for edge in forced_edges if edge.source_id == source_id}
+        for source_id in starts
+    }
+    assert all(len(targets) >= 2 for targets in adjacency.values())
+
+
 def test_smoke_graph_is_a_readable_fictional_catalog(registry) -> None:
     entities, edges = build_smoke_graph()
     labels = {entity.id: entity.label for entity in entities}

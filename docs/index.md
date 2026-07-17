@@ -17,6 +17,8 @@ Every move answers not only _where can I go?_ but _why are these things connecte
 
 Each mode uses the same immutable, explainable atlas. A player can inspect the documented fact,
 licensed image, and preferred Wikipedia article behind a node without spending a move.
+Automatic assignments begin with at least two distinct destinations, and every direction presents
+the same fact-aware relationship sentence.
 
 ## Two promises
 
@@ -32,9 +34,9 @@ provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 The repository is in the Build Week implementation phase. Normal local gameplay now runs against
 an immutable, release-scale Wikidata bundle with locally served, policy-checked Commons media for
 every graph entity.
-The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated candidates,
-40 published routes, and ten categories. The synthetic smoke graph remains test-only; production
-load validation is the next data milestone.
+The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated choice-first
+candidates, 40 published routes, and ten categories. The synthetic smoke graph remains test-only;
+production load validation is the next data milestone.
 
 Start with the [game rules](product/game-rules.md), [architecture](architecture/overview.md),
-[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-16.md).
+[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-17.md).

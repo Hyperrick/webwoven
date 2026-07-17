@@ -27,9 +27,13 @@ class Entity:
     image_path: str | None = None
     image_attribution: dict[str, Any] | None = None
     wikipedia_url: str | None = None
+    semantic_tags: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        value = asdict(self)
+        if not self.semantic_tags:
+            value.pop("semantic_tags")
+        return value
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,9 +46,13 @@ class Edge:
     explanation: str
     inverse: bool = False
     playable: bool = True
+    series_ordinal: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        value = asdict(self)
+        if self.series_ordinal is None:
+            value.pop("series_ordinal")
+        return value
 
 
 @dataclass(frozen=True, slots=True)

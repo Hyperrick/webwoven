@@ -13,12 +13,10 @@ import {
   MeshStandardMaterial,
   OrthographicCamera,
   PlaneGeometry,
-  QuadraticBezierCurve3,
   Scene,
   ShaderMaterial,
   SphereGeometry,
   SRGBColorSpace,
-  TubeGeometry,
   Vector3,
   WebGLRenderer,
   type Material,
@@ -38,16 +36,11 @@ export class RoundIntroScene {
   readonly #camera = new OrthographicCamera();
   readonly #renderer: WebGLRenderer;
   readonly #categorySheet = new Group();
-  readonly #endpointGroup = new Group();
-  readonly #startCard: Group;
-  readonly #goalCard: Group;
-  readonly #route: Mesh;
   readonly #particles = new Group();
   readonly #grain: Mesh<PlaneGeometry, ShaderMaterial>;
   readonly #observer: ResizeObserver;
   readonly #onContextLost: (event: Event) => void;
   #categoryFit = 1;
-  #compact = false;
   #disposed = false;
 
   constructor(host: HTMLElement, options: SceneOptions) {
@@ -80,23 +73,6 @@ export class RoundIntroScene {
     this.#categorySheet.add(this.#paperPlane(5.6, 3.8, 0.97));
     this.#categorySheet.add(...registrationMarks(5.85, 4.05));
     this.#scene.add(this.#categorySheet);
-
-    this.#startCard = this.#card(options.accent);
-    this.#goalCard = this.#card(palette.ochre);
-    this.#startCard.position.x = -2.55;
-    this.#goalCard.position.x = 2.55;
-    this.#endpointGroup.add(this.#startCard, this.#goalCard);
-    const curve = new QuadraticBezierCurve3(
-      new Vector3(-1.55, 0, -0.05),
-      new Vector3(0, 1.15, 0.1),
-      new Vector3(1.55, 0, -0.05),
-    );
-    this.#route = new Mesh(
-      new TubeGeometry(curve, 44, 0.035, 6, false),
-      new MeshBasicMaterial({ color: new Color(options.accent) }),
-    );
-    this.#endpointGroup.add(this.#route);
-    this.#scene.add(this.#endpointGroup);
 
     for (let index = 0; index < 34; index += 1) {
       const particle = new Mesh(
@@ -143,10 +119,9 @@ export class RoundIntroScene {
   update(timeline: RoundIntroTimeline): void {
     if (this.#disposed) return;
     const category = ease(timeline.category);
-    const endpoints = ease(timeline.endpoints);
     const categoryExit = ease(Math.min(1, timeline.endpoints * 4));
-    const orientation = ease(timeline.orientation);
-    const launch = ease(timeline.launch);
+    const zoomOut = ease(timeline.zoom_out);
+    const handoff = ease(timeline.handoff);
 
     this.#categorySheet.position.y =
       (1 - category) * 0.45 + categoryExit * 5.25;
@@ -155,27 +130,11 @@ export class RoundIntroScene {
       (0.82 + category * 0.18 - categoryExit * 0.08) * this.#categoryFit,
     );
 
-    this.#endpointGroup.visible =
-      !this.#compact && timeline.elapsed_ms >= 1_100;
-    this.#endpointGroup.scale.setScalar(0.78 + endpoints * 0.22);
-    setOpacity(this.#endpointGroup, endpoints);
-    this.#startCard.position.x = -0.7 - endpoints * 1.85;
-    this.#goalCard.position.x = 0.7 + endpoints * 1.85;
-    this.#route.scale.x = Math.max(0.001, endpoints);
-
-    this.#camera.position.x = orientation * -2.45;
-    this.#camera.zoom = 1 + orientation * 0.14 + launch * 1.7;
-    this.#camera.updateProjectionMatrix();
-    this.#goalCard.position.y = orientation * -0.25;
-    this.#startCard.scale.setScalar(1 + launch * 2.2);
-    this.#startCard.position.x += launch * 2.45;
-    this.#goalCard.scale.setScalar(1 - launch * 0.35);
-    setOpacity(this.#goalCard, 1 - launch);
-    setOpacity(this.#route, 1 - launch);
-
+    setOpacity(this.#particles, 1 - categoryExit);
     this.#particles.rotation.z = timeline.overall * 0.035;
+    this.#particles.scale.setScalar(1 - zoomOut * 0.08);
     this.#grain.material.uniforms.uTime.value = timeline.elapsed_ms / 1_000;
-    this.#grain.material.uniforms.uDissolve.value = launch;
+    this.#grain.material.uniforms.uDissolve.value = handoff;
     this.#renderer.render(this.#scene, this.#camera);
   }
 
@@ -190,18 +149,6 @@ export class RoundIntroScene {
     disposeObject(this.#scene);
     this.#renderer.dispose();
     this.#renderer.domElement.remove();
-  }
-
-  #card(accent: string): Group {
-    const group = new Group();
-    group.add(this.#paperPlane(3.05, 2.1, 0.98));
-    const rule = new Mesh(
-      new PlaneGeometry(3.05, 0.08),
-      new MeshBasicMaterial({ color: new Color(accent) }),
-    );
-    rule.position.set(0, -1.01, 0.08);
-    group.add(rule);
-    return group;
   }
 
   #paperPlane(width: number, height: number, opacity: number): Mesh {
@@ -222,7 +169,6 @@ export class RoundIntroScene {
     const width = Math.max(1, host.clientWidth);
     const height = Math.max(1, host.clientHeight);
     const aspect = width / height;
-    this.#compact = width <= 768;
     this.#categoryFit = Math.min(1, (VIEW_HEIGHT * aspect * 0.84) / 5.6);
     this.#camera.left = (-VIEW_HEIGHT * aspect) / 2;
     this.#camera.right = (VIEW_HEIGHT * aspect) / 2;

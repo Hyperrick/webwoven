@@ -12,8 +12,8 @@ describe("round intro timeline", () => {
     [0, "category"],
     [1_249, "category"],
     [1_250, "endpoints"],
-    [3_250, "orientation"],
-    [4_550, "launch"],
+    [3_250, "zoom_out"],
+    [4_550, "handoff"],
     [5_000, "complete"],
   ] as const)("maps %sms to the %s phase", (offset, phase) => {
     expect(roundIntroTimeline(startsAt, introStart + offset).phase).toBe(phase);
@@ -21,9 +21,27 @@ describe("round intro timeline", () => {
 
   it("advances late responses and completes resumed sessions immediately", () => {
     expect(roundIntroTimeline(startsAt, startsAt - 400)).toMatchObject({
-      phase: "launch",
+      phase: "handoff",
       remaining_ms: 400,
     });
     expect(roundIntroTimeline(startsAt, startsAt + 1).phase).toBe("complete");
+  });
+
+  it("fades the endpoints in before zooming out and handing off", () => {
+    expect(roundIntroTimeline(startsAt, introStart + 1_250)).toMatchObject({
+      endpoints: 0,
+      zoom_out: 0,
+      handoff: 0,
+    });
+    expect(roundIntroTimeline(startsAt, introStart + 3_250)).toMatchObject({
+      endpoints: 1,
+      zoom_out: 0,
+      handoff: 0,
+    });
+    expect(roundIntroTimeline(startsAt, introStart + 4_550)).toMatchObject({
+      endpoints: 1,
+      zoom_out: 1,
+      handoff: 0,
+    });
   });
 });

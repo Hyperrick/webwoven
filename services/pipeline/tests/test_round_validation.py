@@ -26,7 +26,7 @@ def test_round_selection_passes_deterministic_publication_policy(registry) -> No
     report = _validate(registry, rounds, entities, edges)
 
     assert report["status"] == "passed"
-    assert report["policy"] == "deterministic-round-publication-v1"
+    assert report["policy"] == "deterministic-round-publication-v2"
     assert report["inputs"]["selection_seed"] == DEFAULT_SELECTION_SEED
     assert report["inputs"]["registry_version"] == registry.version
     assert len(report["inputs"]["endpoint_catalog_sha256"]) == 64
@@ -120,6 +120,19 @@ def test_round_selection_rejects_non_allowlisted_playable_relation(registry) -> 
 
     with pytest.raises(RoundValidationError, match="allowlisted_playable_relations"):
         _validate(registry, rounds, entities, invalid_edges)
+
+
+def test_round_selection_rejects_a_forced_opening_start(registry) -> None:
+    entities, edges = build_smoke_graph()
+    rounds = generate_rounds(entities, edges)
+    selected_start = rounds[0].start_id
+    outgoing = [edge for edge in edges if edge.source_id == selected_start]
+    forced_edges = tuple(
+        edge for edge in edges if edge.source_id != selected_start or edge.id == outgoing[0].id
+    )
+
+    with pytest.raises(RoundValidationError, match="all_round_checks"):
+        _validate(registry, rounds, entities, forced_edges)
 
 
 def test_wikidata_bundle_writes_validation_report_for_endpoint_iterator(tmp_path, registry) -> None:

@@ -230,7 +230,7 @@
     "target_id": "fixture:sports_games:02"
   },
   {
-    "explanation": "Fictional fixture fact: Blank Margin Prize connects to Tideglass Translation in the fictional literature and language atlas.",
+    "explanation": "Fictional fixture fact: Blank Margin Prize has a recorded recognition connection to the Tideglass Translation.",
     "id": "14f14a0f5675fc9e3d19a31b",
     "inverse": true,
     "playable": true,
@@ -330,7 +330,7 @@
     "target_id": "fixture:sports_games:04"
   },
   {
-    "explanation": "Fictional fixture fact: Ochre Proclamation connects to Public Map Room in the fictional history and society atlas.",
+    "explanation": "Fictional fixture fact: Ochre Proclamation has a recorded recognition connection to the Public Map Room.",
     "id": "1f3d34df940299400c3cb8fb",
     "inverse": false,
     "playable": true,
@@ -660,7 +660,7 @@
     "target_id": "fixture:literature_language:03"
   },
   {
-    "explanation": "Fictional fixture fact: Ochre Proclamation connects to Public Map Room in the fictional history and society atlas.",
+    "explanation": "Fictional fixture fact: Ochre Proclamation has a recorded recognition connection to the Public Map Room.",
     "id": "4a757b14a586b652abeb8584",
     "inverse": true,
     "playable": true,
@@ -980,7 +980,7 @@
     "target_id": "fixture:history_society:01"
   },
   {
-    "explanation": "Fictional fixture fact: Fieldnote Database connects to Bracken Robot in the fictional science and technology atlas.",
+    "explanation": "Fictional fixture fact: Fieldnote Database has a recorded recognition connection to the Bracken Robot.",
     "id": "6f99df284feae08686bff7c6",
     "inverse": true,
     "playable": true,
@@ -1310,7 +1310,7 @@
     "target_id": "fixture:places_architecture:01"
   },
   {
-    "explanation": "Fictional fixture fact: Lantern Concerto connects to Tideway Opera in the fictional music and performance atlas.",
+    "explanation": "Fictional fixture fact: Lantern Concerto has a recorded recognition connection to the Tideway Opera.",
     "id": "879e30c5712611547db82c66",
     "inverse": false,
     "playable": true,
@@ -1380,7 +1380,7 @@
     "target_id": "fixture:music_performance:10"
   },
   {
-    "explanation": "Fictional fixture fact: Meridian Wheel Race connects to Bracken Field Team in the fictional sports and games atlas.",
+    "explanation": "Fictional fixture fact: Meridian Wheel Race has a recorded recognition connection to the Bracken Field Team.",
     "id": "905f6208b71e47a8c77b99a2",
     "inverse": false,
     "playable": true,
@@ -1470,7 +1470,7 @@
     "target_id": "fixture:places_architecture:07"
   },
   {
-    "explanation": "Fictional fixture fact: Lantern Concerto connects to Tideway Opera in the fictional music and performance atlas.",
+    "explanation": "Fictional fixture fact: Lantern Concerto has a recorded recognition connection to the Tideway Opera.",
     "id": "9866ccd91c8d2118fe2740e6",
     "inverse": true,
     "playable": true,
@@ -1630,7 +1630,7 @@
     "target_id": "fixture:nature_life:11"
   },
   {
-    "explanation": "Fictional fixture fact: Fieldnote Database connects to Bracken Robot in the fictional science and technology atlas.",
+    "explanation": "Fictional fixture fact: Fieldnote Database has a recorded recognition connection to the Bracken Robot.",
     "id": "ab09ac7e7dc527efb14e5bcc",
     "inverse": false,
     "playable": true,
@@ -1890,7 +1890,7 @@
     "target_id": "fixture:art_design:08"
   },
   {
-    "explanation": "Fictional fixture fact: Blank Margin Prize connects to Tideglass Translation in the fictional literature and language atlas.",
+    "explanation": "Fictional fixture fact: Blank Margin Prize has a recorded recognition connection to the Tideglass Translation.",
     "id": "c2a1425cae277dd6d4cb9839",
     "inverse": false,
     "playable": true,
@@ -1960,7 +1960,7 @@
     "target_id": "fixture:people:02"
   },
   {
-    "explanation": "Fictional fixture fact: Meridian Wheel Race connects to Bracken Field Team in the fictional sports and games atlas.",
+    "explanation": "Fictional fixture fact: Meridian Wheel Race has a recorded recognition connection to the Bracken Field Team.",
     "id": "c9dd6a9f43b409c27d783d7a",
     "inverse": true,
     "playable": true,
@@ -2040,7 +2040,7 @@
     "target_id": "fixture:places_architecture:05"
   },
   {
-    "explanation": "Fictional fixture fact: Northglass Documentary connects to Silver Route Award in the fictional film and media atlas.",
+    "explanation": "Fictional fixture fact: Northglass Documentary received the Silver Route Award.",
     "id": "d155dab69644485eb915189f",
     "inverse": true,
     "playable": true,
@@ -2280,7 +2280,7 @@
     "target_id": "fixture:science_technology:07"
   },
   {
-    "explanation": "Fictional fixture fact: Northglass Documentary connects to Silver Route Award in the fictional film and media atlas.",
+    "explanation": "Fictional fixture fact: Northglass Documentary received the Silver Route Award.",
     "id": "f5cf197c97aacb4d4f87a5b6",
     "inverse": false,
     "playable": true,

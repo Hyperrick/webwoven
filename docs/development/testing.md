@@ -23,6 +23,12 @@ ranking and hint selection, direct cyclic commands are rejected without mutation
 the route so a deliberate retry becomes available again. The Albert Einstein → Czech Republic →
 UNESCO → Austria real-data path is also exercised in a browser smoke check.
 
+Round-selection regressions cover forced-opening exclusion for Solo, Relay-room, and new Daily
+assignments while preserving explicit and already-pinned replay. Pipeline regressions cover source
+ordinals, canonical forward/inverse sentences, semantic `P166` and `P17` wording, the all-source
+compiler guard, and hash-verified offline semantic refresh. The browser suite locks result-trail
+artwork to a centered contain treatment inside its 5:4 frame.
+
 ```sh
 just check
 ```

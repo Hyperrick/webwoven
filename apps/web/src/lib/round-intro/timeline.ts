@@ -1,7 +1,7 @@
 export const ROUND_INTRO_DURATION_MS = 5_000;
 
 export type RoundIntroPhase =
-  "category" | "endpoints" | "orientation" | "launch" | "complete";
+  "category" | "endpoints" | "zoom_out" | "handoff" | "complete";
 
 export interface RoundIntroTimeline {
   phase: RoundIntroPhase;
@@ -10,8 +10,8 @@ export interface RoundIntroTimeline {
   overall: number;
   category: number;
   endpoints: number;
-  orientation: number;
-  launch: number;
+  zoom_out: number;
+  handoff: number;
 }
 
 function segment(value: number, start: number, end: number): number {
@@ -39,8 +39,8 @@ export function roundIntroTimeline(
         : elapsed < 3_250
           ? "endpoints"
           : elapsed < 4_550
-            ? "orientation"
-            : "launch";
+            ? "zoom_out"
+            : "handoff";
   return {
     phase,
     elapsed_ms: elapsed,
@@ -48,7 +48,7 @@ export function roundIntroTimeline(
     overall: elapsed / ROUND_INTRO_DURATION_MS,
     category: segment(elapsed, 0, 1_250),
     endpoints: segment(elapsed, 1_250, 3_250),
-    orientation: segment(elapsed, 3_250, 4_550),
-    launch: segment(elapsed, 4_550, 5_000),
+    zoom_out: segment(elapsed, 3_250, 4_550),
+    handoff: segment(elapsed, 4_550, 5_000),
   };
 }
