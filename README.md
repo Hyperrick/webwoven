@@ -2,6 +2,10 @@
 
 **Connect anything. Discover why it is connected.**
 
+[Play live](https://www.webwoven.org) ·
+[Technical docs](https://www.webwoven.org/docs/) ·
+[Privacy](https://www.webwoven.org/privacy)
+
 Webwoven is a competitive, explainable knowledge-graph game. Players move between real people,
 places, events, works, species, and scientific ideas by following named relationships—not opaque
 hyperlinks. Every move answers both _where can I go?_ and _why are these things connected?_
@@ -15,6 +19,13 @@ The project is also an open Build Week case study for a simple belief:
 Codex turns the product brief into a modular, tested game, a validated knowledge atlas, and a
 living public build journal. Gameplay, routes, scores, and winners remain deterministic and
 server-authoritative.
+
+## Build Week midpoint
+
+The full product loop is live: Single player, a shared Daily challenge, synchronized Multiplayer,
+responsive graph exploration, source inspection, deterministic hints, and cookie-free aggregate
+reporting. The second half of Build Week is focused on accessibility, security and load validation,
+content review, demo recording, and submission polish—not rebuilding the core game.
 
 ## What you can play
 
@@ -37,6 +48,10 @@ second; on every layout, activating the immediately previous node twice performs
 branches remain visible and inspectable without placing controls over the node canvas.
 
 ![A live Webwoven Solo map using the real Compose atlas](docs/assets/screenshots/solo-map.webp)
+
+### The same atlas on a phone
+
+![A selected route preview in Webwoven's phone constellation](docs/assets/screenshots/mobile-route-preview.webp)
 
 ## The current atlas
 
@@ -61,10 +76,15 @@ and fails visibly if one is unavailable.
 | SQLite atlas          | Immutable compiled Wikidata entities, relationships, rounds, and media records   |
 | PostgreSQL + Valkey   | Durable player state and low-latency multiplayer coordination                    |
 | Python pipeline       | Versioned Wikidata acquisition, Commons licensing, validation, and compilation   |
+| Caddy + Docker Compose | TLS, same-origin routing, health-checked production releases, and backups         |
+| Self-hosted Umami     | Cookie-free page views and five allowlisted aggregate product events              |
 
 Runtime boundaries keep the network, persistence, UI, and game domains separate. See the
 [architecture overview](docs/architecture/overview.md) and
+[midpoint system map](docs/architecture/system-map.md), then the detailed
 [responsibility map](docs/development/responsibility-map.md).
+
+![Webwoven production runtime and build-time atlas pipeline](docs/assets/architecture-midpoint.svg)
 
 ## Run locally
 
@@ -118,6 +138,7 @@ builds in CI.
 
 - [Game rules](docs/product/game-rules.md)
 - [Architecture](docs/architecture/overview.md)
+- [Midpoint system map](docs/architecture/system-map.md)
 - [Data pipeline and provenance](docs/data/pipeline.md)
 - [Local setup and testing surfaces](docs/development/setup.md)
 - [Build Week journal](docs/build-log/2026-07-17.md)

@@ -12,6 +12,11 @@ be checked again immediately before submission because those pages can change du
 
 ## Build Week milestones
 
+The project reached its midpoint with the core playable scope already deployed: all three modes,
+the production atlas, responsive map layouts, attribution, multiplayer reconnect, and
+privacy-minimized reporting are live. The dated plan below remains the delivery baseline; completed
+later-stage items were intentionally pulled forward when their dependencies were ready.
+
 | Date    | Outcome                                                                                             |
 | ------- | --------------------------------------------------------------------------------------------------- |
 | July 13 | Repository, living documentation, design tokens, quality gates, and first playable foundation.      |
@@ -23,6 +28,15 @@ be checked again immediately before submission because those pages can change du
 | July 19 | Generate, validate, manually review, and approve the Codex-assisted content pack and illustrations. |
 | July 20 | Accessibility, security, data, browser, visual, and load verification; deployment images.           |
 | July 21 | Approved deployment, demo recording, documentation freeze, and submission materials.                |
+
+## Midpoint focus
+
+The remaining half of the week concentrates on evidence and finish quality:
+
+- accessibility, keyboard, reduced-motion, and assistive-technology verification;
+- security, load, backup-restore, and production recovery checks;
+- final review of Codex-assisted content and provenance records;
+- demo capture, submission copy, and a documentation freeze.
 
 ## Release acceptance
 

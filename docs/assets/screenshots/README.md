@@ -4,12 +4,14 @@ These screenshots were captured from **Compose acceptance** at `http://localhost
 after rebuilding the Caddy image. They document the product UI; they are not synthetic mockups or
 captures from the Playwright demo server.
 
-| File                | Surface            | Content                                                                                             |
-| ------------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
-| `frontispiece.webp` | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed. |
-| `solo-map.webp`     | Compose acceptance | A real Solo session using the active July 17 Wikidata and Commons atlas.                            |
+| File                           | Surface            | Content                                                                                                  |
+| ------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------- |
+| `frontispiece.webp`            | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed.      |
+| `solo-map.webp`                | Compose acceptance | A real desktop Solo session using the active July 17 Wikidata and Commons atlas.                         |
+| `mobile-route-preview.webp`    | Compose acceptance | The same real Solo session at 390×844 with Brazil selected in the phone route-preview constellation.     |
 
-The Solo capture includes reduced documentary images served from the immutable local bundle.
+The desktop and phone Solo captures include reduced documentary images served from the immutable
+local bundle.
 Complete machine-readable attribution is preserved in `data/builds/current/attribution.json` and
 the in-game Sources drawer. The visible records include:
 

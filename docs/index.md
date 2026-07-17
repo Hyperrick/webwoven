@@ -31,12 +31,15 @@ provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 
 ## Current milestone
 
-The repository is in the Build Week implementation phase. Normal local gameplay now runs against
-an immutable, release-scale Wikidata bundle with locally served, policy-checked Commons media for
-every graph entity.
+Webwoven is live at [www.webwoven.org](https://www.webwoven.org) halfway through Build Week. Single
+player, Daily challenge, synchronized Multiplayer, responsive route exploration, source inspection,
+and privacy-minimized reporting all run against an immutable, release-scale Wikidata bundle with
+locally served, policy-checked Commons media for every graph entity.
 The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated choice-first
-candidates, 40 published routes, and ten categories. The synthetic smoke graph remains test-only;
-production load validation is the next data milestone.
+candidates, 40 published routes, and ten categories. The synthetic smoke graph remains test-only.
+The remaining release work is accessibility, security and load verification, content review, demo
+recording, and submission packaging.
 
-Start with the [game rules](product/game-rules.md), [architecture](architecture/overview.md),
+Start with the [game rules](product/game-rules.md), [system map](architecture/system-map.md),
+[architecture](architecture/overview.md),
 [data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-17.md).

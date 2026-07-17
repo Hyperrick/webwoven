@@ -12,8 +12,10 @@ Caddy serves `/docs/` before the SPA fallback, proxies `/api/`, and upgrades the
 The graph bundle is downloaded from a versioned release and verified against its SHA-256 manifest
 before the API is restarted.
 
-The Build Week target is a small Hetzner EU server with a temporary IP-based TLS hostname. Server
-creation and billable resources require explicit cost confirmation at deployment time.
+The live Build Week deployment runs on a small Hetzner EU server. `https://www.webwoven.org` is the
+canonical origin, `https://webwoven.org` permanently redirects to it, and
+`https://stats.webwoven.org` publishes the self-hosted analytics tracker and private dashboard.
+Creating or resizing billable infrastructure remains an explicit human decision.
 
 ## Production configuration
 
