@@ -38,6 +38,9 @@ Webwoven is split by responsibility:
 - Valkey stores short-lived race state, streams, reconnect data, and rate limits.
 - The pipeline fetches and normalizes open data, generates rounds, and compiles immutable graphs.
 - Caddy serves the web client and documentation and proxies same-origin API traffic.
+- A small client analytics adapter owns the complete reporting allowlist. It sends cookie-free page
+  views and coarse product events to a self-hosted Umami/PostgreSQL pair; analytics never owns game
+  state and failures never block play.
 
 The runtime graph is an indexed, read-only SQLite bundle behind a `GraphReader` interface. The
 interface permits a later CSR implementation without changing game rules or HTTP contracts.

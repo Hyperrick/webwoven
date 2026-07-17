@@ -19,9 +19,13 @@ hint selection, completion, score, and race order.
 
 ## Data boundaries
 
-The Build Week release does not retain IP addresses as analytics identities and has no third-party
-tracking. Display names are constrained and content reports are intentionally minimal. Secrets
-are supplied at runtime and never enter images, client bundles, graph artifacts, or build logs.
+The Build Week release does not retain raw IP addresses or use third-party analytics. Its self-hosted
+analytics adapter sets no cookie, honors Do Not Track, strips query strings and hashes, and accepts
+only reviewed enum fields for five aggregate gameplay events. It never sends display names, guest,
+session, or entity identifiers, free-form text, route histories, scores, or elapsed times. Umami
+telemetry, public shares, heatmaps, and replay remain disabled, and detailed rows expire after 90
+days. Display names are constrained and content reports are intentionally minimal. Secrets are
+supplied at runtime and never enter images, client bundles, graph artifacts, or build logs.
 
 ## External systems
 

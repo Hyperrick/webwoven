@@ -38,9 +38,15 @@ origin=$(read_env WEBWOVEN_ORIGIN)
 api_origin=$(read_env WEBWOVEN_API_ORIGIN)
 site_address=$(read_env WEBWOVEN_SITE_ADDRESS)
 redirect_address=$(read_env WEBWOVEN_REDIRECT_ADDRESS)
+analytics_address=$(read_env WEBWOVEN_ANALYTICS_ADDRESS)
+analytics_website_id=$(read_env WEBWOVEN_ANALYTICS_WEBSITE_ID)
+analytics_domain=$(read_env WEBWOVEN_ANALYTICS_DOMAIN)
 session_secret=$(read_env WEBWOVEN_SESSION_SECRET)
 edge_secret=$(read_env WEBWOVEN_EDGE_SECRET)
 postgres_password=$(read_env POSTGRES_PASSWORD)
+umami_database_password=$(read_env UMAMI_DATABASE_PASSWORD)
+umami_app_secret=$(read_env UMAMI_APP_SECRET)
+umami_admin_password=$(read_env UMAMI_ADMIN_PASSWORD)
 graph_dir=$(read_env WEBWOVEN_GRAPH_DIR)
 
 if [ "$environment" != "production" ]; then
@@ -51,7 +57,12 @@ if [ "$cookie_secure" != "true" ]; then
   echo "WEBWOVEN_COOKIE_SECURE must be true." >&2
   exit 1
 fi
-for address in "$origin" "$api_origin" "$site_address" "$redirect_address"; do
+for address in \
+  "$origin" \
+  "$api_origin" \
+  "$site_address" \
+  "$redirect_address" \
+  "$analytics_address"; do
   case "$address" in
     https://*) ;;
     *)
@@ -60,14 +71,24 @@ for address in "$origin" "$api_origin" "$site_address" "$redirect_address"; do
       ;;
   esac
 done
-if [ "$site_address" = "$redirect_address" ]; then
-  echo "The canonical site and redirect address must be different." >&2
+if [ "$site_address" = "$redirect_address" ] || [ "$site_address" = "$analytics_address" ]; then
+  echo "The canonical site, redirect, and analytics addresses must be different." >&2
   exit 1
 fi
+case "$analytics_domain" in
+  "" | *://* | */*)
+    echo "WEBWOVEN_ANALYTICS_DOMAIN must be a hostname without a scheme or path." >&2
+    exit 1
+    ;;
+esac
 
 reject_placeholder WEBWOVEN_SESSION_SECRET "$session_secret" 32
 reject_placeholder WEBWOVEN_EDGE_SECRET "$edge_secret" 32
 reject_placeholder POSTGRES_PASSWORD "$postgres_password" 24
+reject_placeholder WEBWOVEN_ANALYTICS_WEBSITE_ID "$analytics_website_id" 32
+reject_placeholder UMAMI_DATABASE_PASSWORD "$umami_database_password" 24
+reject_placeholder UMAMI_APP_SECRET "$umami_app_secret" 32
+reject_placeholder UMAMI_ADMIN_PASSWORD "$umami_admin_password" 16
 if [ "$session_secret" = "$edge_secret" ]; then
   echo "Session and edge secrets must be different." >&2
   exit 1
@@ -83,14 +104,22 @@ export WEBWOVEN_ORIGIN="$origin"
 export WEBWOVEN_API_ORIGIN="$api_origin"
 export WEBWOVEN_SITE_ADDRESS="$site_address"
 export WEBWOVEN_REDIRECT_ADDRESS="$redirect_address"
+export WEBWOVEN_ANALYTICS_ADDRESS="$analytics_address"
+export WEBWOVEN_ANALYTICS_WEBSITE_ID="$analytics_website_id"
+export WEBWOVEN_ANALYTICS_DOMAIN="$analytics_domain"
 export WEBWOVEN_SESSION_SECRET="$session_secret"
 export WEBWOVEN_EDGE_SECRET="$edge_secret"
 export POSTGRES_PASSWORD="$postgres_password"
+export UMAMI_DATABASE_PASSWORD="$umami_database_password"
+export UMAMI_APP_SECRET="$umami_app_secret"
+export UMAMI_ADMIN_PASSWORD="$umami_admin_password"
 export WEBWOVEN_GRAPH_DIR="$graph_dir"
 
 sh infra/scripts/verify-graph.sh "$graph_dir"
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml config --quiet
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml pull --ignore-buildable
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml build api caddy
+docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml up -d analytics-db analytics
+sh infra/scripts/bootstrap-analytics.sh
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml up -d --remove-orphans
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml ps

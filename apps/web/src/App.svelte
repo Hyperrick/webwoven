@@ -13,6 +13,11 @@
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
+  import {
+    hintCount,
+    movesRelativeToPar,
+    trackAnalytics,
+  } from "./lib/analytics/analytics";
   import DailyLeaderboardDrawer from "./lib/components/DailyLeaderboardDrawer.svelte";
   import GuestNamePrompt from "./lib/components/GuestNamePrompt.svelte";
   import SettingsDrawer from "./lib/components/SettingsDrawer.svelte";
@@ -50,6 +55,7 @@
   import NotFoundPage from "./lib/pages/NotFoundPage.svelte";
   import ResultsPage from "./lib/pages/ResultsPage.svelte";
   import RoundSetupPage from "./lib/pages/RoundSetupPage.svelte";
+  import PrivacyPage from "./lib/pages/PrivacyPage.svelte";
 
   const api = createRuntimeApi();
   const games = new GameController(api);
@@ -79,6 +85,8 @@
   let namePromptOpen = $state(false);
   let profileBusy = $state(false);
   let profileError = $state("");
+  const reportedRoundStarts = new Set<string>();
+  const reportedRoundCompletions = new Set<string>();
   let router: BrowserRouter;
   let sourceEntities = $derived(session ? sessionMediaEntities(session) : []);
 
@@ -160,6 +168,7 @@
   }
 
   function begin(mode: "solo" | "daily"): void {
+    trackAnalytics("mode_selected", { mode });
     clearActiveSession(mode);
     session = undefined;
     if (mode === "daily") resetLeaderboard();
@@ -167,6 +176,7 @@
   }
 
   function beginRelay(): void {
+    trackAnalytics("mode_selected", { mode: "relay" });
     roomEvents.stop();
     room = undefined;
     session = undefined;
@@ -202,6 +212,7 @@
       session = await games.start("daily", round.round_id);
       session = { ...session, shortest_distance: round.optimal_distance };
       persistActiveSession(session);
+      reportRoundStarted(session);
     });
   }
 
@@ -209,6 +220,7 @@
     await run(async () => {
       session = await games.start("solo", undefined, difficulty);
       persistActiveSession(session);
+      reportRoundStarted(session);
     });
   }
 
@@ -218,6 +230,7 @@
       session = await games.follow(session!, edgeToken);
       persistActiveSession(session);
       if (session.status === "completed") {
+        reportRoundCompleted(session);
         if (session.mode === "daily") void loadDailyLeaderboard();
         window.setTimeout(() => navigate("/results", true), 300);
       }
@@ -239,8 +252,17 @@
   ): Promise<void> {
     if (!session) return;
     await run(async () => {
+      const previousHintCount = session!.hints_used.length;
       session = await games.hint(session!, type, propertyId, entityQid);
       persistActiveSession(session);
+      if (session.hints_used.length > previousHintCount) {
+        trackAnalytics("hint_used", {
+          mode: session.mode,
+          difficulty: session.difficulty,
+          category: session.category,
+          hint: type,
+        });
+      }
     });
   }
 
@@ -273,6 +295,7 @@
       if (!room.current_session_id)
         throw new Error("The relay did not assign your synchronized route.");
       session = await games.resume(room.current_session_id);
+      reportRoundStarted(session);
       connectRoomEvents(room.code);
     });
   }
@@ -393,12 +416,19 @@
       latest.current_session_id
     ) {
       session = await games.resume(latest.current_session_id);
+      reportRoundStarted(session);
       navigate(`/relay/${latest.code}`);
     }
   }
 
   function confirmExit(): void {
     if (session?.status === "active") {
+      trackAnalytics("route_abandoned", {
+        mode: session.mode,
+        difficulty: session.difficulty,
+        category: session.category,
+        progress: session.moves === 0 ? "no_moves" : "in_progress",
+      });
       if (session.mode !== "relay") clearActiveSession(session.mode);
       session = { ...session, status: "abandoned" };
     }
@@ -425,6 +455,32 @@
   function showToast(message: string): void {
     toast = message;
     window.setTimeout(() => (toast = ""), 2800);
+  }
+
+  function reportRoundStarted(snapshot: SessionSnapshot): void {
+    if (reportedRoundStarts.has(snapshot.id)) return;
+    reportedRoundStarts.add(snapshot.id);
+    trackAnalytics("round_started", {
+      mode: snapshot.mode,
+      difficulty: snapshot.difficulty,
+      category: snapshot.category,
+    });
+  }
+
+  function reportRoundCompleted(snapshot: SessionSnapshot): void {
+    if (reportedRoundCompletions.has(snapshot.id)) return;
+    reportedRoundCompletions.add(snapshot.id);
+    trackAnalytics("round_completed", {
+      mode: snapshot.mode,
+      difficulty: snapshot.difficulty,
+      category: snapshot.category,
+      result: "goal_reached",
+      moves_relative_to_par: movesRelativeToPar(
+        snapshot.moves,
+        snapshot.shortest_distance,
+      ),
+      hints: hintCount(snapshot.hints_used.length),
+    });
   }
 </script>
 
@@ -492,6 +548,8 @@
       />
     {:else if route.name === "lab"}
       <LabPage />
+    {:else if route.name === "privacy"}
+      <PrivacyPage />
     {:else}
       <NotFoundPage onHome={() => navigate("/")} />
     {/if}

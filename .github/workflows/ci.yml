@@ -84,10 +84,15 @@ jobs:
           POSTGRES_PASSWORD: production-database-password-123456
           WEBWOVEN_SITE_ADDRESS: https://webwoven.example.com
           WEBWOVEN_REDIRECT_ADDRESS: https://example.com
+          WEBWOVEN_ANALYTICS_ADDRESS: https://stats.webwoven.example.com
+          WEBWOVEN_ANALYTICS_WEBSITE_ID: 68f9a7b5-5d95-4a03-a40c-927b4bc24a64
+          WEBWOVEN_ANALYTICS_DOMAIN: webwoven.example.com
           WEBWOVEN_ORIGIN: https://webwoven.example.com
           WEBWOVEN_API_ORIGIN: https://webwoven.example.com
           WEBWOVEN_SESSION_SECRET: ci-only-not-a-secret-session-0123456789abcdef
           WEBWOVEN_EDGE_SECRET: ci-only-not-a-secret-edge-fedcba9876543210
           WEBWOVEN_GRAPH_DIR: ${{ github.workspace }}/data/fixtures/smoke
+          UMAMI_DATABASE_PASSWORD: ci-only-analytics-database-password-123456
+          UMAMI_APP_SECRET: ci-only-analytics-app-secret-0123456789abcdef
         run: docker compose -f docker-compose.yml -f docker-compose.production.yml config --quiet
       - run: docker compose build api caddy

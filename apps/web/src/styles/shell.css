@@ -98,6 +98,11 @@
   font-size: var(--text-12);
 }
 
+.site-footer a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
 .drawer-scrim,
 .modal-scrim {
   position: fixed;

@@ -10,6 +10,7 @@ describe("application routes", () => {
     ["/relay/maps27", "race"],
     ["/results", "results"],
     ["/lab", "lab"],
+    ["/privacy", "privacy"],
     ["/unknown", "not-found"],
   ])("maps %s to %s", (path, name) => {
     expect(parseRoute(path).name).toBe(name);
