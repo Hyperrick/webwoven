@@ -119,7 +119,7 @@ sh infra/scripts/verify-graph.sh "$graph_dir"
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml config --quiet
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml pull --ignore-buildable
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml build api caddy
-docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml up -d analytics-db analytics
+docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml up -d --wait analytics-db analytics
 sh infra/scripts/bootstrap-analytics.sh
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml up -d --remove-orphans
 docker compose --env-file .env -f docker-compose.yml -f docker-compose.production.yml ps
