@@ -47,7 +47,11 @@
   let noRoutes = $derived(groups.length === 0);
 </script>
 
-<aside class="hint-dock" aria-labelledby="hint-title">
+<aside
+  class="hint-dock"
+  class:hint-dock--has-message={Boolean(latest)}
+  aria-labelledby="hint-title"
+>
   <div class="hint-dock__heading">
     <h2 id="hint-title">Hint tools</h2>
   </div>
@@ -95,6 +99,7 @@
       role="status"
       aria-live="polite"
       aria-atomic="true"
+      title={latest.message}
     >
       <strong>Latest hint</strong>
       <span>{latest.message}</span>

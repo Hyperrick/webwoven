@@ -4,6 +4,7 @@ import { followTo, startSolo } from "./helpers";
 test("Solo completes the four-move route and renders results", async ({
   page,
 }) => {
+  test.setTimeout(60_000);
   await startSolo(page);
   await expect(
     page.getByRole("heading", { name: "Hokusai", exact: true }),
@@ -17,33 +18,62 @@ test("Solo completes the four-move route and renders results", async ({
     await followTo(page, entity);
   }
 
-  const reachableGoal = page.locator("button.map-position--reachable");
-  const reachableGoalCard = reachableGoal.locator(".map-position__goal-card");
-  const nearbyChoice = page.locator("button.map-choice").first();
-  await expect(reachableGoal).toBeVisible();
-  await page.mouse.move(0, 0);
-  await expect
-    .poll(() =>
-      reachableGoalCard.evaluate(
-        (element) => getComputedStyle(element).animationName,
-      ),
-    )
-    .toBe("reachable-goal-breathe");
-  await expect(nearbyChoice).toBeVisible();
-  const [goalBox, choiceBox] = await Promise.all([
-    reachableGoal.boundingBox(),
-    nearbyChoice.boundingBox(),
-  ]);
-  expect(goalBox).not.toBeNull();
-  expect(choiceBox).not.toBeNull();
-  const overlaps =
-    (goalBox?.x ?? 0) < (choiceBox?.x ?? 0) + (choiceBox?.width ?? 0) &&
-    (goalBox?.x ?? 0) + (goalBox?.width ?? 0) > (choiceBox?.x ?? 0) &&
-    (goalBox?.y ?? 0) < (choiceBox?.y ?? 0) + (choiceBox?.height ?? 0) &&
-    (goalBox?.y ?? 0) + (goalBox?.height ?? 0) > (choiceBox?.y ?? 0);
-  expect(overlaps).toBe(false);
-
-  await followTo(page, "United Kingdom");
+  const presentation = await page
+    .locator(".game-map__viewport")
+    .getAttribute("data-map-presentation");
+  if (presentation === "constellation") {
+    const reachableGoal = page.locator(".mobile-map-choice-node--goal");
+    const nearbyChoice = page
+      .locator(".mobile-map-choice-node:not(.mobile-map-choice-node--goal)")
+      .first();
+    await expect(reachableGoal).toBeVisible();
+    await expect(nearbyChoice).toBeVisible();
+    const [goalBox, choiceBox] = await Promise.all([
+      reachableGoal.boundingBox(),
+      nearbyChoice.boundingBox(),
+    ]);
+    expect(goalBox).not.toBeNull();
+    expect(choiceBox).not.toBeNull();
+    const overlaps =
+      (goalBox?.x ?? 0) < (choiceBox?.x ?? 0) + (choiceBox?.width ?? 0) &&
+      (goalBox?.x ?? 0) + (goalBox?.width ?? 0) > (choiceBox?.x ?? 0) &&
+      (goalBox?.y ?? 0) < (choiceBox?.y ?? 0) + (choiceBox?.height ?? 0) &&
+      (goalBox?.y ?? 0) + (goalBox?.height ?? 0) > (choiceBox?.y ?? 0);
+    expect(overlaps).toBe(false);
+    await reachableGoal.click();
+    const goalDetail = page.locator("[data-mobile-choice-detail]");
+    await expect(goalDetail).toContainText("Goal in reach");
+    await goalDetail
+      .getByRole("button", { name: "Finish route to United Kingdom" })
+      .click();
+  } else {
+    const reachableGoal = page.locator("button.map-position--reachable");
+    const reachableGoalCard = reachableGoal.locator(".map-position__goal-card");
+    const nearbyChoice = page.locator("button.map-choice").first();
+    await expect(reachableGoal).toBeVisible();
+    await page.mouse.move(0, 0);
+    await expect
+      .poll(() =>
+        reachableGoalCard.evaluate(
+          (element) => getComputedStyle(element).animationName,
+        ),
+      )
+      .toBe("reachable-goal-breathe");
+    await expect(nearbyChoice).toBeVisible();
+    const [goalBox, choiceBox] = await Promise.all([
+      reachableGoal.boundingBox(),
+      nearbyChoice.boundingBox(),
+    ]);
+    expect(goalBox).not.toBeNull();
+    expect(choiceBox).not.toBeNull();
+    const overlaps =
+      (goalBox?.x ?? 0) < (choiceBox?.x ?? 0) + (choiceBox?.width ?? 0) &&
+      (goalBox?.x ?? 0) + (goalBox?.width ?? 0) > (choiceBox?.x ?? 0) &&
+      (goalBox?.y ?? 0) < (choiceBox?.y ?? 0) + (choiceBox?.height ?? 0) &&
+      (goalBox?.y ?? 0) + (goalBox?.height ?? 0) > (choiceBox?.y ?? 0);
+    expect(overlaps).toBe(false);
+    await followTo(page, "United Kingdom");
+  }
 
   await expect(page).toHaveURL(/\/results$/);
   await expect
@@ -84,10 +114,14 @@ test("Solo completes the four-move route and renders results", async ({
     }),
   ).toHaveAttribute("src", "/illustrations/cartographer.webp");
 
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.getByRole("button", { name: /Try another route/i }).click();
   await expect(page.getByRole("radio", { name: /Normal/i })).toBeChecked();
   await page.getByRole("button", { name: /Confirm and reveal/i }).click();
-  await expect(page.locator(".round-intro__card--start")).toContainText(
-    "The Great Wave off Kanagawa",
-  );
+  await expect(
+    page
+      .locator(".round-intro__card--start, .map-position--current:not([inert])")
+      .filter({ hasText: "The Great Wave off Kanagawa" })
+      .first(),
+  ).toBeVisible({ timeout: 10_000 });
 });

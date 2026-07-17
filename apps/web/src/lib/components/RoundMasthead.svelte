@@ -42,7 +42,10 @@
       aria-atomic="true"
     >
       <span class="round-masthead__marker" aria-hidden="true"></span>
-      <strong>Round active</strong>
+      <strong>
+        <span class="round-masthead__state-full">Round active</span>
+        <span class="round-masthead__state-short" aria-hidden="true">Live</span>
+      </strong>
       <span class="round-masthead__timer-context">Timer running</span>
     </p>
     <p class="round-masthead__meta">

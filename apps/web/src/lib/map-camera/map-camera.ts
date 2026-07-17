@@ -99,6 +99,22 @@ export function panCameraToWorldX(
   );
 }
 
+/** Pan vertically so a world coordinate lands at a chosen viewport position. */
+export function panCameraToWorldY(
+  camera: MapCameraState,
+  worldY: number,
+  screenY: number,
+  environment: MapCameraEnvironment,
+): MapCameraState {
+  if (!Number.isFinite(worldY) || !Number.isFinite(screenY)) {
+    return clampCamera(camera, environment);
+  }
+  return clampCamera(
+    { ...camera, y: screenY - worldY * camera.zoom },
+    environment,
+  );
+}
+
 /** Pan so one world point lands at a chosen viewport point without zooming. */
 export function panCameraToWorldPoint(
   camera: MapCameraState,

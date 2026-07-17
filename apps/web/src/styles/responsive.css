@@ -327,6 +327,23 @@
   }
 }
 
+@media (width <= 32rem) and (height <= 42rem) {
+  .site-header--compact {
+    width: calc(100% - 1rem);
+    min-height: 3rem;
+  }
+
+  .site-header--compact .wordmark {
+    min-height: 2.75rem;
+    padding-block: 0;
+    padding-inline: 0;
+  }
+
+  .site-header--compact .site-header__actions {
+    gap: var(--space-1);
+  }
+}
+
 @media (prefers-contrast: more) {
   button,
   input {

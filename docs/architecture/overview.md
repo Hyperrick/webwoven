@@ -8,22 +8,31 @@ Webwoven is split by responsibility:
   destination, and action. Hints, stale commands, and duplicate idempotency keys do not append a
   frame. Persisted frames make the exploration map identical after GET, refresh, or reconnect.
 - A pure `MapBoard` domain projection turns the current frontier and resolved decision frames into
-  occurrence-scoped nodes, links, direct move choices, deterministic columns, and normalized
-  positions. Each move grows the world width while earlier column assignments and horizontal world
-  positions stay fixed; vertical normalization may adjust when a later stage needs more lanes. Only
-  the active frontier consumes signed edge tokens; stored history is semantic and token-free.
+  the canonical occurrence-scoped nodes, links, direct move choices, deterministic columns, and
+  normalized positions. Each move grows the world width while earlier column assignments and
+  horizontal world positions stay fixed; vertical normalization may adjust when a later stage needs
+  more lanes. A pure phone presentation adapter remaps coordinates and world bounds into a vertical
+  flow, packing live choices into a compact two-column constellation. Node identity, links, choices,
+  tokens, and gameplay semantics remain unchanged.
+  Only the active frontier consumes signed edge tokens; stored history is semantic and token-free.
 - A presentation-only Three.js renderer draws the paper field, paths, and cel-shaded atlas tokens.
   It does not own navigation, validate moves, or send commands.
 - A pure map-camera module owns pan, cursor-anchored zoom, fit, focus, visibility bounds, and zoom
-  limits. One camera state drives the transformed semantic DOM world and the Three.js/SVG adapters,
-  so decorative markers never drift away from their interactive controls. WebGL keeps a
+  limits. It follows progression along world X for the desktop/tablet atlas and world Y for the
+  phone projection. One camera state and the selected presentation board drive the transformed
+  semantic DOM world and the Three.js/SVG adapters, so decorative markers never drift away from
+  their interactive controls. WebGL keeps a
   viewport-sized drawing buffer and changes only its orthographic projection while panning or
   zooming; the ever-widening scene is not rendered into an ever-widening framebuffer.
-- Entity choices remain accessible DOM buttons with complete fact sentences. The renderer is
-  hidden from assistive technology. A deterministic SVG projection preserves visible nodes and
-  links when WebGL is unavailable, and the same controls remain fully playable. Historical entity
-  buttons open a read-only inspection projection of token-free decision facts and never issue a
-  move command.
+- Entity choices remain accessible DOM buttons. Desktop and tablet cards issue their move directly;
+  a phone marker's first activation sets an ephemeral preview selection, exposes a small adjacent
+  action indicator, and reveals the complete fact, artwork, and explicit command action in one
+  detail tray. Repeating activation on that selected marker confirms through the same command path
+  as the tray action; activating a different marker only switches the preview. Stale selection is
+  discarded when the frontier or breakpoint changes. The renderer is hidden from assistive
+  technology. A deterministic SVG projection preserves visible nodes and links when WebGL is
+  unavailable, and the same controls remain fully playable. Historical entity buttons open a
+  read-only inspection projection of token-free decision facts and never issue a move command.
 - FastAPI owns guest identity, sessions, scoring, Daily, and room contracts.
 - PostgreSQL stores durable application state.
 - Valkey stores short-lived race state, streams, reconnect data, and rate limits.

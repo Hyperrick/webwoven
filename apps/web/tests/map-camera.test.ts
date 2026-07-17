@@ -11,6 +11,7 @@ import {
   panCamera,
   panCameraToWorldPoint,
   panCameraToWorldX,
+  panCameraToWorldY,
   screenToWorld,
   zoomCameraAt,
   type MapCameraEnvironment,
@@ -113,6 +114,15 @@ describe("map camera", () => {
 
     expect(panned.x + 1200 * panned.zoom).toBeCloseTo(220);
     expect(panned.y).toBe(camera.y);
+    expect(panned.zoom).toBe(camera.zoom);
+  });
+
+  it("pans a vertical stage to a stable viewport anchor without changing zoom", () => {
+    const camera: MapCameraState = { x: -300, y: -100, zoom: 0.8 };
+    const panned = panCameraToWorldY(camera, 700, 170, environment);
+
+    expect(panned.y + 700 * panned.zoom).toBeCloseTo(170);
+    expect(panned.x).toBe(camera.x);
     expect(panned.zoom).toBe(camera.zoom);
   });
 

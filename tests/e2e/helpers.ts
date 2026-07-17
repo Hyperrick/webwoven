@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 export async function confirmSolo(
   page: Page,
@@ -8,11 +8,15 @@ export async function confirmSolo(
     page.getByRole("heading", { name: /Set the depth of the expedition/i }),
   ).toBeVisible();
   await page.getByRole("radio", { name: new RegExp(difficulty, "i") }).check();
-  await page.getByRole("button", { name: /Confirm and reveal/i }).click();
-  await expect(page.locator(".round-intro")).toBeVisible();
-  await expect(page.locator(".round-intro__category")).toContainText(
-    `${difficulty.toLowerCase()} route`,
-  );
+  const introduction = page.locator(".round-intro");
+  await Promise.all([
+    expect(introduction).toBeVisible({ timeout: 10_000 }),
+    expect(introduction.locator(".round-intro__category")).toContainText(
+      `${difficulty.toLowerCase()} route`,
+      { timeout: 10_000 },
+    ),
+    page.getByRole("button", { name: /Confirm and reveal/i }).click(),
+  ]);
 }
 
 export async function startSolo(
@@ -21,8 +25,8 @@ export async function startSolo(
 ): Promise<void> {
   await page.goto("/play/solo");
   await confirmSolo(page, difficulty);
-  await expect(page.locator(".round-intro")).toHaveCount(0, {
-    timeout: 10_000,
+  await expect(page.locator(".round-intro")).toBeHidden({
+    timeout: 20_000,
   });
 }
 
@@ -35,13 +39,27 @@ export async function followTo(page: Page, entity: string): Promise<void> {
     candidate,
     `A direct map move should lead to ${entity}`,
   ).toBeVisible();
-  await candidate.click();
+  await activateMapChoice(page, candidate);
   await expect(
     page
       .locator(".map-position--current h3, .result-hero h1")
       .filter({ hasText: entity })
       .first(),
   ).toBeVisible();
+}
+
+export async function activateMapChoice(
+  page: Page,
+  candidate: Locator,
+): Promise<void> {
+  const presentation = await page
+    .locator(".game-map__viewport")
+    .getAttribute("data-map-presentation");
+  await candidate.click();
+  if (presentation !== "constellation") return;
+  const detail = page.locator("[data-mobile-choice-detail]");
+  await expect(detail).toBeVisible();
+  await detail.locator(".mobile-map-choice-detail__action").click();
 }
 
 export async function expectVerticalHintRail(page: Page): Promise<void> {

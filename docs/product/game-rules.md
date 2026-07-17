@@ -29,27 +29,43 @@ An active round begins with a compact **Round active** HUD for the timer, mode, 
 count, par, score, and Back command. The map board is the primary play surface: it marks the current
 entity, shows exactly one visible goal marker, and places the immediately reachable entities
 between them. It behaves as an expanding atlas rather than replacing one diagram with another.
-Every Follow or Back command freezes the current decision column and opens the next column to its
-right. The selected entity joins the visible breadcrumb route; the alternatives remain on the map
-as muted, inspectable branches. The spatial canvas expands with every resolved stage and
-automatically pans the newest playable column into view. Back instead fades the departed node into
-a muted history state and recenters the returned current node, reading as the reverse of forward
-progress. Repeated entities remain separate visit
-occurrences, so a retraced route never collapses the history into one dot.
+On short phones at or below both 32rem wide and 42rem tall, the inner-route header compresses to
+3rem and the active HUD becomes one row. **Live**, Time, Moves, Par, and Score remain visible, while
+the complete round-status and mode text remains available to assistive technology. Back and header
+controls retain 44px touch targets. The height recovered from those interface bands belongs to the
+game canvas rather than leaving the graph crowded below stacked chrome. During an ordinary choice,
+the map header also collapses to one visible **Your move** line and keeps **Where do you go next?**
+as its accessible section heading. Compass selection and exhausted-branch headings remain fully
+visible because their instructions cannot be reduced to that fallback.
+Every Follow or Back command freezes the current decision stage. On desktop and tablet, the next
+stage opens in a column to its right; on phones, it opens below in a vertical flow whose active
+choices form a compact two-column constellation. The selected entity joins the visible breadcrumb
+route; the alternatives remain on the map as muted, inspectable branches. The spatial canvas expands
+with every resolved stage and automatically pans the newest playable stage into view. Back instead
+fades the departed node into a muted history state and recenters the returned current node, reading
+as the reverse of forward progress. Repeated entities remain separate visit occurrences, so a
+retraced route never collapses the history into one dot.
 
 The expanding atlas is a free spatial canvas rather than a one-directional strip. Players can drag
 the background to pan in both directions, pinch or scroll around a pointer to zoom, fit the entire
 explored map, or return to the current position. Arrow keys pan when the canvas is focused; `+` and
 `-` zoom, `0` fits the map, and `Home` returns to the current node. A newly resolved move preserves
-the player's zoom and pans the newest current stage into the left third of the viewport, leaving the
-new frontier visible to its right. The camera and decorative renderer move together over 320ms;
+the player's zoom. Desktop and tablet pan the newest current stage into the left third of the
+viewport, leaving the new frontier visible to its right; phones place it toward the upper portion,
+leaving the new frontier visible below. The camera and decorative renderer move together over 320ms;
 reduced-motion mode updates immediately. Hint-only updates do not pull the camera away from an older
-branch being inspected. On phones, the active connection cards take containment priority so every
-move remains tappable even when the current label and frontier cannot both fit in full.
+branch being inspected. On phones, the current card, compact constellation, and selected detail tray
+take containment priority so every route remains tappable without fitting several full cards into
+the canvas.
 
 Every earlier breadcrumb and muted alternative remains a focusable inspection point. Opening one
 does not move the player or spend a command: it shows the entity description, whether the route was
 taken, its documentary image, its source and target, and every stored fact for that connection.
+The one exception is the immediately previous active-route node, which is also an inline Back
+control on both pointer and touch layouts. Its first activation arms a visible Back indicator but
+does not submit a command; activating the same node again sends the existing server-owned Back
+command. Activating any other node clears that pending confirmation and preserves the ordinary
+inspection behavior. The HUD Back control and `B` shortcut remain available.
 When the acquired data includes a preferred Wikipedia sitelink, the inspector offers that external
 article in a new tab; article text is never copied into the game bundle. These details are rebuilt
 from the server-owned decision history after refresh or reconnect. Back stages suppress a duplicate
@@ -58,21 +74,27 @@ Back action.
 
 When the active branch has no playable connections, the map shows a non-modal recovery callout next
 to the current node. Its primary action names the server-owned Back destination, states that Back
-costs one move, and exposes the `B` shortcut. Historical nodes remain inspection controls; clicking
-one never moves the player. The recovery action is omitted at a start-node dead end and after the
-round leaves the active state.
+costs one move, and exposes the `B` shortcut. The previous active-route node retains its two-step
+inline Back behavior; all other historical nodes remain inspection controls. The recovery action is
+omitted at a start-node dead end and after the round leaves the active state.
 
-Each reachable entity is a direct move button. It shows the entity name and the complete stored
-fact sentence that justifies the connection; raw property labels are supporting metadata, not the
-player's main instruction. Its compact card orders a color-coded relationship glyph, the fact
-sentence, and a square documentary image. Complete connection details remain in the inspector
-rather than consuming decision-card space. For an ordinary connection the graph line terminates
-directly at the button, without a duplicate choice token, sequence number, or repeated action
-label. A reachable goal retains its Ochre marker and places the finish card beside that marker
-within the same vertical lane. Multiple semantic edges to the same entity are grouped into one
-move; all facts remain attached while the deterministic primary fact is shown. Selecting a button
-follows that edge. Forward connections never offer an entity already present in the active
-navigation route.
+On desktop and tablet, each reachable entity is a direct move card. It shows the entity name and the
+complete stored fact sentence that justifies the connection; raw property labels are supporting
+metadata, not the player's main instruction. The card orders a color-coded relationship glyph, the
+fact sentence, and a square documentary image. On phones, the same choice is a compact labelled
+bubble. Selecting that bubble for the first time only previews the route: it highlights the choice,
+opens one detail tray containing the complete fact, artwork, and an explicit Move or Check action,
+and exposes a small action indicator beside the selected bubble. Selecting that same bubble again
+confirms through the same existing command as the tray action. Selecting a different bubble switches
+the preview without spending a move or submitting a command.
+
+For every ordinary connection, the graph line terminates directly at its semantic control without a
+duplicate choice token, sequence number, or repeated action label. A reachable goal retains its
+Ochre marker; on phones it uses the same compact preview and exposes an explicit Finish action in the
+detail tray. Repeating activation on the selected goal bubble confirms the same Finish command.
+Multiple semantic edges to the same entity are grouped into one move; all facts remain attached
+while the deterministic primary fact is shown. Forward connections never offer an entity already
+present in the active navigation route.
 
 The raw knowledge graph deliberately retains useful inverse relationships, but the server removes
 active-route targets before ranking the playable frontier, issuing command tokens, or calculating
@@ -96,6 +118,20 @@ mirrors that treatment from its left edge. Each card masks half of its token so 
 the current entity and enter the destination through one shared anchor. Only the rightmost frontier
 contains command tokens or move controls. Historical columns contain semantic entity and
 relationship summaries with read-only inspection controls.
+
+On phone-width screens, the same deterministic board is projected into a top-to-bottom flow instead
+of shrinking the horizontal atlas. The current entity is the only full card. Compact history labels
+remain above it, active choices occupy at most two columns below it, and the distant goal remains a
+compact labelled marker beyond the frontier. One or two choices receive more breathing room; larger
+frontiers add rows without stacking six full cards down the canvas. A reachable goal joins the same
+compact choice constellation and reveals its Finish action in the detail tray and beside the
+selected bubble. The first activation previews any compact choice; a second activation of that same
+choice confirms it, while activating another choice switches the preview without moving. Crossing
+the phone breakpoint clears ephemeral preview state, selects the appropriate card or constellation
+presentation, and refits the active stage. Node identities, links, commands, scoring, and the desktop
+and tablet board geometry do not change; desktop and tablet continue to use direct full cards. After
+a phone move, camera fitting includes the immediately previous node alongside the current entity and
+active frontier so the inline Back target remains reachable.
 
 Before presenting a frontier with only one distinct destination, the server follows that forced
 continuation through the stored graph. If it reaches neither the round target nor a node with at

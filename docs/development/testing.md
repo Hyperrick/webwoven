@@ -14,8 +14,21 @@ recoverable pan bounds, active-frontier visibility, and the renderer view contra
 tests cover Follow and Back reconstruction after resume, grouped token-free fact preservation, and
 duplicate return-node suppression. Real-browser canvas checks exercise background drag, zoom and
 fit controls, historical inspection, WebGL/SVG alignment, current/goal token clearance, automatic
-stage-follow panning, direct line-to-card endpoints, choice-token suppression, connection-to-goal
-lane separation, contextual dead-end recovery, and narrow-phone containment.
+stage-follow panning, direct line-to-choice endpoints, choice-token suppression, contextual
+dead-end recovery, and narrow-phone containment. Phone regressions additionally lock deterministic
+two-column constellation packing, first-tap preview without a command, the selected marker's action
+indicator, second-tap confirmation through the same command as the explicit detail-tray action,
+preview switching without movement, compact reachable-goal handling, and refitting between phone
+and desktop/tablet presentations. Desktop and phone flows also verify that the immediately previous
+node is the sole inline Back target, the first activation only arms its visible and accessible Back
+state, and the second activation submits the same Back command while preserving route-history
+reconstruction. The phone camera keeps that target visible with the current stage and frontier.
+Short-phone coverage at the combined 32rem-width and 42rem-height
+breakpoint verifies the 3rem inner-route header, single-row HUD, visible Live/Time/Moves/Par/Score
+summary, accessible full status and mode text, 44px Back and header controls, and the canvas height
+recovered from the compact interface bands. It also locks the one-line visible **Your move** map
+prompt, the retained accessible question, the 49px map-header ceiling, and a minimum 330px node
+canvas. Tall-phone coverage verifies that the complete visible question remains unchanged.
 
 Cycle regressions use a deliberately bidirectional graph. They verify that inverse edges remain in
 the shared data bundle, targets already present in the active route disappear before frontier

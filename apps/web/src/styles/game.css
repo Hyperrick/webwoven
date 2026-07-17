@@ -32,3 +32,10 @@
     height: calc(100dvh - 4.5rem);
   }
 }
+
+@media (width <= 32rem) and (height <= 42rem) {
+  .game-page {
+    height: calc(100svh - 3rem);
+    height: calc(100dvh - 3rem);
+  }
+}

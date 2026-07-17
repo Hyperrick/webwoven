@@ -31,6 +31,13 @@
   </div>
   <div>
     <dt>Score</dt>
-    <dd class:game-metrics__pending={score === null}>{score ?? "At finish"}</dd>
+    <dd class:game-metrics__pending={score === null}>
+      {#if score === null}
+        <span class="game-metrics__pending-full">At finish</span>
+        <span class="game-metrics__pending-short" aria-hidden="true">—</span>
+      {:else}
+        {score}
+      {/if}
+    </dd>
   </div>
 </dl>

@@ -9,6 +9,7 @@
   import type { MapTransition } from "../domain/map-transition";
   import AtlasIcon from "./AtlasIcon.svelte";
   import EndpointArtwork from "./EndpointArtwork.svelte";
+  import MobileMapChoiceNode from "./MobileMapChoiceNode.svelte";
 
   let {
     board,
@@ -16,7 +17,13 @@
     busy = false,
     canGoBack = false,
     compassSelecting = false,
+    compactChoices = false,
+    selectedChoiceId = null,
+    backTargetNodeId = null,
+    selectedBackNodeId = null,
     onChoose,
+    onSelectChoice,
+    onBackNodeActivate,
     onBack,
     backDestinationLabel,
     onInspect,
@@ -26,7 +33,13 @@
     busy?: boolean;
     canGoBack?: boolean;
     compassSelecting?: boolean;
+    compactChoices?: boolean;
+    selectedChoiceId?: string | null;
+    backTargetNodeId?: string | null;
+    selectedBackNodeId?: string | null;
     onChoose: (choice: MapMoveChoice) => void;
+    onSelectChoice: (choice: MapMoveChoice) => void;
+    onBackNodeActivate: (nodeId: string) => void;
     onBack: () => void;
     backDestinationLabel?: string;
     onInspect: (nodeId: string, anchor: HTMLElement) => void;
@@ -96,6 +109,22 @@
     ].join(" ");
   }
 
+  function activateCompactChoice(choice: MapMoveChoice): void {
+    if (choice.id === selectedChoiceId) onChoose(choice);
+    else onSelectChoice(choice);
+  }
+
+  function compactChoiceLabel(choice: MapMoveChoice): string {
+    const summary = connectionSummary(choice);
+    if (choice.id !== selectedChoiceId)
+      return `Preview route to ${choice.target.label}: ${summary}`;
+    if (compassSelecting)
+      return `Check route to ${choice.target.label}: ${summary}`;
+    if (choice.target_node_id === board.goal_node_id)
+      return `Finish route to ${choice.target.label}: ${summary}`;
+    return `Move to ${choice.target.label}: ${summary}`;
+  }
+
   function inspectFrom(event: MouseEvent, nodeId: string): void {
     const target = event.currentTarget;
     if (target instanceof HTMLElement) onInspect(nodeId, target);
@@ -107,23 +136,34 @@
     {@const visit = visitsByNodeId.get(node.id)}
     {@const taken = hasRole(node, "trail")}
     {@const nodeArtwork = node.summary}
+    {@const backTarget = node.id === backTargetNodeId}
+    {@const backReady = backTarget && node.id === selectedBackNodeId}
     <button
       type="button"
       class="map-history-node"
-      class:map-history-node--with-artwork={Boolean(nodeArtwork)}
+      class:map-history-node--with-artwork={Boolean(nodeArtwork) &&
+        !compactChoices}
       class:map-history-node--breadcrumb={taken}
       class:map-history-node--discarded={hasRole(node, "discarded") && !taken}
       class:map-history-node--backtracked={transition.kind === "back" &&
         transition.from_node_id === node.id}
+      class:map-history-node--back-target={backTarget}
+      class:map-history-node--back-ready={backReady}
       style={positionStyle(node)}
+      disabled={busy && backTarget}
       data-map-node
       data-map-node-id={node.id}
       data-map-route={taken ? "true" : undefined}
-      data-map-interactive="inspect"
-      aria-label={`Inspect ${node.label}, ${taken ? "route taken" : "route not taken"}`}
-      onclick={(event) => inspectFrom(event, node.id)}
+      data-map-back-target={backTarget ? "true" : undefined}
+      data-map-interactive={backTarget ? "back" : "inspect"}
+      aria-pressed={backTarget ? backReady : undefined}
+      aria-label={backTarget
+        ? `${backReady ? "Back" : "Preview Back"} to ${node.label}`
+        : `Inspect ${node.label}, ${taken ? "route taken" : "route not taken"}`}
+      onclick={(event) =>
+        backTarget ? onBackNodeActivate(node.id) : inspectFrom(event, node.id)}
     >
-      {#if nodeArtwork}
+      {#if nodeArtwork && !compactChoices}
         <EndpointArtwork
           entity={nodeArtwork}
           endpoint={hasRole(node, "start") ? "start" : "node"}
@@ -133,7 +173,9 @@
       {/if}
       <span class="map-history-node__copy">
         <span class="map-history-node__kicker">
-          {#if visit}
+          {#if backReady}
+            Back
+          {:else if visit}
             {visit.index === 0 ? "Start" : `Move ${visit.index}`}
           {:else}
             Not taken
@@ -141,6 +183,11 @@
         </span>
         <strong>{node.label}</strong>
       </span>
+      {#if backReady}
+        <span class="map-history-node__back-confirm" aria-hidden="true">
+          <AtlasIcon name="back" size={14} />
+        </span>
+      {/if}
     </button>
   {/each}
 </div>
@@ -190,7 +237,7 @@
   {/key}
 {/if}
 
-{#if goalNode}
+{#if goalNode && (!compactChoices || !goalChoice)}
   {#if goalChoice}
     {@const goalParts = statementParts(
       goalChoice.statement,
@@ -254,75 +301,100 @@
     <div
       class="map-position map-position--goal"
       class:map-position--with-artwork={Boolean(goalNode.summary)}
+      class:map-position--mobile-goal={compactChoices}
       style={positionStyle(goalNode)}
       data-map-node
       data-map-node-id={goalNode.id}
       data-map-goal="true"
     >
-      {#if goalNode.summary}
-        <EndpointArtwork
-          entity={goalNode.summary}
-          endpoint="goal"
-          className="map-position__artwork"
-          loading="eager"
-        />
+      {#if compactChoices}
+        <span class="map-position__kicker">Goal</span>
+        <h3>{goalNode.label}</h3>
+      {:else}
+        {#if goalNode.summary}
+          <EndpointArtwork
+            entity={goalNode.summary}
+            endpoint="goal"
+            className="map-position__artwork"
+            loading="eager"
+          />
+        {/if}
+        <span class="map-position__kicker">Your goal</span>
+        <h3>{goalNode.label}</h3>
+        <span class="map-position__distance">Find a route to this marker</span>
       {/if}
-      <span class="map-position__kicker">Your goal</span>
-      <h3>{goalNode.label}</h3>
-      <span class="map-position__distance">Find a route to this marker</span>
     </div>
   {/if}
 {/if}
 
 <div class="game-map__choices" aria-label="Connected entities">
-  {#each onwardChoices as choice, index (choice.id)}
-    {@const parts = statementParts(choice.statement, choice.target.label)}
-    <button
-      type="button"
-      class:map-choice--promising={choice.relation.hint === "promising"}
-      class:map-choice--longer={choice.relation.hint === "longer" ||
-        choice.relation.hint === "unlikely"}
-      class:map-choice--dead-end={choice.relation.hint === "dead_end"}
-      class="map-choice"
-      style={choicePositionStyle(choice)}
-      disabled={busy}
-      data-map-node
-      data-map-node-id={choice.target_node_id}
-      data-map-focus="choice"
-      data-map-near-focus={index < 2 ? "choice" : undefined}
-      data-map-interactive="move"
-      data-relation-kind={choice.relation.glyph}
-      aria-label={`${compassSelecting ? `Check route to ${choice.target.label}` : `Move to ${choice.target.label}`}: ${connectionSummary(choice)}`}
-      onclick={() => onChoose(choice)}
-    >
-      <span class="map-choice__relation-mark" aria-hidden="true">
-        <AtlasIcon name={choice.relation.glyph} size={20} />
-      </span>
-      <span class="map-choice__copy">
-        {#if choice.relation.hint}
-          <small class="map-choice__hint">
-            {hintLabel(choice.relation.hint)}
-          </small>
-        {/if}
-        {#if parts}
-          <span class="map-choice__statement">
-            {parts.before}<strong>{parts.match}</strong>{parts.after}
-          </span>
-        {:else}
-          <strong>{choice.target.label}</strong>
-          <span>{choice.statement}</span>
-        {/if}
-      </span>
-      <span class="map-choice__visual" aria-hidden="true">
-        <EndpointArtwork
-          entity={choice.target}
-          endpoint="node"
-          className="map-choice__artwork"
-          loading="eager"
-        />
-      </span>
-    </button>
-  {/each}
+  {#if compactChoices}
+    {#each choices as choice, index (choice.id)}
+      <MobileMapChoiceNode
+        {choice}
+        positionStyle={choicePositionStyle(choice)}
+        selected={choice.id === selectedChoiceId}
+        {busy}
+        goal={choice.target_node_id === board.goal_node_id}
+        nearFocus={index < 2}
+        hintLabel={choice.relation.hint
+          ? hintLabel(choice.relation.hint)
+          : undefined}
+        ariaLabel={compactChoiceLabel(choice)}
+        confirmIcon={compassSelecting ? "compass" : "arrow"}
+        onActivate={activateCompactChoice}
+      />
+    {/each}
+  {:else}
+    {#each onwardChoices as choice, index (choice.id)}
+      {@const parts = statementParts(choice.statement, choice.target.label)}
+      <button
+        type="button"
+        class:map-choice--promising={choice.relation.hint === "promising"}
+        class:map-choice--longer={choice.relation.hint === "longer" ||
+          choice.relation.hint === "unlikely"}
+        class:map-choice--dead-end={choice.relation.hint === "dead_end"}
+        class="map-choice"
+        style={choicePositionStyle(choice)}
+        disabled={busy}
+        data-map-node
+        data-map-node-id={choice.target_node_id}
+        data-map-focus="choice"
+        data-map-near-focus={index < 2 ? "choice" : undefined}
+        data-map-interactive="move"
+        data-relation-kind={choice.relation.glyph}
+        aria-label={`${compassSelecting ? `Check route to ${choice.target.label}` : `Move to ${choice.target.label}`}: ${connectionSummary(choice)}`}
+        onclick={() => onChoose(choice)}
+      >
+        <span class="map-choice__relation-mark" aria-hidden="true">
+          <AtlasIcon name={choice.relation.glyph} size={20} />
+        </span>
+        <span class="map-choice__copy">
+          {#if choice.relation.hint}
+            <small class="map-choice__hint">
+              {hintLabel(choice.relation.hint)}
+            </small>
+          {/if}
+          {#if parts}
+            <span class="map-choice__statement">
+              {parts.before}<strong>{parts.match}</strong>{parts.after}
+            </span>
+          {:else}
+            <strong>{choice.target.label}</strong>
+            <span>{choice.statement}</span>
+          {/if}
+        </span>
+        <span class="map-choice__visual" aria-hidden="true">
+          <EndpointArtwork
+            entity={choice.target}
+            endpoint="node"
+            className="map-choice__artwork"
+            loading="eager"
+          />
+        </span>
+      </button>
+    {/each}
+  {/if}
 </div>
 
 {#if choices.length === 0}

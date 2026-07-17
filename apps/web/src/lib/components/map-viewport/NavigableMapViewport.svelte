@@ -13,6 +13,7 @@
     panCamera,
     panCameraToWorldPoint,
     panCameraToWorldX,
+    panCameraToWorldY,
     zoomCameraAt,
     type MapCameraEnvironment,
     type MapCameraState,
@@ -33,6 +34,8 @@
     headerMain,
     headerMeta,
     railFooter,
+    verticalFlow = false,
+    activePreviewNodeId = null,
   }: {
     board: MapBoard;
     transition: MapTransition;
@@ -42,6 +45,8 @@
     headerMain?: Snippet;
     headerMeta?: Snippet;
     railFooter?: Snippet;
+    verticalFlow?: boolean;
+    activePreviewNodeId?: string | null;
   } = $props();
 
   let viewport: HTMLDivElement;
@@ -62,6 +67,7 @@
     `width: ${board.layout.width_units}rem; height: ${board.layout.height_units}rem; transform: translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.zoom})`,
   );
   let cameraAnimationFrame: number | undefined;
+  let positioningVersion = 0;
 
   onMount(() => {
     const measure = (): void => {
@@ -101,16 +107,24 @@
   });
 
   $effect(() => {
+    const version = ++positioningVersion;
     const nextFocus = transition.key;
     if (!ready) return;
     void nextFocus;
     void tick().then(() => {
+      if (!ready || version !== positioningVersion) return;
       refreshWorldSize();
       if (!positioned) {
         fitActive();
         positioned = true;
       } else panToActiveStage(transition);
     });
+  });
+
+  $effect(() => {
+    const previewNodeId = activePreviewNodeId;
+    if (!ready || !previewNodeId) return;
+    void tick().then(() => revealPreviewNode(previewNodeId));
   });
 
   function currentEnvironment(): MapCameraEnvironment {
@@ -235,6 +249,18 @@
       return;
     }
     const currentCenterX = (currentBounds.left + currentBounds.right) / 2;
+    const currentCenterY = (currentBounds.top + currentBounds.bottom) / 2;
+    if (verticalFlow) {
+      const screenAnchorY = Math.min(180, viewportSize.height * 0.28);
+      const anchored = panCameraToWorldY(
+        camera,
+        currentCenterY,
+        screenAnchorY,
+        currentEnvironment(),
+      );
+      animateCameraTo(ensureVerticalActiveStageVisible(anchored));
+      return;
+    }
     const screenAnchorX = Math.min(280, viewportSize.width * 0.28);
     const anchored = panCameraToWorldX(
       camera,
@@ -252,6 +278,17 @@
     const frontierBounds = boundsFor("[data-map-near-focus]");
     return frontierBounds
       ? ensureBoundsVisible(next, frontierBounds, currentEnvironment(), 16)
+      : next;
+  }
+
+  function ensureVerticalActiveStageVisible(
+    next: MapCameraState,
+  ): MapCameraState {
+    const activeStageBounds = boundsFor(
+      '[data-map-back-target="true"], [data-map-current], [data-map-near-focus]',
+    );
+    return activeStageBounds
+      ? ensureBoundsVisible(next, activeStageBounds, currentEnvironment(), 16)
       : next;
   }
 
@@ -274,11 +311,25 @@
     const originLeft = viewportBounds.left + viewport.clientLeft;
     const originTop = viewportBounds.top + viewport.clientTop;
     const bounds = element.getBoundingClientRect();
+    const renderedCamera = renderedWorldCamera();
     return {
-      left: (bounds.left - originLeft - camera.x) / camera.zoom,
-      top: (bounds.top - originTop - camera.y) / camera.zoom,
-      right: (bounds.right - originLeft - camera.x) / camera.zoom,
-      bottom: (bounds.bottom - originTop - camera.y) / camera.zoom,
+      left: (bounds.left - originLeft - renderedCamera.x) / renderedCamera.zoom,
+      top: (bounds.top - originTop - renderedCamera.y) / renderedCamera.zoom,
+      right:
+        (bounds.right - originLeft - renderedCamera.x) / renderedCamera.zoom,
+      bottom:
+        (bounds.bottom - originTop - renderedCamera.y) / renderedCamera.zoom,
+    };
+  }
+
+  function renderedWorldCamera(): MapCameraState {
+    const transform = getComputedStyle(world).transform;
+    if (transform === "none") return { x: 0, y: 0, zoom: 1 };
+    const matrix = new DOMMatrixReadOnly(transform);
+    return {
+      x: Number.isFinite(matrix.e) ? matrix.e : camera.x,
+      y: Number.isFinite(matrix.f) ? matrix.f : camera.y,
+      zoom: Number.isFinite(matrix.a) && matrix.a > 0 ? matrix.a : camera.zoom,
     };
   }
 
@@ -297,6 +348,7 @@
   function revealFocusedNode(event: FocusEvent): void {
     const target = event.target;
     if (!(target instanceof Element)) return;
+    if (!target.matches(":focus-visible")) return;
     const node = target.closest<HTMLElement>("[data-map-node]");
     if (!node || !world.contains(node)) return;
     setCamera(
@@ -306,6 +358,40 @@
         currentEnvironment(),
         28,
       ),
+    );
+  }
+
+  function revealPreviewNode(nodeId: string): void {
+    if (!ready || activePreviewNodeId !== nodeId) return;
+    const node = [
+      ...world.querySelectorAll<HTMLElement>("[data-map-node]"),
+    ].find((candidate) => candidate.dataset.mapNodeId === nodeId);
+    const detail = viewport.querySelector<HTMLElement>(
+      "[data-mobile-choice-detail]",
+    );
+    if (!node || !detail) return;
+    const nodeBounds = node.getBoundingClientRect();
+    const detailBounds = detail.getBoundingClientRect();
+    const controlsBounds = viewport
+      .querySelector<HTMLElement>(".map-viewport-controls--canvas")
+      ?.getBoundingClientRect();
+    const viewportBounds = viewport.getBoundingClientRect();
+    const safeTop = (controlsBounds?.bottom ?? viewportBounds.top) + 2;
+    const safeBottom = detailBounds.top - 2;
+    const safeHeight = Math.max(0, safeBottom - safeTop);
+    let deltaY = 0;
+    if (nodeBounds.height > safeHeight) {
+      deltaY =
+        (safeTop + safeBottom) / 2 - (nodeBounds.top + nodeBounds.bottom) / 2;
+    } else if (nodeBounds.top < safeTop) {
+      deltaY = safeTop - nodeBounds.top;
+    } else if (nodeBounds.bottom > safeBottom) {
+      deltaY = safeBottom - nodeBounds.bottom;
+    }
+    if (Math.abs(deltaY) < 1) return;
+    animateCameraTo(
+      panCamera(camera, { x: 0, y: deltaY }, currentEnvironment()),
+      200,
     );
   }
 
@@ -363,6 +449,8 @@
       class:map-viewport--panning={panning}
       role="region"
       aria-label="Exploration map"
+      data-map-layout={verticalFlow ? "vertical" : "horizontal"}
+      data-map-presentation={verticalFlow ? "constellation" : "cards"}
       aria-describedby="map-viewport-instructions"
       tabindex="0"
       bind:this={viewport}
