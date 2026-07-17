@@ -41,7 +41,10 @@
 	encode zstd gzip
 
 	@robots path /robots.txt
-	respond @robots "User-agent: *\nDisallow: /\n" 200
+	respond @robots <<ROBOTS
+		User-agent: *
+		Disallow: /
+		ROBOTS 200
 
 	reverse_proxy analytics:3000
 
