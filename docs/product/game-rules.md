@@ -86,7 +86,9 @@ across relationship types, and retains a distance-reducing edge whenever one rem
 branch can still end when every remaining edge would repeat the active route or when the underlying
 graph has no playable continuation; in that case the contextual Back recovery applies. The board
 layout uses fixed deterministic 26rem columns and vertical lanes derived from the session snapshot,
-so the same graph state produces the same positions without a hand-authored scene. A distant goal
+so the same graph state produces the same positions without a hand-authored scene. Vertical lane
+spacing adapts gently to frontier density: one or two lanes receive 11rem of breathing room, each
+additional lane removes 0.5rem, and six or more lanes retain a 9rem minimum gap. A distant goal
 marker receives a wider 52rem terminal gap from the active frontier, while a goal that becomes an
 immediate move joins the ordinary choice column. The camera and Fit Map bounds use that same layout
 geometry. The current card docks its right edge over the current token, and the distant-goal card

@@ -9,7 +9,9 @@ const RIGHT_GUTTER_UNITS = 22;
 const COLUMN_GAP_UNITS = 26;
 const GOAL_GAP_UNITS = 52;
 const CHOICE_TOP_UNITS = 12;
-const CHOICE_LANE_GAP_UNITS = 10;
+const SPARSE_CHOICE_LANE_GAP_UNITS = 11;
+const DENSE_CHOICE_LANE_GAP_UNITS = 9;
+const CHOICE_LANE_COMPRESSION_UNITS = 0.5;
 const BOTTOM_CLEARANCE_UNITS = 10;
 
 export interface MapBoardLayoutInput {
@@ -24,11 +26,12 @@ export function createMapBoardLayout({
   laneCounts,
 }: MapBoardLayoutInput): MapBoardLayout {
   const choiceLaneCount = Math.max(0, ...laneCounts);
+  const choiceLaneGap = choiceLaneGapFor(choiceLaneCount);
   const occupiedChoiceHeight =
     choiceLaneCount === 0
       ? 0
       : CHOICE_TOP_UNITS +
-        (choiceLaneCount - 1) * CHOICE_LANE_GAP_UNITS +
+        (choiceLaneCount - 1) * choiceLaneGap +
         BOTTOM_CLEARANCE_UNITS;
   const activeChoiceColumn = currentColumn + 1;
   const terminalAnchorColumn = Math.max(resolvedStageCount, activeChoiceColumn);
@@ -46,12 +49,21 @@ export function createMapBoardLayout({
     column_gap_units: COLUMN_GAP_UNITS,
     goal_gap_units: GOAL_GAP_UNITS,
     choice_top_units: CHOICE_TOP_UNITS,
-    choice_lane_gap_units: CHOICE_LANE_GAP_UNITS,
+    choice_lane_gap_units: choiceLaneGap,
     bottom_clearance_units: BOTTOM_CLEARANCE_UNITS,
     choice_lane_count: choiceLaneCount,
     current_column: currentColumn,
     active_choice_column: activeChoiceColumn,
   };
+}
+
+function choiceLaneGapFor(laneCount: number): number {
+  const compression =
+    Math.max(0, laneCount - 2) * CHOICE_LANE_COMPRESSION_UNITS;
+  return Math.max(
+    DENSE_CHOICE_LANE_GAP_UNITS,
+    SPARSE_CHOICE_LANE_GAP_UNITS - compression,
+  );
 }
 
 export function pointForColumn(

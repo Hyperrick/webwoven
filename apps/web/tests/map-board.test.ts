@@ -329,8 +329,8 @@ describe("deterministic map board", () => {
     expect(choiceToGoalGap).toBeGreaterThan(currentToChoiceGap);
   });
 
-  it("uses fixed vertical lanes for every onward choice", () => {
-    const destinations = Array.from({ length: 9 }, (_, index) =>
+  it("slightly compresses vertical lanes as the frontier grows", () => {
+    const destinations = Array.from({ length: 5 }, (_, index) =>
       entity(
         `fixture:places_architecture:${String(index + 1).padStart(2, "0")}`,
         `Map marker ${index + 1}`,
@@ -361,16 +361,16 @@ describe("deterministic map board", () => {
     );
     const goalNode = nodesById.get(board.goal_node_id);
 
-    expect(board.choices).toHaveLength(10);
+    expect(board.choices).toHaveLength(6);
     expect(board.layout).toMatchObject({
-      height_units: 112,
+      height_units: 67,
       choice_top_units: 12,
-      choice_lane_gap_units: 10,
-      choice_lane_count: 10,
+      choice_lane_gap_units: 9,
+      choice_lane_count: 6,
     });
     expect(absoluteY[0]).toBeCloseTo(12);
     for (let index = 1; index < absoluteY.length; index += 1) {
-      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(10);
+      expect(absoluteY[index] - absoluteY[index - 1]).toBeCloseTo(9);
     }
     expect(absoluteY).toContain(
       (goalNode?.position.y ?? 0) * board.layout.height_units,
@@ -383,6 +383,40 @@ describe("deterministic map board", () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it("gives sparse frontiers more vertical breathing room", () => {
+    const destinations = [
+      entity("fixture:places_architecture:01", "North marker"),
+      entity("fixture:places_architecture:02", "South marker"),
+    ];
+    const board = buildMapBoard(
+      snapshot([
+        group(
+          "P361",
+          "connected with",
+          "outgoing",
+          destinations.map((destination, index) => ({
+            edge_token: `sparse-destination-token-${index}`,
+            target: destination,
+            statement: `Tobin Rill is connected with ${destination.label}.`,
+          })),
+        ),
+      ]),
+    );
+    const nodesById = new Map(board.nodes.map((node) => [node.id, node]));
+    const absoluteY = board.choices.map(
+      (choice) =>
+        (nodesById.get(choice.target_node_id)?.position.y ?? 0) *
+        board.layout.height_units,
+    );
+
+    expect(board.layout).toMatchObject({
+      height_units: 38,
+      choice_lane_gap_units: 11,
+      choice_lane_count: 2,
+    });
+    expect(absoluteY[1] - absoluteY[0]).toBeCloseTo(11);
   });
 
   it("exposes chronological trail links and normalized positions", () => {
