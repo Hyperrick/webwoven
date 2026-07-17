@@ -54,33 +54,39 @@
   <div class="hint-dock__actions" role="group" aria-label="One-use hints">
     {#each tools as tool}
       {@const isUsed = hintUsed(tool.type)}
-      <button
-        type="button"
-        class:hint-dock__tool--used={isUsed}
-        aria-label={`${tool.label} hint. ${tool.help} ${tool.penalty} point penalty. ${isUsed ? "Used" : tool.type === "compass" && compassSelecting ? "Choose a route to evaluate" : "Ready"}.`}
-        aria-pressed={tool.type === "compass" ? compassSelecting : undefined}
-        disabled={disabled || isUsed || noRoutes}
-        onclick={() => {
-          if (tool.type === "compass") onCompassToggle();
-          else onHint(tool.type);
-        }}
-      >
-        <AtlasIcon name={tool.icon} size={22} />
-        <span class="hint-dock__tool-copy">
-          <strong>{tool.label}</strong>
-          <small class="hint-dock__tool-help">{tool.help}</small>
-          <small class="hint-dock__tool-penalty">−{tool.penalty} pts</small>
-        </span>
-        <span class="hint-dock__tool-state" aria-hidden="true">
-          {isUsed
-            ? "Used"
-            : noRoutes
-              ? "Unavailable"
-              : tool.type === "compass" && compassSelecting
-                ? "Choosing"
-                : ""}
-        </span>
-      </button>
+      {@const helpId = `hint-tool-${tool.type}-help`}
+      <div class="hint-dock__tool">
+        <button
+          type="button"
+          class:hint-dock__tool--used={isUsed}
+          aria-label={`${tool.label} hint. ${tool.penalty} point penalty. ${isUsed ? "Used" : tool.type === "compass" && compassSelecting ? "Choose a route to evaluate" : "Ready"}.`}
+          aria-describedby={helpId}
+          aria-pressed={tool.type === "compass" ? compassSelecting : undefined}
+          disabled={disabled || isUsed || noRoutes}
+          onclick={() => {
+            if (tool.type === "compass") onCompassToggle();
+            else onHint(tool.type);
+          }}
+        >
+          <AtlasIcon name={tool.icon} size={22} />
+          <span class="hint-dock__tool-copy">
+            <strong>{tool.label}</strong>
+            <small class="hint-dock__tool-penalty">−{tool.penalty} pts</small>
+          </span>
+          <span class="hint-dock__tool-state" aria-hidden="true">
+            {isUsed
+              ? "Used"
+              : noRoutes
+                ? "Unavailable"
+                : tool.type === "compass" && compassSelecting
+                  ? "Choosing"
+                  : ""}
+          </span>
+        </button>
+        <small class="hint-dock__tool-help" id={helpId} role="tooltip">
+          {tool.help}
+        </small>
+      </div>
     {/each}
   </div>
   {#if latest}

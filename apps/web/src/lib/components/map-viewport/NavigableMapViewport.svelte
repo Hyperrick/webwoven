@@ -30,12 +30,18 @@
     redrawKey = "",
     children,
     overlay,
+    headerMain,
+    headerMeta,
+    railFooter,
   }: {
     board: MapBoard;
     transition: MapTransition;
     redrawKey?: string;
     children: Snippet;
     overlay?: Snippet;
+    headerMain?: Snippet;
+    headerMeta?: Snippet;
+    railFooter?: Snippet;
   } = $props();
 
   let viewport: HTMLDivElement;
@@ -312,46 +318,81 @@
   function isNarrowViewport(): boolean {
     return viewportSize.width <= 600;
   }
+
+  function zoomOut(): void {
+    zoomAt({ x: viewportSize.width / 2, y: viewportSize.height / 2 }, 1 / 1.2);
+  }
+
+  function zoomIn(): void {
+    zoomAt({ x: viewportSize.width / 2, y: viewportSize.height / 2 }, 1.2);
+  }
 </script>
 
-<!-- svelte-ignore a11y_no_noninteractive_tabindex (keyboard-navigable spatial canvas) -->
-<div
-  class="game-map__viewport map-viewport"
-  class:map-viewport--panning={panning}
-  role="region"
-  aria-label="Exploration map"
-  aria-describedby="map-viewport-instructions"
-  tabindex="0"
-  bind:this={viewport}
-  onfocusin={revealFocusedNode}
->
-  <MapBoardCanvas {board} {view} {transition} {redrawKey} />
-  <div
-    class="game-map__surface map-viewport__world"
-    style={worldStyle}
-    bind:this={world}
-  >
-    {@render children()}
+<div class="game-map__frame">
+  <header class="game-map__header">
+    {#if headerMain}{@render headerMain()}{/if}
+    <div class="game-map__header-tools">
+      {#if headerMeta}{@render headerMeta()}{/if}
+    </div>
+  </header>
+
+  <div class="map-viewport-layout">
+    <div class="map-utility-rail">
+      <div class="map-utility-rail__navigation">
+        <MapViewportControls
+          placement="rail"
+          zoom={camera.zoom}
+          {minimumZoom}
+          maximumZoom={MAP_MAX_ZOOM}
+          onZoomOut={zoomOut}
+          onZoomIn={zoomIn}
+          onFitMap={fitMap}
+          onFocusCurrent={focusCurrent}
+        />
+      </div>
+      {#if railFooter}
+        <div class="map-utility-rail__hints">
+          {@render railFooter()}
+        </div>
+      {/if}
+    </div>
+
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex (keyboard-navigable spatial canvas) -->
+    <div
+      class="game-map__viewport map-viewport"
+      class:map-viewport--panning={panning}
+      role="region"
+      aria-label="Exploration map"
+      aria-describedby="map-viewport-instructions"
+      tabindex="0"
+      bind:this={viewport}
+      onfocusin={revealFocusedNode}
+    >
+      <MapBoardCanvas {board} {view} {transition} {redrawKey} />
+      <div
+        class="game-map__surface map-viewport__world"
+        style={worldStyle}
+        bind:this={world}
+      >
+        {@render children()}
+      </div>
+
+      <MapViewportControls
+        placement="canvas"
+        zoom={camera.zoom}
+        {minimumZoom}
+        maximumZoom={MAP_MAX_ZOOM}
+        onZoomOut={zoomOut}
+        onZoomIn={zoomIn}
+        onFitMap={fitMap}
+        onFocusCurrent={focusCurrent}
+      />
+
+      <p id="map-viewport-instructions" class="map-viewport__instructions">
+        Drag to pan · pinch or scroll to zoom · keyboard: arrows pan, +/− zoom,
+        0 fits the map, Home returns to current
+      </p>
+      {#if overlay}{@render overlay()}{/if}
+    </div>
   </div>
-
-  <MapViewportControls
-    zoom={camera.zoom}
-    {minimumZoom}
-    maximumZoom={MAP_MAX_ZOOM}
-    onZoomOut={() =>
-      zoomAt(
-        { x: viewportSize.width / 2, y: viewportSize.height / 2 },
-        1 / 1.2,
-      )}
-    onZoomIn={() =>
-      zoomAt({ x: viewportSize.width / 2, y: viewportSize.height / 2 }, 1.2)}
-    onFitMap={fitMap}
-    onFocusCurrent={focusCurrent}
-  />
-
-  <p id="map-viewport-instructions" class="map-viewport__instructions">
-    Drag to pan · pinch or scroll to zoom · keyboard: arrows pan, +/− zoom, 0
-    fits the map, Home returns to current
-  </p>
-  {#if overlay}{@render overlay()}{/if}
 </div>

@@ -17,8 +17,7 @@
 }
 
 .game-page__play > .race-strip,
-.game-page__play > .round-masthead,
-.game-page__play > .hint-dock {
+.game-page__play > .round-masthead {
   flex: 0 0 auto;
 }
 

@@ -1,13 +1,13 @@
 # Product screenshot provenance
 
-These screenshots were captured from **Compose acceptance** at `http://localhost` on 2026-07-16,
+These screenshots were captured from **Compose acceptance** at `http://localhost` on 2026-07-17,
 after rebuilding the Caddy image. They document the product UI; they are not synthetic mockups or
 captures from the Playwright demo server.
 
 | File                | Surface            | Content                                                                                             |
 | ------------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
 | `frontispiece.webp` | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed. |
-| `solo-map.webp`     | Compose acceptance | A real Solo session using the active July 16 Wikidata and Commons atlas.                            |
+| `solo-map.webp`     | Compose acceptance | A real Solo session using the active July 17 Wikidata and Commons atlas.                            |
 
 The Solo capture includes reduced documentary images served from the immutable local bundle.
 Complete machine-readable attribution is preserved in `data/builds/current/attribution.json` and

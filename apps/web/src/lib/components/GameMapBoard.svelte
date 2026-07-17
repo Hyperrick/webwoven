@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import type { SessionSnapshot } from "../api/types";
   import { buildMapBoard, type MapMoveChoice } from "../domain/map-board";
   import {
@@ -26,6 +27,7 @@
     onBack,
     backDestinationLabel,
     onCompassSelect,
+    railFooter,
   }: {
     session: SessionSnapshot;
     busy?: boolean;
@@ -36,6 +38,7 @@
     onBack: () => void;
     backDestinationLabel?: string;
     onCompassSelect: (propertyId: string, entityQid: string) => void;
+    railFooter?: Snippet;
   } = $props();
 
   let inspectedNodeId = $state<string | null>(null);
@@ -117,49 +120,56 @@
   aria-labelledby="map-title"
   aria-describedby="map-instruction"
 >
-  <header class="game-map__header">
-    <div class="game-map__prompt">
-      <p class="eyebrow">
-        {compassSelecting
-          ? "Compass ready"
-          : routeCount === 0
-            ? "Route exhausted"
-            : "Your move"}
-      </p>
-      <h2 id="map-title">
-        {compassSelecting
-          ? "Which route should the Compass check?"
-          : routeCount === 0
-            ? canGoBack
-              ? "This branch ends here"
-              : "No route is available from this start"
-            : "Where do you go next?"}
-      </h2>
-      <p id="map-instruction">
-        {compassSelecting
-          ? "Select a connected entity to evaluate that relationship. This uses the Compass but does not move you."
-          : routeCount === 0
-            ? canGoBack
-              ? `Retrace to ${backDestinationLabel ?? "the previous marker"}, then try another connection.`
-              : "Return to the frontispiece and begin another round."
-            : "Pick one connected entity. Drag or zoom the map to revisit every route you have explored."}
-      </p>
-    </div>
-
-    <div class="game-map__header-meta">
-      <p class="game-map__choice-count" aria-live="polite">
-        <strong>{routeCount}</strong>
-        {routeCount === 1 ? "route" : "routes"} in reach
-      </p>
-      <MapNavigationHelp />
-    </div>
-  </header>
-
   <NavigableMapViewport
     {board}
     transition={viewportTransition}
     redrawKey={inspectedNodeId ?? "inspector-closed"}
+    {railFooter}
   >
+    {#snippet headerMain()}
+      <div class="game-map__prompt">
+        <p class="eyebrow">
+          {compassSelecting
+            ? "Compass ready"
+            : routeCount === 0
+              ? "Route exhausted"
+              : "Your move"}
+        </p>
+        <h2 id="map-title">
+          {compassSelecting
+            ? "Which route should the Compass check?"
+            : routeCount === 0
+              ? canGoBack
+                ? "This branch ends here"
+                : "No route is available from this start"
+              : "Where do you go next?"}
+        </h2>
+        <p
+          id="map-instruction"
+          class:game-map__instruction--compact={!compassSelecting &&
+            routeCount > 0}
+        >
+          {compassSelecting
+            ? "Select a connected entity to evaluate that relationship. This uses the Compass but does not move you."
+            : routeCount === 0
+              ? canGoBack
+                ? `Retrace to ${backDestinationLabel ?? "the previous marker"}, then try another connection.`
+                : "Return to the frontispiece and begin another round."
+              : "Pick one connected entity. Drag or zoom the map to revisit every route you have explored."}
+        </p>
+      </div>
+    {/snippet}
+
+    {#snippet headerMeta()}
+      <div class="game-map__header-meta">
+        <p class="game-map__choice-count" aria-live="polite">
+          <strong>{routeCount}</strong>
+          {routeCount === 1 ? "route" : "routes"} in reach
+        </p>
+        <MapNavigationHelp />
+      </div>
+    {/snippet}
+
     <GameMapWorld
       {board}
       transition={activeTransition}

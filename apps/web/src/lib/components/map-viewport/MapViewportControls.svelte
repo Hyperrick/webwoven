@@ -9,6 +9,7 @@
     onZoomIn,
     onFitMap,
     onFocusCurrent,
+    placement = "canvas",
   }: {
     zoom: number;
     minimumZoom: number;
@@ -17,11 +18,12 @@
     onZoomIn: () => void;
     onFitMap: () => void;
     onFocusCurrent: () => void;
+    placement?: "canvas" | "rail";
   } = $props();
 </script>
 
 <div
-  class="map-viewport-controls"
+  class="map-viewport-controls map-viewport-controls--{placement}"
   role="toolbar"
   aria-label="Map view"
   data-map-interactive="controls"
@@ -52,6 +54,7 @@
     type="button"
     class="map-viewport-controls__labelled"
     data-map-interactive
+    aria-label="Fit map"
     title="Show the entire explored map (0)"
     onclick={onFitMap}
   >
@@ -62,6 +65,7 @@
     type="button"
     class="map-viewport-controls__labelled"
     data-map-interactive
+    aria-label="Current position"
     title="Return to the current position (Home)"
     onclick={onFocusCurrent}
   >

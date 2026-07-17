@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { confirmSolo, followTo, startSolo } from "./helpers";
+import {
+  confirmSolo,
+  expectVerticalHintRail,
+  followTo,
+  startSolo,
+} from "./helpers";
 
 test("Solo preserves visible history and guards browser Back", async ({
   page,
@@ -493,6 +498,17 @@ test("desktop layout keeps HUD, map, and hints in one viewport", async ({
     page.getByRole("toolbar", { name: "Map view" }),
   ).toBeInViewport();
   await expect(hintDock).toBeInViewport();
+  await expectVerticalHintRail(page);
+
+  const compass = page.getByRole("button", {
+    name: /Compass hint.*75 point penalty.*ready/i,
+  });
+  const compassHelp = page.getByRole("tooltip", {
+    name: "Check one route: promising, longer, or a dead end.",
+  });
+  await expect(compassHelp).toBeHidden();
+  await compass.focus();
+  await expect(compassHelp).toBeVisible();
 
   const assertNoPageScroll = async (): Promise<void> => {
     const viewportHeight = await page.evaluate(() => window.innerHeight);
@@ -503,9 +519,26 @@ test("desktop layout keeps HUD, map, and hints in one viewport", async ({
   };
 
   await assertNoPageScroll();
+  const mapBoxBeforeHint = await page.locator(".game-map").boundingBox();
   await page.getByRole("button", { name: /Lens hint.*ready/i }).click();
   await expect(page.locator(".hint-dock__message")).toBeInViewport();
+  const mapBoxAfterHint = await page.locator(".game-map").boundingBox();
+  expect(mapBoxBeforeHint).not.toBeNull();
+  expect(mapBoxAfterHint).not.toBeNull();
+  expect(mapBoxAfterHint!.width).toBe(mapBoxBeforeHint!.width);
+  expect(mapBoxAfterHint!.height).toBe(mapBoxBeforeHint!.height);
   await assertNoPageScroll();
   await page.mouse.wheel(0, 500);
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
+});
+
+test("tablet layout uses the compact vertical hint rail", async ({ page }) => {
+  await page.setViewportSize({ width: 801, height: 1112 });
+  await startSolo(page);
+
+  await expectVerticalHintRail(page);
+  await expect(page.locator(".hint-dock")).toBeInViewport();
+  await expect(
+    page.getByRole("toolbar", { name: "Map view" }),
+  ).toBeInViewport();
 });
