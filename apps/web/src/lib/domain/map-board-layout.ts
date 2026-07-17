@@ -4,9 +4,10 @@ const MINIMUM_WIDTH_UNITS = 88;
 const MINIMUM_HEIGHT_UNITS = 38;
 const LEFT_GUTTER_UNITS = 14;
 const RIGHT_GUTTER_UNITS = 22;
-// A full lane must clear the widest move card and the centered goal label.
-// Thirty rem leaves a deliberate visual gutter without relying on CSS nudges.
-const COLUMN_GAP_UNITS = 30;
+// Ordinary decisions read as one connected cluster; the goal remains a
+// visibly separate destination until it becomes an immediately reachable move.
+const COLUMN_GAP_UNITS = 26;
+const GOAL_GAP_UNITS = 52;
 const CHOICE_TOP_UNITS = 12;
 const CHOICE_LANE_GAP_UNITS = 10;
 const BOTTOM_CLEARANCE_UNITS = 10;
@@ -30,13 +31,11 @@ export function createMapBoardLayout({
         (choiceLaneCount - 1) * CHOICE_LANE_GAP_UNITS +
         BOTTOM_CLEARANCE_UNITS;
   const activeChoiceColumn = currentColumn + 1;
-  const rightmostColumn = Math.max(
-    resolvedStageCount + 1,
-    activeChoiceColumn + 1,
-  );
+  const terminalAnchorColumn = Math.max(resolvedStageCount, activeChoiceColumn);
+  const terminalRightEdge = xForColumn(terminalAnchorColumn) + GOAL_GAP_UNITS;
   const width = Math.max(
     MINIMUM_WIDTH_UNITS,
-    LEFT_GUTTER_UNITS + rightmostColumn * COLUMN_GAP_UNITS + RIGHT_GUTTER_UNITS,
+    terminalRightEdge + RIGHT_GUTTER_UNITS,
   );
 
   return {
@@ -45,6 +44,7 @@ export function createMapBoardLayout({
     minimum_width_units: MINIMUM_WIDTH_UNITS,
     minimum_height_units: MINIMUM_HEIGHT_UNITS,
     column_gap_units: COLUMN_GAP_UNITS,
+    goal_gap_units: GOAL_GAP_UNITS,
     choice_top_units: CHOICE_TOP_UNITS,
     choice_lane_gap_units: CHOICE_LANE_GAP_UNITS,
     bottom_clearance_units: BOTTOM_CLEARANCE_UNITS,
@@ -61,9 +61,23 @@ export function pointForColumn(
   layout: MapBoardLayout,
 ): MapBoardPoint {
   return {
-    x: (LEFT_GUTTER_UNITS + column * COLUMN_GAP_UNITS) / layout.width_units,
+    x: xForColumn(column) / layout.width_units,
     y: absoluteY / layout.height_units,
     z: depthFor(`${column}:${qid}`),
+  };
+}
+
+export function pointForDistantGoal(
+  absoluteY: number,
+  qid: string,
+  layout: MapBoardLayout,
+): MapBoardPoint {
+  return {
+    x:
+      (xForColumn(layout.active_choice_column) + layout.goal_gap_units) /
+      layout.width_units,
+    y: absoluteY / layout.height_units,
+    z: depthFor(`goal:${layout.active_choice_column}:${qid}`),
   };
 }
 
@@ -73,6 +87,10 @@ export function laneY(index: number, layout: MapBoardLayout): number {
 
 export function centerY(layout: MapBoardLayout): number {
   return layout.height_units / 2;
+}
+
+function xForColumn(column: number): number {
+  return LEFT_GUTTER_UNITS + column * COLUMN_GAP_UNITS;
 }
 
 function depthFor(identity: string): number {

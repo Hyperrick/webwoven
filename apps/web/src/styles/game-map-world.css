@@ -162,6 +162,22 @@
   text-align: left;
 }
 
+.map-position__inspect-hit-area {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+}
+
+.map-position__inspect-hit-area:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+
 .map-position__inspect-button {
   justify-self: start;
   padding: 0;
@@ -170,15 +186,14 @@
   border-radius: 0;
   color: var(--color-signal);
   background: transparent;
-  cursor: pointer;
   font-family: var(--font-technical);
   font-size: 0.65rem;
   font-weight: 500;
   text-transform: uppercase;
 }
 
-.map-position__inspect-button:hover,
-.map-position__inspect-button:focus-visible {
+.map-position--inspectable:hover .map-position__inspect-button,
+.map-position--inspectable:focus-within .map-position__inspect-button {
   color: var(--color-ink);
 }
 
@@ -261,6 +276,14 @@
     width: min(11rem, 44vw);
     padding: var(--space-2) var(--space-3);
     transform: translate(-50%, calc(-100% - var(--map-node-card-clearance)));
+  }
+
+  .game-map__surface .map-position--current {
+    transform: translate(-100%, -50%);
+  }
+
+  .game-map__surface .map-position--goal:not(.map-position--reachable) {
+    transform: translate(0, -50%);
   }
 
   .game-map__surface button.map-position--reachable {

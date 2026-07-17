@@ -17,6 +17,7 @@ export interface MapBoardLayout {
   minimum_width_units: number;
   minimum_height_units: number;
   column_gap_units: number;
+  goal_gap_units: number;
   choice_top_units: number;
   choice_lane_gap_units: number;
   bottom_clearance_units: number;

@@ -97,6 +97,10 @@
   </div>
 
   <div class="round-intro__endpoints">
+    <p class="round-intro__endpoint-category" aria-hidden="true">
+      <span>Atlas category</span>
+      <strong>{theme.label}</strong>
+    </p>
     <article
       class="round-intro__card round-intro__card--start round-intro__card--with-artwork"
     >

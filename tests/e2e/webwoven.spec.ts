@@ -22,6 +22,9 @@ test("Solo preserves visible history and guards browser Back", async ({
   await expect(page.locator(".round-intro__card--goal")).toContainText(
     "United Kingdom",
   );
+  await expect(page.locator(".round-intro__endpoint-category")).toHaveText(
+    "Atlas category Art & Design",
+  );
   await expect(page.locator(".round-intro__mode")).toHaveText("Solo route");
   await expect(page.locator(".round-intro__registration")).not.toContainText(
     "WW /",

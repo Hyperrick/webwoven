@@ -110,11 +110,33 @@
   left: 50%;
   display: grid;
   grid-template-columns: repeat(2, minmax(15rem, 23rem));
+  row-gap: var(--space-4);
   align-items: center;
   justify-content: space-between;
   width: min(82rem, 90vw);
   opacity: var(--endpoint-opacity);
   transform: translate(-50%, -50%);
+}
+
+.round-intro__endpoint-category {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--intro-accent);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.round-intro__endpoint-category span {
+  color: var(--color-muted-ink);
+}
+
+.round-intro__endpoint-category strong {
+  font-size: var(--text-14);
 }
 
 .round-intro__card {

@@ -166,6 +166,13 @@
       }}
       out:fade={{ duration: 180 }}
     >
+      <button
+        type="button"
+        class="map-position__inspect-hit-area"
+        data-map-interactive="inspect"
+        aria-label={`Inspect current entity: ${currentNode.label}`}
+        onclick={(event) => inspectFrom(event, currentNode.id)}
+      ></button>
       {#if currentArtwork}
         <EndpointArtwork
           entity={currentArtwork}
@@ -176,15 +183,9 @@
       {/if}
       <span class="map-position__kicker">You are here</span>
       <h3>{currentNode.label}</h3>
-      <button
-        type="button"
-        class="map-position__inspect-button"
-        data-map-interactive="inspect"
-        aria-label={`Inspect current entity: ${currentNode.label}`}
-        onclick={(event) => inspectFrom(event, currentNode.id)}
-      >
+      <span class="map-position__inspect-button" aria-hidden="true">
         Inspect
-      </button>
+      </span>
     </div>
   {/key}
 {/if}

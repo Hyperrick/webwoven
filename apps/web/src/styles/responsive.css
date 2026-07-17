@@ -27,6 +27,10 @@
 }
 
 @media (width <= 50rem) {
+  .landing-page {
+    min-height: calc(100svh - 4.5rem);
+  }
+
   .site-header,
   .hero,
   .site-footer,
