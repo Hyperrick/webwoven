@@ -6,6 +6,7 @@ export type AppRoute =
   | { name: "race"; path: string; code: string }
   | { name: "results"; path: "/results" }
   | { name: "lab"; path: "/lab" }
+  | { name: "privacy"; path: "/privacy" }
   | { name: "not-found"; path: string };
 
 export function parseRoute(pathname: string): AppRoute {
@@ -18,6 +19,7 @@ export function parseRoute(pathname: string): AppRoute {
   if (normalized === "/relay") return { name: "lobby", path: "/relay" };
   if (normalized === "/results") return { name: "results", path: "/results" };
   if (normalized === "/lab") return { name: "lab", path: "/lab" };
+  if (normalized === "/privacy") return { name: "privacy", path: "/privacy" };
   const roomMatch = normalized.match(/^\/relay\/([0-9A-HJKMNP-TV-Z]{6})$/i);
   if (roomMatch) {
     const code = roomMatch[1].toUpperCase();

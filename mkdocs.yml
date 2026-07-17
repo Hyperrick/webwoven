@@ -37,7 +37,9 @@ nav:
       - Setup: development/setup.md
       - Testing: development/testing.md
       - Responsibility map: development/responsibility-map.md
-  - Operations: operations/deployment.md
+  - Operations:
+      - Deployment: operations/deployment.md
+      - Analytics: operations/analytics.md
   - Build log:
       - July 13: build-log/2026-07-13.md
       - July 14: build-log/2026-07-14.md
@@ -51,3 +53,4 @@ nav:
       - Ten-category atlas: adr/0004-ten-category-atlas.md
       - Wikipedia article links: adr/0005-wikipedia-article-links.md
       - Source-neutral relationship semantics: adr/0006-source-neutral-relationship-semantics.md
+      - Privacy-minimized analytics: adr/0007-privacy-minimized-analytics.md

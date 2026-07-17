@@ -36,3 +36,20 @@
 {$WEBWOVEN_REDIRECT_ADDRESS:http://redirect.invalid} {
 	redir {$WEBWOVEN_SITE_ADDRESS:http://localhost}{uri} permanent
 }
+
+{$WEBWOVEN_ANALYTICS_ADDRESS:http://analytics.invalid} {
+	encode zstd gzip
+
+	@robots path /robots.txt
+	respond @robots "User-agent: *\nDisallow: /\n" 200
+
+	reverse_proxy analytics:3000
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		X-Frame-Options DENY
+		-Server
+	}
+}

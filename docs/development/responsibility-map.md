@@ -21,6 +21,7 @@ state has one owner and is consumed through a narrow contract.
 | Responsive geometry and phone choice confirmation | Map-board presentation          | Map camera, detail tray, semantic DOM, renderers   |
 | Spatial canvas camera                             | Map-camera presentation         | Gestures, controls, Three.js and SVG view adapters |
 | Historical path inspection                        | Map inspection projection       | Read-only Svelte inspector                         |
+| Anonymous reporting contract                      | Web analytics adapter           | App orchestration, self-hosted Umami                |
 | Rendering and interaction                         | Svelte feature components       | API facade and domain view models                  |
 
 Cross-domain code is shared only when it represents a stable concept with multiple real consumers.
