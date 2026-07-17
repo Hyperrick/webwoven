@@ -56,6 +56,7 @@ from .registry import load_registry
 from .reviewed_media import REVIEWED_MEDIA_CANDIDATES, REVIEWED_MEDIA_OVERRIDES
 from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 from .seeds import load_seeds
+from .semantic_refresh import refresh_wikidata_relationships
 from .wikidata import WikidataClient
 from .wikidata_bundle import build_wikidata_bundle
 from .wikipedia_articles import attach_wikipedia_articles
@@ -82,6 +83,8 @@ def main(argv: list[str] | None = None) -> int:
         _acquire_commons(args)
     elif command == "discover-media":
         _discover_media(args)
+    elif command == "renormalize-semantics":
+        _renormalize_semantics(args)
     elif command == "generate-rounds":
         _generate_rounds(args)
     elif command == "compile":
@@ -160,6 +163,14 @@ def _parser() -> argparse.ArgumentParser:
     discover_media_command.add_argument("--output", type=Path, required=True)
     discover_media_command.add_argument("--user-agent", required=True)
     discover_media_command.add_argument("--request-interval", type=float, default=0.1)
+    semantic_refresh = commands.add_parser(
+        "renormalize-semantics",
+        help="rebuild relationship wording from hash-verified cached Wikidata batches",
+    )
+    _registry_argument(semantic_refresh)
+    semantic_refresh.add_argument("--graph-source", type=Path, required=True)
+    semantic_refresh.add_argument("--cache", type=Path, required=True)
+    semantic_refresh.add_argument("--output", type=Path, required=True)
     round_command = commands.add_parser(
         "generate-rounds",
         help="generate locked round distribution",
@@ -399,6 +410,19 @@ def _discover_media(args: argparse.Namespace) -> None:
         f"{len(result.selections)}/{len(entities)} entities selected; "
         f"{len(result.missing_entity_ids)} unresolved"
     )
+
+
+def _renormalize_semantics(args: argparse.Namespace) -> None:
+    source = _read_object(args.graph_source)
+    entities = _entities(source.get("entities"))
+    refreshed = refresh_wikidata_relationships(
+        source,
+        args.cache,
+        load_registry(args.registry),
+        (entity.id for entity in entities),
+    )
+    _write_new_json(args.output, refreshed)
+    print(f"{len(refreshed['edges'])} relationships renormalized without network access")
 
 
 def _generate_rounds(args: argparse.Namespace) -> None:

@@ -9,6 +9,7 @@ from typing import Protocol
 from webwoven_api.domain.errors import NotFoundError
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import GraphReader, Round
+from webwoven_api.graph.round_eligibility import eligible_rounds
 
 
 @dataclass(frozen=True, slots=True)
@@ -58,12 +59,17 @@ class RoundSelector:
         difficulty: Difficulty,
         source: str,
     ) -> Round:
-        rounds = self._graph.list_published_rounds(
-            category=category,
-            difficulty=difficulty,
+        rounds = eligible_rounds(
+            self._graph,
+            self._graph.list_published_rounds(
+                category=category,
+                difficulty=difficulty,
+            ),
         )
         if not rounds:
-            raise NotFoundError("No published round matches those filters")
+            raise NotFoundError(
+                "No published round with multiple opening routes matches those filters"
+            )
         history = await self._repository.list_for_guest(
             guest_id,
             self._graph.graph_version,

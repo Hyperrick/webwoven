@@ -15,11 +15,12 @@
     "registry_version": 1,
     "selection_seed": "webwoven-build-week-v1"
   },
-  "policy": "deterministic-round-publication-v1",
+  "policy": "deterministic-round-publication-v2",
   "rounds": [
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -34,6 +35,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -48,6 +50,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -62,6 +65,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -76,6 +80,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -90,6 +95,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -104,6 +110,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -118,6 +125,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -132,6 +140,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -146,6 +155,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -160,6 +170,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -174,6 +185,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -188,6 +200,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -202,6 +215,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -216,6 +230,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -230,6 +245,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -244,6 +260,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -258,6 +275,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -272,6 +290,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -286,6 +305,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -300,6 +320,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -314,6 +335,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -328,6 +350,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -342,6 +365,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -356,6 +380,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -370,6 +395,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -384,6 +410,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -398,6 +425,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -412,6 +440,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -426,6 +455,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -440,6 +470,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -454,6 +485,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -468,6 +500,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -482,6 +515,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -496,6 +530,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -510,6 +545,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -524,6 +560,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -538,6 +575,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -552,6 +590,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -566,6 +605,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -580,6 +620,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -594,6 +635,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -608,6 +650,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -622,6 +665,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -636,6 +680,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -650,6 +695,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -664,6 +710,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -678,6 +725,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -692,6 +740,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -706,6 +755,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -720,6 +770,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -734,6 +785,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -748,6 +800,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -762,6 +815,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -776,6 +830,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -790,6 +845,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -804,6 +860,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -818,6 +875,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -832,6 +890,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -846,6 +905,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -860,6 +920,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -874,6 +935,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -888,6 +950,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -902,6 +965,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -916,6 +980,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -930,6 +995,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -944,6 +1010,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -958,6 +1025,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -972,6 +1040,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -986,6 +1055,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1000,6 +1070,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1014,6 +1085,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1028,6 +1100,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1042,6 +1115,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1056,6 +1130,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1070,6 +1145,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1084,6 +1160,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1098,6 +1175,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1112,6 +1190,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1126,6 +1205,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1140,6 +1220,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1154,6 +1235,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1168,6 +1250,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1182,6 +1265,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1196,6 +1280,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1210,6 +1295,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1224,6 +1310,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1238,6 +1325,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1252,6 +1340,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1266,6 +1355,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1280,6 +1370,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1294,6 +1385,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1308,6 +1400,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1322,6 +1415,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1336,6 +1430,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1350,6 +1445,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1364,6 +1460,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1378,6 +1475,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1392,6 +1490,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,
@@ -1406,6 +1505,7 @@
     {
       "checks": {
         "category_endpoints": true,
+        "choice_first_start": true,
         "curated_endpoints": true,
         "difficulty_band": true,
         "distinct_endpoints": true,

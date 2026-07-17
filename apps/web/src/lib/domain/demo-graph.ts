@@ -6,6 +6,7 @@ interface DemoEdge {
   glyph: RelationGroup["glyph"];
   target: string;
   statement: string;
+  direction?: RelationGroup["direction"];
 }
 
 export const DEMO_ENTITIES: Record<string, EntitySummary> = {
@@ -183,7 +184,7 @@ export const DEMO_ENTITIES: Record<string, EntitySummary> = {
   },
 };
 
-const DEMO_EDGES: Record<string, DemoEdge[]> = {
+export const DEMO_EDGES: Record<string, DemoEdge[]> = {
   Q421: [
     {
       propertyId: "P276",
@@ -202,25 +203,28 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
   ],
   Q98: [
     {
-      propertyId: "P361",
-      label: "coastal place",
+      propertyId: "P276",
+      label: "located at",
       glyph: "place",
       target: "Q17",
-      statement: "Japan lies along the western Pacific Ocean.",
+      statement: "Japan is located along the western Pacific Ocean.",
+      direction: "incoming",
     },
     {
-      propertyId: "P361",
-      label: "coastal place",
+      propertyId: "P276",
+      label: "located at",
       glyph: "place",
       target: "Q99",
-      statement: "California borders the eastern Pacific Ocean.",
+      statement: "California is located along the eastern Pacific Ocean.",
+      direction: "incoming",
     },
     {
-      propertyId: "P361",
-      label: "contains",
+      propertyId: "P276",
+      label: "located at",
       glyph: "part",
       target: "Q159183",
-      statement: "The Mariana Trench lies in the western Pacific Ocean.",
+      statement: "The Mariana Trench is located in the western Pacific Ocean.",
+      direction: "incoming",
     },
   ],
   Q17: [
@@ -232,11 +236,12 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
       statement: "Tokyo is the capital of Japan.",
     },
     {
-      propertyId: "P276",
-      label: "located in",
+      propertyId: "P17",
+      label: "country",
       glyph: "place",
       target: "Q39231",
-      statement: "Mount Fuji is located on Honshu in Japan.",
+      statement: "Mount Fuji is in Japan.",
+      direction: "incoming",
     },
   ],
   Q5586: [
@@ -245,14 +250,14 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
       label: "notable work",
       glyph: "work",
       target: "Q149116",
-      statement: "Hokusai created The Great Wave off Kanagawa.",
+      statement: "The Great Wave off Kanagawa is a notable work by Hokusai.",
     },
     {
       propertyId: "P800",
       label: "notable work",
       glyph: "work",
       target: "Q209772",
-      statement: "Hokusai created Thirty-six Views of Mount Fuji.",
+      statement: "Thirty-six Views of Mount Fuji is a notable work by Hokusai.",
     },
   ],
   Q149116: [
@@ -272,16 +277,7 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
       statement: "The Great Wave is part of Thirty-six Views of Mount Fuji.",
     },
   ],
-  Q39231: [
-    {
-      propertyId: "P361",
-      label: "depicted in",
-      glyph: "work",
-      target: "Q209772",
-      statement:
-        "Mount Fuji is the recurring subject of Hokusai’s print series.",
-    },
-  ],
+  Q39231: [],
   Q209772: [
     {
       propertyId: "P170",
@@ -306,7 +302,7 @@ const DEMO_EDGES: Record<string, DemoEdge[]> = {
       label: "country",
       glyph: "place",
       target: "Q145",
-      statement: "London is the capital of the United Kingdom.",
+      statement: "London is in the United Kingdom.",
     },
     {
       propertyId: "P131",
@@ -332,7 +328,8 @@ export function relationGroupsFor(
   const grouped = new Map<string, RelationGroup>();
 
   for (const edge of edges) {
-    const key = `${edge.propertyId}:${edge.label}`;
+    const direction = edge.direction ?? "outgoing";
+    const key = `${edge.propertyId}:${direction}:${edge.label}`;
     const existing = grouped.get(key);
     const item = {
       edge_token: token(qid, edge),
@@ -343,10 +340,10 @@ export function relationGroupsFor(
       existing.edges.push(item);
     } else {
       grouped.set(key, {
-        group_id: `${edge.propertyId}-outgoing-${encodeURIComponent(edge.label)}`,
+        group_id: `${edge.propertyId}-${direction}-${encodeURIComponent(edge.label)}`,
         property_id: edge.propertyId,
         label: edge.label,
-        direction: "outgoing",
+        direction,
         glyph: edge.glyph,
         edges: [item],
       });

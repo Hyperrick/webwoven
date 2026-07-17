@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted on 2026-07-15.
+Accepted on 2026-07-15; amended on 2026-07-17.
 
 ## Context
 
@@ -19,16 +19,20 @@ all commands before that instant. Clients derive the introduction phase and elap
 the timestamp rather than a local countdown, so late responses advance and resumed sessions at or
 after the start skip the introduction.
 
-One shared web introduction reveals category and difficulty, separates the start and goal along a
-thread, returns orientation to the start, and match-zooms into play. Accessible DOM owns the text;
-the dynamically loaded Three.js scene is decorative and disposable. Reduced motion and failed
-WebGL use the same timestamp with a static composition. Reviewed category plates are served from
-the existing approved illustration manifest; entity art is optional.
+One shared web introduction reveals the category and difficulty, then fades in only the real start
+and goal entity cards. Those cards shrink and spread toward the playable source-left and goal-right
+composition before the introduction crossfades to the already-mounted map during its final 450
+milliseconds. Accessible DOM owns the entity cards and text; the dynamically loaded Three.js scene
+renders only decorative paper and particles. Reduced motion and failed WebGL use the same timestamp
+with a static composition.
 
 Solo players and relay hosts confirm Easy, Normal, or Hard before creation. Daily remains curated.
 One history-aware selector filters by category and difficulty, chooses unseen rounds within a
 cycle, and excludes the immediately prior round when a new cycle begins and another candidate
-exists. Explicit round IDs and Daily assignments remain deterministic bypasses.
+exists. Automatic Solo, Relay-room, and new Daily assignments share one graph-derived eligibility
+policy that requires at least two distinct playable targets at the start. The pipeline applies the
+same requirement before deterministic candidate ranking, so all published and reserve rounds satisfy
+it. Explicit round IDs and already-pinned Daily assignments remain deterministic replay mechanisms.
 
 ## Consequences
 
@@ -37,6 +41,7 @@ exists. Explicit round IDs and Daily assignments remain deterministic bypasses.
   decorative scene authoritative.
 - PostgreSQL and memory adapters retain per-player selection history for the active graph and
   filter, while an injected chooser keeps domain tests deterministic.
+- Solo, Relay-room, and new Daily assignments share one source-independent round-eligibility rule.
 - Session and room snapshots carry enough category, difficulty, artwork, endpoint, and timing data
   for reconnect-safe presentation.
 - A new selection-history table is created by the existing schema lifecycle in production.

@@ -12,6 +12,11 @@ round requires confirmation. Daily difficulty remains part of its curated assign
 selects unseen eligible rounds within a per-player cycle and avoids an immediate repeat whenever
 more than one eligible route exists.
 
+The data pipeline owns choice-first publication: every generated candidate must start with at least
+two distinct playable targets, with parallel facts to the same target counted once. Automatic Solo,
+Relay-room, and new Daily assignment pools verify that invariant again before selection. Explicit
+round IDs and already-pinned Daily assignments remain available for deterministic replay.
+
 Every mode reveals its category, difficulty, start, and goal during a five-second introduction that
 ends at the server-owned `started_at` timestamp. Relay participants share exactly one timestamp.
 Movement is unavailable before it, and elapsed play time begins from it. Reduced motion or missing
@@ -100,7 +105,9 @@ automatically; there is no separate in-game contrast mode.
 The decorative Three.js layer uses raised, low-poly atlas tokens with discrete cel-shaded bands,
 ink outlines, and physical shadows; it never owns input or game rules. If WebGL is unavailable, a
 deterministic SVG fallback still shows the same nodes, depth cues, links, and discarded states. The
-immutable result trail retains the complete relationship explanation for every move.
+immutable result trail retains the complete relationship explanation for every move. Its
+documentary artwork uses a centered contain treatment in a 5:4 frame, backed by a soft full-frame
+version of the same image.
 
 ## Score
 

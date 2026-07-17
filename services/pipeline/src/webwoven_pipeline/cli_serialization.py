@@ -18,6 +18,7 @@ def parse_entities(value: Any) -> tuple[Entity, ...]:
             image_path=optional_string(item, "image_path"),
             image_attribution=optional_object(item, "image_attribution"),
             wikipedia_url=optional_string(item, "wikipedia_url"),
+            semantic_tags=optional_string_tuple(item, "semantic_tags"),
         )
         for item in object_list(value, "entities")
     )
@@ -34,6 +35,7 @@ def parse_edges(value: Any) -> tuple[Edge, ...]:
             explanation=required_string(item, "explanation"),
             inverse=required_boolean(item, "inverse"),
             playable=required_boolean(item, "playable"),
+            series_ordinal=optional_string(item, "series_ordinal"),
         )
         for item in object_list(value, "edges")
     )
@@ -159,6 +161,16 @@ def optional_object(value: dict[str, Any], key: str) -> dict[str, Any] | None:
     if item is not None and not isinstance(item, dict):
         raise ValueError(f"{key} must be an object or null")
     return cast(dict[str, Any], item) if item is not None else None
+
+
+def optional_string_tuple(value: dict[str, Any], key: str) -> tuple[str, ...]:
+    item = value.get(key, [])
+    if not isinstance(item, list):
+        raise ValueError(f"{key} must be a string list")
+    entries = cast(list[object], item)
+    if any(not isinstance(entry, str) for entry in entries):
+        raise ValueError(f"{key} must be a string list")
+    return tuple(cast(str, entry) for entry in entries)
 
 
 def required_integer(value: dict[str, Any], key: str) -> int:

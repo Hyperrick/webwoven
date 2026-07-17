@@ -104,6 +104,8 @@ def _candidate_buckets(
     }
     allowed_targets = frozenset(entity_ids)
     for start_id in entity_ids:
+        if len(adjacency.get(start_id, ())) < 2:
+            continue
         distances = _forward_distances(start_id, adjacency, maximum=8)
         for target_id, distance in distances.items():
             difficulty = _difficulty(distance)

@@ -27,13 +27,17 @@ documented graph relationship. Players can inspect the underlying fact, document
 attribution, and preferred Wikipedia article without changing position. Efficient routes score
 best; three deterministic hint tools trade points for guidance.
 
+Automatic Single player, Multiplayer, and new Daily assignments begin with at least two distinct
+destinations. Explicit replay IDs and already-pinned Daily assignments remain reproducible.
+
 ![A live Webwoven Solo map using the real Compose atlas](docs/assets/screenshots/solo-map.webp)
 
 ## The current atlas
 
 - 3,970 playable Wikidata entities and 22,402 directed, named relationships
 - ten readable knowledge categories
-- 100 validated round candidates, including 40 published routes
+- 100 validated choice-first round candidates, including 40 published routes
+- fact-aware, direction-stable relationship sentences with source ranks preserved when present
 - local, policy-checked Commons media for every entity through 3,621 attributed source files
 - 3,778 preferred Wikipedia article links
 - no Wikidata, Commons, Wikipedia, or AI request during gameplay
@@ -110,7 +114,7 @@ builds in CI.
 - [Architecture](docs/architecture/overview.md)
 - [Data pipeline and provenance](docs/data/pipeline.md)
 - [Local setup and testing surfaces](docs/development/setup.md)
-- [Build Week journal](docs/build-log/2026-07-16.md)
+- [Build Week journal](docs/build-log/2026-07-17.md)
 - [Deployment](docs/operations/deployment.md)
 
 Run `uv run mkdocs serve` for the complete living documentation.

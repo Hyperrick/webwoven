@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 from webwoven_api.domain.scoring import TIME_WINDOWS, Difficulty
-from webwoven_api.graph.contracts import Entity, GraphEdge, Round
+from webwoven_api.graph.contracts import Entity, GraphEdge, RelationDirection, Round
 
 
 @dataclass(frozen=True, slots=True)
@@ -75,13 +75,64 @@ class MemoryGraphReader:
                 "Q5", "London", "Capital of the United Kingdom", "place", "places_architecture"
             ),
         }
-        edge_data = (
-            ("edge-1", "Q1", "Q2", "P108", "worked with"),
-            ("edge-2", "Q2", "Q3", "P61", "designed"),
-            ("edge-3", "Q3", "Q4", "P361", "part of"),
-            ("edge-4", "Q1", "Q5", "P19", "place of birth"),
-            ("edge-5", "Q5", "Q4", "P138", "associated with"),
-            ("edge-6", "Q2", "Q1", "P108", "worked with"),
+        edge_data: tuple[
+            tuple[str, str, str, str, str, str, RelationDirection],
+            ...,
+        ] = (
+            (
+                "edge-1",
+                "Q1",
+                "Q2",
+                "P737",
+                "influenced by",
+                "Ada Lovelace was influenced by Charles Babbage.",
+                "outgoing",
+            ),
+            (
+                "edge-2",
+                "Q2",
+                "Q3",
+                "P170",
+                "creator of",
+                "The Analytical Engine was created by Charles Babbage.",
+                "incoming",
+            ),
+            (
+                "edge-3",
+                "Q3",
+                "Q4",
+                "P361",
+                "part of",
+                "The Analytical Engine is part of the history of the computer.",
+                "outgoing",
+            ),
+            (
+                "edge-4",
+                "Q1",
+                "Q5",
+                "P19",
+                "place of birth",
+                "Ada Lovelace was born in London.",
+                "outgoing",
+            ),
+            (
+                "edge-5",
+                "Q5",
+                "Q4",
+                "P361",
+                "computing history",
+                "London is part of the history of the computer.",
+                "outgoing",
+            ),
+            (
+                "edge-6",
+                "Q2",
+                "Q1",
+                "P737",
+                "influenced by",
+                "Charles Babbage was influenced by Ada Lovelace.",
+                "outgoing",
+            ),
         )
         edges = tuple(
             GraphEdge(
@@ -91,10 +142,11 @@ class MemoryGraphReader:
                 relation_key=relation,
                 relation_label=label,
                 statement_id=f"demo-{edge_id}",
-                explanation=f"{entities[source].label} {label} {entities[target].label}.",
+                explanation=explanation,
                 target=entities[target],
+                direction=direction,
             )
-            for edge_id, source, target, relation, label in edge_data
+            for edge_id, source, target, relation, label, explanation, direction in edge_data
         )
         rounds = tuple(
             Round(

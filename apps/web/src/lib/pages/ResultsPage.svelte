@@ -117,6 +117,7 @@
                   ? "goal"
                   : "node"}
               className="route-reveal__artwork"
+              fit="contain"
               loading="eager"
             />
           {/if}

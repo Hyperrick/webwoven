@@ -10,6 +10,13 @@ from .fixture_catalog import SMOKE_STORIES, FixtureEntitySpec, FixtureFactSpec, 
 from .manifest import build_manifest, write_manifest
 from .models import Edge, Entity
 from .registry import RelationRegistry
+from .relation_semantics import (
+    SEMANTIC_TAG_PLACE,
+    SEMANTIC_TAG_RECOGNITION,
+    RelationEntityProfile,
+    semantic_tags_for_profile,
+)
+from .relation_sentences import format_relation_sentence
 from .round_validation import validate_round_selection
 from .rounds import DEFAULT_SELECTION_SEED, generate_rounds
 
@@ -88,25 +95,53 @@ def build_smoke_graph() -> tuple[tuple[Entity, ...], tuple[Edge, ...]]:
     entities: list[Entity] = []
     edges: list[Edge] = []
     for story in SMOKE_STORIES:
+        recognition_indices = {
+            fact.target_index for fact in story.facts if fact.relation_key == "P166"
+        }
+        place_indices = {fact.source_index for fact in story.facts if fact.relation_key == "P17"}
         category_entities = tuple(
-            _fixture_entity(story, index, spec)
+            _fixture_entity(
+                story,
+                index,
+                spec,
+                recognition=index in recognition_indices,
+                place=index in place_indices,
+            )
             for index, spec in enumerate(story.entities, start=1)
         )
         entities.extend(category_entities)
         for fact_index, fact in enumerate(story.facts, start=1):
             source = category_entities[fact.source_index - 1]
             target = category_entities[fact.target_index - 1]
-            edges.extend(_fixture_edges(story, fact_index, fact, source.id, target.id))
+            edges.extend(_fixture_edges(story, fact_index, fact, source, target))
     return tuple(entities), tuple(sorted(edges, key=lambda item: item.id))
 
 
-def _fixture_entity(story: FixtureStory, index: int, spec: FixtureEntitySpec) -> Entity:
+def _fixture_entity(
+    story: FixtureStory,
+    index: int,
+    spec: FixtureEntitySpec,
+    *,
+    recognition: bool,
+    place: bool,
+) -> Entity:
+    explicit_tags = set[str]()
+    if recognition:
+        explicit_tags.add(SEMANTIC_TAG_RECOGNITION)
+    if place:
+        explicit_tags.add(SEMANTIC_TAG_PLACE)
+    profile = RelationEntityProfile(
+        spec.label,
+        spec.description,
+        semantic_tags=frozenset(explicit_tags),
+    )
     return Entity(
         id=f"fixture:{story.category}:{index:02d}",
         label=spec.label,
         description=spec.description,
         entity_type=spec.entity_type,
         category=story.category,
+        semantic_tags=tuple(sorted(semantic_tags_for_profile(profile))),
     )
 
 
@@ -114,28 +149,44 @@ def _fixture_edges(
     story: FixtureStory,
     fact_index: int,
     fact: FixtureFactSpec,
-    source_id: str,
-    target_id: str,
+    source: Entity,
+    target: Entity,
 ) -> tuple[Edge, Edge]:
     statement_id = f"fixture-statement-{story.category}-{fact_index:02d}"
-    explanation = f"Fictional fixture fact: {fact.statement}"
+    statement = fact.statement
+    if fact.relation_key in {"P17", "P166"}:
+        statement = format_relation_sentence(
+            fact.relation_key,
+            _relation_profile(source),
+            _relation_profile(target),
+            inverse=False,
+        )
+    explanation = f"Fictional fixture fact: {statement}"
     return (
         _fixture_edge(
-            source_id,
-            target_id,
+            source.id,
+            target.id,
             fact.relation_key,
             statement_id,
             explanation,
             inverse=False,
         ),
         _fixture_edge(
-            target_id,
-            source_id,
+            target.id,
+            source.id,
             fact.relation_key,
             statement_id,
             explanation,
             inverse=True,
         ),
+    )
+
+
+def _relation_profile(entity: Entity) -> RelationEntityProfile:
+    return RelationEntityProfile(
+        label=entity.label,
+        description=entity.description,
+        semantic_tags=frozenset(entity.semantic_tags),
     )
 
 

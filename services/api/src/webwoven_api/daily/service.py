@@ -7,6 +7,7 @@ from webwoven_api.daily.models import DailyAssignment, DailyScore, RankedDailySc
 from webwoven_api.daily.repository import DailyRepository
 from webwoven_api.domain.errors import NotFoundError
 from webwoven_api.graph.contracts import GraphReader, Round
+from webwoven_api.graph.round_eligibility import eligible_rounds
 
 
 class DailyService:
@@ -23,9 +24,9 @@ class DailyService:
                 raise NotFoundError("Pinned Daily round is missing from this graph")
             return existing, round_
 
-        rounds = self._graph.list_published_rounds()
+        rounds = eligible_rounds(self._graph, self._graph.list_published_rounds())
         if not rounds:
-            raise NotFoundError("No published rounds are available")
+            raise NotFoundError("No published rounds with multiple opening routes are available")
         digest = hashlib.sha256(
             f"{target_day.isoformat()}:{self._graph.graph_version}".encode()
         ).digest()

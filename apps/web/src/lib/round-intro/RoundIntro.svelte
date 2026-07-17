@@ -32,15 +32,13 @@
       `--category-opacity: ${timeline.category * (1 - categoryExit)}`,
       `--category-shift: ${categoryExit * -48}px`,
       `--endpoint-opacity: ${timeline.endpoints}`,
-      `--endpoint-overlap: ${(1 - timeline.endpoints) * 38}%`,
-      `--endpoint-overlap-negative: ${(1 - timeline.endpoints) * -38}%`,
-      `--endpoint-turn: ${(1 - timeline.endpoints) * 2}deg`,
-      `--endpoint-turn-negative: ${(1 - timeline.endpoints) * -2}deg`,
-      `--thread-scale: ${timeline.endpoints}`,
-      `--launch-x: ${timeline.launch * 38}vw`,
-      `--launch-y: ${timeline.launch * 25}vh`,
-      `--launch-scale: ${1 + timeline.launch * 3.5}`,
-      `--launch-fade: ${1 - timeline.launch}`,
+      `--endpoint-scale: ${1.08 - timeline.zoom_out * 0.44}`,
+      `--endpoint-scale-mobile: ${1.02 - timeline.zoom_out * 0.18}`,
+      `--endpoint-inset: ${(1 - timeline.zoom_out) * 8}vw`,
+      `--endpoint-inset-negative: ${(1 - timeline.zoom_out) * -8}vw`,
+      `--endpoint-inset-mobile: ${(1 - timeline.zoom_out) * 3.5}vh`,
+      `--endpoint-inset-mobile-negative: ${(1 - timeline.zoom_out) * -3.5}vh`,
+      `--intro-opacity: ${1 - timeline.handoff}`,
     ].join("; "),
   );
 
@@ -77,7 +75,6 @@
 <section
   class="round-intro"
   class:round-intro--static={reducedMotion || webglUnavailable}
-  class:round-intro--launch={timeline.phase === "launch"}
   style={visualStyle}
   aria-label={`Round begins in ${countdown} seconds`}
 >
@@ -114,7 +111,6 @@
       <h2>{session.start.label}</h2>
       <p>{session.start.description}</p>
     </article>
-    <div class="round-intro__thread" aria-hidden="true"><i></i></div>
     <article
       class="round-intro__card round-intro__card--goal round-intro__card--with-artwork"
     >

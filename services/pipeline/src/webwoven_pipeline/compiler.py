@@ -3,12 +3,18 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+import unicodedata
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
 from .models import Edge, Entity, GeneratedContent, Round
 from .registry import RelationRegistry
+from .relation_quality import (
+    relationship_explanation_issue,
+    relationship_pairing_issue,
+)
+from .relation_semantics import KNOWN_SEMANTIC_TAGS
 from .rounds import shortest_distances_to_target
 from .wikipedia_articles import is_wikipedia_article_url
 
@@ -136,6 +142,7 @@ def _validate_references(
     content: Mapping[str, GeneratedContent],
 ) -> None:
     entity_ids = {item.id for item in entities}
+    entities_by_id = {item.id: item for item in entities}
     relation_keys = set(registry.by_key)
     round_ids = {item.id for item in rounds}
     if len(entity_ids) != len(entities):
@@ -145,6 +152,15 @@ def _validate_references(
     if len(round_ids) != len(rounds):
         raise GraphCompileError("round IDs must be unique")
     for entity in entities:
+        if _source_text_issue(entity.label, allow_blank=False) is not None:
+            raise GraphCompileError(f"entity {entity.id} has an invalid label")
+        if _source_text_issue(entity.description, allow_blank=True) is not None:
+            raise GraphCompileError(f"entity {entity.id} has an invalid description")
+        unknown_tags = set(entity.semantic_tags) - KNOWN_SEMANTIC_TAGS
+        if unknown_tags:
+            raise GraphCompileError(
+                f"entity {entity.id} has unknown semantic tags: {sorted(unknown_tags)}"
+            )
         if (entity.image_path is None) != (entity.image_attribution is None):
             raise GraphCompileError(
                 f"entity {entity.id} must pair every image with complete attribution"
@@ -156,6 +172,20 @@ def _validate_references(
             raise GraphCompileError(f"edge {edge.id} references an unknown entity")
         if edge.relation_key not in relation_keys:
             raise GraphCompileError(f"edge {edge.id} references an unknown relation")
+        if not edge.statement_id.strip() or edge.statement_id != edge.statement_id.strip():
+            raise GraphCompileError(f"edge {edge.id} has an invalid statement ID")
+        if edge.series_ordinal is not None and (
+            not edge.series_ordinal.strip() or edge.series_ordinal != edge.series_ordinal.strip()
+        ):
+            raise GraphCompileError(f"edge {edge.id} has an invalid series ordinal")
+        if not edge.explanation.strip():
+            raise GraphCompileError(f"edge {edge.id} has a blank explanation")
+        quality_issue = relationship_explanation_issue(edge, entities_by_id)
+        if quality_issue is not None:
+            raise GraphCompileError(f"edge {edge.id} has a misleading explanation: {quality_issue}")
+    pairing_issue = relationship_pairing_issue(edges)
+    if pairing_issue is not None:
+        raise GraphCompileError(f"relationship directions are inconsistent: {pairing_issue}")
     for round_value in rounds:
         if round_value.start_id not in entity_ids or round_value.target_id not in entity_ids:
             raise GraphCompileError(f"round {round_value.id} references an unknown entity")
@@ -168,6 +198,16 @@ def _validate_references(
             raise GraphCompileError(f"Codex content for {round_id} is not approved")
         if generator not in {"codex", "deterministic_fallback"}:
             raise GraphCompileError(f"content for {round_id} has an unsupported generator")
+
+
+def _source_text_issue(value: str, *, allow_blank: bool) -> str | None:
+    if not allow_blank and not value:
+        return "blank"
+    if value != value.strip() or "\n" in value or "\r" in value:
+        return "not normalized"
+    if any(unicodedata.category(character) == "Cf" for character in value):
+        return "invisible formatting"
+    return None
 
 
 def _insert_metadata(
