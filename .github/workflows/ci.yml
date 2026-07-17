@@ -83,6 +83,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: production-database-password-123456
           WEBWOVEN_SITE_ADDRESS: https://webwoven.example.com
+          WEBWOVEN_REDIRECT_ADDRESS: https://example.com
           WEBWOVEN_ORIGIN: https://webwoven.example.com
           WEBWOVEN_API_ORIGIN: https://webwoven.example.com
           WEBWOVEN_SESSION_SECRET: ci-only-not-a-secret-session-0123456789abcdef
