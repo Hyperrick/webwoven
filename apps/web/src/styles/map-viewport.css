@@ -1,4 +1,20 @@
+.map-viewport-layout {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.map-utility-rail {
+  display: contents;
+}
+
+.map-utility-rail__hints {
+  grid-row: 2;
+  min-width: 0;
+}
+
 .map-viewport {
+  grid-row: 1;
   position: relative;
   width: 100%;
   height: auto;
@@ -109,6 +125,96 @@
 .map-viewport-controls__divider {
   width: 0.25rem;
   background: var(--color-ochre);
+}
+
+.map-viewport-controls--rail {
+  display: none;
+}
+
+@media (width > 50rem) {
+  .map-viewport-layout {
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 6.5rem;
+    gap: var(--space-2);
+  }
+
+  .map-utility-rail {
+    position: relative;
+    z-index: 12;
+    grid-row: 1;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 0;
+    background: transparent;
+  }
+
+  .map-utility-rail__hints {
+    grid-row: auto;
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+  }
+
+  .map-utility-rail__navigation {
+    position: relative;
+    flex: 0 0 auto;
+    margin-bottom: var(--space-1);
+    padding: var(--space-2) var(--space-2) var(--space-3);
+  }
+
+  .map-utility-rail__navigation::after {
+    position: absolute;
+    right: var(--space-3);
+    bottom: 0;
+    left: var(--space-3);
+    height: 1px;
+    background: var(--color-rule);
+    content: "";
+  }
+
+  .map-viewport {
+    grid-row: 1;
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .map-viewport-controls--canvas {
+    display: none;
+  }
+
+  .map-viewport-controls--rail {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    width: 100%;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .map-viewport-controls--rail button,
+  .map-viewport-controls--rail output {
+    grid-column: span 2;
+    min-width: 0;
+    min-height: 2rem;
+    padding: var(--space-1);
+    border: 0;
+    background: transparent;
+  }
+
+  .map-viewport-controls--rail .map-viewport-controls__divider {
+    display: none;
+  }
+
+  .map-viewport-controls--rail .map-viewport-controls__labelled {
+    grid-column: span 3;
+    justify-content: center;
+    min-height: 2rem;
+    padding-inline: var(--space-1);
+    font-size: 0;
+  }
 }
 
 .map-navigation-help {

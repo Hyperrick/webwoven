@@ -117,16 +117,18 @@
       {onBack}
       backDestinationLabel={backDestination?.label}
       onCompassSelect={useCompass}
-    />
-
-    <HintDock
-      groups={session.relation_groups}
-      used={session.hints_used}
-      disabled={locked}
-      {compassSelecting}
-      {onHint}
-      onCompassToggle={toggleCompassSelection}
-    />
+    >
+      {#snippet railFooter()}
+        <HintDock
+          groups={session.relation_groups}
+          used={session.hints_used}
+          disabled={locked}
+          {compassSelecting}
+          {onHint}
+          onCompassToggle={toggleCompassSelection}
+        />
+      {/snippet}
+    </GameMapBoard>
   </div>
 
   {#if introActive}

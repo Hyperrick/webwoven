@@ -1,21 +1,36 @@
 .game-map {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   min-height: 0;
   padding: 0;
   overflow: hidden;
 }
 
+.game-map__frame {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+}
+
 .game-map__header {
+  position: relative;
+  z-index: 13;
   display: flex;
-  gap: var(--space-5);
-  align-items: end;
+  gap: var(--space-4);
+  align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-rule);
   border-bottom: 0;
   border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
   background: var(--color-paper);
+}
+
+.game-map__header-tools {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--space-2);
+  align-items: center;
 }
 
 .game-map__prompt,
@@ -25,11 +40,13 @@
 }
 
 .game-map__prompt {
-  width: min(36rem, 72%);
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
 }
 
 .game-map__prompt h2 {
-  margin-block: 0.1rem var(--space-1);
+  margin-block: 0.05rem 0;
 }
 
 .game-map__prompt > p:last-child {
@@ -47,6 +64,17 @@
   flex: 0 0 auto;
   gap: var(--space-3);
   align-items: center;
+}
+
+.game-map__instruction--compact {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .game-map__history {
@@ -220,7 +248,8 @@
   }
 
   .game-map__prompt {
-    width: min(34rem, 76%);
+    width: auto;
+    min-width: 0;
   }
 
   .game-map__prompt > p:last-child {
@@ -231,7 +260,7 @@
 @media (width <= 50rem) {
   .game-map {
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     min-height: 0;
     margin-block: var(--space-2) 0;
     padding: 0;
@@ -243,6 +272,10 @@
   .game-map__header {
     align-items: start;
     padding: var(--space-3) var(--space-4);
+  }
+
+  .game-map__header-tools {
+    gap: var(--space-2);
   }
 
   .game-map__prompt {

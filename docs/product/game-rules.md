@@ -137,6 +137,13 @@ Difficulty windows are 120, 180, and 240 seconds for easy, normal, and hard.
 
 Selection is graph-derived. Generated language may describe a hint, but it never chooses one.
 Hint feedback uses plain language and never exposes raw property IDs as player instructions.
+On desktop and tablet, route count and map help share the compact map header with the move prompt. A
+narrow rail on the map's right keeps zoom, Fit map, and Current at the top, then distributes the
+three hint tools in a compact stack below a short divider. Hint explanations open inward on hover or
+keyboard focus while the score penalty remains visible. The rail uses icon-only navigation and no
+persistent panel or button outlines. Floating hint feedback never intercepts map input, and the node
+canvas contains no persistent visible controls. Phone layouts keep the compact canvas toolbar and
+horizontal hint dock.
 
 ## Live Relay
 

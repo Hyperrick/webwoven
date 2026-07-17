@@ -148,7 +148,6 @@
       <div class="cartographer-recap__copy">
         <p class="eyebrow">Cartographer’s note</p>
         <blockquote>“{recap}”</blockquote>
-        <p>Deterministic recap from the route recorded above.</p>
       </div>
     </div>
     {#if session.mode === "daily"}
