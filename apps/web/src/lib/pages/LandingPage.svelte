@@ -1,4 +1,5 @@
 <script lang="ts">
+  import LandingRouteMap from "../components/LandingRouteMap.svelte";
   import PlayModeChooser from "../components/PlayModeChooser.svelte";
   import SiteFooter from "../components/SiteFooter.svelte";
   import { createLandingRoutePreview } from "../domain/landing-route-preview";
@@ -34,17 +35,7 @@
       <div class="hero-route__stamp">
         <span>Route no.</span><strong>{route.number}</strong>
       </div>
-      <ol>
-        {#each route.steps as step, index}
-          <li class:hero-route__step--hidden={step.hidden}>
-            <span>{step.number}</span>
-            <strong aria-label={step.hidden ? "Connection hidden" : undefined}
-              >{step.label}</strong
-            >
-            {#if index < route.steps.length - 1}<i aria-hidden="true"></i>{/if}
-          </li>
-        {/each}
-      </ol>
+      <LandingRouteMap {route} />
       <p>{route.moves} moves · {route.categoryPath}</p>
     </div>
   </section>

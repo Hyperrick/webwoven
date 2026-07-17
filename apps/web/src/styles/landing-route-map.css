@@ -1,0 +1,207 @@
+.landing-route-map {
+  position: relative;
+  z-index: 1;
+  height: 21rem;
+  overflow: hidden;
+}
+
+.landing-route-map__drawing,
+.landing-route-map ol {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-route-map__drawing {
+  display: block;
+}
+
+.landing-route-map__drawing line,
+.landing-route-map__drawing path,
+.landing-route-map__drawing ellipse {
+  vector-effect: non-scaling-stroke;
+}
+
+.landing-route-map__grid line {
+  stroke: var(--color-rule);
+  stroke-width: 1px;
+  opacity: 0.48;
+}
+
+.landing-route-map__folds line {
+  stroke: var(--color-muted-ink);
+  stroke-dasharray: 3 2;
+  stroke-width: 1px;
+  opacity: 0.3;
+}
+
+.landing-route-map__contours ellipse {
+  fill: none;
+  stroke: var(--color-ochre);
+  stroke-width: 1px;
+  opacity: 0.22;
+}
+
+.landing-route-map__route,
+.landing-route-map__known-segment {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6px;
+}
+
+.landing-route-map__route {
+  stroke-dasharray: 6 6;
+  opacity: 0.8;
+}
+
+.landing-route-map__known-segment {
+  opacity: 1;
+}
+
+.landing-route-map__registration path {
+  fill: none;
+  stroke: var(--color-muted-ink);
+  stroke-width: 1px;
+  opacity: 0.45;
+}
+
+.landing-route-map__column-labels,
+.landing-route-map__row-labels {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: 0.625rem;
+  opacity: 0.62;
+}
+
+.landing-route-map__column-labels {
+  top: var(--space-2);
+  right: 10%;
+  left: 10%;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+}
+
+.landing-route-map__row-labels {
+  top: 12%;
+  bottom: 12%;
+  left: var(--space-2);
+  grid-template-rows: repeat(4, 1fr);
+  align-items: center;
+}
+
+.landing-route-map ol {
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.landing-route-map__waypoint {
+  position: absolute;
+  top: var(--map-y);
+  left: var(--map-x);
+  transform: translate(-50%, -50%);
+}
+
+.landing-route-map__sealed-node,
+.landing-route-map__endpoint-node {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--color-signal);
+  border-radius: 50%;
+  background: var(--color-paper);
+}
+
+.landing-route-map__sealed-node {
+  color: var(--color-signal);
+  font-family: var(--font-technical);
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+.landing-route-map__endpoint-node::after {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-ink);
+  content: "";
+}
+
+.landing-route-map__waypoint--goal .landing-route-map__endpoint-node {
+  border-color: var(--color-moss);
+}
+
+.hero-route__step--hidden strong {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.landing-route-map__endpoint-copy {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: max-content;
+  max-width: 12rem;
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-paper);
+  transform: translateY(-50%);
+}
+
+.landing-route-map__waypoint--start .landing-route-map__endpoint-copy {
+  left: 2rem;
+}
+
+.landing-route-map__waypoint--goal .landing-route-map__endpoint-copy {
+  right: 2rem;
+  text-align: right;
+}
+
+.landing-route-map__endpoint-copy small {
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.landing-route-map__endpoint-copy strong {
+  font-family: var(--font-display);
+  font-size: var(--text-20);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+@media (width <= 68rem) {
+  .landing-route-map__endpoint-copy {
+    max-width: 9rem;
+  }
+}
+
+@media (width <= 32rem) {
+  .landing-route-map {
+    height: 19rem;
+  }
+
+  .landing-route-map__endpoint-copy {
+    max-width: 8.5rem;
+  }
+
+  .landing-route-map__endpoint-copy strong {
+    font-size: var(--text-16);
+  }
+}

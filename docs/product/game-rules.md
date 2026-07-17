@@ -18,7 +18,8 @@ Relay-room, and new Daily assignment pools verify that invariant again before se
 round IDs and already-pinned Daily assignments remain available for deterministic replay.
 
 Every mode reveals its category, difficulty, start, and goal during a five-second introduction that
-ends at the server-owned `started_at` timestamp. Relay participants share exactly one timestamp.
+ends at the server-owned `started_at` timestamp. The category remains visible above the start and
+goal cards while the endpoints are revealed. Relay participants share exactly one timestamp.
 Movement is unavailable before it, and elapsed play time begins from it. Reduced motion or missing
 WebGL changes the presentation, not the duration or control boundary.
 
@@ -84,10 +85,15 @@ destinations into the current board. The projection is deterministic, rotates
 across relationship types, and retains a distance-reducing edge whenever one remains route-safe. A
 branch can still end when every remaining edge would repeat the active route or when the underlying
 graph has no playable continuation; in that case the contextual Back recovery applies. The board
-layout uses fixed deterministic 30rem columns and vertical lanes derived from the session snapshot,
-so the same graph state produces the same positions without a hand-authored scene. Only the
-rightmost frontier contains command tokens or move controls. Historical columns contain semantic
-entity and relationship summaries with read-only inspection controls.
+layout uses fixed deterministic 26rem columns and vertical lanes derived from the session snapshot,
+so the same graph state produces the same positions without a hand-authored scene. A distant goal
+marker receives a wider 52rem terminal gap from the active frontier, while a goal that becomes an
+immediate move joins the ordinary choice column. The camera and Fit Map bounds use that same layout
+geometry. The current card docks its right edge over the current token, and the distant-goal card
+mirrors that treatment from its left edge. Each card masks half of its token so routes visually leave
+the current entity and enter the destination through one shared anchor. Only the rightmost frontier
+contains command tokens or move controls. Historical columns contain semantic entity and
+relationship summaries with read-only inspection controls.
 
 Before presenting a frontier with only one distinct destination, the server follows that forced
 continuation through the stored graph. If it reaches neither the round target nor a node with at

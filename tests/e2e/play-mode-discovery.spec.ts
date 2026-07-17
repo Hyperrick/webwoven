@@ -35,6 +35,8 @@ test("landing communicates the game and its three play modes", async ({
     await expect(button.getByText(mode.copy, { exact: true })).toBeVisible();
   }
   const routePreview = page.getByLabel("Example knowledge route");
+  await expect(routePreview.locator(".landing-route-map")).toBeVisible();
+  await expect(routePreview.locator(".landing-route-map__drawing")).toBeVisible();
   await expect(routePreview.locator("li")).toHaveCount(5);
   await expect(routePreview.locator(".hero-route__step--hidden")).toHaveCount(
     3,

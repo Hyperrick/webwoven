@@ -65,14 +65,14 @@
   box-shadow: var(--shadow-paper);
 }
 
-.map-position--current,
-.map-position--goal:not(.map-position--reachable) {
-  transform: translate(-50%, calc(-100% - var(--map-node-card-clearance)));
-}
-
 .map-position--current {
   border-bottom: 4px solid var(--color-signal);
   pointer-events: none;
+  transform: translate(-100%, -50%);
+}
+
+.map-position--goal:not(.map-position--reachable) {
+  transform: translate(0, -50%);
 }
 
 .map-position--goal {

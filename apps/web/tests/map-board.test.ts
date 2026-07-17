@@ -296,7 +296,7 @@ describe("deterministic map board", () => {
     expect(currentNode?.roles).toEqual(["start", "trail", "current"]);
   });
 
-  it("reserves a separate lane for a distant goal marker", () => {
+  it("clusters ordinary nodes and reserves a wider gap for a distant goal", () => {
     const board = buildMapBoard(
       snapshot([
         group("P800", "notable work", "outgoing", [
@@ -322,9 +322,11 @@ describe("deterministic map board", () => {
       ((goalNode?.position.x ?? 0) - (choiceNode?.position.x ?? 0)) *
       board.layout.width_units;
 
-    expect(board.layout.column_gap_units).toBe(30);
-    expect(currentToChoiceGap).toBeCloseTo(30);
-    expect(choiceToGoalGap).toBeCloseTo(30);
+    expect(board.layout.column_gap_units).toBe(26);
+    expect(board.layout.goal_gap_units).toBe(52);
+    expect(currentToChoiceGap).toBeCloseTo(26);
+    expect(choiceToGoalGap).toBeCloseTo(52);
+    expect(choiceToGoalGap).toBeGreaterThan(currentToChoiceGap);
   });
 
   it("uses fixed vertical lanes for every onward choice", () => {

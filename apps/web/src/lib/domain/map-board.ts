@@ -11,6 +11,7 @@ import {
   createMapBoardLayout,
   laneY,
   pointForColumn,
+  pointForDistantGoal,
 } from "./map-board-layout";
 import type {
   MapBoard,
@@ -235,12 +236,7 @@ function goalMarker(
     label: snapshot.target.label,
     summary: snapshot.target,
     roles: roles("goal"),
-    position: pointForColumn(
-      layout.active_choice_column + 1,
-      centerY(layout),
-      snapshot.target.qid,
-      layout,
-    ),
+    position: pointForDistantGoal(centerY(layout), snapshot.target.qid, layout),
     choice_ids: [],
     stage_index: layout.active_choice_column + 1,
   };

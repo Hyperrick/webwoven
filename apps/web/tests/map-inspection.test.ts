@@ -53,6 +53,7 @@ function board(nodes: MapBoardNode[], links: MapBoardLink[] = []): MapBoard {
       minimum_width_units: 88,
       minimum_height_units: 38,
       column_gap_units: 26,
+      goal_gap_units: 52,
       choice_top_units: 12,
       choice_lane_gap_units: 7.5,
       bottom_clearance_units: 10,
