@@ -30,6 +30,12 @@ best; three deterministic hint tools trade points for guidance.
 Automatic Single player, Multiplayer, and new Daily assignments begin with at least two distinct
 destinations. Explicit replay IDs and already-pinned Daily assignments remain reproducible.
 
+The route atlas expands as you play: desktop and tablet preserve a left-to-right map with navigation
+and hints in a lightweight side rail, while phones project the same deterministic graph into a
+top-to-bottom two-column constellation. Phone choices preview on the first tap and confirm on the
+second; on every layout, activating the immediately previous node twice performs Back. Earlier
+branches remain visible and inspectable without placing controls over the node canvas.
+
 ![A live Webwoven Solo map using the real Compose atlas](docs/assets/screenshots/solo-map.webp)
 
 ## The current atlas
