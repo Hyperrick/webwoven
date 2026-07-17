@@ -37,6 +37,7 @@ cookie_secure=$(read_env WEBWOVEN_COOKIE_SECURE)
 origin=$(read_env WEBWOVEN_ORIGIN)
 api_origin=$(read_env WEBWOVEN_API_ORIGIN)
 site_address=$(read_env WEBWOVEN_SITE_ADDRESS)
+redirect_address=$(read_env WEBWOVEN_REDIRECT_ADDRESS)
 session_secret=$(read_env WEBWOVEN_SESSION_SECRET)
 edge_secret=$(read_env WEBWOVEN_EDGE_SECRET)
 postgres_password=$(read_env POSTGRES_PASSWORD)
@@ -50,7 +51,7 @@ if [ "$cookie_secure" != "true" ]; then
   echo "WEBWOVEN_COOKIE_SECURE must be true." >&2
   exit 1
 fi
-for address in "$origin" "$api_origin" "$site_address"; do
+for address in "$origin" "$api_origin" "$site_address" "$redirect_address"; do
   case "$address" in
     https://*) ;;
     *)
@@ -59,6 +60,10 @@ for address in "$origin" "$api_origin" "$site_address"; do
       ;;
   esac
 done
+if [ "$site_address" = "$redirect_address" ]; then
+  echo "The canonical site and redirect address must be different." >&2
+  exit 1
+fi
 
 reject_placeholder WEBWOVEN_SESSION_SECRET "$session_secret" 32
 reject_placeholder WEBWOVEN_EDGE_SECRET "$edge_secret" 32
@@ -77,6 +82,7 @@ export WEBWOVEN_COOKIE_SECURE="$cookie_secure"
 export WEBWOVEN_ORIGIN="$origin"
 export WEBWOVEN_API_ORIGIN="$api_origin"
 export WEBWOVEN_SITE_ADDRESS="$site_address"
+export WEBWOVEN_REDIRECT_ADDRESS="$redirect_address"
 export WEBWOVEN_SESSION_SECRET="$session_secret"
 export WEBWOVEN_EDGE_SECRET="$edge_secret"
 export POSTGRES_PASSWORD="$postgres_password"

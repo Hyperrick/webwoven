@@ -19,8 +19,8 @@ graph_path = pathlib.Path(sys.argv[2])
 bundle_dir = pathlib.Path(sys.argv[1]).parent
 if manifest.get("bundle_kind") != "wikidata":
     raise SystemExit("deployment requires a Wikidata graph bundle")
-if manifest.get("graph_schema_version") != 2:
-    raise SystemExit("deployment requires graph schema v2")
+if manifest.get("graph_schema_version") != 3:
+    raise SystemExit("deployment requires graph schema v3")
 if not manifest.get("source_batches"):
     raise SystemExit("Wikidata bundle has no source batch provenance")
 artifacts = manifest.get("artifacts", [])
@@ -58,7 +58,7 @@ with sqlite3.connect(f"file:{graph_path}?mode=ro", uri=True) as connection:
     metadata = dict(connection.execute("SELECT key, value FROM metadata"))
 if metadata.get("graph_build_id") != manifest.get("graph_build_id"):
     raise SystemExit("graph build ID does not match manifest")
-if metadata.get("schema_version") != "2":
-    raise SystemExit("compiled graph is not schema v2")
+if metadata.get("schema_version") != "3":
+    raise SystemExit("compiled graph is not schema v3")
 print(f"verified graph {manifest.get('graph_build_id', 'unknown')} ({actual[:12]})")
 PY

@@ -19,8 +19,10 @@ creation and billable resources require explicit cost confirmation at deployment
 
 Copy `.env.production.example` to `.env` and replace every placeholder with an unquoted value.
 Generate URL-safe secrets, for example with `openssl rand -hex 32`. The browser origin, API origin,
-and Caddy site address must all use HTTPS; the session and edge secrets must be different; secure
-cookies must be enabled; and `WEBWOVEN_GRAPH_DIR` must name an existing, checksum-verified bundle.
+and Caddy site address must all use HTTPS; the separate redirect address must name the non-canonical
+HTTPS host; the session and edge secrets must be different; secure cookies must be enabled; and
+`WEBWOVEN_GRAPH_DIR` must name an existing, checksum-verified bundle. Caddy permanently redirects
+the redirect address to the canonical site while preserving the request path and query string.
 
 `infra/scripts/deploy.sh` validates these invariants without printing secrets, validates the merged
 Compose model, and then deploys with both Compose files. The production override publishes ports
