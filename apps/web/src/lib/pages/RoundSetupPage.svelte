@@ -1,7 +1,13 @@
 <script lang="ts">
-  import type { Difficulty } from "../api/types";
+  import type { Difficulty, RoundFilters } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
+  import CategoryPicker from "../components/CategoryPicker.svelte";
   import DifficultyPicker from "../components/DifficultyPicker.svelte";
+  import {
+    loadCategoryFilter,
+    persistCategoryFilter,
+    roundFilters,
+  } from "../round-setup/category-filter";
   import { loadDifficulty, persistDifficulty } from "../round-setup/difficulty";
 
   let {
@@ -9,14 +15,16 @@
     onConfirm,
   }: {
     busy?: boolean;
-    onConfirm: (difficulty: Difficulty) => void;
+    onConfirm: (filters: RoundFilters) => void;
   } = $props();
 
   let difficulty = $state<Difficulty>(loadDifficulty("solo"));
+  let category = $state(loadCategoryFilter("solo"));
 
   function confirm(): void {
     persistDifficulty("solo", difficulty);
-    onConfirm(difficulty);
+    persistCategoryFilter("solo", category);
+    onConfirm(roundFilters(difficulty, category));
   }
 </script>
 
@@ -28,12 +36,17 @@
         Set the depth<br /><em>of the expedition.</em>
       </h1>
       <p>
-        The category and endpoints stay sealed until the atlas opens. Confirm a
-        difficulty for this round.
+        Choose a topic or leave the whole atlas open. The endpoints stay sealed
+        until the route is revealed.
       </p>
     </div>
 
     <div class="round-setup__form">
+      <CategoryPicker
+        id="solo-category"
+        bind:value={category}
+        disabled={busy}
+      />
       <DifficultyPicker bind:value={difficulty} disabled={busy} />
       <button
         class="primary-action round-setup__confirm"

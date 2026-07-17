@@ -1,7 +1,13 @@
 <script lang="ts">
-  import type { Difficulty, RoomSnapshot } from "../api/types";
+  import type { Difficulty, RoomSnapshot, RoundFilters } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
+  import CategoryPicker from "../components/CategoryPicker.svelte";
   import DifficultyPicker from "../components/DifficultyPicker.svelte";
+  import {
+    loadCategoryFilter,
+    persistCategoryFilter,
+    roundFilters,
+  } from "../round-setup/category-filter";
   import { loadDifficulty, persistDifficulty } from "../round-setup/difficulty";
 
   let {
@@ -14,7 +20,7 @@
   }: {
     room?: RoomSnapshot;
     busy?: boolean;
-    onCreate: (difficulty: Difficulty) => void;
+    onCreate: (filters: RoundFilters) => void;
     onJoin: (code: string) => void;
     onReady: () => void;
     onStart: () => void;
@@ -22,6 +28,7 @@
 
   let code = $state("");
   let relayDifficulty = $state<Difficulty>(loadDifficulty("relay"));
+  let relayCategory = $state(loadCategoryFilter("relay"));
   let allReady = $derived(
     room?.players.every((player) => player.ready) ?? false,
   );
@@ -31,7 +38,8 @@
 
   function createRoom(): void {
     persistDifficulty("relay", relayDifficulty);
-    onCreate(relayDifficulty);
+    persistCategoryFilter("relay", relayCategory);
+    onCreate(roundFilters(relayDifficulty, relayCategory));
   }
 
   function titleCase(value: string): string {
@@ -61,6 +69,11 @@
           <p>
             Receive a short field code and invite up to three other explorers.
           </p>
+          <CategoryPicker
+            id="relay-category"
+            bind:value={relayCategory}
+            disabled={busy}
+          />
           <DifficultyPicker
             bind:value={relayDifficulty}
             legend="Relay difficulty"

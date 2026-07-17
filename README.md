@@ -33,6 +33,10 @@ content review, demo recording, and submission polish—not rebuilding the core 
 - **Daily challenge** — solve the same connection as everyone else and compare scores.
 - **Multiplayer** — race a synchronized route live with two to four players, including reconnect.
 
+Solo players and Multiplayer hosts can leave the whole atlas open or filter the start and goal to
+one of ten topics. The connecting route may still cross categories, preserving the graph's
+surprising bridges. Daily category and difficulty remain shared, curated assignments.
+
 A round reveals a start, a goal, category, difficulty, and known par. Each move follows one
 documented graph relationship. Players can inspect the underlying fact, documentary image,
 attribution, and preferred Wikipedia article without changing position. Efficient routes score

@@ -7,9 +7,9 @@
   import { createRuntimeApi } from "./lib/api/runtime-api";
   import type {
     DailyLeaderboard,
-    Difficulty,
     Guest,
     HintType,
+    RoundFilters,
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
@@ -209,16 +209,16 @@
     if (await restoreSession("daily")) return;
     await run(async () => {
       const round = await api.getDaily();
-      session = await games.start("daily", round.round_id);
+      session = await games.start("daily", { roundId: round.round_id });
       session = { ...session, shortest_distance: round.optimal_distance };
       persistActiveSession(session);
       reportRoundStarted(session);
     });
   }
 
-  async function confirmSolo(difficulty: Difficulty): Promise<void> {
+  async function confirmSolo(filters: RoundFilters): Promise<void> {
     await run(async () => {
-      session = await games.start("solo", undefined, difficulty);
+      session = await games.start("solo", filters);
       persistActiveSession(session);
       reportRoundStarted(session);
     });
@@ -266,9 +266,9 @@
     });
   }
 
-  async function createRoom(difficulty: Difficulty): Promise<void> {
+  async function createRoom(filters: RoundFilters): Promise<void> {
     await run(async () => {
-      room = await rooms.create(difficulty);
+      room = await rooms.create(filters);
       connectRoomEvents(room.code);
     });
   }
@@ -529,7 +529,7 @@
       <LobbyPage
         {room}
         {busy}
-        onCreate={(difficulty) => void createRoom(difficulty)}
+        onCreate={(filters) => void createRoom(filters)}
         onJoin={(code) => void joinRoom(code)}
         onReady={() => void toggleReady()}
         onStart={() => void startRelay()}

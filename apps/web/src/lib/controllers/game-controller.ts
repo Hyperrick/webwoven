@@ -1,7 +1,7 @@
 import type {
   GameMode,
-  Difficulty,
   HintType,
+  RoundFilters,
   SessionSnapshot,
   TrailEntry,
 } from "../api/types";
@@ -88,13 +88,15 @@ export class GameController {
 
   start(
     mode: GameMode,
-    roundId?: string,
-    difficulty?: Difficulty,
+    options: Partial<RoundFilters> & { roundId?: string } = {},
   ): Promise<SessionSnapshot> {
     return this.#api.createSession({
       mode,
-      ...(roundId === undefined ? {} : { round_id: roundId }),
-      ...(difficulty === undefined ? {} : { difficulty }),
+      ...(options.roundId === undefined ? {} : { round_id: options.roundId }),
+      ...(options.difficulty === undefined
+        ? {}
+        : { difficulty: options.difficulty }),
+      ...(options.category === undefined ? {} : { category: options.category }),
     });
   }
 

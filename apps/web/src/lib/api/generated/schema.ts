@@ -664,6 +664,8 @@ export interface components {
         };
         /** RoomCreateRequest */
         RoomCreateRequest: {
+            /** Category */
+            category?: string | null;
             difficulty: components["schemas"]["Difficulty"];
             /** Round Id */
             round_id?: string | null;

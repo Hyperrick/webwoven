@@ -13,6 +13,7 @@ import type {
   Difficulty,
   GameMode,
   Guest,
+  RoundFilters,
   RoomSnapshot,
   SessionCommand,
   SessionSnapshot,
@@ -133,11 +134,11 @@ export class HttpApi implements WebwovenApi {
     );
   }
 
-  async createRoom(difficulty: Difficulty): Promise<RoomSnapshot> {
+  async createRoom(filters: RoundFilters): Promise<RoomSnapshot> {
     return mapRoom(
       await this.#request<WireRoom>("/api/v1/rooms", {
         method: "POST",
-        body: { difficulty },
+        body: filters,
       }),
     );
   }

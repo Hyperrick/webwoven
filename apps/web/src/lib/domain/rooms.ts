@@ -1,4 +1,4 @@
-import type { Difficulty, RoomSnapshot } from "../api/types";
+import type { RoomSnapshot, RoundFilters } from "../api/types";
 import { DEMO_ENTITIES } from "./demo-graph";
 
 function normalizeCode(code: string): string {
@@ -12,12 +12,12 @@ function normalizeCode(code: string): string {
 export class DemoRoomCoordinator {
   #rooms = new Map<string, RoomSnapshot>();
 
-  create(difficulty: Difficulty): RoomSnapshot {
+  create(filters: RoundFilters): RoomSnapshot {
     const room: RoomSnapshot = {
       code: "MAPS27",
       state: "lobby",
-      category: "art_design",
-      difficulty,
+      category: filters.category ?? "art_design",
+      difficulty: filters.difficulty,
       start: DEMO_ENTITIES.Q5586,
       target: DEMO_ENTITIES.Q145,
       max_players: 4,
@@ -50,7 +50,7 @@ export class DemoRoomCoordinator {
     const normalized = normalizeCode(code);
     const room = this.#rooms.get(normalized);
     if (room) return structuredClone(room);
-    const created = this.create("normal");
+    const created = this.create({ difficulty: "normal" });
     const replacement = { ...created, code: normalized || created.code };
     this.#rooms.set(replacement.code, replacement);
     return structuredClone(replacement);

@@ -1,10 +1,12 @@
 import type {
   AppConfig,
+  Category,
   ContentReportInput,
   DailyLeaderboard,
   DailyRound,
   Difficulty,
   Guest,
+  RoundFilters,
   RoomSnapshot,
   SessionCommand,
   SessionSnapshot,
@@ -88,6 +90,8 @@ export class DemoApi implements WebwovenApi {
 
   async createSession(input: {
     mode: "solo" | "daily" | "relay";
+    round_id?: string;
+    category?: Category;
     difficulty?: Difficulty;
   }): Promise<SessionSnapshot> {
     const difficulty = input.difficulty ?? "normal";
@@ -193,8 +197,8 @@ export class DemoApi implements WebwovenApi {
     };
   }
 
-  async createRoom(difficulty: Difficulty): Promise<RoomSnapshot> {
-    return this.#rooms.create(difficulty);
+  async createRoom(filters: RoundFilters): Promise<RoomSnapshot> {
+    return this.#rooms.create(filters);
   }
 
   async joinRoom(code: string): Promise<RoomSnapshot> {

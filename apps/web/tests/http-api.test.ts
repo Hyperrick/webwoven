@@ -71,7 +71,7 @@ describe("HTTP API adapter", () => {
     });
   });
 
-  it("sends the host-selected difficulty when creating a relay", async () => {
+  it("sends the host-selected filters when creating a relay", async () => {
     const room: WireRoom = {
       code: "MAPS27",
       state: "lobby",
@@ -95,10 +95,16 @@ describe("HTTP API adapter", () => {
     );
     const api = new HttpApi({ fetch: fetchMock });
 
-    await api.createRoom("easy");
+    await api.createRoom({
+      difficulty: "easy",
+      category: "science_technology",
+    });
 
     const request = fetchMock.mock.calls[0][1] as RequestInit;
-    expect(JSON.parse(request.body as string)).toEqual({ difficulty: "easy" });
+    expect(JSON.parse(request.body as string)).toEqual({
+      difficulty: "easy",
+      category: "science_technology",
+    });
   });
 
   it("updates the guest name with CSRF protection", async () => {

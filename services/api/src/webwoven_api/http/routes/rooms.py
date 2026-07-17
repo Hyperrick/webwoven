@@ -15,7 +15,12 @@ async def create_room(
     guest: GuestDependency,
     container: ContainerDependency,
 ) -> RoomResponse:
-    room = await container.rooms.create(guest, body.difficulty, body.round_id)
+    room = await container.rooms.create(
+        guest,
+        body.difficulty,
+        category=body.category,
+        round_id=body.round_id,
+    )
     return room_response(room, guest.id, container.graph)
 
 

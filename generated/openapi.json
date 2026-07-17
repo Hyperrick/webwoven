@@ -1005,6 +1005,17 @@
       "RoomCreateRequest": {
         "additionalProperties": false,
         "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
           "difficulty": {
             "$ref": "#/components/schemas/Difficulty"
           },

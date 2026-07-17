@@ -1,4 +1,4 @@
-import type { Difficulty, RoomSnapshot, WebwovenApi } from "../api/types";
+import type { RoomSnapshot, RoundFilters, WebwovenApi } from "../api/types";
 
 export class RoomController {
   readonly #api: WebwovenApi;
@@ -7,8 +7,8 @@ export class RoomController {
     this.#api = api;
   }
 
-  create(difficulty: Difficulty): Promise<RoomSnapshot> {
-    return this.#api.createRoom(difficulty);
+  create(filters: RoundFilters): Promise<RoomSnapshot> {
+    return this.#api.createRoom(filters);
   }
 
   join(code: string): Promise<RoomSnapshot> {

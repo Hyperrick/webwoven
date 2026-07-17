@@ -6,11 +6,14 @@ The player receives a start entity, target entity, and par distance. Selecting a
 entity follows one stored relationship and counts as a move. Back returns to the previous
 navigation node and also counts as a move.
 
-Before a new round, Solo players confirm Easy, Normal, or Hard; relay hosts make the same locked
-choice while creating the room. The last choice is remembered for convenience, but every new Solo
-round requires confirmation. Daily difficulty remains part of its curated assignment. The server
-selects unseen eligible rounds within a per-player cycle and avoids an immediate repeat whenever
-more than one eligible route exists.
+Before a new round, Solo players choose Any category or one of the ten atlas topics, then confirm
+Easy, Normal, or Hard. Relay hosts make the same locked choices while creating the room; joiners see
+the pinned topic but cannot change it. A specific category requires both endpoints to share that
+topic, while intermediate discoveries may cross the wider atlas. The last category and difficulty
+are remembered independently for Solo and Relay, but every new Solo round requires confirmation.
+Daily category and difficulty remain part of its curated assignment. The server selects unseen
+eligible rounds within a per-player category-and-difficulty cycle and avoids an immediate repeat
+whenever more than one eligible route exists.
 
 The data pipeline owns choice-first publication: every generated candidate must start with at least
 two distinct playable targets, with parallel facts to the same target counted once. Automatic Solo,

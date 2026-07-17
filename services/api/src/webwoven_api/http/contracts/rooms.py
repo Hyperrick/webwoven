@@ -11,6 +11,7 @@ from webwoven_api.rooms.models import RoomState
 
 class RoomCreateRequest(ApiModel):
     difficulty: Difficulty
+    category: str | None = None
     round_id: str | None = None
 
 

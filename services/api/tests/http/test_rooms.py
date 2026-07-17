@@ -1,9 +1,39 @@
 """Two-player lobby, server-created relay sessions, and WebSocket snapshot."""
 
+from pathlib import Path
+
 from conftest import create_guest
 from fastapi.testclient import TestClient
 from webwoven_api.main import create_app
 from webwoven_api.settings import Settings
+
+ROOT = Path(__file__).parents[4]
+
+
+def test_host_category_filter_pins_matching_relay_round(app_settings: Settings) -> None:
+    fixture = ROOT / "data/fixtures/smoke"
+    app = create_app(
+        app_settings.model_copy(
+            update={
+                "graph_path": fixture / "graph.sqlite3",
+                "graph_manifest_path": fixture / "manifest.json",
+            }
+        )
+    )
+    with TestClient(app) as client:
+        headers = create_guest(client, "Focused Host")
+        created = client.post(
+            "/api/v1/rooms",
+            headers=headers,
+            json={"difficulty": "normal", "category": "science_technology"},
+        )
+
+        assert created.status_code == 201
+        room = created.json()
+        assert room["category"] == "science_technology"
+        assert room["difficulty"] == "normal"
+        assert room["start"]["category"] == "science_technology"
+        assert room["target"]["category"] == "science_technology"
 
 
 def test_two_player_room_and_reconnect_snapshot(app_settings: Settings) -> None:

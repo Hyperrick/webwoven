@@ -50,7 +50,17 @@ empty history, while new sessions round-trip it through persistence and reconnec
 
 Rooms use six-character Crockford Base32 codes and accept two to four guests. The lifecycle API
 creates or joins a room, changes readiness, starts the countdown, and returns a reconnectable
-snapshot. Moves still use the shared session command endpoint.
+snapshot. `POST /api/v1/rooms` requires `difficulty` and accepts an optional canonical `category`;
+when present, both round endpoints match that category. Omitting it selects from every eligible
+category. The selected round is pinned when the host creates the room, so joiners cannot change the
+filter. Moves still use the shared session command endpoint.
+
+```json
+{
+  "difficulty": "normal",
+  "category": "science_technology"
+}
+```
 
 `/api/v1/ws/rooms/{code}` emits roster, countdown, abstract progress, finish, grace-period, and
 closure events. A reconnect begins with a resume message and receives a complete snapshot before

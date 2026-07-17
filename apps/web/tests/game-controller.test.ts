@@ -79,6 +79,35 @@ function controllerWith(...responses: SessionSnapshot[]) {
 }
 
 describe("API-backed game controller trail enrichment", () => {
+  it("starts a round with structured replay and category filters", async () => {
+    const createSession = vi
+      .fn<WebwovenApi["createSession"]>()
+      .mockResolvedValue(
+        snapshot(entities.start, [
+          { qid: entities.start.qid, label: entities.start.label },
+        ]),
+      );
+    const controller = new GameController({
+      createSession,
+    } as unknown as WebwovenApi);
+
+    await controller.start("solo", {
+      difficulty: "hard",
+      category: "film_media",
+    });
+    await controller.start("daily", { roundId: "daily-2026-07-17" });
+
+    expect(createSession).toHaveBeenNthCalledWith(1, {
+      mode: "solo",
+      difficulty: "hard",
+      category: "film_media",
+    });
+    expect(createSession).toHaveBeenNthCalledWith(2, {
+      mode: "daily",
+      round_id: "daily-2026-07-17",
+    });
+  });
+
   it("keeps earlier relation metadata across multiple authoritative moves", async () => {
     const firstFact =
       "Fictional fixture fact: Elian Voss was born in Gannet Hollow.";

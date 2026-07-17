@@ -70,7 +70,12 @@
 
 .lobby-entry .difficulty-picker {
   width: 100%;
-  margin-block: var(--space-5);
+  margin-block: var(--space-4) var(--space-5);
+}
+
+.lobby-entry .category-picker {
+  width: 100%;
+  margin-top: var(--space-5);
 }
 
 .lobby-entry .difficulty-picker__option {

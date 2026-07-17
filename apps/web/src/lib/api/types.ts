@@ -15,6 +15,12 @@ export type Category =
   | "music_performance"
   | "film_media"
   | "sports_games";
+
+export interface RoundFilters {
+  difficulty: Difficulty;
+  category?: Category;
+}
+
 export type EntitySourceKind = "wikidata" | "synthetic_fixture" | "unknown";
 export type ImageLicenseId =
   | "PUBLIC_DOMAIN"
@@ -248,7 +254,7 @@ export interface WebwovenApi {
   getSession(id: string): Promise<SessionSnapshot>;
   sendCommand(id: string, command: SessionCommand): Promise<SessionSnapshot>;
   getDailyLeaderboard(): Promise<DailyLeaderboard>;
-  createRoom(difficulty: Difficulty): Promise<RoomSnapshot>;
+  createRoom(filters: RoundFilters): Promise<RoomSnapshot>;
   joinRoom(code: string): Promise<RoomSnapshot>;
   setRoomReady(code: string, ready: boolean): Promise<RoomSnapshot>;
   startRoom(code: string): Promise<RoomSnapshot>;

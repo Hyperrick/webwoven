@@ -8,11 +8,15 @@ describe("relay room coordination", () => {
 
   it("requires the current explorer to ready before the demo room can start", () => {
     const rooms = new DemoRoomCoordinator();
-    const room = rooms.create("normal");
+    const room = rooms.create({
+      difficulty: "normal",
+      category: "science_technology",
+    });
     const ready = rooms.ready(room.code, true);
     const started = rooms.start(room.code);
 
     expect(ready.players.every((player) => player.ready)).toBe(true);
+    expect(room.category).toBe("science_technology");
     expect(started.state).toBe("countdown");
     expect(started.starts_at).toBeTruthy();
   });

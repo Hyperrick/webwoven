@@ -40,9 +40,10 @@ class RoomService:
         self,
         guest: Guest,
         difficulty: Difficulty,
+        category: str | None = None,
         round_id: str | None = None,
     ) -> Room:
-        round_ = await self._select_round(guest.id, difficulty, round_id)
+        round_ = await self._select_round(guest.id, difficulty, category, round_id)
         for _ in range(20):
             code = "".join(secrets.choice(_CROCKFORD) for _ in range(6))
             now = datetime.now(UTC)
@@ -273,6 +274,7 @@ class RoomService:
         self,
         guest_id: str,
         difficulty: Difficulty,
+        category: str | None,
         round_id: str | None,
     ) -> Round:
         if round_id is not None:
@@ -282,7 +284,7 @@ class RoomService:
             return round_
         return await self._round_selector.select(
             guest_id=guest_id,
-            category=None,
+            category=category,
             difficulty=difficulty,
             source="relay",
         )
