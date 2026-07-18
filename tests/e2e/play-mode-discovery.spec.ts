@@ -60,4 +60,5 @@ test("landing communicates the game and its three play modes", async ({
   });
   await expect(relayPrompt).toContainText("Live relay");
   await expect(relayPrompt).toContainText("lobby roster and live race");
+  await expect(relayPrompt).toContainText("Daily rankings and Relay lobbies");
 });

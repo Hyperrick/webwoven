@@ -51,7 +51,7 @@
 >
   <label for={inputId}>Public explorer name</label>
   <p id={`${inputId}-help`}>
-    Shown in Daily rankings and Relay rooms. No email or account is attached.
+    Shown in Daily rankings and Relay lobbies. No email or account is attached.
   </p>
   <input
     id={inputId}
