@@ -373,7 +373,7 @@ test("Daily and Live Relay expose their complete entry states", async ({
   );
 
   await page.goto("/relay");
-  await page.getByRole("button", { name: /Create relay/i }).click();
+  await page.getByRole("button", { name: /Create lobby/i }).click();
   await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
   await expect(page.getByText("2 / 4", { exact: true })).toBeVisible();
   await expect(page.locator(".room-route-stamp")).toContainText(
@@ -399,18 +399,80 @@ test("Daily and Live Relay expose their complete entry states", async ({
   ]) {
     await followTo(page, entity);
   }
-  await expect(page).toHaveURL(/\/results$/);
+  await expect(page).toHaveURL(/\/relay\/MAPS27\/results$/);
   await expect(page.locator(".route-confetti")).toHaveCount(1);
   await expect(page.locator(".result-hero__copy")).toContainText(
     "Live relay complete",
   );
-  await page
-    .getByRole("button", { name: /Create or join another Relay/i })
-    .click();
-  await expect(page).toHaveURL(/\/relay$/);
   await expect(
-    page.getByRole("heading", { name: /One atlas.*Several instincts/i }),
+    page.getByRole("heading", { name: "Race another round?" }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Yes, race again" }),
+  ).toBeVisible();
+});
+
+test("mobile Relay keeps a compact roster and complete target HUD", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/relay");
+  const prompt = page.getByRole("dialog", {
+    name: "What should other explorers call you?",
+  });
+  await prompt.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: /Create lobby/i }).click();
+  await expect(
+    page.getByRole("button", { name: "Share lobby MAPS27" }),
+  ).toBeInViewport();
+  await page.getByRole("button", { name: "I’m ready" }).click();
+  await page.getByRole("button", { name: /Start relay/i }).click();
+  const introduction = page.locator(".round-intro");
+  if (await introduction.isVisible()) {
+    await expect(introduction).toBeHidden({ timeout: 20_000 });
+  }
+
+  await expect(page.locator(".race-strip__mobile-summary")).toContainText(
+    "2 players",
+  );
+  await expect(page.locator(".race-strip__roster")).toBeHidden();
+  await expect(page.locator(".round-masthead__identity")).toBeHidden();
+  await expect(page.getByText("Par", { exact: true })).toHaveCount(0);
+  const target = page.locator(".game-metrics__target dd");
+  await expect(target).toHaveText("United Kingdom");
+  await expect(target).toHaveCSS("white-space", "normal");
+  await expect(target).toHaveCSS("text-overflow", "clip");
+
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await expect(page.locator(".race-strip__roster")).toBeVisible();
+  await expect(page.locator(".race-strip__roster")).toContainText(
+    "mapping · 0 moves",
+  );
+});
+
+test("a lobby invite deep link confirms before reusing the current window", async ({
+  page,
+}) => {
+  await page.goto("/relay");
+  const prompt = page.getByRole("dialog", {
+    name: "What should other explorers call you?",
+  });
+  await prompt.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: /Create lobby/i }).click();
+  await expect(
+    page.getByRole("button", { name: "Share lobby MAPS27" }),
+  ).toBeVisible();
+
+  await page.evaluate(() => {
+    window.history.pushState({}, "", "/relay/MAPS27/join");
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  });
+  const invitation = page.getByRole("dialog", { name: /invited you/i });
+  await expect(invitation).toContainText("Open it in this Webwoven window?");
+  await invitation.getByRole("button", { name: "Open lobby" }).click();
+
+  await expect(page).toHaveURL(/\/relay$/);
+  await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
 });
 
 test("a named Daily player is ranked from their completed route", async ({
@@ -466,7 +528,7 @@ test("Settings edits the public name and locks it during a Relay", async ({
     .getByRole("region", { name: "Select play mode" })
     .getByRole("button", { name: /Multiplayer/i })
     .click();
-  await page.getByRole("button", { name: /Create relay/i }).click();
+  await page.getByRole("button", { name: /Create lobby/i }).click();
   await page.getByRole("button", { name: /Open settings/i }).click();
   await expect(page.getByLabel("Public explorer name")).toBeDisabled();
   await expect(
@@ -534,11 +596,21 @@ test("short phone layout keeps HUD, map, and hints in one viewport", async ({
   await expect(page.locator(".map-position--current")).toHaveCount(1);
   await expect(page.locator("[data-mobile-choice-node]")).toHaveCount(2);
   await expect(roundMasthead).toBeInViewport();
-  await expect(page.getByText("Live", { exact: true })).toBeVisible();
+  await expect(page.getByText("Live", { exact: true })).toBeHidden();
   await expect(page.getByText("Round active", { exact: true })).toBeAttached();
   await expect(page.getByText("Time", { exact: true })).toBeVisible();
   await expect(page.getByText("Moves", { exact: true })).toBeVisible();
-  await expect(page.getByText("Par", { exact: true })).toBeVisible();
+  await expect(page.getByText("Par", { exact: true })).toHaveCount(0);
+  await expect(
+    page.locator(".game-metrics__target").getByText("Target", { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".game-metrics__target dd")).toHaveText(
+    "United Kingdom",
+  );
+  await expect(page.locator(".game-metrics__target dd")).toHaveCSS(
+    "white-space",
+    "normal",
+  );
   await expect(page.getByText("Score", { exact: true })).toBeVisible();
   const compactMovePrompt = mapHeader.locator(".game-map__prompt .eyebrow");
   await expect(compactMovePrompt).toHaveText("Your move");
@@ -772,7 +844,10 @@ test("tablet layout uses the compact vertical hint rail", async ({ page }) => {
     "constellation",
   );
   await expect(page.getByText("Live", { exact: true })).toBeHidden();
-  await expect(page.getByText("Round active", { exact: true })).toBeVisible();
+  await expect(page.getByText("Round active", { exact: true })).toBeHidden();
+  await expect(page.locator(".game-metrics__target dd")).toHaveText(
+    "United Kingdom",
+  );
   const tallPhoneMapPrompt = page.getByRole("heading", {
     name: "Where do you go next?",
   });
@@ -785,7 +860,9 @@ test("tablet layout uses the compact vertical hint rail", async ({ page }) => {
       page.locator(".game-map__header").boundingBox(),
     ]);
   expect(tallPhoneHeaderBox?.height ?? 0).toBeGreaterThan(49);
-  expect(tallPhoneMastheadBox?.height ?? 0).toBeGreaterThan(46);
+  expect(
+    tallPhoneMastheadBox?.height ?? Number.POSITIVE_INFINITY,
+  ).toBeLessThanOrEqual(64);
   expect(tallPhoneMapHeaderBox?.height ?? 0).toBeGreaterThan(49);
   await expect(currentNode).toBeInViewport();
   await page.locator("[data-mobile-choice-node]").first().click();

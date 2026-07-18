@@ -28,6 +28,8 @@ class PostgresCompletedRoomRepository:
             .on_conflict_do_update(
                 index_elements=[CompletedRoomRow.code],
                 set_={
+                    "graph_version": room.graph_version,
+                    "round_id": room.round_id,
                     "result_json": document,
                     "completed_at": room.updated_at,
                 },

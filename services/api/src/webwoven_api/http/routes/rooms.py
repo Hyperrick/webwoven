@@ -2,9 +2,15 @@
 
 from fastapi import APIRouter, status
 
-from webwoven_api.http.contracts.rooms import RoomCreateRequest, RoomReadyRequest, RoomResponse
+from webwoven_api.http.contracts.rooms import (
+    RoomCreateRequest,
+    RoomInviteResponse,
+    RoomReadyRequest,
+    RoomRematchRequest,
+    RoomResponse,
+)
 from webwoven_api.http.dependencies import ContainerDependency, GuestDependency
-from webwoven_api.http.presentation.rooms import room_response
+from webwoven_api.http.presentation.rooms import room_invite_response, room_response
 
 router = APIRouter(prefix="/api/v1/rooms", tags=["rooms"])
 
@@ -34,6 +40,16 @@ async def join_room(
     return room_response(room, guest.id, container.graph)
 
 
+@router.get("/{code}/invite", response_model=RoomInviteResponse)
+async def get_room_invite(
+    code: str,
+    guest: GuestDependency,
+    container: ContainerDependency,
+) -> RoomInviteResponse:
+    room = await container.rooms.get_for_invite(code.upper())
+    return room_invite_response(room, guest.id)
+
+
 @router.post("/{code}/ready", response_model=RoomResponse)
 async def ready_room(
     code: str,
@@ -52,6 +68,17 @@ async def start_room(
     container: ContainerDependency,
 ) -> RoomResponse:
     room = await container.rooms.start(code.upper(), guest.id)
+    return room_response(room, guest.id, container.graph)
+
+
+@router.post("/{code}/rematch", response_model=RoomResponse)
+async def vote_room_rematch(
+    code: str,
+    body: RoomRematchRequest,
+    guest: GuestDependency,
+    container: ContainerDependency,
+) -> RoomResponse:
+    room = await container.rooms.vote_rematch(code.upper(), guest.id, body.accept)
     return room_response(room, guest.id, container.graph)
 
 

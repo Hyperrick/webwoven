@@ -37,7 +37,10 @@ class MemoryRoomRepository:
             (
                 room
                 for room in self._rooms.values()
-                if any(participant.session_id == session_id for participant in room.participants)
+                if any(
+                    participant.active and participant.session_id == session_id
+                    for participant in room.participants
+                )
             ),
             None,
         )

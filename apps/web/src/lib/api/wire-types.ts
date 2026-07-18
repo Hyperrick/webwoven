@@ -154,6 +154,7 @@ export interface WireRoom {
     guest_id: string;
     display_name: string;
     is_self: boolean;
+    active: boolean;
     ready: boolean;
     connected: boolean;
     session_id: string | null;
@@ -161,10 +162,23 @@ export interface WireRoom {
     hints_used: number;
     progress_band: number;
     finish_rank: number | null;
+    rematch_vote: boolean | null;
   }>;
   sequence: number;
   countdown_ends_at: string | null;
   grace_ends_at: string | null;
+  rematch_ends_at: string | null;
+  close_reason: "not_enough_players" | null;
+}
+
+export interface WireRoomInvite {
+  code: string;
+  host_display_name: string;
+  state: WireRoom["state"];
+  player_count: number;
+  max_players: number;
+  is_member: boolean;
+  joinable: boolean;
 }
 
 export interface WireConfig {

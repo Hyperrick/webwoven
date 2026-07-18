@@ -9,13 +9,34 @@ from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import GraphReader, Round
 from webwoven_api.guests.models import Guest
 from webwoven_api.rooms.broker import RoomEventBroker
-from webwoven_api.rooms.models import Participant, Room, RoomEvent, RoomState
+from webwoven_api.rooms.events import append_room_event
+from webwoven_api.rooms.models import (
+    Participant,
+    Room,
+    RoomCloseReason,
+    RoomEvent,
+    RoomState,
+)
+from webwoven_api.rooms.participants import (
+    replace_participant,
+    require_active_participant,
+    require_participant,
+)
+from webwoven_api.rooms.progress import progress_band
 from webwoven_api.rooms.repository import RoomRepository
+from webwoven_api.rooms.state_machine import (
+    accepted_rematch_participants,
+    active_participants,
+    close_for_insufficient_rematch,
+    open_rematch_vote,
+    rematch_vote_is_ready,
+)
 from webwoven_api.sessions.models import GameSession, SessionMode, SessionStatus
 from webwoven_api.sessions.selection import RoundSelector
 from webwoven_api.sessions.service import SessionService
 
 _CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+_GRACE_PERIOD = timedelta(seconds=30)
 
 
 class RoomService:
@@ -57,7 +78,7 @@ class RoomService:
                 created_at=now,
                 updated_at=now,
             )
-            room, event = _append_event(room, "room.created", {"code": code})
+            room, event = append_room_event(room, "room.created", {"code": code}, now)
             if await self._repository.create(room):
                 await self._broker.publish(code, event)
                 return room
@@ -66,29 +87,39 @@ class RoomService:
     async def get_for_guest(self, code: str, guest_id: str) -> Room:
         room = await self._get(code)
         if room.participant(guest_id) is None:
-            raise ForbiddenError("Join this room before viewing it")
+            raise ForbiddenError("Join this lobby before viewing it")
         return await self.tick(room)
+
+    async def get_for_invite(self, code: str) -> Room:
+        return await self.tick(await self._get(code))
 
     async def join(self, code: str, guest: Guest) -> Room:
         async with self._repository.lock(code):
             room = await self._get(code)
             existing = room.participant(guest.id)
             if existing is not None:
-                participants = _replace_participant(
+                if not existing.active:
+                    raise DomainError(
+                        "room_membership_ended",
+                        "This player's lobby membership has ended.",
+                    )
+                participants = replace_participant(
                     room.participants,
                     replace(existing, connected=True, display_name=guest.display_name),
                 )
             else:
                 if room.state is not RoomState.LOBBY:
-                    raise DomainError("room_started", "This race has already started.")
-                if len(room.participants) >= 4:
-                    raise DomainError("room_full", "This room already has four players.")
+                    raise DomainError("room_started", "This lobby's race has already started.")
+                if len(active_participants(room)) >= 4:
+                    raise DomainError("room_full", "This lobby already has four players.")
                 participants = (*room.participants, Participant(guest.id, guest.display_name))
-            room = replace(room, participants=participants, updated_at=datetime.now(UTC))
-            room, event = _append_event(
+            now = datetime.now(UTC)
+            room = replace(room, participants=participants, updated_at=now)
+            room, event = append_room_event(
                 room,
                 "participant.joined",
                 {"guest_id": guest.id, "display_name": guest.display_name},
+                now,
             )
             await self._repository.save(room)
         await self._broker.publish(code, event)
@@ -98,14 +129,18 @@ class RoomService:
         async with self._repository.lock(code):
             room = await self._get(code)
             if room.state is not RoomState.LOBBY:
-                raise DomainError("room_started", "Readiness is locked after countdown begins.")
-            participant = _require_participant(room, guest_id)
-            participants = _replace_participant(
-                room.participants, replace(participant, ready=ready)
-            )
-            room = replace(room, participants=participants, updated_at=datetime.now(UTC))
-            room, event = _append_event(
-                room, "participant.ready", {"guest_id": guest_id, "ready": ready}
+                raise DomainError(
+                    "room_started", "Lobby readiness is locked after countdown begins."
+                )
+            participant = require_active_participant(room, guest_id)
+            participants = replace_participant(room.participants, replace(participant, ready=ready))
+            now = datetime.now(UTC)
+            room = replace(room, participants=participants, updated_at=now)
+            room, event = append_room_event(
+                room,
+                "participant.ready",
+                {"guest_id": guest_id, "ready": ready},
+                now,
             )
             await self._repository.save(room)
         await self._broker.publish(code, event)
@@ -115,17 +150,18 @@ class RoomService:
         async with self._repository.lock(code):
             room = await self._get(code)
             if room.host_guest_id != guest_id:
-                raise ForbiddenError("Only the host can start the race")
+                raise ForbiddenError("Only the lobby host can start the race")
             if room.state is not RoomState.LOBBY:
-                raise DomainError("room_started", "This race has already started.")
-            if len(room.participants) < 2:
+                raise DomainError("room_started", "This lobby's race has already started.")
+            participants = active_participants(room)
+            if len(participants) < 2:
                 raise DomainError("not_enough_players", "Live Relay needs at least two players.")
-            if not all(participant.ready for participant in room.participants):
+            if not all(participant.ready for participant in participants):
                 raise DomainError("players_not_ready", "Every player must be ready.")
 
             countdown_ends_at = datetime.now(UTC) + timedelta(seconds=self._start_delay_seconds)
-            participants: list[Participant] = []
-            for participant in room.participants:
+            started: list[Participant] = []
+            for participant in participants:
                 session = await self._sessions.create(
                     guest_id=participant.guest_id,
                     mode=SessionMode.RELAY,
@@ -133,15 +169,18 @@ class RoomService:
                     room_code=room.code,
                     starts_at=countdown_ends_at,
                 )
-                participants.append(replace(participant, session_id=session.id))
+                started.append(replace(participant, session_id=session.id))
             room = replace(
                 room,
                 state=RoomState.COUNTDOWN,
-                participants=tuple(participants),
+                participants=tuple(started),
                 countdown_ends_at=countdown_ends_at,
+                grace_ends_at=None,
+                rematch_ends_at=None,
+                close_reason=None,
                 updated_at=datetime.now(UTC),
             )
-            room, event = _append_event(
+            room, event = append_room_event(
                 room,
                 "race.countdown",
                 {"countdown_ends_at": countdown_ends_at.isoformat()},
@@ -153,7 +192,7 @@ class RoomService:
     async def connect(
         self, code: str, guest_id: str, after: int
     ) -> tuple[Room, tuple[RoomEvent, ...]]:
-        room = await self._set_connected(code, guest_id, True)
+        room = await self.tick(await self._set_connected(code, guest_id, True))
         retained = room.events
         if retained and after < retained[0].sequence - 1:
             return room, ()
@@ -165,25 +204,80 @@ class RoomService:
         except (NotFoundError, ForbiddenError):
             return
 
+    async def vote_rematch(self, code: str, guest_id: str, accept: bool) -> Room:
+        events: tuple[RoomEvent, ...] = ()
+        rejected = False
+        async with self._repository.lock(code):
+            room = await self._get(code)
+            now = datetime.now(UTC)
+            if room.state is not RoomState.FINISHED:
+                raise DomainError("rematch_not_open", "This rematch vote is not open.")
+            if room.rematch_ends_at is None or now >= room.rematch_ends_at:
+                room, events, _, _ = await self._advance_locked(room, now)
+                if events:
+                    await self._repository.save(room)
+                rejected = True
+            else:
+                participant = require_active_participant(room, guest_id)
+                if participant.rematch_vote is accept:
+                    return room
+                participant = replace(participant, rematch_vote=accept)
+                room = replace(
+                    room,
+                    participants=replace_participant(room.participants, participant),
+                    updated_at=now,
+                )
+                room, vote_event = append_room_event(
+                    room,
+                    "participant.rematch_vote",
+                    {"guest_id": guest_id, "accept": accept},
+                    now,
+                )
+                event_list = [vote_event]
+                if rematch_vote_is_ready(room, now):
+                    room, resolution = await self._resolve_rematch_locked(room, now)
+                    event_list.append(resolution)
+                events = tuple(event_list)
+                await self._repository.save(room)
+        await self._publish(code, events)
+        if rejected:
+            raise DomainError("rematch_closed", "The rematch vote has ended.")
+        return room
+
     async def sync_session(self, session: GameSession) -> Room | None:
         if session.room_code is None:
             return None
         code = session.room_code
+        events: list[RoomEvent] = []
         async with self._repository.lock(code):
             room = await self._get(code)
-            participant = _require_participant(room, session.guest_id)
+            participant = require_active_participant(room, session.guest_id)
+            if participant.session_id != session.id:
+                raise DomainError("race_not_active", "This Relay session is no longer current.")
+            now = datetime.now(UTC)
+            if (
+                room.state is RoomState.COUNTDOWN
+                and room.countdown_ends_at is not None
+                and now >= room.countdown_ends_at
+            ):
+                room = replace(room, state=RoomState.RACING, updated_at=now)
+                room, started_event = append_room_event(
+                    room, "race.started", {"state": RoomState.RACING.value}, now
+                )
+                events.append(started_event)
+
             distance = self._graph.distance_to_target(room.round_id, session.navigation.current_id)
-            progress = _progress_band(distance, session.round.optimal_distance, session.status)
+            progress = progress_band(distance, session.round.optimal_distance, session.status)
+            newly_finished = (
+                session.status is SessionStatus.COMPLETED and participant.finished_at is None
+            )
             finish_rank = participant.finish_rank
             finished_at = participant.finished_at
-            state = room.state
-            grace_ends_at = room.grace_ends_at
-            if session.status is SessionStatus.COMPLETED and finished_at is None:
+            if newly_finished:
                 finished_at = session.completed_at
-                finish_rank = 1 + sum(other.finished_at is not None for other in room.participants)
-                if state is RoomState.RACING:
-                    state = RoomState.GRACE_PERIOD
-                    grace_ends_at = datetime.now(UTC) + timedelta(seconds=30)
+                finish_rank = 1 + sum(
+                    other.active and other.finished_at is not None for other in room.participants
+                )
             updated = replace(
                 participant,
                 moves=session.navigation.moves,
@@ -192,82 +286,210 @@ class RoomService:
                 finished_at=finished_at,
                 finish_rank=finish_rank,
             )
-            participants = _replace_participant(room.participants, updated)
-            if all(item.finished_at is not None for item in participants):
-                state = RoomState.FINISHED
             room = replace(
                 room,
-                participants=participants,
-                state=state,
-                grace_ends_at=grace_ends_at,
-                updated_at=datetime.now(UTC),
+                participants=replace_participant(room.participants, updated),
+                updated_at=now,
             )
-            event_type = "race.finished" if finished_at is not None else "race.progress"
-            room, event = _append_event(
-                room,
-                event_type,
-                {
-                    "guest_id": session.guest_id,
-                    "moves": updated.moves,
-                    "hints_used": updated.hints_used,
-                    "progress_band": updated.progress_band,
-                    "finish_rank": updated.finish_rank,
-                },
+            if newly_finished and room.state is RoomState.RACING:
+                room = replace(
+                    room,
+                    state=RoomState.GRACE_PERIOD,
+                    grace_ends_at=now + _GRACE_PERIOD,
+                )
+            all_finished = all(item.finished_at is not None for item in active_participants(room))
+            if newly_finished and all_finished:
+                room = open_rematch_vote(room, now)
+
+            event_type = (
+                "race.finished"
+                if newly_finished and room.state is RoomState.FINISHED
+                else "participant.finished"
+                if newly_finished
+                else "race.progress"
             )
+            payload: dict[str, object] = {
+                "guest_id": session.guest_id,
+                "moves": updated.moves,
+                "hints_used": updated.hints_used,
+                "progress_band": updated.progress_band,
+                "finish_rank": updated.finish_rank,
+            }
+            if room.grace_ends_at is not None:
+                payload["grace_ends_at"] = room.grace_ends_at.isoformat()
+            if room.rematch_ends_at is not None:
+                payload["rematch_ends_at"] = room.rematch_ends_at.isoformat()
+            room, progress_event = append_room_event(room, event_type, payload, now)
+            events.append(progress_event)
             await self._repository.save(room)
-        await self._broker.publish(code, event)
+        await self._publish(code, tuple(events))
         return room
 
     async def tick(self, room: Room) -> Room:
-        now = datetime.now(UTC)
-        next_state: RoomState | None = None
-        event_type: str | None = None
-        if room.state is RoomState.COUNTDOWN and room.countdown_ends_at is not None:
-            if now >= room.countdown_ends_at:
-                next_state, event_type = RoomState.RACING, "race.started"
-        elif (
+        events: tuple[RoomEvent, ...] = ()
+        expired_session_ids: tuple[str, ...] = ()
+        expired_at: datetime | None = None
+        async with self._repository.lock(room.code):
+            current = await self._get(room.code)
+            current, events, expired_session_ids, expired_at = await self._advance_locked(
+                current, datetime.now(UTC)
+            )
+            if events:
+                await self._repository.save(current)
+        if expired_at is not None:
+            for session_id in expired_session_ids:
+                await self._sessions.expire_relay(session_id, expired_at)
+        await self._publish(room.code, events)
+        return current
+
+    async def _advance_locked(
+        self, room: Room, now: datetime
+    ) -> tuple[Room, tuple[RoomEvent, ...], tuple[str, ...], datetime | None]:
+        if (
+            room.state is RoomState.COUNTDOWN
+            and room.countdown_ends_at is not None
+            and now >= room.countdown_ends_at
+        ):
+            room = replace(room, state=RoomState.RACING, updated_at=now)
+            room, event = append_room_event(
+                room, "race.started", {"state": RoomState.RACING.value}, now
+            )
+            return room, (event,), (), None
+        if (
             room.state is RoomState.GRACE_PERIOD
             and room.grace_ends_at is not None
             and now >= room.grace_ends_at
         ):
-            next_state, event_type = RoomState.FINISHED, "race.finished"
-        elif room.state is RoomState.FINISHED and now >= room.updated_at + timedelta(minutes=5):
-            next_state, event_type = RoomState.CLOSED, "room.closed"
-        if next_state is None or event_type is None:
-            return room
-        async with self._repository.lock(room.code):
-            current = await self._get(room.code)
-            if current.state is not room.state:
-                return current
-            current = replace(current, state=next_state, updated_at=now)
-            current, event = _append_event(current, event_type, {"state": next_state.value})
-            await self._repository.save(current)
-        await self._broker.publish(room.code, event)
-        return current
+            expired_at = room.grace_ends_at
+            expired = tuple(
+                participant.session_id
+                for participant in active_participants(room)
+                if participant.finished_at is None and participant.session_id is not None
+            )
+            room = open_rematch_vote(room, now)
+            room, event = append_room_event(
+                room,
+                "race.finished",
+                {
+                    "state": RoomState.FINISHED.value,
+                    "rematch_ends_at": room.rematch_ends_at.isoformat()
+                    if room.rematch_ends_at is not None
+                    else None,
+                },
+                now,
+            )
+            return room, (event,), expired, expired_at
+        if room.state is RoomState.FINISHED and rematch_vote_is_ready(room, now):
+            room, event = await self._resolve_rematch_locked(room, now)
+            return room, (event,), (), None
+        return room, (), (), None
+
+    async def _resolve_rematch_locked(self, room: Room, now: datetime) -> tuple[Room, RoomEvent]:
+        accepted = accepted_rematch_participants(room)
+        if len(accepted) < 2:
+            room = close_for_insufficient_rematch(room, now)
+            return append_room_event(
+                room,
+                "room.closed",
+                {
+                    "state": room.state.value,
+                    "reason": RoomCloseReason.NOT_ENOUGH_PLAYERS.value,
+                },
+                now,
+            )
+
+        accepted_ids = {participant.guest_id for participant in accepted}
+        host_guest_id = (
+            room.host_guest_id if room.host_guest_id in accepted_ids else accepted[0].guest_id
+        )
+        previous_round = self._graph.get_round(room.round_id)
+        if previous_round is None:
+            raise RuntimeError("Room references a missing round")
+        next_round = await self._round_selector.select(
+            guest_id=host_guest_id,
+            category=previous_round.category,
+            difficulty=previous_round.difficulty,
+            source="relay",
+        )
+        countdown_ends_at = now + timedelta(seconds=self._start_delay_seconds)
+        participants: list[Participant] = []
+        for participant in room.participants:
+            if participant.guest_id not in accepted_ids:
+                participants.append(replace(participant, active=False, ready=False))
+                continue
+            session = await self._sessions.create(
+                guest_id=participant.guest_id,
+                mode=SessionMode.RELAY,
+                round_id=next_round.id,
+                room_code=room.code,
+                starts_at=countdown_ends_at,
+            )
+            participants.append(
+                replace(
+                    participant,
+                    active=True,
+                    ready=True,
+                    session_id=session.id,
+                    moves=0,
+                    hints_used=0,
+                    progress_band=0,
+                    finished_at=None,
+                    finish_rank=None,
+                    rematch_vote=None,
+                )
+            )
+        room = replace(
+            room,
+            host_guest_id=host_guest_id,
+            round_id=next_round.id,
+            state=RoomState.COUNTDOWN,
+            participants=tuple(participants),
+            countdown_ends_at=countdown_ends_at,
+            grace_ends_at=None,
+            rematch_ends_at=None,
+            close_reason=None,
+            updated_at=now,
+        )
+        return append_room_event(
+            room,
+            "race.countdown",
+            {
+                "countdown_ends_at": countdown_ends_at.isoformat(),
+                "round_id": next_round.id,
+                "rematch": True,
+            },
+            now,
+        )
 
     async def _set_connected(self, code: str, guest_id: str, connected: bool) -> Room:
         async with self._repository.lock(code):
             room = await self._get(code)
-            participant = _require_participant(room, guest_id)
+            participant = require_participant(room, guest_id)
             if participant.connected == connected:
                 return room
-            participants = _replace_participant(
+            participants = replace_participant(
                 room.participants, replace(participant, connected=connected)
             )
-            room = replace(room, participants=participants, updated_at=datetime.now(UTC))
-            room, event = _append_event(
+            now = datetime.now(UTC)
+            room = replace(room, participants=participants, updated_at=now)
+            room, event = append_room_event(
                 room,
                 "participant.connection",
                 {"guest_id": guest_id, "connected": connected},
+                now,
             )
             await self._repository.save(room)
         await self._broker.publish(code, event)
         return room
 
+    async def _publish(self, code: str, events: tuple[RoomEvent, ...]) -> None:
+        for event in events:
+            await self._broker.publish(code, event)
+
     async def _get(self, code: str) -> Room:
         room = await self._repository.get(code.upper())
         if room is None:
-            raise NotFoundError("Room not found")
+            raise NotFoundError("Lobby not found")
         return room
 
     async def _select_round(
@@ -288,39 +510,3 @@ class RoomService:
             difficulty=difficulty,
             source="relay",
         )
-
-
-def _append_event(
-    room: Room, event_type: str, payload: dict[str, object]
-) -> tuple[Room, RoomEvent]:
-    event = RoomEvent(room.sequence + 1, event_type, datetime.now(UTC), payload)
-    events = (*room.events[-199:], event)
-    return replace(room, sequence=event.sequence, events=events), event
-
-
-def _require_participant(room: Room, guest_id: str) -> Participant:
-    participant = room.participant(guest_id)
-    if participant is None:
-        raise ForbiddenError("Join this room first")
-    return participant
-
-
-def _replace_participant(
-    participants: tuple[Participant, ...], updated: Participant
-) -> tuple[Participant, ...]:
-    return tuple(updated if item.guest_id == updated.guest_id else item for item in participants)
-
-
-def _progress_band(distance: int | None, optimal_distance: int, status: SessionStatus) -> int:
-    if status is SessionStatus.COMPLETED:
-        return 4
-    if distance is None:
-        return 0
-    ratio = distance / max(optimal_distance, 1)
-    if ratio <= 0.34:
-        return 3
-    if ratio <= 0.67:
-        return 2
-    if ratio < 1:
-        return 1
-    return 0

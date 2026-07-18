@@ -1,4 +1,9 @@
-import type { RoomSnapshot, RoundFilters, WebwovenApi } from "../api/types";
+import type {
+  RoomInvitePreview,
+  RoomSnapshot,
+  RoundFilters,
+  WebwovenApi,
+} from "../api/types";
 
 export class RoomController {
   readonly #api: WebwovenApi;
@@ -9,6 +14,10 @@ export class RoomController {
 
   create(filters: RoundFilters): Promise<RoomSnapshot> {
     return this.#api.createRoom(filters);
+  }
+
+  invite(code: string): Promise<RoomInvitePreview> {
+    return this.#api.getRoomInvite(code);
   }
 
   join(code: string): Promise<RoomSnapshot> {
@@ -22,6 +31,10 @@ export class RoomController {
 
   start(room: RoomSnapshot): Promise<RoomSnapshot> {
     return this.#api.startRoom(room.code);
+  }
+
+  voteRematch(room: RoomSnapshot, accept: boolean): Promise<RoomSnapshot> {
+    return this.#api.voteRoomRematch(room.code, accept);
   }
 
   get(code: string): Promise<RoomSnapshot> {

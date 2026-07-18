@@ -1,5 +1,6 @@
 """Valkey room behavior against an external-service-free fake client."""
 
+from dataclasses import replace
 from datetime import UTC, datetime
 
 from webwoven_api.persistence.valkey.rooms import ValkeyRoomRepository
@@ -82,6 +83,27 @@ async def test_finished_room_is_archived_but_kept_briefly_for_results() -> None:
     await repository.save(room)
     assert archive.rooms == [room]
     assert await repository.get(room.code) == room
+
+
+async def test_old_session_index_does_not_bind_an_inactive_rematch_player() -> None:
+    valkey = FakeValkey()
+    repository = ValkeyRoomRepository(
+        valkey,  # type: ignore[arg-type]
+        FakeArchive(),
+        active_ttl_seconds=3600,
+        completed_ttl_seconds=600,
+        lock_lease_seconds=30,
+        lock_wait_seconds=1,
+    )
+    room = _room(RoomState.RACING)
+    await repository.save(room)
+    inactive = replace(
+        room,
+        participants=(replace(room.participants[0], active=False),),
+    )
+    await repository.save(inactive)
+
+    assert await repository.find_by_session("session-1") is None
 
 
 def _room(state: RoomState) -> Room:

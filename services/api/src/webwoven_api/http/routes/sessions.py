@@ -32,7 +32,7 @@ async def create_session(
     container: ContainerDependency,
 ) -> SessionSnapshot:
     if body.mode is SessionMode.RELAY:
-        raise DomainError("relay_requires_room", "Live Relay sessions are created by a room.")
+        raise DomainError("relay_requires_room", "Live Relay sessions are created by a lobby.")
     session = await container.sessions.create(
         guest_id=guest.id,
         mode=body.mode,
@@ -81,6 +81,12 @@ async def command_session(
             status_code=status.HTTP_409_CONFLICT,
             content=payload.model_dump(mode="json"),
         )
+    except DomainError as error:
+        if error.code == "race_not_active":
+            current = await container.sessions.get_for_guest(session_id, guest.id)
+            if current.room_code is not None:
+                await container.rooms.get_for_guest(current.room_code, guest.id)
+        raise
     if result.session.room_code is not None:
         await container.rooms.sync_session(result.session)
     return CommandResponse(

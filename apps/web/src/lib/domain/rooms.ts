@@ -1,4 +1,8 @@
-import type { RoomSnapshot, RoundFilters } from "../api/types";
+import type {
+  RoomInvitePreview,
+  RoomSnapshot,
+  RoundFilters,
+} from "../api/types";
 import { DEMO_ENTITIES } from "./demo-graph";
 
 function normalizeCode(code: string): string {
@@ -25,6 +29,7 @@ export class DemoRoomCoordinator {
         {
           id: "you",
           display_name: "Guest Cartographer",
+          active: true,
           ready: false,
           moves: 0,
           progress: "mapping",
@@ -35,6 +40,7 @@ export class DemoRoomCoordinator {
         {
           id: "mira",
           display_name: "Mira",
+          active: true,
           ready: true,
           moves: 0,
           progress: "mapping",
@@ -54,6 +60,21 @@ export class DemoRoomCoordinator {
     const replacement = { ...created, code: normalized || created.code };
     this.#rooms.set(replacement.code, replacement);
     return structuredClone(replacement);
+  }
+
+  invite(code: string): RoomInvitePreview {
+    const room = this.get(code);
+    const host =
+      room.players.find((player) => player.is_host) ?? room.players[0];
+    return {
+      code: room.code,
+      host_display_name: host?.display_name ?? "A Webwoven explorer",
+      state: room.state,
+      player_count: room.players.filter((player) => player.active).length,
+      max_players: room.max_players,
+      is_member: true,
+      joinable: room.state === "lobby",
+    };
   }
 
   ready(code: string, ready: boolean): RoomSnapshot {
@@ -76,9 +97,41 @@ export class DemoRoomCoordinator {
     }));
   }
 
+  voteRematch(code: string, accept: boolean): RoomSnapshot {
+    return this.#update(code, (room) => ({
+      ...room,
+      players: room.players.map((player) =>
+        player.is_current_guest ? { ...player, rematch_vote: accept } : player,
+      ),
+    }));
+  }
+
+  finishSession(sessionId: string): void {
+    for (const [code, room] of this.#rooms) {
+      if (room.current_session_id !== sessionId) continue;
+      const next: RoomSnapshot = {
+        ...room,
+        state: "finished",
+        rematch_ends_at: new Date(Date.now() + 30_000).toISOString(),
+        players: room.players.map((player) =>
+          player.is_current_guest
+            ? {
+                ...player,
+                progress: "arrived",
+                finish_rank: 1,
+                rematch_vote: undefined,
+              }
+            : player,
+        ),
+      };
+      this.#rooms.set(code, next);
+      return;
+    }
+  }
+
   get(code: string): RoomSnapshot {
     const room = this.#rooms.get(normalizeCode(code));
-    if (!room) throw new Error("That relay room could not be found.");
+    if (!room) throw new Error("That Relay lobby could not be found.");
     return structuredClone(room);
   }
 
@@ -88,7 +141,7 @@ export class DemoRoomCoordinator {
   ): RoomSnapshot {
     const normalized = normalizeCode(code);
     const current = this.#rooms.get(normalized);
-    if (!current) throw new Error("That relay room could not be found.");
+    if (!current) throw new Error("That Relay lobby could not be found.");
     const next = update(current);
     this.#rooms.set(normalized, next);
     return structuredClone(next);

@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import { HttpApi } from "../src/lib/api/http-api";
-import type { WireRoom, WireSession } from "../src/lib/api/wire-types";
+import type {
+  WireRoom,
+  WireRoomInvite,
+  WireSession,
+} from "../src/lib/api/wire-types";
 
 const item = {
   qid: "Q1",
@@ -86,6 +90,8 @@ describe("HTTP API adapter", () => {
       sequence: 1,
       countdown_ends_at: null,
       grace_ends_at: null,
+      rematch_ends_at: null,
+      close_reason: null,
     };
     const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
       new Response(JSON.stringify(room), {
@@ -105,6 +111,72 @@ describe("HTTP API adapter", () => {
       difficulty: "easy",
       category: "science_technology",
     });
+  });
+
+  it("loads invite previews and submits rematch votes through their contracts", async () => {
+    const invite: WireRoomInvite = {
+      code: "MAPS27",
+      host_display_name: "Mira",
+      state: "lobby",
+      player_count: 2,
+      max_players: 4,
+      is_member: false,
+      joinable: true,
+    };
+    const room: WireRoom = {
+      code: "MAPS27",
+      state: "finished",
+      is_host: false,
+      graph_version: "graph",
+      round_id: "round",
+      category: "places_architecture",
+      difficulty: "normal",
+      start: item,
+      target: { ...item, qid: "Q2", label: "Target" },
+      participants: [],
+      sequence: 4,
+      countdown_ends_at: null,
+      grace_ends_at: null,
+      rematch_ends_at: "2026-07-13T10:01:30Z",
+      close_reason: null,
+    };
+    const fetchMock = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            id: "guest",
+            display_name: "Explorer",
+            csrf_token: "csrf-relay",
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(invite), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify(room), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      );
+    const api = new HttpApi({ fetch: fetchMock });
+
+    await api.getGuest();
+    await expect(api.getRoomInvite("MAPS27")).resolves.toMatchObject(invite);
+    await api.voteRoomRematch("MAPS27", true);
+
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/v1/rooms/MAPS27/invite");
+    const voteRequest = fetchMock.mock.calls[2][1] as RequestInit;
+    expect(fetchMock.mock.calls[2][0]).toBe("/api/v1/rooms/MAPS27/rematch");
+    expect(new Headers(voteRequest.headers).get("X-CSRF-Token")).toBe(
+      "csrf-relay",
+    );
+    expect(JSON.parse(voteRequest.body as string)).toEqual({ accept: true });
   });
 
   it("updates the guest name with CSRF protection", async () => {

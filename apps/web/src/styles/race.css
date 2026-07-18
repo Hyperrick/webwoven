@@ -18,6 +18,11 @@
   text-transform: uppercase;
 }
 
+.race-strip__mode-short,
+.race-strip__mobile-summary {
+  display: none;
+}
+
 .race-strip__title > div {
   display: grid;
   gap: var(--space-1);
@@ -39,7 +44,18 @@
   color: var(--color-signal);
 }
 
-.race-strip ol {
+.race-strip__desktop-grace {
+  color: var(--color-signal);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}
+
+.race-strip__desktop-grace strong {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.race-strip__roster {
   display: flex;
   gap: var(--space-4);
   margin: 0;
@@ -47,7 +63,7 @@
   list-style: none;
 }
 
-.race-strip li {
+.race-strip__roster li {
   display: flex;
   gap: var(--space-2);
   min-width: 9rem;
@@ -61,16 +77,22 @@
   font-size: var(--text-12);
 }
 
-.race-strip li > span:nth-child(2) {
+.race-strip__roster li > span:nth-child(2) {
   display: grid;
 }
 
-.race-strip small {
+.race-strip__roster small {
   color: var(--color-muted-ink);
 }
 
 .race-strip__player--you {
   border-left-color: var(--color-signal);
+}
+
+.race-strip__grace {
+  color: var(--color-signal);
+  font-family: var(--font-technical);
+  font-variant-numeric: tabular-nums;
 }
 
 .countdown {

@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { tick } from "svelte";
   import type { Difficulty, RoomSnapshot, RoundFilters } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
   import CategoryPicker from "../components/CategoryPicker.svelte";
   import DifficultyPicker from "../components/DifficultyPicker.svelte";
+  import LobbyCodeShare from "../components/LobbyCodeShare.svelte";
   import {
     loadCategoryFilter,
     persistCategoryFilter,
@@ -29,12 +31,27 @@
   let code = $state("");
   let relayDifficulty = $state<Difficulty>(loadDifficulty("relay"));
   let relayCategory = $state(loadCategoryFilter("relay"));
+  let lobbyHeader = $state<HTMLElement>();
+  let revealedLobbyCode = $state("");
   let allReady = $derived(
     room?.players.every((player) => player.ready) ?? false,
   );
   let currentPlayer = $derived(
     room?.players.find((player) => player.is_current_guest),
   );
+
+  $effect(() => {
+    const nextCode = room?.code;
+    const header = lobbyHeader;
+    if (!nextCode || !header || nextCode === revealedLobbyCode) return;
+    revealedLobbyCode = nextCode;
+    if (!window.matchMedia("(width <= 50rem)").matches) return;
+    void tick().then(() =>
+      window.requestAnimationFrame(() =>
+        header.scrollIntoView({ block: "start", behavior: "auto" }),
+      ),
+    );
+  });
 
   function createRoom(): void {
     persistDifficulty("relay", relayDifficulty);
@@ -65,7 +82,7 @@
       <div class="lobby-entry">
         <section>
           <span class="lobby-entry__number">01</span>
-          <h2>Open a room</h2>
+          <h2>Open a lobby</h2>
           <p>
             Receive a short field code and invite up to three other explorers.
           </p>
@@ -85,12 +102,12 @@
             disabled={busy}
             onclick={createRoom}
           >
-            Create relay <AtlasIcon name="arrow" size={20} />
+            Create lobby <AtlasIcon name="arrow" size={20} />
           </button>
         </section>
         <section>
           <span class="lobby-entry__number">02</span>
-          <h2>Join a room</h2>
+          <h2>Join a lobby</h2>
           <p>Enter the code from your expedition host.</p>
           <form
             onsubmit={(event) => {
@@ -98,7 +115,7 @@
               if (code.trim()) onJoin(code);
             }}
           >
-            <label for="room-code">Room code</label>
+            <label for="room-code">Lobby code</label>
             <div class="code-entry">
               <input
                 id="room-code"
@@ -110,7 +127,7 @@
               <button
                 type="submit"
                 disabled={busy || !code.trim()}
-                aria-label="Join room"
+                aria-label="Join lobby"
                 ><AtlasIcon name="arrow" size={21} /></button
               >
             </div>
@@ -120,15 +137,16 @@
     </section>
   {:else}
     <section class="room-sheet" aria-labelledby="room-title">
-      <header class="room-sheet__header">
+      <header bind:this={lobbyHeader} class="room-sheet__header">
         <div>
-          <p class="eyebrow">Expedition room</p>
+          <p class="eyebrow">Relay lobby</p>
           <h1 id="room-title">Ready the map.</h1>
         </div>
-        <div class="room-code">
-          <span>Room code</span>
-          <strong>{room.code}</strong>
-        </div>
+        <LobbyCodeShare
+          code={room.code}
+          hostDisplayName={currentPlayer?.display_name ?? "Your host"}
+          shareable={currentPlayer?.is_host ?? false}
+        />
       </header>
 
       <div class="room-route-stamp" aria-label="Locked relay route settings">

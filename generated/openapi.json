@@ -1002,6 +1002,13 @@
         "title": "RelationGroupResponse",
         "type": "object"
       },
+      "RoomCloseReason": {
+        "enum": [
+          "not_enough_players"
+        ],
+        "title": "RoomCloseReason",
+        "type": "string"
+      },
       "RoomCreateRequest": {
         "additionalProperties": false,
         "properties": {
@@ -1037,9 +1044,60 @@
         "title": "RoomCreateRequest",
         "type": "object"
       },
+      "RoomInviteResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "host_display_name": {
+            "title": "Host Display Name",
+            "type": "string"
+          },
+          "is_member": {
+            "title": "Is Member",
+            "type": "boolean"
+          },
+          "joinable": {
+            "title": "Joinable",
+            "type": "boolean"
+          },
+          "max_players": {
+            "default": 4,
+            "maximum": 4.0,
+            "minimum": 4.0,
+            "title": "Max Players",
+            "type": "integer"
+          },
+          "player_count": {
+            "maximum": 4.0,
+            "minimum": 0.0,
+            "title": "Player Count",
+            "type": "integer"
+          },
+          "state": {
+            "$ref": "#/components/schemas/RoomState"
+          }
+        },
+        "required": [
+          "code",
+          "host_display_name",
+          "state",
+          "player_count",
+          "is_member",
+          "joinable"
+        ],
+        "title": "RoomInviteResponse",
+        "type": "object"
+      },
       "RoomParticipantResponse": {
         "additionalProperties": false,
         "properties": {
+          "active": {
+            "title": "Active",
+            "type": "boolean"
+          },
           "connected": {
             "title": "Connected",
             "type": "boolean"
@@ -1085,6 +1143,17 @@
             "title": "Ready",
             "type": "boolean"
           },
+          "rematch_vote": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rematch Vote"
+          },
           "session_id": {
             "anyOf": [
               {
@@ -1101,13 +1170,15 @@
           "guest_id",
           "display_name",
           "is_self",
+          "active",
           "ready",
           "connected",
           "session_id",
           "moves",
           "hints_used",
           "progress_band",
-          "finish_rank"
+          "finish_rank",
+          "rematch_vote"
         ],
         "title": "RoomParticipantResponse",
         "type": "object"
@@ -1124,12 +1195,36 @@
         "title": "RoomReadyRequest",
         "type": "object"
       },
+      "RoomRematchRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "accept": {
+            "title": "Accept",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "accept"
+        ],
+        "title": "RoomRematchRequest",
+        "type": "object"
+      },
       "RoomResponse": {
         "additionalProperties": false,
         "properties": {
           "category": {
             "title": "Category",
             "type": "string"
+          },
+          "close_reason": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RoomCloseReason"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "code": {
             "title": "Code",
@@ -1177,6 +1272,18 @@
             "title": "Participants",
             "type": "array"
           },
+          "rematch_ends_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rematch Ends At"
+          },
           "round_id": {
             "title": "Round Id",
             "type": "string"
@@ -1208,7 +1315,9 @@
           "participants",
           "sequence",
           "countdown_ends_at",
-          "grace_ends_at"
+          "grace_ends_at",
+          "rematch_ends_at",
+          "close_reason"
         ],
         "title": "RoomResponse",
         "type": "object"
@@ -1901,6 +2010,48 @@
         ]
       }
     },
+    "/api/v1/rooms/{code}/invite": {
+      "get": {
+        "operationId": "get_room_invite_api_v1_rooms__code__invite_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomInviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Room Invite",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
     "/api/v1/rooms/{code}/join": {
       "post": {
         "operationId": "join_room_api_v1_rooms__code__join_post",
@@ -1990,6 +2141,58 @@
           }
         },
         "summary": "Ready Room",
+        "tags": [
+          "rooms"
+        ]
+      }
+    },
+    "/api/v1/rooms/{code}/rematch": {
+      "post": {
+        "operationId": "vote_room_rematch_api_v1_rooms__code__rematch_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomRematchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vote Room Rematch",
         "tags": [
           "rooms"
         ]

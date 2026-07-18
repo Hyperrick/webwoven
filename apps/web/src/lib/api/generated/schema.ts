@@ -144,6 +144,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/rooms/{code}/invite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Room Invite */
+        get: operations["get_room_invite_api_v1_rooms__code__invite_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/rooms/{code}/join": {
         parameters: {
             query?: never;
@@ -172,6 +189,23 @@ export interface paths {
         put?: never;
         /** Ready Room */
         post: operations["ready_room_api_v1_rooms__code__ready_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/rooms/{code}/rematch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Vote Room Rematch */
+        post: operations["vote_room_rematch_api_v1_rooms__code__rematch_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -662,6 +696,11 @@ export interface components {
             /** Property Id */
             property_id: string;
         };
+        /**
+         * RoomCloseReason
+         * @enum {string}
+         */
+        RoomCloseReason: "not_enough_players";
         /** RoomCreateRequest */
         RoomCreateRequest: {
             /** Category */
@@ -670,8 +709,29 @@ export interface components {
             /** Round Id */
             round_id?: string | null;
         };
+        /** RoomInviteResponse */
+        RoomInviteResponse: {
+            /** Code */
+            code: string;
+            /** Host Display Name */
+            host_display_name: string;
+            /** Is Member */
+            is_member: boolean;
+            /** Joinable */
+            joinable: boolean;
+            /**
+             * Max Players
+             * @default 4
+             */
+            max_players: number;
+            /** Player Count */
+            player_count: number;
+            state: components["schemas"]["RoomState"];
+        };
         /** RoomParticipantResponse */
         RoomParticipantResponse: {
+            /** Active */
+            active: boolean;
             /** Connected */
             connected: boolean;
             /** Display Name */
@@ -690,6 +750,8 @@ export interface components {
             progress_band: number;
             /** Ready */
             ready: boolean;
+            /** Rematch Vote */
+            rematch_vote: boolean | null;
             /** Session Id */
             session_id: string | null;
         };
@@ -701,10 +763,16 @@ export interface components {
              */
             ready: boolean;
         };
+        /** RoomRematchRequest */
+        RoomRematchRequest: {
+            /** Accept */
+            accept: boolean;
+        };
         /** RoomResponse */
         RoomResponse: {
             /** Category */
             category: string;
+            close_reason: components["schemas"]["RoomCloseReason"] | null;
             /** Code */
             code: string;
             /** Countdown Ends At */
@@ -718,6 +786,8 @@ export interface components {
             is_host: boolean;
             /** Participants */
             participants: components["schemas"]["RoomParticipantResponse"][];
+            /** Rematch Ends At */
+            rematch_ends_at: string | null;
             /** Round Id */
             round_id: string;
             /** Sequence */
@@ -1103,6 +1173,37 @@ export interface operations {
             };
         };
     };
+    get_room_invite_api_v1_rooms__code__invite_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomInviteResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     join_room_api_v1_rooms__code__join_post: {
         parameters: {
             query?: never;
@@ -1146,6 +1247,41 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["RoomReadyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RoomResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    vote_room_rematch_api_v1_rooms__code__rematch_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoomRematchRequest"];
             };
         };
         responses: {

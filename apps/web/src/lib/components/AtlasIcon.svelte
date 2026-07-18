@@ -18,6 +18,7 @@
     | "external"
     | "route"
     | "settings"
+    | "share"
     | "sources"
     | "users";
 
@@ -72,6 +73,12 @@
     <circle cx="12" cy="12" r="3" /><path
       d="M12 2v3M12 19v3M4.9 4.9 7 7m10 10 2.1 2.1M2 12h3m14 0h3M4.9 19.1 7 17M17 7l2.1-2.1"
     />
+  {:else if name === "share"}
+    <circle cx="18" cy="5" r="2.25" /><circle cx="6" cy="12" r="2.25" /><circle
+      cx="18"
+      cy="19"
+      r="2.25"
+    /><path d="m8 11 7.8-4.6M8 13l7.8 4.6" />
   {:else if name === "sources"}
     <path d="M6 3h9l3 3v15H6V3Z" /><path d="M14 3v4h4M9 11h6M9 15h6" />
   {:else if name === "users"}

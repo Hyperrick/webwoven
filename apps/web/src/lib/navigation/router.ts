@@ -1,10 +1,14 @@
+import type { RoomSnapshot, SessionSnapshot } from "../api/types";
+
 export type AppRoute =
   | { name: "home"; path: "/" }
   | { name: "solo"; path: "/play/solo" }
   | { name: "daily"; path: "/play/daily" }
-  | { name: "lobby"; path: "/relay"; code?: string }
+  | { name: "lobby"; path: "/relay" }
+  | { name: "lobby-invite"; path: string; code: string }
   | { name: "race"; path: string; code: string }
   | { name: "results"; path: "/results" }
+  | { name: "relay-results"; path: string; code: string }
   | { name: "lab"; path: "/lab" }
   | { name: "privacy"; path: "/privacy" }
   | { name: "not-found"; path: string };
@@ -20,12 +24,39 @@ export function parseRoute(pathname: string): AppRoute {
   if (normalized === "/results") return { name: "results", path: "/results" };
   if (normalized === "/lab") return { name: "lab", path: "/lab" };
   if (normalized === "/privacy") return { name: "privacy", path: "/privacy" };
+  const inviteMatch = normalized.match(
+    /^\/relay\/([0-9A-HJKMNP-TV-Z]{6})\/join$/i,
+  );
+  if (inviteMatch) {
+    const code = inviteMatch[1].toUpperCase();
+    return { name: "lobby-invite", path: `/relay/${code}/join`, code };
+  }
+  const relayResultsMatch = normalized.match(
+    /^\/relay\/([0-9A-HJKMNP-TV-Z]{6})\/results$/i,
+  );
+  if (relayResultsMatch) {
+    const code = relayResultsMatch[1].toUpperCase();
+    return {
+      name: "relay-results",
+      path: `/relay/${code}/results`,
+      code,
+    };
+  }
   const roomMatch = normalized.match(/^\/relay\/([0-9A-HJKMNP-TV-Z]{6})$/i);
   if (roomMatch) {
     const code = roomMatch[1].toUpperCase();
     return { name: "race", path: `/relay/${code}`, code };
   }
   return { name: "not-found", path: normalized };
+}
+
+export function completionPath(
+  session: Pick<SessionSnapshot, "mode">,
+  room?: Pick<RoomSnapshot, "code">,
+): string {
+  return session.mode === "relay" && room
+    ? `/relay/${room.code}/results`
+    : "/results";
 }
 
 interface BrowserRouterOptions {
@@ -41,12 +72,12 @@ export class BrowserRouter {
 
   constructor(options: BrowserRouterOptions) {
     this.#options = options;
-    this.#currentPath = window.location.pathname;
+    this.#currentPath = currentBrowserPath();
   }
 
   start(): () => void {
     const onPopState = () => {
-      const targetPath = window.location.pathname;
+      const targetPath = currentBrowserPath();
       if (this.#options.isProtected()) {
         this.#pendingPath = targetPath;
         window.history.pushState({}, "", this.#currentPath);
@@ -54,7 +85,7 @@ export class BrowserRouter {
         return;
       }
       this.#currentPath = targetPath;
-      this.#options.onRoute(parseRoute(targetPath));
+      this.#options.onRoute(parseRoute(window.location.pathname));
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -90,8 +121,12 @@ export class BrowserRouter {
   #commit(path: string, replace: boolean): void {
     if (replace) window.history.replaceState({}, "", path);
     else window.history.pushState({}, "", path);
-    this.#currentPath = path;
-    this.#options.onRoute(parseRoute(path));
+    this.#currentPath = currentBrowserPath();
+    this.#options.onRoute(parseRoute(window.location.pathname));
     window.scrollTo({ top: 0, behavior: "instant" });
   }
+}
+
+function currentBrowserPath(): string {
+  return `${window.location.pathname}${window.location.search}`;
 }

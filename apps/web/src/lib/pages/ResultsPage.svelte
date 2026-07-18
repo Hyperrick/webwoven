@@ -1,8 +1,13 @@
 <script lang="ts">
-  import type { DailyLeaderboard, SessionSnapshot } from "../api/types";
+  import type {
+    DailyLeaderboard,
+    RoomSnapshot,
+    SessionSnapshot,
+  } from "../api/types";
   import AtlasIcon from "../components/AtlasIcon.svelte";
   import DailyLeaderboardTable from "../components/DailyLeaderboard.svelte";
   import EndpointArtwork from "../components/EndpointArtwork.svelte";
+  import RelayResultActions from "../components/RelayResultActions.svelte";
   import { gameModeLabel } from "../domain/game-mode-presentation";
   import { routeRecap } from "../domain/route-recap";
   import { trailEntityAt } from "../domain/trail-entities";
@@ -12,20 +17,28 @@
     leaderboard,
     leaderboardStatus,
     leaderboardError,
+    room,
+    relayBusy = false,
     onLeaderboardRetry,
     onSolo,
     onDaily,
     onRelay,
+    onRelayVote,
+    onRelayRefresh,
     onHome,
   }: {
     session: SessionSnapshot;
     leaderboard: DailyLeaderboard;
     leaderboardStatus: "idle" | "loading" | "ready" | "error";
     leaderboardError: string;
+    room?: RoomSnapshot;
+    relayBusy?: boolean;
     onLeaderboardRetry: () => void;
     onSolo: () => void;
     onDaily: () => void;
     onRelay: () => void;
+    onRelayVote: (accept: boolean) => void;
+    onRelayRefresh: () => void;
     onHome: () => void;
   } = $props();
 
@@ -47,14 +60,18 @@
     session.mode === "daily"
       ? "Daily complete"
       : session.mode === "relay"
-        ? "Relay complete"
+        ? session.status === "expired"
+          ? "Relay closed"
+          : "Relay complete"
         : "Solo complete",
   );
   const resultSummary = $derived(
     session.mode === "daily"
       ? `Your route through today’s shared connection took ${session.moves} moves. See how it compares with today’s field below.`
       : session.mode === "relay"
-        ? `You reached the shared destination in ${session.moves} moves. Return to Live Relay to create or join another room.`
+        ? session.status === "expired"
+          ? `The 30-second final chance ended after ${session.moves} moves. Your route is saved, and the lobby can still choose another round.`
+          : `You reached the shared destination in ${session.moves} moves. Stay with the lobby to choose what happens next.`
         : `${session.start.label} was ${session.moves} moves away—at least by the route you chose.`,
   );
 </script>
@@ -66,7 +83,13 @@
     </div>
     <div class="result-hero__copy">
       <p class="eyebrow">{modeLabel} complete</p>
-      <h1 id="result-title">You found<br /><em>{session.target.label}.</em></h1>
+      <h1 id="result-title">
+        {#if session.mode === "relay" && session.status === "expired"}
+          Time ran out<br /><em>before {session.target.label}.</em>
+        {:else}
+          You found<br /><em>{session.target.label}.</em>
+        {/if}
+      </h1>
       <p>{resultSummary}</p>
     </div>
     <dl class="result-score">
@@ -104,7 +127,7 @@
           class:route-reveal__item--with-artwork={Boolean(routeEntity)}
           data-route-endpoint={index === 0
             ? "start"
-            : index === session.trail.length - 1
+            : item.qid === session.target.qid
               ? "goal"
               : undefined}
         >
@@ -113,7 +136,7 @@
               entity={routeEntity}
               endpoint={index === 0
                 ? "start"
-                : index === session.trail.length - 1
+                : item.qid === session.target.qid
                   ? "goal"
                   : "node"}
               className="route-reveal__artwork"
@@ -175,22 +198,14 @@
         </div>
       </div>
     {:else}
-      <div class="next-route">
-        <p class="eyebrow">Live relay</p>
-        <h2>Keep racing together.</h2>
-        <p>Create a new room or join another explorer with a field code.</p>
-        <div class="next-route__actions">
-          <button class="primary-action" type="button" onclick={onRelay}
-            >Create or join another Relay <AtlasIcon
-              name="arrow"
-              size={20}
-            /></button
-          >
-          <button class="text-action" type="button" onclick={onSolo}
-            >Play a Solo route</button
-          >
-        </div>
-      </div>
+      <RelayResultActions
+        {room}
+        busy={relayBusy}
+        onVote={onRelayVote}
+        onRefresh={onRelayRefresh}
+        onLobby={onRelay}
+        {onSolo}
+      />
     {/if}
   </section>
 

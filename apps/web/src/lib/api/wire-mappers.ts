@@ -7,6 +7,7 @@ import type {
   EntitySummary,
   LeaderboardEntry,
   RelationGroup,
+  RoomInvitePreview,
   RoomSnapshot,
   SessionSnapshot,
   UsedHint,
@@ -18,6 +19,7 @@ import type {
   WireEntity,
   WireLeaderboard,
   WireRoom,
+  WireRoomInvite,
   WireSession,
 } from "./wire-types";
 import { sourceMetadataFor } from "../domain/entity-provenance";
@@ -230,10 +232,14 @@ export function mapRoom(value: WireRoom): RoomSnapshot {
     target: entity(value.target),
     max_players: 4,
     starts_at: value.countdown_ends_at ?? undefined,
+    grace_ends_at: value.grace_ends_at ?? undefined,
+    rematch_ends_at: value.rematch_ends_at ?? undefined,
+    close_reason: value.close_reason ?? undefined,
     current_session_id: current?.session_id ?? undefined,
     players: value.participants.map((participant) => ({
       id: participant.guest_id,
       display_name: participant.display_name,
+      active: participant.active,
       ready: participant.ready,
       moves: participant.moves,
       progress:
@@ -243,9 +249,23 @@ export function mapRoom(value: WireRoom): RoomSnapshot {
             ? "closing-in"
             : "mapping",
       hints_used: participant.hints_used,
+      finish_rank: participant.finish_rank ?? undefined,
+      rematch_vote: participant.rematch_vote ?? undefined,
       is_host: participant.is_self && value.is_host,
       is_current_guest: participant.is_self,
     })),
+  };
+}
+
+export function mapRoomInvite(value: WireRoomInvite): RoomInvitePreview {
+  return {
+    code: value.code,
+    host_display_name: value.host_display_name,
+    state: value.state,
+    player_count: value.player_count,
+    max_players: value.max_players,
+    is_member: value.is_member,
+    joinable: value.joinable,
   };
 }
 

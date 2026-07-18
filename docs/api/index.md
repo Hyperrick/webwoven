@@ -48,12 +48,23 @@ empty history, while new sessions round-trip it through persistence and reconnec
 
 ## Rooms
 
-Rooms use six-character Crockford Base32 codes and accept two to four guests. The lifecycle API
-creates or joins a room, changes readiness, starts the countdown, and returns a reconnectable
-snapshot. `POST /api/v1/rooms` requires `difficulty` and accepts an optional canonical `category`;
-when present, both round endpoints match that category. Omitting it selects from every eligible
-category. The selected round is pinned when the host creates the room, so joiners cannot change the
-filter. Moves still use the shared session command endpoint.
+The API retains the `rooms` resource name while the user-facing product calls each room a Lobby.
+Rooms use six-character Crockford Base32 codes and accept two to four active guests.
+
+| Method | Path                            | Purpose |
+| ------ | ------------------------------- | ------- |
+| `POST` | `/api/v1/rooms`                 | Create a Lobby and pin its route filters. |
+| `GET`  | `/api/v1/rooms/{code}/invite`   | Read the minimal invitation preview before confirmation. |
+| `POST` | `/api/v1/rooms/{code}/join`     | Join a still-open Lobby. |
+| `POST` | `/api/v1/rooms/{code}/ready`    | Change the current participant's ready state. |
+| `POST` | `/api/v1/rooms/{code}/start`    | Let the host create synchronized sessions and start the countdown. |
+| `POST` | `/api/v1/rooms/{code}/rematch`  | Submit the current participant's yes/no rematch vote. |
+| `GET`  | `/api/v1/rooms/{code}`          | Return the current member's reconnectable Lobby snapshot. |
+
+`POST /api/v1/rooms` requires `difficulty` and accepts an optional canonical `category`; when
+present, both round endpoints match that category. Omitting it selects from every eligible
+category. The selected round is pinned when the host creates the Lobby, so joiners cannot change
+the filter. Moves still use the shared session command endpoint.
 
 ```json
 {
@@ -62,9 +73,26 @@ filter. Moves still use the shared session command endpoint.
 }
 ```
 
-`/api/v1/ws/rooms/{code}` emits roster, countdown, abstract progress, finish, grace-period, and
-closure events. A reconnect begins with a resume message and receives a complete snapshot before
-incremental events continue.
+The host-only Share action creates the browser route `/relay/{CODE}/join`. It invokes the native Web
+Share API when available, with clipboard and selectable-text fallbacks. The route first requests
+`GET /api/v1/rooms/{code}/invite`, whose response is intentionally limited to `code`,
+`host_display_name`, room `state`, `player_count`, `max_players`, `is_member`, and `joinable`. The
+client names the inviter and requires an explicit confirmation before it calls the join endpoint or
+opens an existing membership in the current Webwoven window.
+
+Every Lobby snapshot exposes `countdown_ends_at`, `grace_ends_at`, `rematch_ends_at`, and an optional
+`close_reason`. Participant entries expose `active` and the optional `rematch_vote`; another
+participant's session ID remains hidden. Session command authorization uses the same absolute
+countdown boundary as the sessions themselves, so a command at the deadline does not depend on a
+room refresh. The first finish opens a 30-second grace window. At its deadline unfinished sessions
+are marked `expired`, the room enters `finished`, and a 30-second rematch vote begins. At least two
+yes votes retain the code and create new synchronized sessions for those voters; fewer than two
+closes the room with `not_enough_players`.
+
+`/api/v1/ws/rooms/{code}` emits roster, countdown, abstract progress, participant finish,
+grace-period, rematch-vote, next-countdown, and closure events. Its transition-aware wait wakes at
+the next authoritative deadline rather than waiting for a later client action. A reconnect begins
+with a resume message and receives a complete snapshot before incremental events continue.
 
 ## Reports and health
 

@@ -50,6 +50,7 @@ class Settings(BaseSettings):
     rate_limit_room_creates: int = Field(default=10, ge=1, le=1000)
     rate_limit_room_actions: int = Field(default=60, ge=1, le=1000)
     rate_limit_room_ready: int = Field(default=60, ge=1, le=1000)
+    rate_limit_room_invites: int = Field(default=120, ge=1, le=5000)
     rate_limit_content_reports: int = Field(default=10, ge=1, le=100)
     rate_limit_ws_resumes: int = Field(default=30, ge=1, le=1000)
     websocket_concurrent_per_guest: int = Field(default=3, ge=1, le=20)

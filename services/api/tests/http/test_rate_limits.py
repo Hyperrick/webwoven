@@ -106,6 +106,19 @@ def test_room_creation_and_ready_changes_are_rate_limited(app_settings: Settings
     assert response.status_code == 429
 
 
+def test_room_invite_previews_are_rate_limited(app_settings: Settings) -> None:
+    settings = app_settings.model_copy(update={"rate_limit_room_invites": 1})
+    with TestClient(create_app(settings)) as client:
+        headers = create_guest(client)
+        room = client.post("/api/v1/rooms", headers=headers, json={"difficulty": "normal"}).json()
+        path = f"/api/v1/rooms/{room['code']}/invite"
+        first = client.get(path)
+        response = client.get(path)
+
+    assert first.status_code == 200
+    assert response.status_code == 429
+
+
 def test_websocket_resume_limit_closes_before_accept(app_settings: Settings) -> None:
     settings = app_settings.model_copy(update={"rate_limit_ws_resumes": 1})
     with TestClient(create_app(settings)) as client:

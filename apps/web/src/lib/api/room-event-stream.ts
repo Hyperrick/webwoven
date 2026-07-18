@@ -19,11 +19,15 @@ export class RoomEventStream {
   #stopped = true;
   #attempt = 0;
   #sequence = 0;
+  #code = "";
 
   connect(code: string, callbacks: RoomEventCallbacks): () => void {
+    const normalizedCode = code.trim().toUpperCase();
+    if (normalizedCode !== this.#code) this.#sequence = 0;
+    this.#code = normalizedCode;
     this.stop();
     this.#stopped = false;
-    this.#open(code, callbacks);
+    this.#open(normalizedCode, callbacks);
     return () => this.stop();
   }
 
@@ -44,6 +48,7 @@ export class RoomEventStream {
     this.#socket = socket;
 
     socket.addEventListener("open", () => {
+      if (this.#socket !== socket) return;
       this.#attempt = 0;
       this.#clearPing();
       this.#pingTimer = window.setInterval(() => {
@@ -52,6 +57,7 @@ export class RoomEventStream {
       callbacks.onStatus("connected");
     });
     socket.addEventListener("message", (message) => {
+      if (this.#socket !== socket) return;
       if (typeof message.data !== "string" || message.data === "pong") return;
       try {
         const event = JSON.parse(message.data) as RoomEventEnvelope;
@@ -62,6 +68,7 @@ export class RoomEventStream {
       }
     });
     socket.addEventListener("close", () => {
+      if (this.#socket !== socket) return;
       this.#clearPing();
       if (this.#stopped) return;
       callbacks.onStatus(navigator.onLine ? "reconnecting" : "offline");

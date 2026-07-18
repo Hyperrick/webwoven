@@ -8,7 +8,6 @@
     modeLabel,
     difficulty = "Normal",
     moves,
-    par,
     seconds,
     score,
     canGoBack,
@@ -20,7 +19,6 @@
     modeLabel: string;
     difficulty?: "Easy" | "Normal" | "Hard";
     moves: number;
-    par: number | null;
     seconds: number;
     score: number | null;
     canGoBack: boolean;
@@ -53,7 +51,7 @@
     </p>
   </div>
 
-  <GameMetrics {moves} {par} {seconds} {score} />
+  <GameMetrics {moves} {targetLabel} {seconds} {score} />
 
   <button
     class="back-action"

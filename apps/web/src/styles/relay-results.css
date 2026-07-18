@@ -1,0 +1,17 @@
+.relay-result-actions__clock {
+  display: inline-block;
+  min-width: 3.5rem;
+  margin-inline: 0.25rem;
+  color: var(--color-signal);
+  font-family: var(--font-technical);
+  font-variant-numeric: tabular-nums;
+}
+
+.relay-result-actions__votes,
+.relay-result-actions__decision {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-muted-ink);
+  font-family: var(--font-technical);
+  font-size: var(--text-12);
+}

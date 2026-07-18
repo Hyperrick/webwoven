@@ -90,6 +90,37 @@ def test_room_round_trip_preserves_reconnect_state_and_events() -> None:
     assert room_from_dict(room_to_dict(room)) == room
 
 
+def test_room_deserialization_upgrades_v1_documents_with_safe_defaults() -> None:
+    document = room_to_dict(
+        Room(
+            code="ABC123",
+            host_guest_id="guest-1",
+            graph_version="graph-v1",
+            round_id="round-1",
+            state=RoomState.FINISHED,
+            participants=(Participant("guest-1", "Atlas"),),
+            created_at=NOW,
+            updated_at=NOW,
+        )
+    )
+    document["schema_version"] = 1
+    document.pop("rematch_ends_at")
+    document.pop("close_reason")
+    participants = document["participants"]
+    assert isinstance(participants, list)
+    participant = participants[0]
+    assert isinstance(participant, dict)
+    participant.pop("active")
+    participant.pop("rematch_vote")
+
+    restored = room_from_dict(document)
+
+    assert restored.participants[0].active is True
+    assert restored.participants[0].rematch_vote is None
+    assert restored.rematch_ends_at is None
+    assert restored.close_reason is None
+
+
 def test_serialization_rejects_unversioned_or_non_json_data() -> None:
     with pytest.raises(PersistenceDataError, match="schema_version"):
         session_from_dict({"schema_version": "one"})

@@ -30,7 +30,7 @@
   let introCopy = $derived(
     context === "daily"
       ? "Choose the public name shown on today’s leaderboard. It stays in this browser only—no registration, password, or cross-device account."
-      : "Choose the public name shown in the room roster and live race. It stays in this browser only—no registration, password, or cross-device account.",
+      : "Choose the public name shown in the lobby roster and live race. It stays in this browser only—no registration, password, or cross-device account.",
   );
 
   $effect(() => {

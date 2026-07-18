@@ -101,7 +101,9 @@
 
 .game-metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns:
+    minmax(5rem, 0.75fr) minmax(4rem, 0.6fr) minmax(10rem, 1.8fr)
+    minmax(5rem, 0.8fr);
   margin: 0;
   color: var(--color-paper);
   background: transparent;
@@ -144,21 +146,30 @@
   font-weight: 600;
 }
 
+.game-metrics__target dd {
+  overflow: visible;
+  font-family: var(--font-interface);
+  font-size: var(--text-16);
+  font-weight: 600;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+}
+
 @media (width <= 50rem) {
   .round-masthead {
     grid-template-columns: 1fr auto;
   }
 
   .round-masthead__identity {
-    grid-column: 1;
-    grid-row: 1;
+    display: none;
   }
 
   .game-metrics {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    border-top: 1px solid
-      color-mix(in srgb, var(--color-paper) 28%, transparent);
+    grid-column: 1;
+    grid-row: 1;
+    border-top: 0;
   }
 
   .back-action {
@@ -178,18 +189,8 @@
     border-inline: 0;
   }
 
-  .round-masthead__identity {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    gap: var(--space-1) var(--space-2);
-    padding-block: var(--space-2);
-    padding-inline: var(--space-3);
-  }
-
-  .round-masthead__meta {
-    font-size: 0.7rem;
+  .game-metrics {
+    grid-template-columns: 3.25rem 2.75rem minmax(0, 1fr) 3.25rem;
   }
 
   .game-metrics div {
@@ -199,6 +200,15 @@
 
   .game-metrics dd {
     font-size: var(--text-16);
+  }
+
+  .game-metrics__target {
+    padding-inline: var(--space-2);
+  }
+
+  .game-metrics__target dd {
+    font-size: var(--text-12);
+    line-height: 1.05;
   }
 
   .back-action {
@@ -218,30 +228,9 @@
 
 @media (width <= 32rem) and (height <= 42rem) {
   .round-masthead {
-    grid-template-columns: auto minmax(0, 1fr) 2.75rem;
+    grid-template-columns: minmax(0, 1fr) 2.75rem;
   }
 
-  .round-masthead__identity {
-    grid-column: 1;
-    grid-row: 1;
-    flex-wrap: nowrap;
-    gap: var(--space-1);
-    padding: 0 var(--space-2);
-  }
-
-  .round-masthead__state {
-    gap: var(--space-1);
-    font-size: 0.6875rem;
-    white-space: nowrap;
-  }
-
-  .round-masthead__marker {
-    width: 0.375rem;
-    height: 0.375rem;
-  }
-
-  .round-masthead__state-full,
-  .round-masthead__meta,
   .game-metrics__pending-full {
     position: absolute;
     width: 1px;
@@ -251,13 +240,12 @@
     white-space: nowrap;
   }
 
-  .round-masthead__state-short,
   .game-metrics__pending-short {
     display: inline;
   }
 
   .game-metrics {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     border-top: 0;
   }
@@ -277,8 +265,12 @@
     font-size: 0.875rem;
   }
 
+  .game-metrics__target dd {
+    font-size: 0.6875rem;
+  }
+
   .back-action {
-    grid-column: 3;
+    grid-column: 2;
     grid-row: 1;
     min-width: 2.75rem;
     min-height: 2.75rem;

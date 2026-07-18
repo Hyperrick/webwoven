@@ -14,10 +14,15 @@ class RoomState(StrEnum):
     CLOSED = "closed"
 
 
+class RoomCloseReason(StrEnum):
+    NOT_ENOUGH_PLAYERS = "not_enough_players"
+
+
 @dataclass(frozen=True, slots=True)
 class Participant:
     guest_id: str
     display_name: str
+    active: bool = True
     ready: bool = False
     connected: bool = True
     session_id: str | None = None
@@ -26,6 +31,7 @@ class Participant:
     progress_band: int = 0
     finished_at: datetime | None = None
     finish_rank: int | None = None
+    rematch_vote: bool | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -50,6 +56,8 @@ class Room:
     events: tuple[RoomEvent, ...] = ()
     countdown_ends_at: datetime | None = None
     grace_ends_at: datetime | None = None
+    rematch_ends_at: datetime | None = None
+    close_reason: RoomCloseReason | None = None
 
     def participant(self, guest_id: str) -> Participant | None:
         return next(

@@ -101,6 +101,23 @@ class SessionService:
             raise ForbiddenError("This session belongs to another guest")
         return session
 
+    async def expire_relay(self, session_id: str, ended_at: datetime) -> GameSession | None:
+        """Close an unfinished Relay attempt at its room-owned deadline."""
+        async with self._repository.lock(session_id):
+            session = await self._repository.get(session_id)
+            if session is None:
+                return None
+            if session.mode is not SessionMode.RELAY or session.status is not SessionStatus.ACTIVE:
+                return session
+            expired = replace(
+                session,
+                status=SessionStatus.EXPIRED,
+                state_version=session.state_version + 1,
+                completed_at=ended_at,
+            )
+            await self._repository.save(expired)
+            return expired
+
     async def execute(
         self,
         *,

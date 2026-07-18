@@ -1,40 +1,34 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    RoomEventStream,
-    type RelayConnectionState,
-  } from "./lib/api/room-event-stream";
+  import type { RelayConnectionState } from "./lib/api/room-event-stream";
   import { createRuntimeApi } from "./lib/api/runtime-api";
   import type {
     DailyLeaderboard,
     Guest,
     HintType,
     RoundFilters,
+    RoomInvitePreview,
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
   import { trackAnalytics } from "./lib/analytics/analytics";
   import { RoundLifecycleAnalytics } from "./lib/analytics/round-lifecycle-analytics";
-  import DailyLeaderboardDrawer from "./lib/components/DailyLeaderboardDrawer.svelte";
-  import GuestNamePrompt from "./lib/components/GuestNamePrompt.svelte";
-  import RouteConfetti from "./lib/components/RouteConfetti.svelte";
-  import SettingsDrawer from "./lib/components/SettingsDrawer.svelte";
+  import AppDialogs from "./lib/components/AppDialogs.svelte";
+  import AppDrawers from "./lib/components/AppDrawers.svelte";
   import SiteHeader from "./lib/components/SiteHeader.svelte";
-  import SourcesDrawer from "./lib/components/SourcesDrawer.svelte";
-  import ExitDialog from "./lib/components/ExitDialog.svelte";
-  import StatusToast from "./lib/components/StatusToast.svelte";
   import { GameController } from "./lib/controllers/game-controller";
   import { RoomController } from "./lib/controllers/room-controller";
-  import { sessionMediaEntities } from "./lib/domain/trail-entities";
-  import {
-    confirmGuestName,
-    isGuestNameConfirmed,
-  } from "./lib/guest-profile/guest-name";
+  import { confirmGuestName } from "./lib/guest-profile/guest-name";
   import {
     BrowserRouter,
     parseRoute,
     type AppRoute,
   } from "./lib/navigation/router";
+  import {
+    isProtectedGame,
+    keepsRelayConnection,
+    routeRequiresGuestName,
+  } from "./lib/navigation/route-guards";
   import {
     clearActiveSession,
     loadActiveSessionId,
@@ -46,6 +40,7 @@
     persistPreferences,
     type Preferences,
   } from "./lib/preferences/preferences";
+  import { RelayRuntime } from "./lib/relay/relay-runtime";
   import GamePage from "./lib/pages/GamePage.svelte";
   import LabPage from "./lib/pages/LabPage.svelte";
   import LandingPage from "./lib/pages/LandingPage.svelte";
@@ -58,13 +53,13 @@
   const api = createRuntimeApi();
   const games = new GameController(api);
   const rooms = new RoomController(api);
-  const roomEvents = new RoomEventStream();
   const roundAnalytics = new RoundLifecycleAnalytics();
 
   let route = $state<AppRoute>(parseRoute(window.location.pathname));
   let guest = $state<Guest>();
   let session = $state<SessionSnapshot>();
   let room = $state<RoomSnapshot>();
+  let invite = $state<RoomInvitePreview>();
   let leaderboard = $state<DailyLeaderboard>({
     entries: [],
     current_guest_entry: null,
@@ -86,19 +81,25 @@
   let profileBusy = $state(false);
   let profileError = $state("");
   let router: BrowserRouter;
-  let sourceEntities = $derived(session ? sessionMediaEntities(session) : []);
-
-  const hasProtectedGame = () =>
-    session?.status === "active" &&
-    ["solo", "daily", "race"].includes(route.name);
+  const currentRoom = () => room;
+  const relay = new RelayRuntime(rooms, games, {
+    route: () => route,
+    session: () => session,
+    setRoom: (latest) => (room = latest),
+    setSession: (latest) => (session = latest),
+    setConnection: (status) => (relayConnection = status),
+    reportStarted: (latest) => roundAnalytics.reportStarted(latest),
+    navigate: (path) => navigate(path, true),
+    reportError: (message) => (error = message),
+  });
 
   onMount(() => {
     preferences = loadPreferences();
     persistPreferences(preferences);
     router = new BrowserRouter({
-      isProtected: hasProtectedGame,
+      isProtected: () => isProtectedGame(session, route),
       onRoute: (next) => {
-        if (next.name !== "race") roomEvents.stop();
+        if (!keepsRelayConnection(next)) relay.stop();
         route = next;
         void hydrateRoute(next);
       },
@@ -108,7 +109,7 @@
     void run(initialize);
     return () => {
       stop();
-      roomEvents.stop();
+      relay.stop();
     };
   });
 
@@ -124,7 +125,7 @@
   }
 
   async function hydrateRoute(next: AppRoute): Promise<void> {
-    if (requiresGuestName(next)) {
+    if (routeRequiresGuestName(guest, next)) {
       namePromptOpen = true;
       return;
     }
@@ -135,14 +136,18 @@
     if (next.name === "daily" && !session) {
       await restoreOrStartDaily();
     }
-    if (next.name === "race" && (!room || room.code !== next.code)) {
+    if (next.name === "lobby-invite") {
       await run(async () => {
-        room = await rooms.join(next.code);
-        if (!room.current_session_id)
-          throw new Error("This relay has not assigned your route yet.");
-        session = await games.resume(room.current_session_id);
-        connectRoomEvents(room.code);
+        room = undefined;
+        invite = await rooms.invite(next.code);
       });
+      return;
+    }
+    if (next.name === "race" && (!room || room.code !== next.code)) {
+      await run(async () => relay.hydrate(next.code));
+    }
+    if (next.name === "relay-results" && (!room || room.code !== next.code)) {
+      await run(async () => relay.hydrate(next.code, false));
     }
     if (
       next.name === "results" &&
@@ -153,16 +158,8 @@
     }
   }
 
-  function requiresGuestName(next: AppRoute): boolean {
-    return Boolean(
-      guest &&
-      ["daily", "lobby", "race"].includes(next.name) &&
-      !isGuestNameConfirmed(guest),
-    );
-  }
-
-  function navigate(path: string, bypassGuard = false): void {
-    router?.navigate(path, { bypassGuard });
+  function navigate(path: string, bypassGuard = false, replace = false): void {
+    router?.navigate(path, { bypassGuard, replace });
   }
 
   function begin(mode: "solo" | "daily"): void {
@@ -175,8 +172,9 @@
 
   function beginRelay(): void {
     trackAnalytics("mode_selected", { mode: "relay" });
-    roomEvents.stop();
+    relay.stop();
     room = undefined;
+    invite = undefined;
     session = undefined;
     navigate("/relay");
   }
@@ -225,13 +223,13 @@
   async function follow(edgeToken: string): Promise<void> {
     if (!session) return;
     await run(async () => {
-      session = await games.follow(session!, edgeToken);
+      session = await relay.follow(session!, edgeToken, currentRoom);
       persistActiveSession(session);
       if (session.status === "completed") {
         celebrationSessionId = session.id;
         roundAnalytics.reportCompleted(session);
         if (session.mode === "daily") void loadDailyLeaderboard();
-        window.setTimeout(() => navigate("/results", true), 300);
+        await relay.navigateAfterCompletion(session, room);
       }
     });
   }
@@ -239,20 +237,20 @@
   async function back(): Promise<void> {
     if (!session) return;
     await run(async () => {
-      session = await games.back(session!);
+      session = await relay.back(session!, currentRoom);
       persistActiveSession(session);
     });
   }
 
   async function useHint(
     type: HintType,
-    propertyId?: string,
-    entityQid?: string,
+    property?: string,
+    entity?: string,
   ): Promise<void> {
     if (!session) return;
     await run(async () => {
       const previousHintCount = session!.hints_used.length;
-      session = await games.hint(session!, type, propertyId, entityQid);
+      session = await relay.hint(session!, type, currentRoom, property, entity);
       persistActiveSession(session);
       if (session.hints_used.length > previousHintCount) {
         trackAnalytics("hint_used", {
@@ -268,15 +266,49 @@
   async function createRoom(filters: RoundFilters): Promise<void> {
     await run(async () => {
       room = await rooms.create(filters);
-      connectRoomEvents(room.code);
+      relay.connect(room.code);
     });
   }
 
   async function joinRoom(code: string): Promise<void> {
     await run(async () => {
       room = await rooms.join(code);
-      connectRoomEvents(room.code);
+      relay.connect(room.code);
     });
+  }
+
+  async function openInvite(): Promise<void> {
+    if (!invite) return;
+    await run(async () => {
+      const latest = invite!.is_member
+        ? await rooms.get(invite!.code)
+        : await rooms.join(invite!.code);
+      invite = undefined;
+      room = latest;
+      relay.connect(latest.code);
+      if (latest.state === "lobby") {
+        navigate("/relay", true, true);
+        return;
+      }
+      if (!latest.current_session_id)
+        throw new Error("This lobby no longer has a route for you.");
+      session = await games.resume(latest.current_session_id);
+      const resultState =
+        latest.state === "finished" || latest.state === "closed";
+      const resultPath = `/relay/${latest.code}/results`;
+      navigate(
+        resultState || session.status !== "active"
+          ? resultPath
+          : `/relay/${latest.code}`,
+        true,
+        true,
+      );
+    });
+  }
+
+  function cancelInvite(): void {
+    invite = undefined;
+    navigate("/", true, true);
   }
 
   async function toggleReady(): Promise<void> {
@@ -295,8 +327,21 @@
         throw new Error("The relay did not assign your synchronized route.");
       session = await games.resume(room.current_session_id);
       roundAnalytics.reportStarted(session);
-      connectRoomEvents(room.code);
+      relay.connect(room.code);
     });
+  }
+
+  async function voteRematch(accept: boolean): Promise<void> {
+    if (!room) return;
+    await run(async () => {
+      const latest = await rooms.voteRematch(room!, accept);
+      await relay.apply(latest);
+    });
+  }
+
+  async function refreshRelay(): Promise<void> {
+    if (!room) return;
+    await run(async () => relay.apply(await rooms.get(room!.code)));
   }
 
   function resetLeaderboard(): void {
@@ -396,30 +441,6 @@
     void loadDailyLeaderboard();
   }
 
-  function connectRoomEvents(code: string): void {
-    if (import.meta.env.VITE_API_MODE === "demo") return;
-    roomEvents.connect(code, {
-      onStatus: (status) => (relayConnection = status),
-      onEvent: () => {
-        void refreshRoomFromEvent(code);
-      },
-    });
-  }
-
-  async function refreshRoomFromEvent(code: string): Promise<void> {
-    const latest = await rooms.get(code);
-    room = latest;
-    if (
-      route.name === "lobby" &&
-      (latest.state === "countdown" || latest.state === "racing") &&
-      latest.current_session_id
-    ) {
-      session = await games.resume(latest.current_session_id);
-      roundAnalytics.reportStarted(session);
-      navigate(`/relay/${latest.code}`);
-    }
-  }
-
   function confirmExit(): void {
     if (session?.status === "active") {
       trackAnalytics("route_abandoned", {
@@ -498,7 +519,7 @@
           <p>Unfolding the atlas…</p>
         </main>
       {/if}
-    {:else if route.name === "lobby"}
+    {:else if route.name === "lobby" || route.name === "lobby-invite"}
       <LobbyPage
         {room}
         {busy}
@@ -507,16 +528,20 @@
         onReady={() => void toggleReady()}
         onStart={() => void startRelay()}
       />
-    {:else if route.name === "results" && session}
+    {:else if (route.name === "results" || route.name === "relay-results") && session}
       <ResultsPage
         {session}
         {leaderboard}
         {leaderboardStatus}
         {leaderboardError}
+        room={route.name === "relay-results" ? room : undefined}
+        relayBusy={busy}
         onLeaderboardRetry={() => void loadDailyLeaderboard()}
         onSolo={() => begin("solo")}
         onDaily={() => begin("daily")}
         onRelay={beginRelay}
+        onRelayVote={(accept) => void voteRematch(accept)}
+        onRelayRefresh={() => void refreshRelay()}
         onHome={() => navigate("/")}
       />
     {:else if route.name === "lab"}
@@ -531,44 +556,43 @@
   {#if error}<div class="error-banner" role="alert" inert={drawer !== null}>
       {error}<button type="button" onclick={() => (error = "")}>Dismiss</button>
     </div>{/if}
-  <SettingsDrawer
-    open={drawer === "settings"}
+  <AppDrawers
+    open={drawer}
     {guest}
     {preferences}
     nameBusy={profileBusy}
     nameError={profileError}
-    nameDisabled={route.name === "lobby" || route.name === "race"}
-    onChange={updatePreferences}
-    onNameSave={(name) => void saveSettingsName(name)}
-    onClose={() => (drawer = null)}
-  />
-  <DailyLeaderboardDrawer
-    open={drawer === "leaderboard"}
+    nameDisabled={["lobby", "lobby-invite", "race", "relay-results"].includes(
+      route.name,
+    )}
     {leaderboard}
-    status={leaderboardStatus}
-    error={leaderboardError}
-    onRetry={() => void loadDailyLeaderboard()}
-    onClose={() => (drawer = null)}
-  />
-  <SourcesDrawer
-    open={drawer === "sources"}
-    entity={session?.current}
-    roundEntities={sourceEntities}
+    {leaderboardStatus}
+    {leaderboardError}
+    {session}
     {graphBuild}
-    onClose={() => (drawer = null)}
+    onPreferencesChange={updatePreferences}
+    onNameSave={(name) => void saveSettingsName(name)}
+    onLeaderboardRetry={() => void loadDailyLeaderboard()}
     onReport={() => void reportCurrent()}
+    onClose={() => (drawer = null)}
   />
-  <ExitDialog open={exitOpen} onStay={stayInGame} onLeave={confirmExit} />
-  <GuestNamePrompt
-    open={namePromptOpen}
+  <AppDialogs
+    {exitOpen}
+    {namePromptOpen}
     {guest}
-    context={route.name === "daily" ? "daily" : "relay"}
-    busy={profileBusy}
-    error={profileError}
-    onSave={(name) => void savePromptName(name)}
-    onKeep={keepGeneratedName}
-    onCancel={cancelNamePrompt}
+    nameContext={route.name === "daily" ? "daily" : "relay"}
+    {profileBusy}
+    inviteBusy={busy}
+    {profileError}
+    {toast}
+    {celebrationSessionId}
+    {invite}
+    onStay={stayInGame}
+    onLeave={confirmExit}
+    onNameSave={(name) => void savePromptName(name)}
+    onNameKeep={keepGeneratedName}
+    onNameCancel={cancelNamePrompt}
+    onInviteJoin={() => void openInvite()}
+    onInviteCancel={cancelInvite}
   />
-  <StatusToast message={toast} />
-  <RouteConfetti sessionId={celebrationSessionId} />
 </div>

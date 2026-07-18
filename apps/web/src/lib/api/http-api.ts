@@ -14,6 +14,7 @@ import type {
   GameMode,
   Guest,
   RoundFilters,
+  RoomInvitePreview,
   RoomSnapshot,
   SessionCommand,
   SessionSnapshot,
@@ -24,6 +25,7 @@ import {
   mapDaily,
   mapLeaderboard,
   mapRoom,
+  mapRoomInvite,
   mapSession,
 } from "./wire-mappers";
 import type {
@@ -32,6 +34,7 @@ import type {
   WireDaily,
   WireLeaderboard,
   WireRoom,
+  WireRoomInvite,
   WireSession,
 } from "./wire-types";
 
@@ -143,6 +146,12 @@ export class HttpApi implements WebwovenApi {
     );
   }
 
+  async getRoomInvite(code: string): Promise<RoomInvitePreview> {
+    return mapRoomInvite(
+      await this.#request<WireRoomInvite>(`/api/v1/rooms/${code}/invite`),
+    );
+  }
+
   async joinRoom(code: string): Promise<RoomSnapshot> {
     return mapRoom(
       await this.#request<WireRoom>(`/api/v1/rooms/${code}/join`, {
@@ -163,6 +172,15 @@ export class HttpApi implements WebwovenApi {
     return mapRoom(
       await this.#request<WireRoom>(`/api/v1/rooms/${code}/start`, {
         method: "POST",
+      }),
+    );
+  }
+
+  async voteRoomRematch(code: string, accept: boolean): Promise<RoomSnapshot> {
+    return mapRoom(
+      await this.#request<WireRoom>(`/api/v1/rooms/${code}/rematch`, {
+        method: "POST",
+        body: { accept },
       }),
     );
   }

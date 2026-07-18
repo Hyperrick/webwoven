@@ -66,6 +66,8 @@ def _policy_for(request: Request, container: AppContainer) -> _Policy | None:
     settings = container.settings
     if request.method == "PATCH" and path == "/api/v1/guests/me":
         return _Policy("guest-update", settings.rate_limit_guest_updates)
+    if request.method == "GET" and path.startswith("/api/v1/rooms/") and path.endswith("/invite"):
+        return _Policy("room-invite", settings.rate_limit_room_invites)
     if request.method != "POST":
         return None
     if path == "/api/v1/guests":
@@ -76,7 +78,7 @@ def _policy_for(request: Request, container: AppContainer) -> _Policy | None:
         return _Policy("session-command", settings.rate_limit_session_commands)
     if path == "/api/v1/rooms":
         return _Policy("room-create", settings.rate_limit_room_creates)
-    if path.startswith("/api/v1/rooms/") and path.endswith(("/join", "/start")):
+    if path.startswith("/api/v1/rooms/") and path.endswith(("/join", "/start", "/rematch")):
         return _Policy("room-action", settings.rate_limit_room_actions)
     if path.startswith("/api/v1/rooms/") and path.endswith("/ready"):
         return _Policy("room-ready", settings.rate_limit_room_ready)

@@ -70,7 +70,14 @@ class ValkeyRoomRepository:
 
     async def find_by_session(self, session_id: str) -> Room | None:
         code = await self._client.get(ValkeyKeys.session_room(session_id))
-        return await self.get(code) if code is not None else None
+        room = await self.get(code) if code is not None else None
+        if room is None:
+            return None
+        current = any(
+            participant.active and participant.session_id == session_id
+            for participant in room.participants
+        )
+        return room if current else None
 
     def _ttl_for(self, room: Room) -> int:
         if room.state in {RoomState.FINISHED, RoomState.CLOSED}:

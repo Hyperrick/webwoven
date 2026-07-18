@@ -8,6 +8,7 @@
   import RoundMasthead from "../components/RoundMasthead.svelte";
   import { activeBackDestination } from "../domain/back-navigation";
   import { gameModeLabel } from "../domain/game-mode-presentation";
+  import { relayGraceRemainingSeconds } from "../domain/relay-grace";
   import RoundIntro from "../round-intro/RoundIntro.svelte";
 
   let {
@@ -36,7 +37,18 @@
   let introActive = $derived(
     completedIntroId !== session.id && Date.parse(session.started_at) > now,
   );
-  let locked = $derived(busy || introActive);
+  let graceSeconds = $derived(
+    room ? relayGraceRemainingSeconds(room, now) : null,
+  );
+  let relayEnded = $derived(
+    Boolean(
+      room &&
+      (room.state === "finished" ||
+        room.state === "closed" ||
+        (room.state === "grace_period" && graceSeconds === 0)),
+    ),
+  );
+  let locked = $derived(busy || introActive || relayEnded);
   let liveSeconds = $derived.by(() => {
     const started = Date.parse(session.started_at);
     const elapsed = Number.isFinite(started)
@@ -86,6 +98,7 @@
         {room}
         currentMoves={session.moves}
         connection={relayConnection}
+        {now}
       />
     {/if}
 
@@ -99,7 +112,6 @@
           ? "Hard"
           : "Normal"}
       moves={session.moves}
-      par={session.shortest_distance}
       seconds={liveSeconds}
       score={session.score}
       {canGoBack}

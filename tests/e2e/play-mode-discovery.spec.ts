@@ -59,5 +59,5 @@ test("landing communicates the game and its three play modes", async ({
     name: "What should other explorers call you?",
   });
   await expect(relayPrompt).toContainText("Live relay");
-  await expect(relayPrompt).toContainText("room roster and live race");
+  await expect(relayPrompt).toContainText("lobby roster and live race");
 });

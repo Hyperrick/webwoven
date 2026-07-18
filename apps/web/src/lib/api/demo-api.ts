@@ -6,6 +6,7 @@ import type {
   DailyRound,
   Difficulty,
   Guest,
+  RoomInvitePreview,
   RoundFilters,
   RoomSnapshot,
   SessionCommand,
@@ -157,6 +158,8 @@ export class DemoApi implements WebwovenApi {
     }
     this.#sessions.set(sessionId, next);
     this.#commandResults.set(command.client_command_id, next.snapshot);
+    if (next.snapshot.mode === "relay" && next.snapshot.status === "completed")
+      this.#rooms.finishSession(sessionId);
     return structuredClone(next.snapshot);
   }
 
@@ -201,6 +204,10 @@ export class DemoApi implements WebwovenApi {
     return this.#rooms.create(filters);
   }
 
+  async getRoomInvite(code: string): Promise<RoomInvitePreview> {
+    return this.#rooms.invite(code);
+  }
+
   async joinRoom(code: string): Promise<RoomSnapshot> {
     return this.#rooms.join(code);
   }
@@ -220,6 +227,10 @@ export class DemoApi implements WebwovenApi {
     );
     this.#sessions.set(sessionId, state);
     return room;
+  }
+
+  async voteRoomRematch(code: string, accept: boolean): Promise<RoomSnapshot> {
+    return this.#rooms.voteRematch(code, accept);
   }
 
   async getRoom(code: string): Promise<RoomSnapshot> {

@@ -10,9 +10,18 @@ hint selection, completion, score, and race order.
   between the readable cookie, request header, and authenticated guest record.
 - Each visible graph edge is represented by a short-lived HMAC token bound to the session, graph
   build, source node, edge, expected state version, and expiry.
-- Session creation, room creation/readiness, commands, joins, starts, and content reports use
-  action-specific pseudonymous rate limits that fail closed when shared storage is unavailable.
+- Session creation, room creation/readiness, invite previews, commands, joins, starts, rematch
+  votes, and content reports use action-specific pseudonymous rate limits that fail closed when
+  shared storage is unavailable.
+- A Lobby deep link carries only its six-character code and never joins automatically. Its
+  rate-limited preview reveals only the host display name, room state, active player count,
+  capacity, membership, and joinability. Round endpoints, roster identities, sessions, routes, and
+  progress remain behind the member-only snapshot; joining still requires an explicit confirmed,
+  CSRF-protected request.
 - WebSocket room messages never authorize a move; they transport room presence and progress only.
+- Relay command authorization binds the participant to their current active session and reads the
+  room-owned countdown and grace deadlines directly. A delayed WebSocket state event therefore
+  cannot open an early command window or extend a finished race.
 - WebSocket reconnects have both a fixed-window limit and a shared per-guest concurrency lease.
   Clients send functional keepalives, idle sockets close, and every connection has a maximum
   lifetime before a clean reconnect.
@@ -23,9 +32,11 @@ The Build Week release does not retain raw IP addresses or use third-party analy
 analytics adapter sets no cookie, honors Do Not Track, strips query strings and hashes, and accepts
 only reviewed enum fields for five aggregate gameplay events. It never sends display names, guest,
 session, or entity identifiers, free-form text, route histories, scores, or elapsed times. Umami
-telemetry, public shares, heatmaps, and replay remain disabled, and detailed rows expire after 90
-days. Display names are constrained and content reports are intentionally minimal. Secrets are
-supplied at runtime and never enter images, client bundles, graph artifacts, or build logs.
+telemetry, public route-history pages, heatmaps, and replay remain disabled, and detailed rows
+expire after 90 days. A native Lobby share contains only the inviter's chosen display name, the
+standard invitation sentence, and the code-only deep link; Webwoven does not send it to its own
+analytics. Display names are constrained and content reports are intentionally minimal. Secrets
+are supplied at runtime and never enter images, client bundles, graph artifacts, or build logs.
 
 ## External systems
 

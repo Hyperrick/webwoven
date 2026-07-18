@@ -317,6 +317,7 @@ describe("API wire adapters", () => {
           guest_id: "guest",
           display_name: "You",
           is_self: true,
+          active: true,
           ready: true,
           connected: true,
           session_id: "relay-session",
@@ -324,11 +325,14 @@ describe("API wire adapters", () => {
           hints_used: 0,
           progress_band: 3,
           finish_rank: null,
+          rematch_vote: null,
         },
       ],
       sequence: 2,
       countdown_ends_at: "2026-07-13T10:00:03Z",
       grace_ends_at: null,
+      rematch_ends_at: null,
+      close_reason: null,
     };
 
     expect(leaderboard.entries[0].score).toBe(990);

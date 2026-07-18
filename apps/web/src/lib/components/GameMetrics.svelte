@@ -1,12 +1,12 @@
 <script lang="ts">
   let {
     moves,
-    par,
+    targetLabel,
     seconds,
     score,
   }: {
     moves: number;
-    par: number | null;
+    targetLabel: string;
     seconds: number;
     score: number | null;
   } = $props();
@@ -25,9 +25,9 @@
     <dt>Moves</dt>
     <dd>{moves}</dd>
   </div>
-  <div>
-    <dt>Par</dt>
-    <dd>{par ?? "Unknown"}</dd>
+  <div class="game-metrics__target">
+    <dt>Target</dt>
+    <dd>{targetLabel}</dd>
   </div>
   <div>
     <dt>Score</dt>

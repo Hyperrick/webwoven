@@ -2,6 +2,7 @@
 
 import asyncio
 from contextlib import suppress
+from datetime import UTC, datetime
 from time import monotonic
 from typing import cast
 
@@ -13,6 +14,7 @@ from webwoven_api.http.contracts.rooms import RoomEventResponse
 from webwoven_api.http.presentation.rooms import room_response
 from webwoven_api.http.rate_limit_identity import guest_rate_identity
 from webwoven_api.rooms.models import RoomEvent
+from webwoven_api.rooms.state_machine import next_transition_at
 
 router = APIRouter(tags=["rooms"])
 
@@ -98,6 +100,7 @@ async def room_events(websocket: WebSocket, code: str, after: int = 0) -> None:
             room_code,
             queue,
             sent_sequence,
+            guest_id=guest_id,
             idle_timeout_seconds=container.settings.websocket_idle_timeout_seconds,
             max_lifetime_seconds=container.settings.websocket_max_lifetime_seconds,
         )
@@ -127,6 +130,7 @@ async def _event_loop(
     queue: asyncio.Queue[RoomEvent],
     sent_sequence: int,
     *,
+    guest_id: str,
     idle_timeout_seconds: int,
     max_lifetime_seconds: int,
 ) -> None:
@@ -142,11 +146,18 @@ async def _event_loop(
         if idle_remaining <= 0:
             await websocket.close(code=status.WS_1001_GOING_AWAY, reason="Connection idle")
             return
+        room = await container.rooms.get_for_guest(room_code, guest_id)
+        transition_at = next_transition_at(room)
+        transition_remaining = (
+            max(0.001, (transition_at - datetime.now(UTC)).total_seconds())
+            if transition_at is not None
+            else 15
+        )
         receive_task = asyncio.create_task(websocket.receive_text())
         event_task = asyncio.create_task(queue.get())
         done, pending = await asyncio.wait(
             {receive_task, event_task},
-            timeout=min(15, max_remaining, idle_remaining),
+            timeout=min(15, transition_remaining, max_remaining, idle_remaining),
             return_when=asyncio.FIRST_COMPLETED,
         )
         for task in pending:
@@ -154,10 +165,7 @@ async def _event_loop(
             with suppress(asyncio.CancelledError):
                 await task
         if not done:
-            room = await container.rooms.get_for_guest(
-                room_code,
-                container.guest_cookies.verify(websocket.cookies[container.settings.cookie_name]),
-            )
+            room = await container.rooms.get_for_guest(room_code, guest_id)
             await websocket.send_json(
                 {"sequence": room.sequence, "type": "heartbeat", "payload": {}}
             )

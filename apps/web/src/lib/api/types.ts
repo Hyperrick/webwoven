@@ -202,13 +202,18 @@ export interface DailyLeaderboard {
 export type RoomState =
   "lobby" | "countdown" | "racing" | "grace_period" | "finished" | "closed";
 
+export type RoomCloseReason = "not_enough_players";
+
 export interface RoomPlayer {
   id: string;
   display_name: string;
+  active: boolean;
   ready: boolean;
   moves: number;
   progress: "mapping" | "closing-in" | "arrived";
   hints_used: number;
+  finish_rank?: number;
+  rematch_vote?: boolean;
   is_host?: boolean;
   is_current_guest?: boolean;
 }
@@ -223,7 +228,20 @@ export interface RoomSnapshot {
   players: RoomPlayer[];
   max_players: number;
   starts_at?: string;
+  grace_ends_at?: string;
+  rematch_ends_at?: string;
+  close_reason?: RoomCloseReason;
   current_session_id?: string;
+}
+
+export interface RoomInvitePreview {
+  code: string;
+  host_display_name: string;
+  state: RoomState;
+  player_count: number;
+  max_players: number;
+  is_member: boolean;
+  joinable: boolean;
 }
 
 export interface AppConfig {
@@ -255,9 +273,11 @@ export interface WebwovenApi {
   sendCommand(id: string, command: SessionCommand): Promise<SessionSnapshot>;
   getDailyLeaderboard(): Promise<DailyLeaderboard>;
   createRoom(filters: RoundFilters): Promise<RoomSnapshot>;
+  getRoomInvite(code: string): Promise<RoomInvitePreview>;
   joinRoom(code: string): Promise<RoomSnapshot>;
   setRoomReady(code: string, ready: boolean): Promise<RoomSnapshot>;
   startRoom(code: string): Promise<RoomSnapshot>;
+  voteRoomRematch(code: string, accept: boolean): Promise<RoomSnapshot>;
   getRoom(code: string): Promise<RoomSnapshot>;
   reportContent(input: ContentReportInput): Promise<void>;
 }
