@@ -4,11 +4,24 @@ These screenshots were captured from **Compose acceptance** at `http://localhost
 after rebuilding the Caddy image. They document the product UI; they are not synthetic mockups or
 captures from the Playwright demo server.
 
-| File                           | Surface            | Content                                                                                                  |
-| ------------------------------ | ------------------ | -------------------------------------------------------------------------------------------------------- |
-| `frontispiece.webp`            | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed.      |
-| `solo-map.webp`                | Compose acceptance | A real desktop Solo session using the active July 17 Wikidata and Commons atlas.                         |
-| `mobile-route-preview.webp`    | Compose acceptance | The same real Solo session at 390×844 with Brazil selected in the phone route-preview constellation.     |
+| File                        | Surface            | Content                                                                                              |
+| --------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------- |
+| `frontispiece.webp`         | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed.  |
+| `solo-map.webp`             | Compose acceptance | A real desktop Solo session using the active July 17 Wikidata and Commons atlas.                     |
+| `mobile-route-preview.webp` | Compose acceptance | The same real Solo session at 390×844 with Brazil selected in the phone route-preview constellation. |
+
+The Devpost preparation assets under `docs/assets/submission/` are PNG conversions of these
+captures. `devpost-thumbnail.png` places `solo-map.webp` unchanged on a 3:2 project-authored paper
+frame; `frontispiece.png` and `mobile-route-preview.png` are format-only copies. They inherit the
+same capture surface and source attribution recorded below.
+
+`docs/assets/submission/youtube-thumbnail.png` is separate promotional artwork, not a product
+capture and not one of the Devpost gallery images. The project owner supplied and approved this
+externally generated composite on 2026-07-18. The exact external generator and model metadata were
+not retained. It contains a synthetic, recognizable likeness of Lionel Messi and is used only as
+the public YouTube upload artwork. Its SHA-256 is
+`cc921565de2f9cb38c688730de8262d90d5e2010824393e016f0ede95a5b253f`. The entrant retains the
+final personality, publicity, and platform-rights review for that artwork.
 
 The desktop and phone Solo captures include reduced documentary images served from the immutable
 local bundle.

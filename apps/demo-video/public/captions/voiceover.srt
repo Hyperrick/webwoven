@@ -1,0 +1,140 @@
+1
+00:00:00,100 --> 00:00:04,700
+What if a game did not only test what you know, but showed how the world fits together?
+
+2
+00:00:05,500 --> 00:00:11,100
+This is Webwoven, a game about finding paths through real, named connections.
+
+3
+00:00:11,700 --> 00:00:15,600
+In Single player, I pick an easy, normal, or hard route.
+
+4
+00:00:16,100 --> 00:00:19,300
+I can leave the map open, or choose one of ten topics.
+
+5
+00:00:19,900 --> 00:00:24,100
+Each round gives me a start, a goal, and a best distance.
+
+6
+00:00:24,800 --> 00:00:26,400
+Now I find my own path.
+
+7
+00:00:26,800 --> 00:00:28,900
+Each card is a place I can go next.
+
+8
+00:00:29,300 --> 00:00:31,400
+When I move, the map grows.
+
+9
+00:00:31,800 --> 00:00:34,300
+It keeps my path and the choices I left behind.
+
+10
+00:00:34,800 --> 00:00:37,700
+Three hints can help, but each costs points.
+
+11
+00:00:38,400 --> 00:00:40,600
+Each card also explains its connection.
+
+12
+00:00:41,100 --> 00:00:44,800
+Here, Lionel Messi connects to Rosario because he was born there.
+
+13
+00:00:45,400 --> 00:00:49,700
+I can read the fact, see its picture, and check the source before I move.
+
+14
+00:00:50,500 --> 00:00:52,500
+Webwoven has three play modes.
+
+15
+00:00:52,900 --> 00:00:55,400
+Single player lets me explore at my own speed.
+
+16
+00:00:55,900 --> 00:00:59,100
+The Daily challenge gives everyone the same route and scoreboard.
+
+17
+00:00:59,800 --> 00:01:03,000
+Multiplayer lets two to four people race on the same map.
+
+18
+00:01:03,400 --> 00:01:06,100
+Players can leave and return without losing the room.
+
+19
+00:01:06,900 --> 00:01:09,900
+I started with a game idea, but no working product.
+
+20
+00:01:10,400 --> 00:01:15,200
+I built the main product with Codex, using GPT-5.6 Sol.
+
+21
+00:01:15,700 --> 00:01:19,600
+I gave Codex the goals, visual style, and play-test feedback.
+
+22
+00:01:20,100 --> 00:01:25,400
+Codex helped build the app, server, data tools, tests, and public documents.
+
+23
+00:01:25,900 --> 00:01:29,900
+It split large jobs into focused tasks for the web, server,
+
+24
+00:01:30,100 --> 00:01:32,100
+data, security, and review.
+
+25
+00:01:32,600 --> 00:01:35,200
+This saved time while keeping each part clear.
+
+26
+00:01:35,700 --> 00:01:39,400
+I kept using GPT-5.6 after the first draft.
+
+27
+00:01:39,800 --> 00:01:44,300
+I played on desktop and phone, found problems, and gave them back to Codex.
+
+28
+00:01:44,900 --> 00:01:52,300
+We made the play modes easier to find, removed unfair loops, improved the fact text,
+and rebuilt the phone map for touch.
+
+29
+00:01:52,900 --> 00:01:57,000
+I made the final product, design, data, and release choices.
+
+30
+00:01:57,600 --> 00:02:00,800
+AI helped build Webwoven, but it does not play for you.
+
+31
+00:02:01,400 --> 00:02:04,800
+During a round, there are no calls to AI or Wikidata.
+
+32
+00:02:05,400 --> 00:02:11,200
+Rules, moves, hints, scores, and winners come from one checked local map.
+
+33
+00:02:11,600 --> 00:02:17,800
+It contains 3,970 things and more than 22,000 named connections.
+
+34
+00:02:18,500 --> 00:02:25,200
+Webwoven is live, works on desktop and mobile, needs no account, and is completely open-source.
+
+35
+00:02:25,700 --> 00:02:28,700
+Connect anything, and discover why it is connected.

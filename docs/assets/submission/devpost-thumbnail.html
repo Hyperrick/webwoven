@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Webwoven Devpost thumbnail source</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 800px;
+        margin: 0;
+        overflow: hidden;
+        background: #f4efdf;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+      }
+
+      main {
+        position: relative;
+        width: 1160px;
+        height: 760px;
+        display: grid;
+        place-items: center;
+        border: 2px solid #26251f;
+        background: #f4efdf;
+        overflow: hidden;
+      }
+
+      main::before,
+      main::after {
+        content: "";
+        position: absolute;
+        z-index: 0;
+        width: 220px;
+        height: 220px;
+        border: 1px solid rgb(38 37 31 / 18%);
+        border-radius: 50%;
+      }
+
+      main::before {
+        top: -142px;
+        left: -90px;
+      }
+
+      main::after {
+        right: -96px;
+        bottom: -156px;
+      }
+
+      img {
+        position: relative;
+        z-index: 1;
+        display: block;
+        width: 1120px;
+        height: auto;
+        border: 1px solid rgb(38 37 31 / 25%);
+      }
+    </style>
+  </head>
+  <body>
+    <main aria-label="Webwoven landing page">
+      <img
+        src="../screenshots/solo-map.webp"
+        alt="Webwoven gameplay map showing the current node, six named routes, and the goal"
+      />
+    </main>
+  </body>
+</html>

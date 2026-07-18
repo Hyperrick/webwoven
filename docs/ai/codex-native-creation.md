@@ -6,6 +6,13 @@ and public build journal. This is the practical evidence behind the project's me
 
 > Everyone with an idea can become a game developer.
 
+The primary application-building task ran on GPT-5.6 Sol in Codex. The project owner supplied the
+concept, steered implementation, selected the final product and design decisions, reviewed the
+result on real desktop and mobile surfaces, and retained approval over external services,
+infrastructure, releases, and submitted claims. Codex translated those decisions into modular
+domain work, coordinated parallel implementation and review tasks, and repeatedly exercised the
+result through the repository's automated and manual acceptance surfaces.
+
 ## Artifact workflow
 
 1. Supply an approved set of Wikidata fact IDs and a versioned prompt.

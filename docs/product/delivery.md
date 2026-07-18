@@ -4,11 +4,36 @@ Webwoven uses an internal submission freeze of 2026-07-21 at 22:00 CEST, four ho
 currently published deadline of July 21 at 5:00 PM Pacific. Infrastructure spending and final
 submission remain explicit human decisions.
 
-The [OpenAI Build Week page](https://openai.com/build-week/) and
-[Devpost overview](https://openai.devpost.com/) were checked on 2026-07-13. They describe Codex as
-the building collaborator and list technical implementation, coherent design, impact, and idea
-quality as judging criteria. Eligibility, submission fields, and the complete official rules must
-be checked again immediately before submission because those pages can change during the event.
+The [OpenAI Build Week page](https://openai.com/build-week/),
+[Devpost overview](https://openai.devpost.com/), [official rules](https://openai.devpost.com/rules),
+and [FAQ](https://openai.devpost.com/details/faqs) were rechecked on 2026-07-18. The current judging
+criteria are technological implementation, design, potential impact, and quality of the idea.
+Rules and submission fields must still be checked immediately before submission because the
+organizers may update them during the event.
+
+## Current submission gate
+
+The current official requirements call for:
+
+- one working project built meaningfully with Codex and GPT-5.6 in a single best-fit track;
+- an English project description that explains the features and functionality;
+- a public YouTube demonstration with audio, no longer than three minutes, showing the working
+  project and specifically explaining how Codex and GPT-5.6 were used;
+- a public, appropriately licensed repository with setup and testing instructions plus a README
+  that distinguishes Codex acceleration from the creator's key decisions;
+- the `/feedback` Session ID from the primary Codex build task; and
+- free judge access to the working project through the judging period.
+
+Webwoven currently satisfies the working-product, public-repository, MIT-license, English-copy,
+live-access, dated-history, and GPT-5.6 evidence gates. The prepared
+[Devpost draft](../submission/devpost.md) uses the **Education** track and includes the story,
+testing path, upload-ready media, and a timed demo script.
+
+The primary `/feedback` Session ID has been recorded, the 2:31 narrated demo is public on YouTube,
+and the project owner has approved the final video and confirmed individual entrant eligibility.
+The remaining human-controlled gates are the final third-party-rights declaration, review of the
+completed Devpost draft, any CAPTCHA or legal acceptance Devpost requires, and the final submit
+action.
 
 ## Build Week milestones
 

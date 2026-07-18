@@ -1,0 +1,34 @@
+{
+  "name": "@webwoven/demo-video",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "build": "remotion compositions src/index.ts",
+    "check": "tsc --noEmit",
+    "lint": "prettier --check .",
+    "test": "remotion compositions src/index.ts",
+    "render:teaser": "remotion render src/index.ts WebwovenTeaser ../../output/webwoven-teaser.mp4 --codec=h264 --crf=18",
+    "render:teaser:quick": "remotion render src/index.ts WebwovenTeaser ../../output/webwoven-teaser-preview.mp4 --codec=h264 --crf=23 --scale=0.5",
+    "render:demo": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo.mp4 --codec=h264 --crf=18",
+    "render:demo:quick": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-preview.mp4 --codec=h264 --crf=23 --scale=0.5",
+    "render:demo:narrated": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-narrated.mp4 --codec=h264 --crf=18 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\"}'",
+    "render:demo:narrated:quick": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-narrated-preview.mp4 --codec=h264 --crf=23 --scale=0.5 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\"}'"
+  },
+  "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "5.2.8",
+    "@fontsource-variable/newsreader": "5.2.10",
+    "@fontsource/ibm-plex-mono": "5.2.7",
+    "@remotion/cli": "4.0.490",
+    "@remotion/media": "4.0.490",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "remotion": "4.0.490"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.0"
+  }
+}
