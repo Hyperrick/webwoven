@@ -11,14 +11,21 @@ Easy, Normal, or Hard. Relay hosts make the same locked choices while creating t
 the pinned topic but cannot change it. A specific category requires both endpoints to share that
 topic, while intermediate discoveries may cross the wider atlas. The last category and difficulty
 are remembered independently for Solo and Relay, but every new Solo round requires confirmation.
-Daily category and difficulty remain part of its curated assignment. The server selects unseen
-eligible rounds within a per-player category-and-difficulty cycle and avoids an immediate repeat
-whenever more than one eligible route exists.
+Daily category and difficulty remain part of its curated assignment. Every category contains four
+Easy, four Normal, and two Hard routes. The server keeps one per-player history for the active graph,
+then selects unseen eligible routes within the current filters and avoids an immediate repeat.
+Changing between **Any category** and a specific topic therefore does not make a route the player
+already saw immediately eligible again.
 
 The data pipeline owns choice-first publication: every generated candidate must start with at least
 two distinct playable targets, with parallel facts to the same target counted once. Automatic Solo,
 Relay-room, and new Daily assignment pools verify that invariant again before selection. Explicit
 round IDs and already-pinned Daily assignments remain available for deterministic replay.
+
+Reaching the target starts one finite confetti rain across the transition to the result page in
+Solo, Daily, and Relay. It is decorative, ignores pointer input, does not announce itself to
+assistive technology, and is suppressed when either the system or Webwoven preference requests
+reduced motion.
 
 Every mode reveals its category, difficulty, start, and goal during a five-second introduction that
 ends at the server-owned `started_at` timestamp. The category remains visible above the start and

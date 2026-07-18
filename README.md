@@ -82,7 +82,7 @@ branches remain visible and inspectable without placing controls over the node c
 
 - 3,970 playable Wikidata entities and 22,402 directed, named relationships
 - ten readable knowledge categories
-- 100 validated choice-first round candidates, including 40 published routes
+- 100 validated, published choice-first routes: 4 Easy, 4 Normal, and 2 Hard per category
 - fact-aware, direction-stable relationship sentences with source ranks preserved when present
 - local, policy-checked Commons media for every entity through 3,621 attributed source files
 - 3,778 preferred Wikipedia article links

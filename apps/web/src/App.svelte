@@ -13,13 +13,11 @@
     RoomSnapshot,
     SessionSnapshot,
   } from "./lib/api/types";
-  import {
-    hintCount,
-    movesRelativeToPar,
-    trackAnalytics,
-  } from "./lib/analytics/analytics";
+  import { trackAnalytics } from "./lib/analytics/analytics";
+  import { RoundLifecycleAnalytics } from "./lib/analytics/round-lifecycle-analytics";
   import DailyLeaderboardDrawer from "./lib/components/DailyLeaderboardDrawer.svelte";
   import GuestNamePrompt from "./lib/components/GuestNamePrompt.svelte";
+  import RouteConfetti from "./lib/components/RouteConfetti.svelte";
   import SettingsDrawer from "./lib/components/SettingsDrawer.svelte";
   import SiteHeader from "./lib/components/SiteHeader.svelte";
   import SourcesDrawer from "./lib/components/SourcesDrawer.svelte";
@@ -61,6 +59,7 @@
   const games = new GameController(api);
   const rooms = new RoomController(api);
   const roomEvents = new RoomEventStream();
+  const roundAnalytics = new RoundLifecycleAnalytics();
 
   let route = $state<AppRoute>(parseRoute(window.location.pathname));
   let guest = $state<Guest>();
@@ -79,14 +78,13 @@
   let busy = $state(false);
   let error = $state("");
   let toast = $state("");
+  let celebrationSessionId = $state<string>();
   let exitOpen = $state(false);
   let graphBuild = $state("loading-atlas");
   let relayConnection = $state<RelayConnectionState>("connected");
   let namePromptOpen = $state(false);
   let profileBusy = $state(false);
   let profileError = $state("");
-  const reportedRoundStarts = new Set<string>();
-  const reportedRoundCompletions = new Set<string>();
   let router: BrowserRouter;
   let sourceEntities = $derived(session ? sessionMediaEntities(session) : []);
 
@@ -212,7 +210,7 @@
       session = await games.start("daily", { roundId: round.round_id });
       session = { ...session, shortest_distance: round.optimal_distance };
       persistActiveSession(session);
-      reportRoundStarted(session);
+      roundAnalytics.reportStarted(session);
     });
   }
 
@@ -220,7 +218,7 @@
     await run(async () => {
       session = await games.start("solo", filters);
       persistActiveSession(session);
-      reportRoundStarted(session);
+      roundAnalytics.reportStarted(session);
     });
   }
 
@@ -230,7 +228,8 @@
       session = await games.follow(session!, edgeToken);
       persistActiveSession(session);
       if (session.status === "completed") {
-        reportRoundCompleted(session);
+        celebrationSessionId = session.id;
+        roundAnalytics.reportCompleted(session);
         if (session.mode === "daily") void loadDailyLeaderboard();
         window.setTimeout(() => navigate("/results", true), 300);
       }
@@ -295,7 +294,7 @@
       if (!room.current_session_id)
         throw new Error("The relay did not assign your synchronized route.");
       session = await games.resume(room.current_session_id);
-      reportRoundStarted(session);
+      roundAnalytics.reportStarted(session);
       connectRoomEvents(room.code);
     });
   }
@@ -416,7 +415,7 @@
       latest.current_session_id
     ) {
       session = await games.resume(latest.current_session_id);
-      reportRoundStarted(session);
+      roundAnalytics.reportStarted(session);
       navigate(`/relay/${latest.code}`);
     }
   }
@@ -455,32 +454,6 @@
   function showToast(message: string): void {
     toast = message;
     window.setTimeout(() => (toast = ""), 2800);
-  }
-
-  function reportRoundStarted(snapshot: SessionSnapshot): void {
-    if (reportedRoundStarts.has(snapshot.id)) return;
-    reportedRoundStarts.add(snapshot.id);
-    trackAnalytics("round_started", {
-      mode: snapshot.mode,
-      difficulty: snapshot.difficulty,
-      category: snapshot.category,
-    });
-  }
-
-  function reportRoundCompleted(snapshot: SessionSnapshot): void {
-    if (reportedRoundCompletions.has(snapshot.id)) return;
-    reportedRoundCompletions.add(snapshot.id);
-    trackAnalytics("round_completed", {
-      mode: snapshot.mode,
-      difficulty: snapshot.difficulty,
-      category: snapshot.category,
-      result: "goal_reached",
-      moves_relative_to_par: movesRelativeToPar(
-        snapshot.moves,
-        snapshot.shortest_distance,
-      ),
-      hints: hintCount(snapshot.hints_used.length),
-    });
   }
 </script>
 
@@ -597,4 +570,5 @@
     onCancel={cancelNamePrompt}
   />
   <StatusToast message={toast} />
+  <RouteConfetti sessionId={celebrationSessionId} />
 </div>

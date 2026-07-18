@@ -18,13 +18,17 @@ def test_round_generator_locks_candidate_and_publication_distribution() -> None:
     rounds = generate_rounds(entities, edges)
 
     assert len(rounds) == 100
-    assert sum(item.published for item in rounds) == 40
+    assert sum(item.published for item in rounds) == 100
     for category in CATEGORIES:
         selected = [item for item in rounds if item.category == category]
         assert len(selected) == 10
-        assert sum(item.published for item in selected) == 4
-        assert _counts(selected, published=False) == {"easy": 4, "normal": 4, "hard": 2}
-        assert _counts(selected, published=True) == {"easy": 2, "normal": 1, "hard": 1}
+        assert sum(item.published for item in selected) == 10
+        assert _difficulty_counts(selected) == {"easy": 4, "normal": 4, "hard": 2}
+        assert _difficulty_counts(item for item in selected if item.published) == {
+            "easy": 4,
+            "normal": 4,
+            "hard": 2,
+        }
 
 
 def test_round_endpoints_can_be_restricted_to_curated_ids() -> None:
@@ -110,7 +114,7 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
         assert metadata["graph_build_id"] == first_build
         assert metadata["schema_version"] == "3"
         assert metadata["round_count"] == "100"
-        assert metadata["published_round_count"] == "40"
+        assert metadata["published_round_count"] == "100"
         assert connection.execute("SELECT COUNT(*) FROM entities").fetchone() == (120,)
         assert connection.execute("SELECT COUNT(*) FROM edges").fetchone() == (240,)
         assert connection.execute("SELECT COUNT(*) FROM edges WHERE inverse = 1").fetchone() == (
@@ -124,15 +128,14 @@ def test_smoke_bundle_is_deterministic_and_graphreader_compatible(tmp_path, regi
             )
     validation = json.loads((first / "round-validation-report.json").read_text())
     assert validation["status"] == "passed"
-    assert validation["summary"]["published_rounds"] == 40
+    assert validation["summary"]["published_rounds"] == 100
     assert all(validation["checks"].values())
 
 
-def _counts(rounds, *, published: bool) -> dict[str, int]:
+def _difficulty_counts(rounds) -> dict[str, int]:
+    values = tuple(rounds)
     return {
-        difficulty: sum(
-            item.difficulty == difficulty and (item.published or not published) for item in rounds
-        )
+        difficulty: sum(item.difficulty == difficulty for item in values)
         for difficulty in ("easy", "normal", "hard")
     }
 

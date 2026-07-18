@@ -65,9 +65,13 @@ There are three complete ways to play:
 - **Multiplayer** synchronizes a route for two to four players, including live progress and
   reconnect.
 
-The production atlas contains 3,970 playable entities, 22,402 directed named relationships, 100
-validated candidates, and 40 published routes. It works on desktop and mobile, needs no account,
+The production atlas contains 3,970 playable entities, 22,402 directed named relationships, and
+100 validated, published routes. It works on desktop and mobile, needs no account,
 and is live at [www.webwoven.org](https://www.webwoven.org).
+
+A final playtest after the demo recording expanded the validated route rotation from 40 to all
+100 candidates. The brief architecture card in the video therefore shows the earlier release
+count; the voiceover and product walkthrough are unchanged.
 
 ### How I built it
 

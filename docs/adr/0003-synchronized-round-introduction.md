@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted on 2026-07-15; amended on 2026-07-17.
+Accepted on 2026-07-15; amended on 2026-07-17 and 2026-07-18.
 
 ## Context
 
@@ -31,16 +31,20 @@ One history-aware selector filters by category and difficulty, chooses unseen ro
 cycle, and excludes the immediately prior round when a new cycle begins and another candidate
 exists. Automatic Solo, Relay-room, and new Daily assignments share one graph-derived eligibility
 policy that requires at least two distinct playable targets at the start. The pipeline applies the
-same requirement before deterministic candidate ranking, so all published and reserve rounds satisfy
-it. Explicit round IDs and already-pinned Daily assignments remain deterministic replay mechanisms.
+same requirement before deterministic candidate ranking, so every published round satisfies it.
+Selection history is loaded per player and active graph rather than per filter. The cycle algorithm
+ignores history entries outside the currently eligible pool, which preserves filter semantics while
+preventing the same route from becoming fresh merely because the player moved between **Any
+category** and a specific category. Explicit round IDs and already-pinned Daily assignments remain
+deterministic replay mechanisms.
 
 ## Consequences
 
 - Controls, scoring time, and relay fairness share one server-owned boundary.
 - Category and endpoint presentation is consistent in Solo, Daily, and Relay without making the
   decorative scene authoritative.
-- PostgreSQL and memory adapters retain per-player selection history for the active graph and
-  filter, while an injected chooser keeps domain tests deterministic.
+- PostgreSQL and memory adapters retain per-player selection history for the active graph, while an
+  injected chooser keeps domain tests deterministic across filter changes.
 - Solo, Relay-room, and new Daily assignments share one source-independent round-eligibility rule.
 - Session and room snapshots carry enough category, difficulty, artwork, endpoint, and timing data
   for reconnect-safe presentation.

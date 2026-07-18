@@ -24,12 +24,10 @@ class RoundSelection:
 
 
 class RoundSelectionRepository(Protocol):
-    async def list_for_guest(
+    async def list_for_guest_graph(
         self,
         guest_id: str,
         graph_version: str,
-        category: str | None,
-        difficulty: Difficulty,
     ) -> tuple[RoundSelection, ...]: ...
 
     async def record(self, selection: RoundSelection) -> None: ...
@@ -70,11 +68,9 @@ class RoundSelector:
             raise NotFoundError(
                 "No published round with multiple opening routes matches those filters"
             )
-        history = await self._repository.list_for_guest(
+        history = await self._repository.list_for_guest_graph(
             guest_id,
             self._graph.graph_version,
-            category,
-            difficulty,
         )
         selected = choose_round(rounds, tuple(item.round_id for item in history), self._chooser)
         await self._repository.record(

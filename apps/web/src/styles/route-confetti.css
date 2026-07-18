@@ -1,0 +1,81 @@
+@layer shell {
+  .route-confetti {
+    position: fixed;
+    z-index: 30;
+    inset: 0;
+    contain: strict;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .route-confetti__piece {
+    position: absolute;
+    top: calc(-1 * var(--confetti-height));
+    left: var(--confetti-left);
+    width: var(--confetti-width);
+    height: var(--confetti-height);
+    border-radius: 1px;
+    background: var(--confetti-color);
+    opacity: 0;
+    animation: route-confetti-rain var(--confetti-duration)
+      cubic-bezier(0.16, 0.66, 0.3, 1) var(--confetti-delay) 1 both;
+  }
+
+  .route-confetti__piece--square {
+    height: var(--confetti-width);
+    border-radius: 2px;
+  }
+
+  .route-confetti__piece--ribbon {
+    border: 2px solid var(--confetti-color);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  @keyframes route-confetti-rain {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -8vh, 0) rotate(0deg) scale(0.72);
+    }
+
+    8% {
+      opacity: 1;
+    }
+
+    48% {
+      opacity: 1;
+      transform: translate3d(calc(var(--confetti-drift) / 2), 54vh, 0)
+        rotate(calc(var(--confetti-turn) / 2)) scale(1);
+    }
+
+    88% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate3d(var(--confetti-drift), 112vh, 0)
+        rotate(var(--confetti-turn)) scale(0.86);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .route-confetti {
+      display: none;
+    }
+
+    .route-confetti__piece {
+      animation: none;
+    }
+  }
+
+  html[data-motion="reduced"] .route-confetti {
+    display: none;
+  }
+
+  html[data-motion="reduced"] .route-confetti__piece {
+    animation: none;
+  }
+}

@@ -14,7 +14,7 @@ def test_reads_pipeline_v3_smoke_graph() -> None:
     rounds = reader.list_published_rounds()
     assert reader.is_healthy()
     assert len(reader.graph_version) == 64
-    assert len(rounds) == 40
+    assert len(rounds) == 100
     round_ = rounds[0]
     assert reader.get_entity(round_.start_id) is not None
     assert reader.distance_to_target(round_.id, round_.target_id) == 0

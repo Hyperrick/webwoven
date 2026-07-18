@@ -6,20 +6,21 @@ from webwoven_api.main import create_app
 from webwoven_api.settings import Settings
 
 
-def test_solo_rounds_cycle_without_an_immediate_repeat(client: TestClient) -> None:
+def test_category_solo_rounds_exhaust_the_available_pool_before_repeating(
+    client: TestClient,
+) -> None:
     headers = create_guest(client, "Varied Explorer")
     round_ids = [
         client.post(
             "/api/v1/sessions",
             headers=headers,
-            json={"mode": "solo", "difficulty": "normal"},
+            json={"mode": "solo", "difficulty": "normal", "category": "people"},
         ).json()["round_id"]
         for _ in range(3)
     ]
 
-    assert round_ids[0] != round_ids[1]
-    assert round_ids[1] != round_ids[2]
-    assert round_ids[0] == round_ids[2]
+    assert len(set(round_ids[:2])) == 2
+    assert round_ids[2] != round_ids[1]
 
 
 def test_solo_start_is_scheduled_and_early_commands_are_rejected(

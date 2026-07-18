@@ -9,7 +9,7 @@ from .taxonomy import CATEGORIES
 
 TIME_WINDOWS = {"easy": 120, "normal": 180, "hard": 240}
 CANDIDATE_DISTRIBUTION = {"easy": 4, "normal": 4, "hard": 2}
-PUBLISHED_DISTRIBUTION = {"easy": 2, "normal": 1, "hard": 1}
+PUBLISHED_DISTRIBUTION = {"easy": 4, "normal": 4, "hard": 2}
 DEFAULT_SELECTION_SEED = "webwoven-build-week-v1"
 
 
@@ -24,7 +24,7 @@ def generate_rounds(
     selection_seed: str = DEFAULT_SELECTION_SEED,
     endpoint_ids: Iterable[str] | None = None,
 ) -> tuple[Round, ...]:
-    """Choose ten stable candidates per category and publish four per category."""
+    """Choose and publish ten stable, validated candidates per category."""
     entity_values = tuple(entities)
     allowed_endpoints = frozenset(endpoint_ids) if endpoint_ids is not None else None
     playable_edges = tuple(edge for edge in edges if edge.playable)
@@ -161,9 +161,9 @@ def _round_id(category: str, difficulty: str, start_id: str, target_id: str) -> 
 
 
 def _assert_distribution(rounds: tuple[Round, ...]) -> None:
-    if len(rounds) != 100 or sum(item.published for item in rounds) != 40:
-        raise AssertionError("round generator violated the 100 candidate / 40 published contract")
+    if len(rounds) != 100 or sum(item.published for item in rounds) != 100:
+        raise AssertionError("round generator violated the 100 playable-round contract")
     for category in CATEGORIES:
         category_rounds = tuple(item for item in rounds if item.category == category)
-        if len(category_rounds) != 10 or sum(item.published for item in category_rounds) != 4:
+        if len(category_rounds) != 10 or sum(item.published for item in category_rounds) != 10:
             raise AssertionError(f"round generator violated the category contract for {category}")

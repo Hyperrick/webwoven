@@ -1,6 +1,6 @@
 # ADR 0004: Ten-category atlas
 
-- Status: accepted
+- Status: accepted; publication budget superseded by ADR 0008
 - Date: 2026-07-16
 
 ## Context

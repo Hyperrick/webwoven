@@ -26,17 +26,17 @@ def test_round_selection_passes_deterministic_publication_policy(registry) -> No
     report = _validate(registry, rounds, entities, edges)
 
     assert report["status"] == "passed"
-    assert report["policy"] == "deterministic-round-publication-v2"
+    assert report["policy"] == "deterministic-round-publication-v3"
     assert report["inputs"]["selection_seed"] == DEFAULT_SELECTION_SEED
     assert report["inputs"]["registry_version"] == registry.version
     assert len(report["inputs"]["endpoint_catalog_sha256"]) == 64
     assert report["summary"] == {
         "candidate_rounds": 100,
-        "published_rounds": 40,
+        "published_rounds": 100,
         "curated_endpoints": 120,
     }
     assert all(report["checks"].values())
-    assert sum(item["publication_status"] == "published" for item in report["rounds"]) == 40
+    assert sum(item["publication_status"] == "published" for item in report["rounds"]) == 100
 
 
 def test_round_selection_fails_closed_for_an_uncurated_endpoint(registry) -> None:

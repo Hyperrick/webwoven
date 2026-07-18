@@ -19,6 +19,10 @@ render. The public narrated delivery is
 [https://youtu.be/TzIuJh-kdGc](https://youtu.be/TzIuJh-kdGc), with the upload artwork stored at
 `docs/assets/submission/youtube-thumbnail.png`.
 
+The architecture card was captured before the July 18 route-variety release and shows the earlier
+40-route publication count. The final validated bundle publishes all 100 candidates; narration,
+captured gameplay, and the remaining technical claims are unchanged.
+
 ## Remotion-ready storyboard
 
 | Scene             |    Final time | Narration   | Visual                                                                                                              |

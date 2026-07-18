@@ -4,7 +4,7 @@
     "difficulty": "normal",
     "id": "round-007048c9e1dbb7ba",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:02",
     "target_id": "fixture:people:11",
     "time_window": 180
@@ -14,7 +14,7 @@
     "difficulty": "normal",
     "id": "round-01c710e1676061bc",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:10",
     "target_id": "fixture:people:01",
     "time_window": 180
@@ -34,7 +34,7 @@
     "difficulty": "normal",
     "id": "round-086828cd6345a56f",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:02",
     "target_id": "fixture:nature_life:11",
     "time_window": 180
@@ -44,7 +44,7 @@
     "difficulty": "easy",
     "id": "round-08ac54011d791c60",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:03",
     "target_id": "fixture:music_performance:01",
     "time_window": 120
@@ -54,7 +54,7 @@
     "difficulty": "easy",
     "id": "round-0e08a83990955ec5",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:07",
     "target_id": "fixture:people:09",
     "time_window": 120
@@ -64,7 +64,7 @@
     "difficulty": "normal",
     "id": "round-10036b3d9b5fec33",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:05",
     "target_id": "fixture:sports_games:08",
     "time_window": 180
@@ -74,7 +74,7 @@
     "difficulty": "normal",
     "id": "round-1067a972567490ad",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:03",
     "target_id": "fixture:music_performance:12",
     "time_window": 180
@@ -84,7 +84,7 @@
     "difficulty": "normal",
     "id": "round-142cf7aece6eb5cd",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:01",
     "target_id": "fixture:sports_games:10",
     "time_window": 180
@@ -114,7 +114,7 @@
     "difficulty": "normal",
     "id": "round-1cc8337e3d9814d0",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:12",
     "target_id": "fixture:nature_life:03",
     "time_window": 180
@@ -144,7 +144,7 @@
     "difficulty": "normal",
     "id": "round-22f1ae08b2db20ac",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:02",
     "target_id": "fixture:literature_language:11",
     "time_window": 180
@@ -154,7 +154,7 @@
     "difficulty": "hard",
     "id": "round-2645fa5ba420ce31",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:06",
     "target_id": "fixture:film_media:02",
     "time_window": 240
@@ -174,7 +174,7 @@
     "difficulty": "easy",
     "id": "round-29cffb665f65da16",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:07",
     "target_id": "fixture:film_media:05",
     "time_window": 120
@@ -184,7 +184,7 @@
     "difficulty": "easy",
     "id": "round-2a21db3896250aed",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:12",
     "target_id": "fixture:art_design:02",
     "time_window": 120
@@ -204,7 +204,7 @@
     "difficulty": "normal",
     "id": "round-34642d2ab4830588",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:03",
     "target_id": "fixture:music_performance:06",
     "time_window": 180
@@ -214,7 +214,7 @@
     "difficulty": "easy",
     "id": "round-35fa7df4d903091f",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:11",
     "target_id": "fixture:history_society:01",
     "time_window": 120
@@ -224,7 +224,7 @@
     "difficulty": "normal",
     "id": "round-393a7dee6ec15c79",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:01",
     "target_id": "fixture:film_media:04",
     "time_window": 180
@@ -244,7 +244,7 @@
     "difficulty": "normal",
     "id": "round-3be8f5df3b77ea4e",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:01",
     "target_id": "fixture:places_architecture:04",
     "time_window": 180
@@ -284,7 +284,7 @@
     "difficulty": "hard",
     "id": "round-4ad7602330b2ae15",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:11",
     "target_id": "fixture:places_architecture:03",
     "time_window": 240
@@ -304,7 +304,7 @@
     "difficulty": "normal",
     "id": "round-4f22c64d7bdd8132",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:05",
     "target_id": "fixture:places_architecture:08",
     "time_window": 180
@@ -314,7 +314,7 @@
     "difficulty": "normal",
     "id": "round-4f3fc3556623e980",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:07",
     "target_id": "fixture:people:10",
     "time_window": 180
@@ -334,7 +334,7 @@
     "difficulty": "easy",
     "id": "round-58b89f5ce59fcd5c",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:10",
     "target_id": "fixture:people:08",
     "time_window": 120
@@ -344,7 +344,7 @@
     "difficulty": "normal",
     "id": "round-58f87a314e6b9eb3",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:07",
     "target_id": "fixture:film_media:04",
     "time_window": 180
@@ -354,7 +354,7 @@
     "difficulty": "normal",
     "id": "round-59c9b5074be332ca",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:06",
     "target_id": "fixture:history_society:09",
     "time_window": 180
@@ -364,7 +364,7 @@
     "difficulty": "normal",
     "id": "round-5eb81a0acf9b1949",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:05",
     "target_id": "fixture:art_design:08",
     "time_window": 180
@@ -374,7 +374,7 @@
     "difficulty": "easy",
     "id": "round-617f9df6e985012e",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:07",
     "target_id": "fixture:science_technology:05",
     "time_window": 120
@@ -384,7 +384,7 @@
     "difficulty": "hard",
     "id": "round-6271d8ff75f2e960",
     "optimal_distance": 5,
-    "published": false,
+    "published": true,
     "start_id": "fixture:people:02",
     "target_id": "fixture:people:09",
     "time_window": 240
@@ -404,7 +404,7 @@
     "difficulty": "normal",
     "id": "round-656094100a0fe581",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:12",
     "target_id": "fixture:film_media:03",
     "time_window": 180
@@ -414,7 +414,7 @@
     "difficulty": "normal",
     "id": "round-65da7416ad36ddad",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:04",
     "target_id": "fixture:sports_games:01",
     "time_window": 180
@@ -424,7 +424,7 @@
     "difficulty": "normal",
     "id": "round-6c08c5812bcdbda4",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:11",
     "target_id": "fixture:history_society:02",
     "time_window": 180
@@ -444,7 +444,7 @@
     "difficulty": "easy",
     "id": "round-732bfd2e6e467721",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:08",
     "target_id": "fixture:sports_games:10",
     "time_window": 120
@@ -454,7 +454,7 @@
     "difficulty": "hard",
     "id": "round-778b7dd914a32fc3",
     "optimal_distance": 6,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:01",
     "target_id": "fixture:nature_life:07",
     "time_window": 240
@@ -464,7 +464,7 @@
     "difficulty": "normal",
     "id": "round-78d50dc30647d251",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:11",
     "target_id": "fixture:art_design:02",
     "time_window": 180
@@ -474,7 +474,7 @@
     "difficulty": "easy",
     "id": "round-78fb66cf677c8bf2",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:08",
     "target_id": "fixture:places_architecture:10",
     "time_window": 120
@@ -484,7 +484,7 @@
     "difficulty": "easy",
     "id": "round-7d646d7b71f4aa59",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:film_media:11",
     "target_id": "fixture:film_media:01",
     "time_window": 120
@@ -494,7 +494,7 @@
     "difficulty": "hard",
     "id": "round-7dbf8fa277d51bb0",
     "optimal_distance": 5,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:10",
     "target_id": "fixture:art_design:05",
     "time_window": 240
@@ -514,7 +514,7 @@
     "difficulty": "hard",
     "id": "round-826e2cab314aa3e4",
     "optimal_distance": 5,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:04",
     "target_id": "fixture:literature_language:11",
     "time_window": 240
@@ -534,7 +534,7 @@
     "difficulty": "hard",
     "id": "round-8989b0b745af4915",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:06",
     "target_id": "fixture:sports_games:10",
     "time_window": 240
@@ -544,7 +544,7 @@
     "difficulty": "normal",
     "id": "round-8aa5736774cc2dc5",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:01",
     "target_id": "fixture:nature_life:10",
     "time_window": 180
@@ -584,7 +584,7 @@
     "difficulty": "normal",
     "id": "round-8d292710de12897e",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:09",
     "target_id": "fixture:science_technology:12",
     "time_window": 180
@@ -594,7 +594,7 @@
     "difficulty": "normal",
     "id": "round-8da99da87aaf6347",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:06",
     "target_id": "fixture:music_performance:09",
     "time_window": 180
@@ -614,7 +614,7 @@
     "difficulty": "easy",
     "id": "round-92d86bec0f834d88",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:12",
     "target_id": "fixture:nature_life:02",
     "time_window": 120
@@ -634,7 +634,7 @@
     "difficulty": "easy",
     "id": "round-953fc2326d4a165e",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:06",
     "target_id": "fixture:music_performance:08",
     "time_window": 120
@@ -664,7 +664,7 @@
     "difficulty": "hard",
     "id": "round-9620c913e4a93df0",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:music_performance:10",
     "target_id": "fixture:music_performance:02",
     "time_window": 240
@@ -674,7 +674,7 @@
     "difficulty": "easy",
     "id": "round-96bf3401481cc4be",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:nature_life:05",
     "target_id": "fixture:nature_life:03",
     "time_window": 120
@@ -704,7 +704,7 @@
     "difficulty": "normal",
     "id": "round-a1acea3eaa8d698f",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:06",
     "target_id": "fixture:literature_language:03",
     "time_window": 180
@@ -734,7 +734,7 @@
     "difficulty": "normal",
     "id": "round-ace399954ebf492d",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:03",
     "target_id": "fixture:art_design:06",
     "time_window": 180
@@ -744,7 +744,7 @@
     "difficulty": "easy",
     "id": "round-b0b4245a5ae03354",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:art_design:02",
     "target_id": "fixture:art_design:12",
     "time_window": 120
@@ -764,7 +764,7 @@
     "difficulty": "easy",
     "id": "round-b3665976b596a314",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:10",
     "target_id": "fixture:literature_language:08",
     "time_window": 120
@@ -774,7 +774,7 @@
     "difficulty": "easy",
     "id": "round-b428e6d7bf3d8083",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:06",
     "target_id": "fixture:literature_language:08",
     "time_window": 120
@@ -794,7 +794,7 @@
     "difficulty": "normal",
     "id": "round-b78a423a6454f8da",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:08",
     "target_id": "fixture:places_architecture:11",
     "time_window": 180
@@ -804,7 +804,7 @@
     "difficulty": "hard",
     "id": "round-b88a0aa0b85de3bf",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:07",
     "target_id": "fixture:science_technology:03",
     "time_window": 240
@@ -834,7 +834,7 @@
     "difficulty": "normal",
     "id": "round-c3268ce486895eb2",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:literature_language:08",
     "target_id": "fixture:literature_language:05",
     "time_window": 180
@@ -844,7 +844,7 @@
     "difficulty": "easy",
     "id": "round-c8c5bc0b07595b54",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:04",
     "target_id": "fixture:science_technology:02",
     "time_window": 120
@@ -864,7 +864,7 @@
     "difficulty": "easy",
     "id": "round-ca942f7974f550a4",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:12",
     "target_id": "fixture:history_society:10",
     "time_window": 120
@@ -874,7 +874,7 @@
     "difficulty": "normal",
     "id": "round-cdc1c2fd866e2a0e",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:04",
     "target_id": "fixture:science_technology:01",
     "time_window": 180
@@ -884,7 +884,7 @@
     "difficulty": "normal",
     "id": "round-d0a50a03c2eab687",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:science_technology:01",
     "target_id": "fixture:science_technology:04",
     "time_window": 180
@@ -894,7 +894,7 @@
     "difficulty": "easy",
     "id": "round-d2bee2a4f3bb26b6",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:places_architecture:11",
     "target_id": "fixture:places_architecture:01",
     "time_window": 120
@@ -934,7 +934,7 @@
     "difficulty": "normal",
     "id": "round-d973674d00f89b29",
     "optimal_distance": 3,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:10",
     "target_id": "fixture:history_society:01",
     "time_window": 180
@@ -954,7 +954,7 @@
     "difficulty": "hard",
     "id": "round-ea9ba68f6bbf7577",
     "optimal_distance": 4,
-    "published": false,
+    "published": true,
     "start_id": "fixture:history_society:12",
     "target_id": "fixture:history_society:04",
     "time_window": 240
@@ -974,7 +974,7 @@
     "difficulty": "easy",
     "id": "round-ef4859be94b100ae",
     "optimal_distance": 2,
-    "published": false,
+    "published": true,
     "start_id": "fixture:sports_games:08",
     "target_id": "fixture:sports_games:06",
     "time_window": 120

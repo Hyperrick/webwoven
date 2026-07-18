@@ -37,7 +37,11 @@ the route so a deliberate retry becomes available again. The Albert Einstein →
 UNESCO → Austria real-data path is also exercised in a browser smoke check.
 
 Round-selection regressions cover forced-opening exclusion for Solo, Relay-room, and new Daily
-assignments while preserving explicit and already-pinned replay. Pipeline regressions cover source
+assignments while preserving explicit and already-pinned replay. They also lock the four/four/two
+published pool per category, unseen-route cycling, immediate-repeat avoidance, and history
+continuity when a player changes category filters. The Solo completion browser flow verifies the
+finite, pointer-transparent confetti layer without horizontal overflow and its suppression under
+reduced motion. Pipeline regressions cover source
 ordinals, canonical forward/inverse sentences, semantic `P166` and `P17` wording, the all-source
 compiler guard, and hash-verified offline semantic refresh. The browser suite locks result-trail
 artwork to a centered contain treatment inside its 5:4 frame.

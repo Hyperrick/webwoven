@@ -168,10 +168,12 @@ for replication to recover. A non-time-sensitive snapshot may explicitly use `--
 120 seconds while retaining the request interval; the resulting data remains immutable and all
 source responses are hashed.
 
-The generated bundle automatically publishes 40 deterministic routes after a fail-closed quality
+The generated bundle automatically publishes 100 deterministic routes after a fail-closed quality
 gate verifies their curated endpoints, labels, allowed relationships, shortest distances,
 choice-first starting nodes, and locked category and difficulty distribution under
-`deterministic-round-publication-v2`. `round-validation-report.json` records every check.
+`deterministic-round-publication-v3`. Each of the ten categories contains four Easy, four Normal,
+and two Hard routes, so no exact category-and-difficulty pool is a singleton.
+`round-validation-report.json` records every check.
 Round starts and targets are restricted to the 200 curated, recognizable anchors; intermediary
 nodes may come from any expansion hop. When the final hop reaches the entity cap, its unseen
 frontier is selected evenly across the ten release categories instead of favoring low-numbered

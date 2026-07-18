@@ -12,12 +12,10 @@ class PostgresRoundSelectionRepository:
     def __init__(self, database: PostgresDatabase) -> None:
         self._database = database
 
-    async def list_for_guest(
+    async def list_for_guest_graph(
         self,
         guest_id: str,
         graph_version: str,
-        category: str | None,
-        difficulty: Difficulty,
     ) -> tuple[RoundSelection, ...]:
         async with self._database.session() as session:
             rows = (
@@ -26,8 +24,6 @@ class PostgresRoundSelectionRepository:
                     .where(
                         RoundSelectionRow.guest_id == guest_id,
                         RoundSelectionRow.graph_version == graph_version,
-                        RoundSelectionRow.category_filter == category,
-                        RoundSelectionRow.difficulty_filter == difficulty.value,
                     )
                     .order_by(RoundSelectionRow.selected_at, RoundSelectionRow.id)
                 )

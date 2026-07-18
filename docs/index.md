@@ -35,11 +35,12 @@ Webwoven is live at [www.webwoven.org](https://www.webwoven.org) halfway through
 player, Daily challenge, synchronized Multiplayer, responsive route exploration, source inspection,
 and privacy-minimized reporting all run against an immutable, release-scale Wikidata bundle with
 locally served, policy-checked Commons media for every graph entity.
-The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated choice-first
-candidates, 40 published routes, and ten categories. The synthetic smoke graph remains test-only.
+The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated, published
+choice-first routes, and ten categories. Every category offers four Easy, four Normal, and two Hard
+routes. The synthetic smoke graph remains test-only.
 The remaining release work is accessibility, security and load verification, content review, demo
 recording, and submission packaging.
 
 Start with the [game rules](product/game-rules.md), [system map](architecture/system-map.md),
 [architecture](architecture/overview.md),
-[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-17.md).
+[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-18.md).

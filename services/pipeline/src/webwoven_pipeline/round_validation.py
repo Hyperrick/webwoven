@@ -30,7 +30,7 @@ def validate_round_selection(
     selection_seed: str,
     registry_version: int,
 ) -> dict[str, Any]:
-    """Validate the deterministic 40-round publication set and return its audit report."""
+    """Validate the deterministic 100-round publication set and return its audit report."""
     round_values = tuple(sorted(rounds, key=lambda item: item.id))
     entity_values = tuple(entities)
     edge_values = tuple(edges)
@@ -49,7 +49,7 @@ def validate_round_selection(
 
     checks = {
         "candidate_count": len(round_values) == 100,
-        "published_count": len(published) == 40,
+        "published_count": len(published) == 100,
         "unique_round_ids": len({item.id for item in round_values}) == len(round_values),
         "candidate_distribution": candidate_distribution
         == _expected_distribution(CANDIDATE_DISTRIBUTION),
@@ -73,7 +73,7 @@ def validate_round_selection(
 
     return {
         "version": 1,
-        "policy": "deterministic-round-publication-v2",
+        "policy": "deterministic-round-publication-v3",
         "source_kind": source_kind,
         "status": "passed",
         "inputs": {

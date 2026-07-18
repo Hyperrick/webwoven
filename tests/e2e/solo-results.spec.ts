@@ -76,6 +76,33 @@ test("Solo completes the four-move route and renders results", async ({
   }
 
   await expect(page).toHaveURL(/\/results$/);
+  const confetti = page.locator(".route-confetti");
+  await expect(confetti).toHaveCount(1);
+  await expect(confetti).toHaveAttribute("aria-hidden", "true");
+  await expect(confetti).toHaveCSS("pointer-events", "none");
+  await expect(confetti).toHaveCSS("overflow", "hidden");
+  const celebrationSessionId = await confetti.getAttribute(
+    "data-route-confetti",
+  );
+  expect(celebrationSessionId).toBeTruthy();
+  const confettiPieces = confetti.locator(".route-confetti__piece");
+  const firstConfettiPiece = confettiPieces.first();
+  await expect(confettiPieces).toHaveCount(72);
+  await expect
+    .poll(() =>
+      firstConfettiPiece.evaluate(
+        (element) => getComputedStyle(element).animationName,
+      ),
+    )
+    .toBe("route-confetti-rain");
+  await expect(firstConfettiPiece).toHaveCSS("animation-iteration-count", "1");
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth <=
+        document.documentElement.clientWidth,
+    ),
+  ).toBe(true);
   await expect
     .poll(() =>
       page
@@ -115,6 +142,18 @@ test("Solo completes the four-move route and renders results", async ({
   ).toHaveAttribute("src", "/illustrations/cartographer.webp");
 
   await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(confetti).toHaveCSS("display", "none");
+  await expect(firstConfettiPiece).toHaveCSS("animation-name", "none");
+  await expect(confetti).toHaveAttribute(
+    "data-route-confetti",
+    celebrationSessionId!,
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.evaluate(() => {
+    document.documentElement.dataset.motion = "reduced";
+  });
+  await expect(confetti).toHaveCSS("display", "none");
+  await expect(firstConfettiPiece).toHaveCSS("animation-name", "none");
   await page.getByRole("button", { name: /Try another route/i }).click();
   await expect(page.getByRole("radio", { name: /Normal/i })).toBeChecked();
   await page.getByRole("button", { name: /Confirm and reveal/i }).click();

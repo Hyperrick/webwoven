@@ -58,3 +58,4 @@ nav:
       - Wikipedia article links: adr/0005-wikipedia-article-links.md
       - Source-neutral relationship semantics: adr/0006-source-neutral-relationship-semantics.md
       - Privacy-minimized analytics: adr/0007-privacy-minimized-analytics.md
+      - Publish the validated round pool: adr/0008-publish-the-validated-round-pool.md

@@ -61,7 +61,7 @@ backed up independently, and aggregate analytics rows have a 90-day retention jo
 ## Midpoint release snapshot
 
 - 3,970 playable entities and 22,402 named directed relationships
-- ten knowledge categories, 100 validated candidates, and 40 published routes
+- ten knowledge categories and 100 validated, published routes
 - 3,621 locally served, attributed Commons source files
 - Single player, shared Daily challenge, and two-to-four-player synchronized races
 - desktop/tablet left-to-right atlas and phone top-to-bottom two-column constellation

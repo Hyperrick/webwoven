@@ -400,6 +400,7 @@ test("Daily and Live Relay expose their complete entry states", async ({
     await followTo(page, entity);
   }
   await expect(page).toHaveURL(/\/results$/);
+  await expect(page.locator(".route-confetti")).toHaveCount(1);
   await expect(page.locator(".result-hero__copy")).toContainText(
     "Live relay complete",
   );
@@ -433,6 +434,7 @@ test("a named Daily player is ranked from their completed route", async ({
   }
 
   await expect(page).toHaveURL(/\/results$/);
+  await expect(page.locator(".route-confetti")).toHaveCount(1);
   await expect(page.locator(".result-hero__copy")).toContainText(
     "Daily connection complete",
   );

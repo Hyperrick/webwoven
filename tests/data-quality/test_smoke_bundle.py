@@ -82,7 +82,7 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
         assert connection.execute("SELECT COUNT(*) FROM entities").fetchone() == (120,)
         assert connection.execute("SELECT COUNT(*) FROM edges").fetchone() == (240,)
     assert len(rounds) == 100
-    assert sum(published for _, _, published in rounds) == 40
+    assert sum(published for _, _, published in rounds) == 100
     assert Counter(category for category, _, _ in rounds) == Counter(
         {category: 10 for category in CATEGORIES}
     )
@@ -99,7 +99,7 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
         {
             (category, difficulty): count
             for category in CATEGORIES
-            for difficulty, count in {"easy": 2, "normal": 1, "hard": 1}.items()
+            for difficulty, count in {"easy": 4, "normal": 4, "hard": 2}.items()
         }
     )
 
@@ -107,11 +107,11 @@ def test_smoke_graph_has_locked_round_distribution_and_integrity() -> None:
 def test_fixture_round_selection_carries_automated_validation_report() -> None:
     report = _json(FIXTURE / "round-validation-report.json")
 
-    assert report["policy"] == "deterministic-round-publication-v2"
+    assert report["policy"] == "deterministic-round-publication-v3"
     assert report["source_kind"] == "synthetic_fixture"
     assert report["status"] == "passed"
     assert report["summary"]["candidate_rounds"] == 100
-    assert report["summary"]["published_rounds"] == 40
+    assert report["summary"]["published_rounds"] == 100
     assert all(report["checks"].values())
 
 
