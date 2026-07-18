@@ -135,13 +135,16 @@ remain above it, active choices occupy at most two columns below it, and the dis
 compact labelled marker beyond the frontier. One or two choices receive more breathing room; larger
 frontiers add rows without stacking six full cards down the canvas. A reachable goal joins the same
 compact choice constellation and reveals its Finish action in the detail tray and beside the
-selected bubble. The first activation previews any compact choice; a second activation of that same
-choice confirms it, while activating another choice switches the preview without moving. Crossing
-the phone breakpoint clears ephemeral preview state, selects the appropriate card or constellation
-presentation, and refits the active stage. Node identities, links, commands, scoring, and the desktop
-and tablet board geometry do not change; desktop and tablet continue to use direct full cards. After
-a phone move, camera fitting includes the immediately previous node alongside the current entity and
-active frontier so the inline Back target remains reachable.
+selected bubble. Choice names always wrap in full rather than using an ellipsis. Each two-node row
+uses the tallest measured label block in that row, vertically centers a shorter neighbor inside the
+shared height, and adds only that row's required extra spacing before the next row. The first
+activation previews any compact choice; a second activation of that same choice confirms it, while
+activating another choice switches the preview without moving. Crossing the phone breakpoint clears
+ephemeral preview state, selects the appropriate card or constellation presentation, and refits the
+active stage. Node identities, links, commands, scoring, and the desktop and tablet board geometry
+do not change; desktop and tablet continue to use direct full cards. After a phone move, camera
+fitting includes the immediately previous node, current entity, and every active frontier choice so
+the complete next decision and inline Back target remain reachable without manual panning.
 
 Before presenting a frontier with only one distinct destination, the server follows that forced
 continuation through the stored graph. If it reaches neither the round target nor a node with at

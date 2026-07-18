@@ -21,8 +21,10 @@
     selectedChoiceId = null,
     backTargetNodeId = null,
     selectedBackNodeId = null,
+    mobileChoiceRowLabelLines = new Map(),
     onChoose,
     onSelectChoice,
+    onMobileChoiceLabelMeasure,
     onBackNodeActivate,
     onBack,
     backDestinationLabel,
@@ -37,8 +39,10 @@
     selectedChoiceId?: string | null;
     backTargetNodeId?: string | null;
     selectedBackNodeId?: string | null;
+    mobileChoiceRowLabelLines?: ReadonlyMap<string, number>;
     onChoose: (choice: MapMoveChoice) => void;
     onSelectChoice: (choice: MapMoveChoice) => void;
+    onMobileChoiceLabelMeasure: (nodeId: string, lineCount: number) => void;
     onBackNodeActivate: (nodeId: string) => void;
     onBack: () => void;
     backDestinationLabel?: string;
@@ -342,7 +346,10 @@
           : undefined}
         ariaLabel={compactChoiceLabel(choice)}
         confirmIcon={compassSelecting ? "compass" : "arrow"}
+        rowLabelLines={mobileChoiceRowLabelLines.get(choice.target_node_id) ??
+          2}
         onActivate={activateCompactChoice}
+        onLabelMeasure={onMobileChoiceLabelMeasure}
       />
     {/each}
   {:else}

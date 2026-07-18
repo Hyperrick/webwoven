@@ -4,7 +4,10 @@ import type {
   MapBoardNode,
   MapBoardNodeRole,
 } from "../src/lib/domain/map-board";
-import { projectMobileMapBoard } from "../src/lib/components/map-viewport/mobile-map-board-layout";
+import {
+  mobileChoiceRowLabelLines,
+  projectMobileMapBoard,
+} from "../src/lib/components/map-viewport/mobile-map-board-layout";
 
 const MOBILE_WORLD_WIDTH = 26;
 const MOBILE_WORLD_CENTER = MOBILE_WORLD_WIDTH / 2;
@@ -14,11 +17,12 @@ function node(
   stageIndex: number,
   roles: MapBoardNodeRole[],
   y: number,
+  label = id,
 ): MapBoardNode {
   return {
     id,
     qid: `Q-${id}`,
-    label: id,
+    label,
     roles,
     position: { x: stageIndex / 4, y, z: 0.5 },
     choice_ids: [],
@@ -160,5 +164,27 @@ describe("mobile map board layout", () => {
     expect(goal.x).toBeLessThan(MOBILE_WORLD_CENTER);
     expect(otherChoice.x).toBeGreaterThan(MOBILE_WORLD_CENTER);
     expect(goal.x + otherChoice.x).toBeCloseTo(MOBILE_WORLD_WIDTH);
+  });
+
+  it("uses the tallest measured label for each row and expands only that row", () => {
+    const source = board();
+    const measuredLines = new Map([
+      ["discarded", 6],
+      ["choice-a", 1],
+      ["choice-b", 4],
+      ["choice-c", 2],
+    ]);
+    const rowLines = mobileChoiceRowLabelLines(source, measuredLines);
+    const projected = projectMobileMapBoard(source, measuredLines);
+    const choiceA = absolutePoint(projected, "choice-a");
+    const choiceB = absolutePoint(projected, "choice-b");
+    const choiceC = absolutePoint(projected, "choice-c");
+
+    expect(rowLines.get("discarded")).toBe(2);
+    expect(rowLines.get("choice-a")).toBe(4);
+    expect(rowLines.get("choice-b")).toBe(4);
+    expect(rowLines.get("choice-c")).toBe(2);
+    expect(choiceA.y).toBeCloseTo(choiceB.y);
+    expect(choiceC.y - choiceA.y).toBeCloseTo(7.4);
   });
 });

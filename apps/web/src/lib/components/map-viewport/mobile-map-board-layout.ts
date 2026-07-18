@@ -9,6 +9,8 @@ const WORLD_CENTER_UNITS = WORLD_WIDTH_UNITS / 2;
 const LEFT_CHOICE_UNITS = 7;
 const RIGHT_CHOICE_UNITS = WORLD_WIDTH_UNITS - LEFT_CHOICE_UNITS;
 const CHOICE_ROW_GAP_UNITS = 5.5;
+const DEFAULT_CHOICE_LABEL_LINES = 2;
+const CHOICE_LABEL_LINE_HEIGHT_UNITS = 0.95;
 const STAGE_GAP_UNITS = 6;
 const GOAL_STAGE_GAP_UNITS = 7;
 const BOTTOM_CLEARANCE_UNITS = 10;
@@ -19,8 +21,13 @@ interface MobileAnchor {
   y: number;
 }
 
+export type MobileChoiceLabelLineCounts = ReadonlyMap<string, number>;
+
 /** Project the deterministic board into a phone-readable top-to-bottom flow. */
-export function projectMobileMapBoard(board: MapBoard): MapBoard {
+export function projectMobileMapBoard(
+  board: MapBoard,
+  labelLineCounts: MobileChoiceLabelLineCounts = new Map(),
+): MapBoard {
   const stages = groupNodesByStage(board.nodes);
   const anchors = new Map<string, MobileAnchor>();
   let cursorY = TOP_GUTTER_UNITS;
@@ -42,7 +49,8 @@ export function projectMobileMapBoard(board: MapBoard): MapBoard {
     if (constellationNodes.length > 0) {
       const rows = chunkRows(constellationNodes);
       rows.forEach((row, rowIndex) => {
-        const rowY = cursorY + rowIndex * CHOICE_ROW_GAP_UNITS;
+        const rowY = cursorY;
+        const rowLabelLines = maximumLabelLines(row, labelLineCounts);
         row.forEach((node, columnIndex) => {
           anchors.set(node.id, {
             x: constellationX(node, row.length, columnIndex, routeNodes.length),
@@ -50,8 +58,11 @@ export function projectMobileMapBoard(board: MapBoard): MapBoard {
           });
         });
         lastAnchorY = rowY;
+        cursorY =
+          rowIndex < rows.length - 1
+            ? rowY + choiceRowGap(rowLabelLines)
+            : rowY + choiceLabelOverflow(rowLabelLines);
       });
-      cursorY = lastAnchorY;
     }
 
     if (routeNodes.length > 0) {
@@ -73,12 +84,13 @@ export function projectMobileMapBoard(board: MapBoard): MapBoard {
       });
     }
 
-    cursorY = lastAnchorY;
+    if (routeNodes.length > 0 || distantGoalNodes.length > 0)
+      cursorY = lastAnchorY;
   });
 
   const heightUnits = Math.max(
     MINIMUM_HEIGHT_UNITS,
-    lastAnchorY + BOTTOM_CLEARANCE_UNITS,
+    Math.max(lastAnchorY, cursorY) + BOTTOM_CLEARANCE_UNITS,
   );
 
   return {
@@ -106,6 +118,24 @@ export function projectMobileMapBoard(board: MapBoard): MapBoard {
       bottom_clearance_units: BOTTOM_CLEARANCE_UNITS,
     },
   };
+}
+
+/** Give every choice label in a two-node row the row's tallest measured line count. */
+export function mobileChoiceRowLabelLines(
+  board: MapBoard,
+  labelLineCounts: MobileChoiceLabelLineCounts,
+): Map<string, number> {
+  const rowLineCounts = new Map<string, number>();
+  for (const nodes of groupNodesByStage(board.nodes)) {
+    const constellationNodes = [...nodes]
+      .sort(compareStageNodes)
+      .filter((node) => !isRouteNode(node) && !isDistantGoalNode(node));
+    for (const row of chunkRows(constellationNodes)) {
+      const rowLabelLines = maximumLabelLines(row, labelLineCounts);
+      for (const node of row) rowLineCounts.set(node.id, rowLabelLines);
+    }
+  }
+  return rowLineCounts;
 }
 
 function groupNodesByStage(nodes: MapBoardNode[]): MapBoardNode[][] {
@@ -136,6 +166,36 @@ function chunkRows(nodes: MapBoardNode[]): MapBoardNode[][] {
   for (let index = 0; index < nodes.length; index += 2)
     rows.push(nodes.slice(index, index + 2));
   return rows;
+}
+
+function maximumLabelLines(
+  nodes: MapBoardNode[],
+  labelLineCounts: MobileChoiceLabelLineCounts,
+): number {
+  return Math.max(
+    ...nodes.map((node) =>
+      node.roles.includes("choice")
+        ? normalizeLabelLines(labelLineCounts.get(node.id))
+        : DEFAULT_CHOICE_LABEL_LINES,
+    ),
+  );
+}
+
+function normalizeLabelLines(value: number | undefined): number {
+  if (value === undefined || !Number.isFinite(value))
+    return DEFAULT_CHOICE_LABEL_LINES;
+  return Math.max(1, Math.round(value));
+}
+
+function choiceRowGap(labelLines: number): number {
+  return CHOICE_ROW_GAP_UNITS + choiceLabelOverflow(labelLines);
+}
+
+function choiceLabelOverflow(labelLines: number): number {
+  return (
+    Math.max(0, labelLines - DEFAULT_CHOICE_LABEL_LINES) *
+    CHOICE_LABEL_LINE_HEIGHT_UNITS
+  );
 }
 
 function constellationX(

@@ -51,10 +51,15 @@
 }
 
 .mobile-map-choice-node__label {
-  display: -webkit-box;
-  max-width: 7.25rem;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  max-inline-size: 7.25rem;
+  min-block-size: calc(
+    var(--mobile-choice-label-lines, 2) * 1.05em + 0.4rem + 2px
+  );
   padding: 0.2rem 0.4rem;
-  overflow: hidden;
   border-bottom: 2px solid var(--relation-color);
   color: var(--color-ink);
   background: color-mix(in srgb, var(--color-paper) 94%, transparent);
@@ -63,9 +68,12 @@
   font-weight: 600;
   line-height: 1.05;
   text-align: center;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+}
+
+.mobile-map-choice-node__label-text {
+  display: block;
+  inline-size: 100%;
+  overflow-wrap: anywhere;
 }
 
 .mobile-map-choice-node > .map-choice__hint {

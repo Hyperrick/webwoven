@@ -19,10 +19,13 @@ dead-end recovery, and narrow-phone containment. Phone regressions additionally 
 two-column constellation packing, first-tap preview without a command, the selected marker's action
 indicator, second-tap confirmation through the same command as the explicit detail-tray action,
 preview switching without movement, compact reachable-goal handling, and refitting between phone
-and desktop/tablet presentations. Desktop and phone flows also verify that the immediately previous
-node is the sole inline Back target, the first activation only arms its visible and accessible Back
-state, and the second activation submits the same Back command while preserving route-history
-reconstruction. The phone camera keeps that target visible with the current stage and frontier.
+and desktop/tablet presentations. Long-label coverage uses a real production entity name at 320×568
+and 390×844 to verify full natural wrapping, equal label-block heights within each two-node row,
+vertical centering, adaptive row spacing, and the absence of clipping or ellipses. Desktop and phone
+flows also verify that the immediately previous node is the sole inline Back target, the first
+activation only arms its visible and accessible Back state, and the second activation submits the
+same Back command while preserving route-history reconstruction. After a confirmed phone move, the
+camera keeps that target, the current stage, and every newly available frontier node visible.
 Short-phone coverage at the combined 32rem-width and 42rem-height
 breakpoint verifies the 3rem inner-route header, single-row HUD, visible Live/Time/Moves/Par/Score
 summary, accessible full status and mode text, 44px Back and header controls, and the canvas height

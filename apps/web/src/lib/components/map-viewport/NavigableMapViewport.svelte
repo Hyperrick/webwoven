@@ -109,8 +109,10 @@
   $effect(() => {
     const version = ++positioningVersion;
     const nextFocus = transition.key;
+    const nextBoard = board;
     if (!ready) return;
     void nextFocus;
+    void nextBoard;
     void tick().then(() => {
       if (!ready || version !== positioningVersion) return;
       refreshWorldSize();
@@ -285,7 +287,7 @@
     next: MapCameraState,
   ): MapCameraState {
     const activeStageBounds = boundsFor(
-      '[data-map-back-target="true"], [data-map-current], [data-map-near-focus]',
+      '[data-map-back-target="true"], [data-map-current], [data-mobile-choice-node], [data-map-near-focus="dead-end"]',
     );
     return activeStageBounds
       ? ensureBoundsVisible(next, activeStageBounds, currentEnvironment(), 16)

@@ -18,6 +18,7 @@
   import type { MapInspectorAnchor } from "./map-inspector-position";
   import {
     MOBILE_MAP_LAYOUT_MEDIA_QUERY,
+    mobileChoiceRowLabelLines as deriveMobileChoiceRowLabelLines,
     projectMobileMapBoard,
   } from "./map-viewport/mobile-map-board-layout";
   import MapNavigationHelp from "./map-viewport/MapNavigationHelp.svelte";
@@ -51,13 +52,21 @@
   let inspectorAnchor = $state<MapInspectorAnchor | null>(null);
   let selectedMobileChoiceId = $state<string | null>(null);
   let selectedBackNodeId = $state<string | null>(null);
+  let mobileChoiceLabelLines = $state(new Map<string, number>());
   let mobileVerticalFlow = $state(
     typeof window !== "undefined" &&
       window.matchMedia(MOBILE_MAP_LAYOUT_MEDIA_QUERY).matches,
   );
   let board = $derived(buildMapBoard(session));
   let presentationBoard = $derived(
-    mobileVerticalFlow ? projectMobileMapBoard(board) : board,
+    mobileVerticalFlow
+      ? projectMobileMapBoard(board, mobileChoiceLabelLines)
+      : board,
+  );
+  let mobileChoiceRowLabelLines = $derived(
+    mobileVerticalFlow
+      ? deriveMobileChoiceRowLabelLines(board, mobileChoiceLabelLines)
+      : new Map<string, number>(),
   );
   let previousSession: SessionSnapshot | undefined;
   let previousBoard: ReturnType<typeof buildMapBoard> | undefined;
@@ -104,6 +113,14 @@
     closeInspection();
     selectedBackNodeId = null;
     selectedMobileChoiceId = choice.id;
+  }
+
+  function measureMobileChoiceLabel(nodeId: string, lineCount: number): void {
+    if (mobileChoiceLabelLines.get(nodeId) === lineCount) return;
+    mobileChoiceLabelLines = new Map(mobileChoiceLabelLines).set(
+      nodeId,
+      lineCount,
+    );
   }
 
   function activateBackNode(nodeId: string): void {
@@ -261,10 +278,12 @@
         {backDestinationLabel}
         compactChoices={mobileVerticalFlow}
         selectedChoiceId={selectedMobileChoiceId}
+        {mobileChoiceRowLabelLines}
         {backTargetNodeId}
         {selectedBackNodeId}
         onChoose={choose}
         onSelectChoice={selectMobileChoice}
+        onMobileChoiceLabelMeasure={measureMobileChoiceLabel}
         onBackNodeActivate={activateBackNode}
         onInspect={inspect}
       />

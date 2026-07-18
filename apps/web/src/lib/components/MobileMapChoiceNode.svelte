@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { MapMoveChoice } from "../domain/map-board";
   import AtlasIcon from "./AtlasIcon.svelte";
+  import { observeMobileChoiceLabel } from "./map-viewport/mobile-choice-label-measure";
 
   let {
     choice,
@@ -12,7 +13,9 @@
     hintLabel,
     ariaLabel,
     confirmIcon = "arrow",
+    rowLabelLines = 2,
     onActivate,
+    onLabelMeasure,
   }: {
     choice: MapMoveChoice;
     positionStyle: string;
@@ -23,8 +26,16 @@
     hintLabel?: string;
     ariaLabel: string;
     confirmIcon?: "arrow" | "compass";
+    rowLabelLines?: number;
     onActivate: (choice: MapMoveChoice) => void;
+    onLabelMeasure: (nodeId: string, lineCount: number) => void;
   } = $props();
+
+  function measureLabel(node: HTMLElement): { destroy: () => void } {
+    return observeMobileChoiceLabel(node, (lineCount) =>
+      onLabelMeasure(choice.target_node_id, lineCount),
+    );
+  }
 </script>
 
 <button
@@ -36,7 +47,7 @@
   class:mobile-map-choice-node--selected={selected}
   class:mobile-map-choice-node--goal={goal}
   class="map-choice mobile-map-choice-node"
-  style={positionStyle}
+  style={`${positionStyle}; --mobile-choice-label-lines: ${rowLabelLines}`}
   disabled={busy}
   data-map-node
   data-map-node-id={choice.target_node_id}
@@ -44,6 +55,7 @@
   data-map-near-focus={nearFocus ? "choice" : undefined}
   data-map-interactive={selected ? "move" : "preview"}
   data-mobile-choice-node
+  data-mobile-label-lines={rowLabelLines}
   data-relation-kind={choice.relation.glyph}
   aria-label={ariaLabel}
   aria-pressed={selected}
@@ -63,7 +75,11 @@
       <AtlasIcon name={confirmIcon} size={14} />
     </span>
   {/if}
-  <strong class="mobile-map-choice-node__label">{choice.target.label}</strong>
+  <strong class="mobile-map-choice-node__label">
+    <span class="mobile-map-choice-node__label-text" use:measureLabel>
+      {choice.target.label}
+    </span>
+  </strong>
   {#if hintLabel}
     <small class="map-choice__hint">{hintLabel}</small>
   {/if}
