@@ -19,6 +19,6 @@ requiring an account.
 
 ## Build Week boundary
 
-Included: Solo Route Race, Daily Connection, Live Relay, three deterministic hints, guest
+Included: Solo Route Race, Daily Connection, Multiplayer lobbies, three deterministic hints, guest
 profiles, sources, and leaderboards. Deferred: accounts, freeform round creation, quizzes, hidden
 targets, exact-route puzzles, shops, chat, and additional datasets.

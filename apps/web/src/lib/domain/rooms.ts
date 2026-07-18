@@ -131,7 +131,7 @@ export class DemoRoomCoordinator {
 
   get(code: string): RoomSnapshot {
     const room = this.#rooms.get(normalizeCode(code));
-    if (!room) throw new Error("That Relay lobby could not be found.");
+    if (!room) throw new Error("That lobby could not be found.");
     return structuredClone(room);
   }
 
@@ -141,7 +141,7 @@ export class DemoRoomCoordinator {
   ): RoomSnapshot {
     const normalized = normalizeCode(code);
     const current = this.#rooms.get(normalized);
-    if (!current) throw new Error("That Relay lobby could not be found.");
+    if (!current) throw new Error("That lobby could not be found.");
     const next = update(current);
     this.#rooms.set(normalized, next);
     return structuredClone(next);

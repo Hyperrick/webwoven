@@ -55,14 +55,18 @@
         ),
   );
   const recap = $derived(routeRecap(session));
-  const modeLabel = $derived(gameModeLabel(session.mode));
+  const modeLabel = $derived(
+    session.mode === "relay"
+      ? "Multiplayer round"
+      : gameModeLabel(session.mode),
+  );
   const resultSeal = $derived(
     session.mode === "daily"
       ? "Daily complete"
       : session.mode === "relay"
         ? session.status === "expired"
-          ? "Relay closed"
-          : "Relay complete"
+          ? "Time expired"
+          : "Round complete"
         : "Solo complete",
   );
   const resultSummary = $derived(

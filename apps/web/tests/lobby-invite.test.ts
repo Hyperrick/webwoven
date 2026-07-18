@@ -16,7 +16,7 @@ function environment(
 describe("lobby invitations", () => {
   it("builds the canonical normalized lobby join URL", () => {
     expect(lobbyInviteUrl(" maps27 ", origin)).toBe(
-      "https://www.webwoven.org/relay/MAPS27/join",
+      "https://www.webwoven.org/lobby/MAPS27/join",
     );
   });
 
@@ -30,12 +30,12 @@ describe("lobby invitations", () => {
       ),
     ).resolves.toEqual({
       status: "shared",
-      url: "https://www.webwoven.org/relay/MAPS27/join",
+      url: "https://www.webwoven.org/lobby/MAPS27/join",
     });
     expect(share).toHaveBeenCalledWith({
       title: "Join a Webwoven lobby",
       text: "Host Atlas invited you to race through the Webwoven atlas.",
-      url: "https://www.webwoven.org/relay/MAPS27/join",
+      url: "https://www.webwoven.org/lobby/MAPS27/join",
     });
   });
 
@@ -64,7 +64,7 @@ describe("lobby invitations", () => {
 
     expect(result.status).toBe("copied");
     expect(copy).toHaveBeenCalledWith(
-      "https://www.webwoven.org/relay/MAPS27/join",
+      "https://www.webwoven.org/lobby/MAPS27/join",
     );
   });
 
@@ -81,7 +81,7 @@ describe("lobby invitations", () => {
 
     expect(result.status).toBe("copied");
     expect(copy).toHaveBeenCalledWith(
-      "https://www.webwoven.org/relay/MAPS27/join",
+      "https://www.webwoven.org/lobby/MAPS27/join",
     );
   });
 
@@ -93,7 +93,7 @@ describe("lobby invitations", () => {
 
     expect(result).toEqual({
       status: "manual",
-      url: "https://www.webwoven.org/relay/MAPS27/join",
+      url: "https://www.webwoven.org/lobby/MAPS27/join",
     });
   });
 });

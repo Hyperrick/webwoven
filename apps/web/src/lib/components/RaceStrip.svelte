@@ -51,8 +51,8 @@
     <AtlasIcon name="users" size={17} />
     <div>
       <h2 id="race-status-title">
-        <span class="race-strip__mode-full">Live relay</span>
-        <span class="race-strip__mode-short">Relay</span>
+        <span class="race-strip__mode-full">Multiplayer</span>
+        <span class="race-strip__mode-short">Lobby</span>
         · {room.code}
       </h2>
       {#if graceSeconds !== null}
@@ -61,7 +61,7 @@
             Final chance ·
             <strong
               role="timer"
-              aria-label={`${graceSeconds} seconds remaining in the relay`}
+              aria-label={`${graceSeconds} seconds remaining in the multiplayer race`}
               >{formatRelayGrace(graceSeconds)}</strong
             >
           {:else}
@@ -85,7 +85,7 @@
         <strong
           class="race-strip__grace"
           role="timer"
-          aria-label={`${graceSeconds} seconds remaining in the relay`}
+          aria-label={`${graceSeconds} seconds remaining in the multiplayer race`}
           >{formatRelayGrace(graceSeconds)}</strong
         >
       {:else}

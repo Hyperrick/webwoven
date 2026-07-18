@@ -36,7 +36,7 @@ eligible set. This keeps the filters strict while carrying repeat avoidance acro
   and Normal exhaust four routes before a repeat.
 - The graph build ID changes and existing history starts a new cycle when the new immutable bundle
   is promoted.
-- Daily and Relay can select from the larger validated pool without runtime data or AI requests.
+- Daily and Multiplayer can select from the larger validated pool without runtime data or AI requests.
 - Pipeline, API, smoke-fixture, browser, documentation, and submission counts move together.
 - The generated candidates no longer carry a reserve status; future quality tiers require a new
   explicit policy rather than an implicit unpublished pool.

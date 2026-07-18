@@ -8,10 +8,10 @@ entity follows one stored relationship and counts as a move. Back returns to the
 navigation node and also counts as a move.
 
 Before a new round, Solo players choose Any category or one of the ten atlas topics, then confirm
-Easy, Normal, or Hard. Relay hosts make the same locked choices while creating the lobby; joiners
+Easy, Normal, or Hard. Multiplayer hosts make the same locked choices while creating the lobby; joiners
 see the pinned topic but cannot change it. A specific category requires both endpoints to share that
 topic, while intermediate discoveries may cross the wider atlas. The last category and difficulty
-are remembered independently for Solo and Relay, but every new Solo round requires confirmation.
+are remembered independently for Solo and Multiplayer, but every new Solo round requires confirmation.
 Daily category and difficulty remain part of its curated assignment. Every category contains four
 Easy, four Normal, and two Hard routes. The server keeps one per-player history for the active graph,
 then selects unseen eligible routes within the current filters and avoids an immediate repeat.
@@ -20,17 +20,17 @@ already saw immediately eligible again.
 
 The data pipeline owns choice-first publication: every generated candidate must start with at least
 two distinct playable targets, with parallel facts to the same target counted once. Automatic Solo,
-Relay-lobby, and new Daily assignment pools verify that invariant again before selection. Explicit
+multiplayer-lobby, and new Daily assignment pools verify that invariant again before selection. Explicit
 round IDs and already-pinned Daily assignments remain available for deterministic replay.
 
 Reaching the target starts one finite confetti rain across the transition to the result page in
-Solo, Daily, and Relay. It is decorative, ignores pointer input, does not announce itself to
+Solo, Daily, and Multiplayer. It is decorative, ignores pointer input, does not announce itself to
 assistive technology, and is suppressed when either the system or Webwoven preference requests
 reduced motion.
 
 Every mode reveals its category, difficulty, start, and goal during a five-second introduction that
 ends at the server-owned `started_at` timestamp. The category remains visible above the start and
-goal cards while the endpoints are revealed. Relay-lobby participants share exactly one timestamp.
+goal cards while the endpoints are revealed. Multiplayer-lobby participants share exactly one timestamp.
 Movement is unavailable before it, and elapsed play time begins from it. Reduced motion or missing
 WebGL changes the presentation, not the duration or control boundary.
 
@@ -44,7 +44,7 @@ marker, and places the immediately reachable entities between them. It behaves a
 atlas rather than replacing one diagram with another.
 
 Desktop and tablet retain the separate round-identity area with **Round active**, mode, and
-difficulty. At phone widths, that area is removed entirely and the Relay status strip becomes one
+difficulty. At phone widths, that area is removed entirely and the Multiplayer status strip becomes one
 compact line: lobby code plus a player/finish summary, or the active grace countdown. The individual
 player roster remains available on larger layouts instead of competing with the map on a narrow
 screen. On short phones at or below both 32rem wide and 42rem tall, the inner-route header compresses
@@ -203,11 +203,11 @@ persistent panel or button outlines. Floating hint feedback never intercepts map
 canvas contains no persistent visible controls. Phone layouts keep the compact canvas toolbar and
 horizontal hint dock.
 
-## Live Relay
+## Multiplayer lobbies
 
 Two to four active players enter a Lobby and receive the same round. Only the host sees the Lobby's
 Share control. It opens the platform's native share sheet when available and otherwise copies or
-reveals a canonical `/relay/{CODE}/join` link. Opening that link shows a minimal invitation naming
+reveals a canonical `/lobby/{CODE}/join` link. Opening that link shows a minimal invitation naming
 the host and asks the visitor to confirm before joining or reopening an existing membership; the
 link never joins a guest automatically. The same browser window can therefore be reused without
 silently abandoning its current state.
@@ -219,8 +219,8 @@ Opponents see move count, hint use, and a coarse progress band—not current nod
 valid server-recorded finish wins; moves, hints, and server time break near-simultaneous ties.
 
 The first finish opens a 30-second grace period for unfinished players. Its countdown stays visible
-in the compact Relay strip and on the result surface without covering the map HUD. Unfinished
-players may continue until the exact server deadline. At that deadline their Relay sessions become
+in the compact Multiplayer strip and on the result surface without covering the map HUD. Unfinished
+players may continue until the exact server deadline. At that deadline their multiplayer sessions become
 expired, further commands are rejected, and their clients can move to results instead of remaining
 stuck in an apparently active game.
 

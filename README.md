@@ -97,7 +97,7 @@ and fails visibly if one is unavailable.
 | ---------------------- | -------------------------------------------------------------------------------- |
 | Svelte 5 + TypeScript  | Accessible game UI, responsive modes, and semantic controls                      |
 | Three.js               | Decorative atlas paper, paths, and tokens; gameplay remains usable without WebGL |
-| FastAPI                | Authoritative sessions, route projection, hints, scoring, Daily, and Relay rules |
+| FastAPI                | Authoritative sessions, route projection, hints, scoring, Daily, and Multiplayer rules |
 | SQLite atlas           | Immutable compiled Wikidata entities, relationships, rounds, and media records   |
 | PostgreSQL + Valkey    | Durable player state and low-latency multiplayer coordination                    |
 | Python pipeline        | Versioned Wikidata acquisition, Commons licensing, validation, and compilation   |

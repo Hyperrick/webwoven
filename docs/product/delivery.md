@@ -67,7 +67,7 @@ The remaining half of the week concentrates on evidence and finish quality:
 
 The game needs 2,500–10,000 playable entities, ten categories, 100 round candidates, 40
 automatically validated production rounds, three deterministic hints, and passing Solo, Daily, and
-Live Relay browser flows. Every
+Multiplayer browser flows. Every
 published media record needs complete provenance and attribution. Gameplay must make no Wikidata,
 Commons, or AI request.
 

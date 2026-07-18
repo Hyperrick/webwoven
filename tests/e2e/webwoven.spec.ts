@@ -346,7 +346,7 @@ test("Hard selection reveals its category and endpoints before controls unlock",
   );
 });
 
-test("Daily and Live Relay expose their complete entry states", async ({
+test("Daily and Multiplayer expose their complete entry states", async ({
   page,
 }) => {
   test.setTimeout(60_000);
@@ -372,7 +372,7 @@ test("Daily and Live Relay expose their complete entry states", async ({
     "Daily connection",
   );
 
-  await page.goto("/relay");
+  await page.goto("/lobby");
   await page.getByRole("button", { name: /Create lobby/i }).click();
   await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
   await expect(page.getByText("2 / 4", { exact: true })).toBeVisible();
@@ -380,15 +380,15 @@ test("Daily and Live Relay expose their complete entry states", async ({
     "Art & Design · Normal",
   );
   await page.getByRole("button", { name: "I’m ready" }).click();
-  await page.getByRole("button", { name: /Start relay/i }).click();
-  await expect(page).toHaveURL(/\/relay\/MAPS27$/);
+  await page.getByRole("button", { name: /Start game/i }).click();
+  await expect(page).toHaveURL(/\/lobby\/MAPS27$/);
   const relayIntroduction = page.locator(".round-intro");
   if (await relayIntroduction.isVisible()) {
-    await expect(page.locator(".round-intro__mode")).toHaveText("Live relay");
+    await expect(page.locator(".round-intro__mode")).toHaveText("Multiplayer");
     await expect(relayIntroduction).toBeHidden({ timeout: 20_000 });
   }
   await expect(page.locator(".round-masthead__meta")).toContainText(
-    "Live relay",
+    "Multiplayer",
   );
 
   for (const entity of [
@@ -399,10 +399,10 @@ test("Daily and Live Relay expose their complete entry states", async ({
   ]) {
     await followTo(page, entity);
   }
-  await expect(page).toHaveURL(/\/relay\/MAPS27\/results$/);
+  await expect(page).toHaveURL(/\/lobby\/MAPS27\/results$/);
   await expect(page.locator(".route-confetti")).toHaveCount(1);
   await expect(page.locator(".result-hero__copy")).toContainText(
-    "Live relay complete",
+    "Multiplayer round complete",
   );
   await expect(
     page.getByRole("heading", { name: "Race another round?" }),
@@ -412,11 +412,11 @@ test("Daily and Live Relay expose their complete entry states", async ({
   ).toBeVisible();
 });
 
-test("mobile Relay keeps a compact roster and complete target HUD", async ({
+test("mobile Multiplayer keeps a compact roster and complete target HUD", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/relay");
+  await page.goto("/lobby");
   const prompt = page.getByRole("dialog", {
     name: "What should other explorers call you?",
   });
@@ -426,7 +426,7 @@ test("mobile Relay keeps a compact roster and complete target HUD", async ({
     page.getByRole("button", { name: "Share lobby MAPS27" }),
   ).toBeInViewport();
   await page.getByRole("button", { name: "I’m ready" }).click();
-  await page.getByRole("button", { name: /Start relay/i }).click();
+  await page.getByRole("button", { name: /Start game/i }).click();
   const introduction = page.locator(".round-intro");
   if (await introduction.isVisible()) {
     await expect(introduction).toBeHidden({ timeout: 20_000 });
@@ -453,7 +453,7 @@ test("mobile Relay keeps a compact roster and complete target HUD", async ({
 test("a lobby invite deep link confirms before reusing the current window", async ({
   page,
 }) => {
-  await page.goto("/relay");
+  await page.goto("/lobby");
   const prompt = page.getByRole("dialog", {
     name: "What should other explorers call you?",
   });
@@ -464,14 +464,14 @@ test("a lobby invite deep link confirms before reusing the current window", asyn
   ).toBeVisible();
 
   await page.evaluate(() => {
-    window.history.pushState({}, "", "/relay/MAPS27/join");
+    window.history.pushState({}, "", "/lobby/MAPS27/join");
     window.dispatchEvent(new PopStateEvent("popstate"));
   });
   const invitation = page.getByRole("dialog", { name: /invited you/i });
   await expect(invitation).toContainText("Open it in this Webwoven window?");
   await invitation.getByRole("button", { name: "Open lobby" }).click();
 
-  await expect(page).toHaveURL(/\/relay$/);
+  await expect(page).toHaveURL(/\/lobby$/);
   await expect(page.getByText("MAPS27", { exact: true })).toBeVisible();
 });
 
@@ -508,7 +508,7 @@ test("a named Daily player is ranked from their completed route", async ({
   await expect(page.locator(".leaderboard__position")).toHaveCount(0);
 });
 
-test("Settings edits the public name and locks it during a Relay", async ({
+test("Settings edits the public name and locks it during Multiplayer", async ({
   page,
 }) => {
   await page.goto("/");
@@ -532,7 +532,7 @@ test("Settings edits the public name and locks it during a Relay", async ({
   await page.getByRole("button", { name: /Open settings/i }).click();
   await expect(page.getByLabel("Public explorer name")).toBeDisabled();
   await expect(
-    page.getByText(/name is locked during a live Relay/i),
+    page.getByText(/name is locked during a multiplayer round/i),
   ).toBeVisible();
 });
 

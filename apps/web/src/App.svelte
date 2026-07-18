@@ -176,7 +176,7 @@
     room = undefined;
     invite = undefined;
     session = undefined;
-    navigate("/relay");
+    navigate("/lobby");
   }
 
   async function restoreSession(mode: "solo" | "daily"): Promise<boolean> {
@@ -287,7 +287,7 @@
       room = latest;
       relay.connect(latest.code);
       if (latest.state === "lobby") {
-        navigate("/relay", true, true);
+        navigate("/lobby", true, true);
         return;
       }
       if (!latest.current_session_id)
@@ -295,11 +295,11 @@
       session = await games.resume(latest.current_session_id);
       const resultState =
         latest.state === "finished" || latest.state === "closed";
-      const resultPath = `/relay/${latest.code}/results`;
+      const resultPath = `/lobby/${latest.code}/results`;
       navigate(
         resultState || session.status !== "active"
           ? resultPath
-          : `/relay/${latest.code}`,
+          : `/lobby/${latest.code}`,
         true,
         true,
       );
@@ -322,9 +322,9 @@
     if (!room) return;
     await run(async () => {
       room = await rooms.start(room!);
-      navigate(`/relay/${room.code}`);
+      navigate(`/lobby/${room.code}`);
       if (!room.current_session_id)
-        throw new Error("The relay did not assign your synchronized route.");
+        throw new Error("The lobby did not assign your synchronized route.");
       session = await games.resume(room.current_session_id);
       roundAnalytics.reportStarted(session);
       relay.connect(room.code);

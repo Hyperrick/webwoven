@@ -4,7 +4,7 @@ export type AppRoute =
   | { name: "home"; path: "/" }
   | { name: "solo"; path: "/play/solo" }
   | { name: "daily"; path: "/play/daily" }
-  | { name: "lobby"; path: "/relay" }
+  | { name: "lobby"; path: "/lobby" }
   | { name: "lobby-invite"; path: string; code: string }
   | { name: "race"; path: string; code: string }
   | { name: "results"; path: "/results" }
@@ -20,32 +20,35 @@ export function parseRoute(pathname: string): AppRoute {
   if (normalized === "/play/solo") return { name: "solo", path: "/play/solo" };
   if (normalized === "/play/daily")
     return { name: "daily", path: "/play/daily" };
-  if (normalized === "/relay") return { name: "lobby", path: "/relay" };
+  if (normalized === "/lobby" || normalized === "/relay")
+    return { name: "lobby", path: "/lobby" };
   if (normalized === "/results") return { name: "results", path: "/results" };
   if (normalized === "/lab") return { name: "lab", path: "/lab" };
   if (normalized === "/privacy") return { name: "privacy", path: "/privacy" };
   const inviteMatch = normalized.match(
-    /^\/relay\/([0-9A-HJKMNP-TV-Z]{6})\/join$/i,
+    /^\/(?:lobby|relay)\/([0-9A-HJKMNP-TV-Z]{6})\/join$/i,
   );
   if (inviteMatch) {
     const code = inviteMatch[1].toUpperCase();
-    return { name: "lobby-invite", path: `/relay/${code}/join`, code };
+    return { name: "lobby-invite", path: `/lobby/${code}/join`, code };
   }
   const relayResultsMatch = normalized.match(
-    /^\/relay\/([0-9A-HJKMNP-TV-Z]{6})\/results$/i,
+    /^\/(?:lobby|relay)\/([0-9A-HJKMNP-TV-Z]{6})\/results$/i,
   );
   if (relayResultsMatch) {
     const code = relayResultsMatch[1].toUpperCase();
     return {
       name: "relay-results",
-      path: `/relay/${code}/results`,
+      path: `/lobby/${code}/results`,
       code,
     };
   }
-  const roomMatch = normalized.match(/^\/relay\/([0-9A-HJKMNP-TV-Z]{6})$/i);
+  const roomMatch = normalized.match(
+    /^\/(?:lobby|relay)\/([0-9A-HJKMNP-TV-Z]{6})$/i,
+  );
   if (roomMatch) {
     const code = roomMatch[1].toUpperCase();
-    return { name: "race", path: `/relay/${code}`, code };
+    return { name: "race", path: `/lobby/${code}`, code };
   }
   return { name: "not-found", path: normalized };
 }
@@ -55,7 +58,7 @@ export function completionPath(
   room?: Pick<RoomSnapshot, "code">,
 ): string {
   return session.mode === "relay" && room
-    ? `/relay/${room.code}/results`
+    ? `/lobby/${room.code}/results`
     : "/results";
 }
 
@@ -72,11 +75,13 @@ export class BrowserRouter {
 
   constructor(options: BrowserRouterOptions) {
     this.#options = options;
+    canonicalizeBrowserRoute();
     this.#currentPath = currentBrowserPath();
   }
 
   start(): () => void {
     const onPopState = () => {
+      const route = canonicalizeBrowserRoute();
       const targetPath = currentBrowserPath();
       if (this.#options.isProtected()) {
         this.#pendingPath = targetPath;
@@ -85,7 +90,7 @@ export class BrowserRouter {
         return;
       }
       this.#currentPath = targetPath;
-      this.#options.onRoute(parseRoute(window.location.pathname));
+      this.#options.onRoute(route);
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -121,12 +126,25 @@ export class BrowserRouter {
   #commit(path: string, replace: boolean): void {
     if (replace) window.history.replaceState({}, "", path);
     else window.history.pushState({}, "", path);
+    const route = canonicalizeBrowserRoute();
     this.#currentPath = currentBrowserPath();
-    this.#options.onRoute(parseRoute(window.location.pathname));
+    this.#options.onRoute(route);
     window.scrollTo({ top: 0, behavior: "instant" });
   }
 }
 
 function currentBrowserPath(): string {
   return `${window.location.pathname}${window.location.search}`;
+}
+
+function canonicalizeBrowserRoute(): AppRoute {
+  const route = parseRoute(window.location.pathname);
+  if (route.path !== window.location.pathname) {
+    window.history.replaceState(
+      {},
+      "",
+      `${route.path}${window.location.search}`,
+    );
+  }
+  return route;
 }

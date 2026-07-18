@@ -68,13 +68,13 @@
 </script>
 
 <div class="next-route relay-result-actions">
-  <p class="eyebrow">Live relay</p>
+  <p class="eyebrow">Multiplayer</p>
 
   {#if !room}
     <h2>Keep racing together.</h2>
-    <p>Return to Relay to create or join a lobby.</p>
+    <p>Return to multiplayer to create or join a lobby.</p>
     <button class="primary-action" type="button" onclick={onLobby}>
-      Open Relay lobbies <AtlasIcon name="arrow" size={20} />
+      Browse lobbies <AtlasIcon name="arrow" size={20} />
     </button>
   {:else if room.state === "closed" && room.close_reason === "not_enough_players"}
     <h2>Not enough players found.</h2>

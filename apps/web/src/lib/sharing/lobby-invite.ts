@@ -19,7 +19,7 @@ interface LobbyShareInput {
 export function lobbyInviteUrl(code: string, origin: string): string {
   const normalizedCode = code.trim().toUpperCase();
   return new URL(
-    `/relay/${encodeURIComponent(normalizedCode)}/join`,
+    `/lobby/${encodeURIComponent(normalizedCode)}/join`,
     origin,
   ).toString();
 }

@@ -73,12 +73,17 @@ the filter. Moves still use the shared session command endpoint.
 }
 ```
 
-The host-only Share action creates the browser route `/relay/{CODE}/join`. It invokes the native Web
+The host-only Share action creates the browser route `/lobby/{CODE}/join`. It invokes the native Web
 Share API when available, with clipboard and selectable-text fallbacks. The route first requests
 `GET /api/v1/rooms/{code}/invite`, whose response is intentionally limited to `code`,
 `host_display_name`, room `state`, `player_count`, `max_players`, `is_member`, and `joinable`. The
 client names the inviter and requires an explicit confirmation before it calls the join endpoint or
 opens an existing membership in the current Webwoven window.
+
+`/relay` browser routes remain accepted as legacy aliases and are replaced with their canonical
+`/lobby` equivalent in the current window. The API resource and stored session-mode identifier keep
+their existing `rooms` and `relay` values for wire compatibility; neither term is presented as the
+player-facing mode name.
 
 Every Lobby snapshot exposes `countdown_ends_at`, `grace_ends_at`, `rematch_ends_at`, and an optional
 `close_reason`. Participant entries expose `active` and the optional `rematch_vote`; another

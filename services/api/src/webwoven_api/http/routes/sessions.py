@@ -32,7 +32,7 @@ async def create_session(
     container: ContainerDependency,
 ) -> SessionSnapshot:
     if body.mode is SessionMode.RELAY:
-        raise DomainError("relay_requires_room", "Live Relay sessions are created by a lobby.")
+        raise DomainError("relay_requires_room", "Multiplayer sessions are created by a lobby.")
     session = await container.sessions.create(
         guest_id=guest.id,
         mode=body.mode,

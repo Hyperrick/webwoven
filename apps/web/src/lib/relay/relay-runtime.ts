@@ -53,7 +53,7 @@ export class RelayRuntime {
       : await this.#rooms.get(code);
     this.#callbacks.setRoom(room);
     if (!room.current_session_id)
-      throw new Error("This relay has not assigned your route yet.");
+      throw new Error("This lobby has not assigned your route yet.");
     this.#callbacks.setSession(
       await this.#games.resume(room.current_session_id),
     );
@@ -143,7 +143,7 @@ export class RelayRuntime {
       const session = await this.#games.resume(room.current_session_id);
       this.#callbacks.setSession(session);
       if (isNewRound) this.#callbacks.reportStarted(session);
-      this.#callbacks.navigate(`/relay/${room.code}`);
+      this.#callbacks.navigate(`/lobby/${room.code}`);
       return;
     }
     if (
@@ -154,7 +154,7 @@ export class RelayRuntime {
         this.#callbacks.setSession(
           await this.#games.resume(room.current_session_id),
         );
-      this.#callbacks.navigate(`/relay/${room.code}/results`);
+      this.#callbacks.navigate(`/lobby/${room.code}/results`);
     }
   }
 }

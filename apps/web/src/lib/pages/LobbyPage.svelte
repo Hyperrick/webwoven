@@ -71,7 +71,7 @@
   {#if !room}
     <section class="lobby-intro">
       <div>
-        <p class="eyebrow">Live relay</p>
+        <p class="eyebrow">Multiplayer lobby</p>
         <h1>One atlas.<br /><em>Several instincts.</em></h1>
         <p>
           Two to four players receive the same route. You’ll see how close the
@@ -93,7 +93,7 @@
           />
           <DifficultyPicker
             bind:value={relayDifficulty}
-            legend="Relay difficulty"
+            legend="Game difficulty"
             disabled={busy}
           />
           <button
@@ -139,7 +139,7 @@
     <section class="room-sheet" aria-labelledby="room-title">
       <header bind:this={lobbyHeader} class="room-sheet__header">
         <div>
-          <p class="eyebrow">Relay lobby</p>
+          <p class="eyebrow">Lobby</p>
           <h1 id="room-title">Ready the map.</h1>
         </div>
         <LobbyCodeShare
@@ -149,7 +149,7 @@
         />
       </header>
 
-      <div class="room-route-stamp" aria-label="Locked relay route settings">
+      <div class="room-route-stamp" aria-label="Locked lobby route settings">
         <span>Locked route</span>
         <strong
           >{titleCase(room.category)} · {titleCase(room.difficulty)}</strong
@@ -190,7 +190,7 @@
         </section>
 
         <aside class="room-rules">
-          <p class="eyebrow">Relay protocol</p>
+          <p class="eyebrow">How it works</p>
           <ol>
             <li>
               <span>01</span>Everyone receives the same start and destination.
@@ -216,7 +216,7 @@
               disabled={busy || !allReady}
               onclick={onStart}
             >
-              Start relay <AtlasIcon name="arrow" size={20} />
+              Start game <AtlasIcon name="arrow" size={20} />
             </button>
           {/if}
           {#if !allReady}<p class="room-rules__waiting" role="status">

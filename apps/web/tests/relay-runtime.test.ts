@@ -80,7 +80,7 @@ describe("RelayRuntime command reconciliation", () => {
       {
         route: () => ({
           name: "race",
-          path: "/relay/MAPS27",
+          path: "/lobby/MAPS27",
           code: "MAPS27",
         }),
         session: () => commandSnapshot,

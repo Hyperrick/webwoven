@@ -23,7 +23,7 @@ test("landing communicates the game and its three play modes", async ({
     {
       name: /Multiplayer/i,
       copy: "Race live with 2–4 players.",
-      path: /\/relay$/,
+      path: /\/lobby$/,
     },
   ];
 
@@ -36,7 +36,9 @@ test("landing communicates the game and its three play modes", async ({
   }
   const routePreview = page.getByLabel("Example knowledge route");
   await expect(routePreview.locator(".landing-route-map")).toBeVisible();
-  await expect(routePreview.locator(".landing-route-map__drawing")).toBeVisible();
+  await expect(
+    routePreview.locator(".landing-route-map__drawing"),
+  ).toBeVisible();
   await expect(routePreview.locator("li")).toHaveCount(5);
   await expect(routePreview.locator(".hero-route__step--hidden")).toHaveCount(
     3,
@@ -58,7 +60,12 @@ test("landing communicates the game and its three play modes", async ({
   const relayPrompt = page.getByRole("dialog", {
     name: "What should other explorers call you?",
   });
-  await expect(relayPrompt).toContainText("Live relay");
+  await expect(relayPrompt).toContainText("Multiplayer");
   await expect(relayPrompt).toContainText("lobby roster and live race");
-  await expect(relayPrompt).toContainText("Daily rankings and Relay lobbies");
+  await expect(relayPrompt).toContainText(
+    "Daily rankings and multiplayer lobbies",
+  );
+
+  await page.goto("/relay");
+  await expect(page).toHaveURL(/\/lobby$/);
 });

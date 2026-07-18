@@ -90,8 +90,9 @@
           />
           {#if nameDisabled}
             <p class="settings-profile__locked">
-              Your name is locked during a live Relay so every participant sees
-              the same room roster. Change it after leaving the room.
+              Your name is locked during a multiplayer round so every
+              participant sees the same lobby roster. Change it after leaving
+              the lobby.
             </p>
           {/if}
         </section>

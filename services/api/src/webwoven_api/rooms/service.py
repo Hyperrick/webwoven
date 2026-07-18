@@ -155,7 +155,7 @@ class RoomService:
                 raise DomainError("room_started", "This lobby's race has already started.")
             participants = active_participants(room)
             if len(participants) < 2:
-                raise DomainError("not_enough_players", "Live Relay needs at least two players.")
+                raise DomainError("not_enough_players", "A lobby needs at least two players.")
             if not all(participant.ready for participant in participants):
                 raise DomainError("players_not_ready", "Every player must be ready.")
 
@@ -253,7 +253,7 @@ class RoomService:
             room = await self._get(code)
             participant = require_active_participant(room, session.guest_id)
             if participant.session_id != session.id:
-                raise DomainError("race_not_active", "This Relay session is no longer current.")
+                raise DomainError("race_not_active", "This lobby session is no longer current.")
             now = datetime.now(UTC)
             if (
                 room.state is RoomState.COUNTDOWN

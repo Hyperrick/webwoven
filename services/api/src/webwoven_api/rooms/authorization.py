@@ -17,7 +17,7 @@ class RelayCommandAuthorizer:
             return
         room = await self._rooms.get(session.room_code)
         if room is None:
-            raise NotFoundError("Relay lobby not found")
+            raise NotFoundError("Lobby not found")
         participant = room.participant(session.guest_id)
         current_session = (
             participant is not None and participant.active and participant.session_id == session.id
@@ -25,5 +25,5 @@ class RelayCommandAuthorizer:
         if not current_session or not command_window_is_open(room, datetime.now(UTC)):
             raise DomainError(
                 "race_not_active",
-                "Moves are accepted only while the relay race is active.",
+                "Moves are accepted only while the multiplayer race is active.",
             )

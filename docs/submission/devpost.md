@@ -159,7 +159,7 @@ The fastest path requires no account, install, or test data:
 3. Follow a named connection and inspect its complete fact and source without moving.
 4. Use **Fit map** to see the preserved route and discarded branches.
 5. Return home and open **Daily challenge** to see the shared round and leaderboard.
-6. For Multiplayer, create a room and open its join URL in a second browser or private window.
+6. For Multiplayer, create a lobby and open its join URL in a second browser or private window.
 
 The live instance is free and needs no credentials. The public repository contains full setup,
 testing, data-build, architecture, and deployment instructions. Building the complete Wikidata and

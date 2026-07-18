@@ -37,7 +37,7 @@
       aria-labelledby="lobby-invite-title"
       aria-describedby="lobby-invite-copy"
     >
-      <p class="eyebrow">Relay lobby · {invite.code}</p>
+      <p class="eyebrow">Lobby · {invite.code}</p>
       <h2 id="lobby-invite-title">
         {invite.host_display_name} invited you.
       </h2>

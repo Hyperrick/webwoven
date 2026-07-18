@@ -19,7 +19,7 @@ hint selection, completion, score, and race order.
   progress remain behind the member-only snapshot; joining still requires an explicit confirmed,
   CSRF-protected request.
 - WebSocket room messages never authorize a move; they transport room presence and progress only.
-- Relay command authorization binds the participant to their current active session and reads the
+- Multiplayer command authorization binds the participant to their current active session and reads the
   room-owned countdown and grace deadlines directly. A delayed WebSocket state event therefore
   cannot open an early command window or extend a finished race.
 - WebSocket reconnects have both a fixed-window limit and a shared per-guest concurrency lease.

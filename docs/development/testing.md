@@ -39,7 +39,7 @@ ranking and hint selection, direct cyclic commands are rejected without mutation
 the route so a deliberate retry becomes available again. The Albert Einstein → Czech Republic →
 UNESCO → Austria real-data path is also exercised in a browser smoke check.
 
-Round-selection regressions cover forced-opening exclusion for Solo, Relay-room, and new Daily
+Round-selection regressions cover forced-opening exclusion for Solo, multiplayer-lobby, and new Daily
 assignments while preserving explicit and already-pinned replay. They also lock the four/four/two
 published pool per category, unseen-route cycling, immediate-repeat avoidance, and history
 continuity when a player changes category filters. The Solo completion browser flow verifies the
