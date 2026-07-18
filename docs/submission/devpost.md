@@ -13,6 +13,10 @@ rules and FAQ on July 18, 2026. It is a draft, not proof that the project has be
 
 **Submitter type:** Individual, entrant eligibility confirmed
 
+**Country:** Germany
+
+**Saved Devpost draft:** [https://devpost.com/software/webwoven](https://devpost.com/software/webwoven)
+
 **Project status:** A detailed concept brief existed before the challenge; the working application
 and repository implementation were created during the submission period.
 
@@ -167,17 +171,17 @@ caption checks, and visual safety rules. The published 2:31 narrated video is av
 
 ## Final form checklist
 
-- [x] Confirm individual or team entrant details and country eligibility.
+- [x] Confirm individual entrant details, Germany, and country eligibility.
 - [ ] Recheck the official rules and any Devpost form changes on submission day.
-- [x] Run `/feedback` in the primary **Implement Webwoven game** task and paste the returned Session
-      ID into the form.
-- [x] Record a clean real-data route and two-window Multiplayer clip.
-- [x] Show GPT-5.6/Codex evidence without private transcript content or secrets.
-- [x] Upload the final narrated video to YouTube as **Public** and verify embedding works.
-- [x] Replace the pending video URL and confirm the video is no longer than three minutes.
-- [ ] Upload the 3:2 PNG thumbnail and two gallery images.
-- [ ] Paste the story and built-with tags, then verify Markdown rendering.
-- [ ] Confirm the live site and repository are public and usable without credentials.
-- [ ] Review third-party media shown in the video and do not add copyrighted music.
-- [ ] Preview the complete Devpost page once on desktop and once on mobile.
+- [x] Run `/feedback` in the primary **Implement Webwoven game** task and save the returned Session
+      ID in the form.
+- [x] Record and publish the narrated demo with GPT-5.6/Codex evidence.
+- [x] Save the overview, Education track, story, built-with tags, live URL, repository URL, YouTube
+      URL, judge instructions, and feedback ID in the Devpost draft.
+- [x] Verify the public repository, live product, and embedded public YouTube video.
+- [x] Preview the saved draft on desktop and at 412x915; the copy and links render, while Devpost's
+      narrow layout clips the embedded YouTube player horizontally.
+- [ ] Upload the 3:2 thumbnail and two gallery images after Chrome file access is available.
+- [ ] Review third-party media and complete the final rights and terms declarations.
+- [ ] Recheck the completed page on desktop and mobile after media upload.
 - [ ] Submit before the internal July 21, 22:00 CEST freeze.
