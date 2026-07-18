@@ -75,7 +75,14 @@
           <AtlasIcon name={tool.icon} size={22} />
           <span class="hint-dock__tool-copy">
             <strong>{tool.label}</strong>
-            <small class="hint-dock__tool-penalty">−{tool.penalty} pts</small>
+            <small class="hint-dock__tool-penalty">
+              <span class="hint-dock__tool-penalty-full"
+                >−{tool.penalty} pts</span
+              >
+              <span class="hint-dock__tool-penalty-compact" aria-hidden="true"
+                >−{tool.penalty}</span
+              >
+            </small>
           </span>
           <span class="hint-dock__tool-state" aria-hidden="true">
             {isUsed

@@ -14,6 +14,7 @@
 @import url("./map-viewport.css") layer(game);
 @import url("./mobile-map-flow.css") layer(game);
 @import url("./hint-dock.css") layer(game);
+@import url("./mobile-game-chrome.css") layer(game);
 @import url("./guest-profile.css") layer(shell);
 @import url("./race.css") layer(game);
 @import url("./round-intro.css") layer(game);

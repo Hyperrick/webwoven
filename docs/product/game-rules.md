@@ -36,24 +36,23 @@ WebGL changes the presentation, not the duration or control boundary.
 
 ## Active-round interface
 
-An active round uses a compact dark HUD for the timer, move count, permanent target, score, and Back
-command. The known shortest distance remains available to server scoring, but the HUD has no Par
-field. The target remains visible and may wrap in full on desktop, tablet, and phone layouts. The
-map board is the primary play surface: it marks the current entity, shows exactly one visible goal
-marker, and places the immediately reachable entities between them. It behaves as an expanding
-atlas rather than replacing one diagram with another.
+An active round uses a compact dark HUD. Desktop and tablet show the timer, move count, permanent
+target, score, and Back command. Phones retain Time, Moves, and the complete wrapping Target; Score
+is removed from the narrow row, and Back appears only when it is available. The known shortest
+distance remains available to server scoring, but the HUD has no Par field. The map board is the
+primary play surface: it marks the current entity, shows exactly one visible goal marker, and places
+the immediately reachable entities between them. It behaves as an expanding atlas rather than
+replacing one diagram with another.
 
 Desktop and tablet retain the separate round-identity area with **Round active**, mode, and
-difficulty. At phone widths, that area is removed entirely and the Multiplayer status strip becomes one
-compact line: lobby code plus a player/finish summary, or the active grace countdown. The individual
-player roster remains available on larger layouts instead of competing with the map on a narrow
-screen. On short phones at or below both 32rem wide and 42rem tall, the inner-route header compresses
-to 3rem while the main HUD remains one row. Back and header controls retain large touch targets. The
-height recovered from those interface bands belongs to the game canvas rather than leaving the
-graph crowded below stacked chrome. During an ordinary choice, the map header also collapses to one
-visible **Your move** line and keeps **Where do you go next?** as its accessible section heading.
-Compass selection and exhausted-branch headings remain fully visible because their instructions
-cannot be reduced to that fallback.
+difficulty. At phone widths, that area and the map's separate prompt/header are removed entirely,
+while the Multiplayer status strip becomes one compact line: lobby code plus a player/finish summary,
+or the active grace countdown. The individual player roster remains available on larger layouts
+instead of competing with the map on a narrow screen. Phone maps also remove the floating zoom and
+navigation toolbar so it cannot cover the current node; touch gestures remain available, and the
+semantic map instructions remain attached for assistive technology. Back and every remaining control
+retain at least a 44px touch target. The recovered height belongs to the game canvas rather than
+leaving the graph crowded below stacked chrome.
 Every Follow or Back command freezes the current decision stage. On desktop and tablet, the next
 stage opens in a column to its right; on phones, it opens below in a vertical flow whose active
 choices form a compact two-column constellation. The selected entity joins the visible breadcrumb
@@ -107,8 +106,10 @@ the preview without spending a move or submitting a command.
 
 For every ordinary connection, the graph line terminates directly at its semantic control without a
 duplicate choice token, sequence number, or repeated action label. A reachable goal retains its
-Ochre marker; on phones it uses the same compact preview and exposes an explicit Finish action in the
-detail tray. Repeating activation on the selected goal bubble confirms the same Finish command.
+Ochre marker and runs a continuous two-beat size heartbeat on both desktop and phone. The effect is
+suppressed by either reduced-motion preference while the static goal treatment remains. On phones,
+the goal uses the same compact preview and exposes an explicit Finish action in the detail tray.
+Repeating activation on the selected goal bubble confirms the same Finish command.
 Multiple semantic edges to the same entity are grouped into one move; all facts remain attached
 while the deterministic primary fact is shown. Forward connections never offer an entity already
 present in the active navigation route.
@@ -137,9 +138,11 @@ contains command tokens or move controls. Historical columns contain semantic en
 relationship summaries with read-only inspection controls.
 
 On phone-width screens, the same deterministic board is projected into a top-to-bottom flow instead
-of shrinking the horizontal atlas. The current entity is the only full card. Compact history labels
-remain above it, active choices occupy at most two columns below it, and the distant goal remains a
-compact labelled marker beyond the frontier. One or two choices receive more breathing room; larger
+of shrinking the horizontal atlas. The current entity is the only full card and opens close beneath
+the HUD. Compact history labels remain above it, active choices occupy at most two columns below it,
+and the distant goal remains a centered compact marker whose label wraps in full. Decorative map
+tokens and visible choice pins are slightly smaller than their desktop counterparts, while their
+semantic controls keep full touch targets. One or two choices receive more breathing room; larger
 frontiers add rows without stacking six full cards down the canvas. A reachable goal joins the same
 compact choice constellation and reveals its Finish action in the detail tray and beside the
 selected bubble. Choice names always wrap in full rather than using an ellipsis. Each two-node row
@@ -200,8 +203,9 @@ narrow rail on the map's right keeps zoom, Fit map, and Current at the top, then
 three hint tools in a compact stack below a short divider. Hint explanations open inward on hover or
 keyboard focus while the score penalty remains visible. The rail uses icon-only navigation and no
 persistent panel or button outlines. Floating hint feedback never intercepts map input, and the node
-canvas contains no persistent visible controls. Phone layouts keep the compact canvas toolbar and
-horizontal hint dock.
+canvas contains no persistent visible controls. Phone layouts omit the canvas toolbar and reduce the
+horizontal hint dock to one 44px row of icons and numeric penalties; complete tool names, penalties,
+availability, and state remain in their accessible button labels.
 
 ## Multiplayer lobbies
 

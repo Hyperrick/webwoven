@@ -200,7 +200,10 @@ button.map-position--goal.map-position--reachable {
 
 button.map-position--goal.map-position--reachable:not(:disabled)
   .map-position__goal-card {
-  animation: reachable-goal-breathe 3.2s ease-in-out infinite;
+  --goal-heartbeat-primary-scale: 1.12;
+  --goal-heartbeat-secondary-scale: 1.065;
+
+  animation: reachable-goal-heartbeat 1.05s ease-in-out infinite;
 }
 
 button.map-position--goal.map-position--reachable:not(:disabled):hover,
@@ -215,25 +218,33 @@ button.map-position--goal.map-position--reachable:not(:disabled):hover
   background: var(--color-ink);
 }
 
-button.map-position--goal.map-position--reachable:not(:disabled):hover
-  .map-position__goal-card,
-button.map-position--goal.map-position--reachable:not(:disabled):focus-visible
+@keyframes reachable-goal-heartbeat {
+  0%,
+  36%,
+  72%,
+  100% {
+    transform: scale(1);
+  }
+
+  18% {
+    transform: scale(var(--goal-heartbeat-primary-scale));
+  }
+
+  55% {
+    transform: scale(var(--goal-heartbeat-secondary-scale));
+  }
+}
+
+html[data-motion="reduced"]
+  button.map-position--goal.map-position--reachable:not(:disabled)
   .map-position__goal-card {
   animation: none;
 }
 
-@keyframes reachable-goal-breathe {
-  0%,
-  100% {
-    box-shadow: 0 16px 36px
-      color-mix(in srgb, var(--relation-color) 24%, transparent);
-    transform: scale(1);
-  }
-
-  50% {
-    box-shadow: 0 20px 46px
-      color-mix(in srgb, var(--relation-color) 42%, transparent);
-    transform: scale(1.045);
+@media (prefers-reduced-motion: reduce) {
+  button.map-position--goal.map-position--reachable:not(:disabled)
+    .map-position__goal-card {
+    animation: none;
   }
 }
 

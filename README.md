@@ -166,7 +166,7 @@ builds in CI.
 - [Midpoint system map](docs/architecture/system-map.md)
 - [Data pipeline and provenance](docs/data/pipeline.md)
 - [Local setup and testing surfaces](docs/development/setup.md)
-- [Build Week journal](docs/build-log/2026-07-17.md)
+- [Build Week journal](docs/build-log/2026-07-19.md)
 - [Deployment](docs/operations/deployment.md)
 - [Devpost submission draft](docs/submission/devpost.md)
 

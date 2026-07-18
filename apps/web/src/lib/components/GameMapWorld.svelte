@@ -304,7 +304,8 @@
   {:else}
     <div
       class="map-position map-position--goal"
-      class:map-position--with-artwork={Boolean(goalNode.summary)}
+      class:map-position--with-artwork={Boolean(goalNode.summary) &&
+        !compactChoices}
       class:map-position--mobile-goal={compactChoices}
       style={positionStyle(goalNode)}
       data-map-node

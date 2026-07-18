@@ -288,3 +288,45 @@ test("a confirmed mobile move reveals the complete new frontier", async ({
     })
     .toBe(true);
 });
+
+test("the phone goal keeps long target text complete and centered", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await startSolo(page);
+
+  const goal = page.locator(".map-position--mobile-goal");
+  const label = goal.locator("h3");
+  const longTarget = "Grammy Lifetime Achievement Award";
+  await label.evaluate((element, text) => {
+    element.textContent = text;
+  }, longTarget);
+
+  const geometry = await goal.evaluate((element) => {
+    const heading = element.querySelector<HTMLElement>("h3");
+    if (!heading) throw new Error("Phone goal heading is missing");
+    const goalBounds = element.getBoundingClientRect();
+    const headingBounds = heading.getBoundingClientRect();
+    const style = getComputedStyle(heading);
+    return {
+      text: heading.textContent,
+      horizontalCenterOffset: Math.abs(
+        (goalBounds.left + goalBounds.right) / 2 -
+          (headingBounds.left + headingBounds.right) / 2,
+      ),
+      fitsWidth: heading.scrollWidth <= heading.clientWidth,
+      fitsHeight: heading.scrollHeight <= heading.clientHeight,
+      textAlign: style.textAlign,
+      textOverflow: style.textOverflow,
+      whiteSpace: style.whiteSpace,
+    };
+  });
+
+  expect(geometry.text).toBe(longTarget);
+  expect(geometry.horizontalCenterOffset).toBeLessThanOrEqual(1);
+  expect(geometry.fitsWidth).toBe(true);
+  expect(geometry.fitsHeight).toBe(true);
+  expect(geometry.textAlign).toBe("center");
+  expect(geometry.textOverflow).toBe("clip");
+  expect(geometry.whiteSpace).toBe("normal");
+});

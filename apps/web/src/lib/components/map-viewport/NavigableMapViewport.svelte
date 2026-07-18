@@ -25,6 +25,8 @@
   import MapBoardCanvas from "../MapBoardCanvas.svelte";
   import MapViewportControls from "./MapViewportControls.svelte";
 
+  const MOBILE_NODE_MARKER_SCALE = 0.9;
+
   let {
     board,
     transition,
@@ -216,7 +218,11 @@
             currentEnvironment(),
           )
         : fitted;
-    setCamera(ensureActiveFrontierVisible(readable));
+    setCamera(
+      verticalFlow
+        ? alignInitialVerticalStage(readable)
+        : ensureActiveFrontierVisible(readable),
+    );
   }
 
   function focusCurrent(): void {
@@ -253,11 +259,10 @@
     const currentCenterX = (currentBounds.left + currentBounds.right) / 2;
     const currentCenterY = (currentBounds.top + currentBounds.bottom) / 2;
     if (verticalFlow) {
-      const screenAnchorY = Math.min(180, viewportSize.height * 0.28);
       const anchored = panCameraToWorldY(
         camera,
         currentCenterY,
-        screenAnchorY,
+        verticalStageAnchorY(),
         currentEnvironment(),
       );
       animateCameraTo(ensureVerticalActiveStageVisible(anchored));
@@ -292,6 +297,24 @@
     return activeStageBounds
       ? ensureBoundsVisible(next, activeStageBounds, currentEnvironment(), 16)
       : next;
+  }
+
+  function alignInitialVerticalStage(next: MapCameraState): MapCameraState {
+    const currentBounds = currentBoundsFor(transition.to_node_id);
+    if (!currentBounds) return ensureVerticalActiveStageVisible(next);
+    const currentCenterY = (currentBounds.top + currentBounds.bottom) / 2;
+    return ensureVerticalActiveStageVisible(
+      panCameraToWorldY(
+        next,
+        currentCenterY,
+        verticalStageAnchorY(),
+        currentEnvironment(),
+      ),
+    );
+  }
+
+  function verticalStageAnchorY(): number {
+    return Math.min(96, viewportSize.height * 0.15);
   }
 
   function boundsFor(selector: string): MapWorldRect | null {
@@ -378,7 +401,10 @@
       .querySelector<HTMLElement>(".map-viewport-controls--canvas")
       ?.getBoundingClientRect();
     const viewportBounds = viewport.getBoundingClientRect();
-    const safeTop = (controlsBounds?.bottom ?? viewportBounds.top) + 2;
+    const safeTop =
+      (controlsBounds && controlsBounds.height > 0
+        ? controlsBounds.bottom
+        : viewportBounds.top) + 2;
     const safeBottom = detailBounds.top - 2;
     const safeHeight = Math.max(0, safeBottom - safeTop);
     let deltaY = 0;
@@ -458,7 +484,13 @@
       bind:this={viewport}
       onfocusin={revealFocusedNode}
     >
-      <MapBoardCanvas {board} {view} {transition} {redrawKey} />
+      <MapBoardCanvas
+        {board}
+        {view}
+        {transition}
+        {redrawKey}
+        markerScale={verticalFlow ? MOBILE_NODE_MARKER_SCALE : 1}
+      />
       <div
         class="game-map__surface map-viewport__world"
         style={worldStyle}

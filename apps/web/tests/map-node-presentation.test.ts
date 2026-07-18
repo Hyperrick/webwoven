@@ -41,4 +41,11 @@ describe("map node token presentation", () => {
       radius: 15,
     });
   });
+
+  it("scales marker geometry without changing its semantic state", () => {
+    expect(mapNodeTokenPresentation(node("current"), 0.9)).toEqual({
+      state: "current",
+      radius: 20.7,
+    });
+  });
 });

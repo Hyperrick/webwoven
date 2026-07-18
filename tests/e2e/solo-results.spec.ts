@@ -28,6 +28,26 @@ test("Solo completes the four-move route and renders results", async ({
       .first();
     await expect(reachableGoal).toBeVisible();
     await expect(nearbyChoice).toBeVisible();
+    await expect
+      .poll(() =>
+        reachableGoal
+          .locator(".mobile-map-choice-node__marker")
+          .evaluate((element) => getComputedStyle(element).animationName),
+      )
+      .toBe("reachable-goal-heartbeat");
+    const goalMarker = reachableGoal.locator(
+      ".mobile-map-choice-node__marker",
+    );
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(goalMarker).toHaveCSS("animation-name", "none");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.evaluate(() => {
+      document.documentElement.dataset.motion = "reduced";
+    });
+    await expect(goalMarker).toHaveCSS("animation-name", "none");
+    await page.evaluate(() => {
+      document.documentElement.dataset.motion = "full";
+    });
     const [goalBox, choiceBox] = await Promise.all([
       reachableGoal.boundingBox(),
       nearbyChoice.boundingBox(),
@@ -58,7 +78,17 @@ test("Solo completes the four-move route and renders results", async ({
           (element) => getComputedStyle(element).animationName,
         ),
       )
-      .toBe("reachable-goal-breathe");
+      .toBe("reachable-goal-heartbeat");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(reachableGoalCard).toHaveCSS("animation-name", "none");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.evaluate(() => {
+      document.documentElement.dataset.motion = "reduced";
+    });
+    await expect(reachableGoalCard).toHaveCSS("animation-name", "none");
+    await page.evaluate(() => {
+      document.documentElement.dataset.motion = "full";
+    });
     await expect(nearbyChoice).toBeVisible();
     const [goalBox, choiceBox] = await Promise.all([
       reachableGoal.boundingBox(),

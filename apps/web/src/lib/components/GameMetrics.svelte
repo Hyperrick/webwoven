@@ -29,7 +29,7 @@
     <dt>Target</dt>
     <dd>{targetLabel}</dd>
   </div>
-  <div>
+  <div class="game-metrics__score">
     <dt>Score</dt>
     <dd class:game-metrics__pending={score === null}>
       {#if score === null}

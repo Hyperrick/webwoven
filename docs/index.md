@@ -43,4 +43,4 @@ recording, and submission packaging.
 
 Start with the [game rules](product/game-rules.md), [system map](architecture/system-map.md),
 [architecture](architecture/overview.md),
-[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-18.md).
+[data pipeline](data/pipeline.md), or the [current build log](build-log/2026-07-19.md).

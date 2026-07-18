@@ -37,6 +37,7 @@ export class AtlasMapRenderer {
   #links: readonly MapBoardLink[] | null = null;
   #worldWidth = 0;
   #worldHeight = 0;
+  #markerScale = 1;
   #view: MapCameraView | null = null;
   #animationFrame: number | null = null;
   #disposed = false;
@@ -78,13 +79,15 @@ export class AtlasMapRenderer {
     worldHeight: number,
     reducedMotion: boolean,
     transition: MapTransition,
+    markerScale = 1,
   ): void {
     if (this.#disposed) return;
     const boardChanged =
       nodes !== this.#nodes ||
       links !== this.#links ||
       worldWidth !== this.#worldWidth ||
-      worldHeight !== this.#worldHeight;
+      worldHeight !== this.#worldHeight ||
+      markerScale !== this.#markerScale;
     if (!boardChanged) {
       if (reducedMotion) this.#finishSettleAnimation();
       return;
@@ -95,6 +98,7 @@ export class AtlasMapRenderer {
     this.#links = links;
     this.#worldWidth = worldWidth;
     this.#worldHeight = worldHeight;
+    this.#markerScale = markerScale;
     this.#replaceBoard(!reducedMotion, transition);
   }
 
@@ -175,6 +179,7 @@ export class AtlasMapRenderer {
       this.#links ?? [],
       this.#worldWidth,
       this.#worldHeight,
+      this.#markerScale,
     );
     this.#scene.add(this.#board.root);
 

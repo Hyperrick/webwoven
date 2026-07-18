@@ -29,10 +29,11 @@ export function mapNodeTokenState(
 /** Choice cards own live endpoints; resolved and goal nodes keep tokens. */
 export function mapNodeTokenPresentation(
   node: MapBoardNode,
+  radiusScale = 1,
 ): MapNodeTokenPresentation | null {
   if (hasRole(node, "choice")) return null;
   const state = mapNodeTokenState(node);
-  return state ? { state, radius: TOKEN_RADIUS[state] } : null;
+  return state ? { state, radius: TOKEN_RADIUS[state] * radiusScale } : null;
 }
 
 function hasRole(node: MapBoardNode, role: MapBoardNodeRole): boolean {

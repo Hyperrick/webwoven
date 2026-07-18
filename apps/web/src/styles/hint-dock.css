@@ -93,6 +93,10 @@
   white-space: nowrap;
 }
 
+.hint-dock__tool-penalty-compact {
+  display: none;
+}
+
 .hint-dock__actions button:hover .hint-dock__tool-copy small {
   color: var(--color-paper);
 }

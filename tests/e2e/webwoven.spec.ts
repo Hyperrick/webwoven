@@ -1,11 +1,5 @@
 import { expect, test } from "@playwright/test";
-import {
-  activateMapChoice,
-  confirmSolo,
-  expectVerticalHintRail,
-  followTo,
-  startSolo,
-} from "./helpers";
+import { activateMapChoice, confirmSolo, followTo, startSolo } from "./helpers";
 
 test("Solo preserves visible history and guards browser Back", async ({
   page,
@@ -49,21 +43,34 @@ test("Solo preserves visible history and guards browser Back", async ({
   );
   await expect(round).toContainText("Solo route");
   await expect(round).toContainText("Normal difficulty");
-  await expect(round.getByText("Score", { exact: true })).toBeVisible();
+  const phoneLayout = (page.viewportSize()?.width ?? 0) <= 512;
+  if (phoneLayout) {
+    await expect(round.getByText("Score", { exact: true })).toBeHidden();
+  } else {
+    await expect(round.getByText("Score", { exact: true })).toBeVisible();
+  }
   await expect(round.locator("dl.game-metrics")).toHaveAttribute(
     "aria-live",
     "off",
   );
   await expect(page.locator(".game-map")).toBeVisible();
   const mapHelp = page.getByRole("button", { name: "Map controls help" });
-  await expect(mapHelp).toBeVisible();
+  if (phoneLayout) {
+    await expect(mapHelp).toBeHidden();
+  } else {
+    await expect(mapHelp).toBeVisible();
+  }
   await expect(page.locator(".map-viewport__instructions")).toHaveCSS(
     "clip-path",
     "inset(50%)",
   );
-  await mapHelp.click();
-  await expect(page.getByRole("note", { name: "Map controls" })).toBeVisible();
-  await mapHelp.click();
+  if (!phoneLayout) {
+    await mapHelp.click();
+    await expect(
+      page.getByRole("note", { name: "Map controls" }),
+    ).toBeVisible();
+    await mapHelp.click();
+  }
   const mapViewport = page.locator(".game-map__viewport");
   const initialMapSize = await page
     .locator(".map-viewport__world")
@@ -75,9 +82,14 @@ test("Solo preserves visible history and guards browser Back", async ({
     "data-render-state",
     /ready|fallback/,
   );
-  await expect(
-    page.getByRole("heading", { name: "Where do you go next?" }),
-  ).toBeVisible();
+  const movePrompt = page.getByRole("heading", {
+    name: "Where do you go next?",
+  });
+  if (phoneLayout) {
+    await expect(movePrompt).toBeHidden();
+  } else {
+    await expect(movePrompt).toBeVisible();
+  }
   await expect(page.getByText("You are here", { exact: true })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Hokusai", exact: true }),
@@ -120,11 +132,19 @@ test("Solo preserves visible history and guards browser Back", async ({
       name: /Compass hint.*75 point penalty.*ready/i,
     })
     .click();
-  await expect(
-    page.getByRole("heading", {
-      name: "Which route should the Compass check?",
-    }),
-  ).toBeVisible();
+  const compassPrompt = page.getByRole("heading", {
+    name: "Which route should the Compass check?",
+  });
+  if (phoneLayout) {
+    await expect(compassPrompt).toBeHidden();
+    await expect(
+      page.getByRole("button", {
+        name: /Compass hint.*choose a route to evaluate/i,
+      }),
+    ).toHaveAttribute("aria-pressed", "true");
+  } else {
+    await expect(compassPrompt).toBeVisible();
+  }
   await activateMapChoice(
     page,
     page
@@ -281,7 +301,7 @@ test("an exhausted branch offers a contextual Back action", async ({
   await followTo(page, "Thirty-six Views of Mount Fuji");
 
   await expect(
-    page.getByRole("heading", { name: "This branch ends here" }),
+    page.getByRole("region", { name: "This branch ends here" }),
   ).toBeVisible();
   const recovery = page.getByRole("button", {
     name: "Back to Hokusai",
@@ -412,44 +432,6 @@ test("Daily and Multiplayer expose their complete entry states", async ({
   ).toBeVisible();
 });
 
-test("mobile Multiplayer keeps a compact roster and complete target HUD", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/lobby");
-  const prompt = page.getByRole("dialog", {
-    name: "What should other explorers call you?",
-  });
-  await prompt.getByRole("button", { name: "Continue", exact: true }).click();
-  await page.getByRole("button", { name: /Create lobby/i }).click();
-  await expect(
-    page.getByRole("button", { name: "Share lobby MAPS27" }),
-  ).toBeInViewport();
-  await page.getByRole("button", { name: "I’m ready" }).click();
-  await page.getByRole("button", { name: /Start game/i }).click();
-  const introduction = page.locator(".round-intro");
-  if (await introduction.isVisible()) {
-    await expect(introduction).toBeHidden({ timeout: 20_000 });
-  }
-
-  await expect(page.locator(".race-strip__mobile-summary")).toContainText(
-    "2 players",
-  );
-  await expect(page.locator(".race-strip__roster")).toBeHidden();
-  await expect(page.locator(".round-masthead__identity")).toBeHidden();
-  await expect(page.getByText("Par", { exact: true })).toHaveCount(0);
-  const target = page.locator(".game-metrics__target dd");
-  await expect(target).toHaveText("United Kingdom");
-  await expect(target).toHaveCSS("white-space", "normal");
-  await expect(target).toHaveCSS("text-overflow", "clip");
-
-  await page.setViewportSize({ width: 1280, height: 720 });
-  await expect(page.locator(".race-strip__roster")).toBeVisible();
-  await expect(page.locator(".race-strip__roster")).toContainText(
-    "mapping · 0 moves",
-  );
-});
-
 test("a lobby invite deep link confirms before reusing the current window", async ({
   page,
 }) => {
@@ -567,316 +549,4 @@ test("map stays playable when WebGL is unavailable", async ({ page }) => {
     0,
   );
   await expect(page.locator("button.map-choice").first()).toBeVisible();
-});
-
-test("short phone layout keeps HUD, map, and hints in one viewport", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 320, height: 568 });
-  await startSolo(page);
-
-  const firstMove = page.locator("button.map-choice").first();
-  const secondMove = page.locator("button.map-choice").nth(1);
-  const currentNode = page.locator(".map-position--current:not([inert])");
-  const hintDock = page.locator(".hint-dock");
-  const siteHeader = page.locator(".site-header");
-  const roundMasthead = page.locator(".round-masthead");
-  const mapHeader = page.locator(".game-map__header");
-  const fullMapPrompt = page.getByRole("heading", {
-    name: "Where do you go next?",
-  });
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-layout",
-    "vertical",
-  );
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-presentation",
-    "constellation",
-  );
-  await expect(page.locator(".map-position--current")).toHaveCount(1);
-  await expect(page.locator("[data-mobile-choice-node]")).toHaveCount(2);
-  await expect(roundMasthead).toBeInViewport();
-  await expect(page.getByText("Live", { exact: true })).toBeHidden();
-  await expect(page.getByText("Round active", { exact: true })).toBeAttached();
-  await expect(page.getByText("Time", { exact: true })).toBeVisible();
-  await expect(page.getByText("Moves", { exact: true })).toBeVisible();
-  await expect(page.getByText("Par", { exact: true })).toHaveCount(0);
-  await expect(
-    page.locator(".game-metrics__target").getByText("Target", { exact: true }),
-  ).toBeVisible();
-  await expect(page.locator(".game-metrics__target dd")).toHaveText(
-    "United Kingdom",
-  );
-  await expect(page.locator(".game-metrics__target dd")).toHaveCSS(
-    "white-space",
-    "normal",
-  );
-  await expect(page.getByText("Score", { exact: true })).toBeVisible();
-  const compactMovePrompt = mapHeader.locator(".game-map__prompt .eyebrow");
-  await expect(compactMovePrompt).toHaveText("Your move");
-  await expect(compactMovePrompt).toHaveCSS("text-transform", "uppercase");
-  await expect(fullMapPrompt).toHaveCSS("clip-path", "inset(50%)");
-  await expect(
-    page.getByRole("toolbar", { name: "Map view" }),
-  ).toBeInViewport();
-  await expect(currentNode).toBeInViewport();
-  await expect(firstMove).toBeVisible();
-  await expect(secondMove).toBeInViewport();
-  await expect(hintDock).toBeInViewport();
-  await expect(hintDock).toHaveCSS("position", "relative");
-  const [
-    headerBox,
-    mastheadBox,
-    mapHeaderBox,
-    backBox,
-    currentBox,
-    moveBox,
-    secondMoveBox,
-    hintBox,
-  ] = await Promise.all([
-    siteHeader.boundingBox(),
-    roundMasthead.boundingBox(),
-    mapHeader.boundingBox(),
-    page.getByRole("button", { name: "In-game Back" }).boundingBox(),
-    currentNode.boundingBox(),
-    firstMove.boundingBox(),
-    secondMove.boundingBox(),
-    hintDock.boundingBox(),
-  ]);
-  const viewportBox = await page.locator(".game-map__viewport").boundingBox();
-  expect(headerBox).not.toBeNull();
-  expect(mastheadBox).not.toBeNull();
-  expect(mapHeaderBox).not.toBeNull();
-  expect(backBox).not.toBeNull();
-  expect(currentBox).not.toBeNull();
-  expect(moveBox).not.toBeNull();
-  expect(secondMoveBox).not.toBeNull();
-  expect(hintBox).not.toBeNull();
-  expect(viewportBox).not.toBeNull();
-  expect(headerBox?.height ?? Number.POSITIVE_INFINITY).toBeLessThanOrEqual(49);
-  expect(mastheadBox?.height ?? Number.POSITIVE_INFINITY).toBeLessThanOrEqual(
-    46,
-  );
-  expect(mapHeaderBox?.height ?? Number.POSITIVE_INFINITY).toBeLessThanOrEqual(
-    49,
-  );
-  expect(backBox?.width ?? 0).toBeGreaterThanOrEqual(44);
-  expect(backBox?.height ?? 0).toBeGreaterThanOrEqual(44);
-  expect(viewportBox?.height ?? 0).toBeGreaterThanOrEqual(330);
-  expect(moveBox?.x ?? 0).toBeGreaterThanOrEqual((viewportBox?.x ?? 0) - 1);
-  expect((moveBox?.x ?? 0) + (moveBox?.width ?? 0)).toBeLessThanOrEqual(
-    (viewportBox?.x ?? 0) + (viewportBox?.width ?? 0) + 1,
-  );
-  expect(secondMoveBox?.x ?? 0).toBeGreaterThanOrEqual(
-    (viewportBox?.x ?? 0) - 1,
-  );
-  expect(
-    (secondMoveBox?.x ?? 0) + (secondMoveBox?.width ?? 0),
-  ).toBeLessThanOrEqual((viewportBox?.x ?? 0) + (viewportBox?.width ?? 0) + 1);
-  expect(moveBox?.y ?? 0).toBeGreaterThan(
-    (currentBox?.y ?? 0) + (currentBox?.height ?? 0),
-  );
-  expect(Math.abs((secondMoveBox?.y ?? 0) - (moveBox?.y ?? 0))).toBeLessThan(2);
-  expect(moveBox?.height ?? 0).toBeGreaterThanOrEqual(44);
-  expect(secondMoveBox?.height ?? 0).toBeGreaterThanOrEqual(44);
-  expect(
-    (moveBox?.x ?? 0) + (moveBox?.width ?? 0) <= (secondMoveBox?.x ?? 0) ||
-      (secondMoveBox?.x ?? 0) + (secondMoveBox?.width ?? 0) <=
-        (moveBox?.x ?? 0),
-  ).toBe(true);
-  expect(hintBox?.y ?? 0).toBeGreaterThanOrEqual(
-    (viewportBox?.y ?? 0) + (viewportBox?.height ?? 0) - 1,
-  );
-
-  const viewportHeight = await page.evaluate(() => window.innerHeight);
-  const documentHeight = await page.evaluate(
-    () => document.documentElement.scrollHeight,
-  );
-  expect(documentHeight).toBeLessThanOrEqual(viewportHeight);
-  await page.mouse.wheel(0, 500);
-  expect(await page.evaluate(() => window.scrollY)).toBe(0);
-
-  const initialCurrentNodeId =
-    await currentNode.getAttribute("data-map-node-id");
-  await firstMove.click();
-  await expect(currentNode).toHaveAttribute(
-    "data-map-node-id",
-    initialCurrentNodeId ?? "",
-  );
-  await expect(firstMove).toHaveAttribute("aria-pressed", "true");
-  await expect(firstMove).toHaveAttribute(
-    "aria-label",
-    /Move to The Great Wave off Kanagawa/i,
-  );
-  await expect(firstMove.locator("[data-mobile-choice-confirm]")).toBeVisible();
-  const routeDetail = page.locator("[data-mobile-choice-detail]");
-  await expect(routeDetail).toBeVisible();
-  await expect(routeDetail).toContainText("The Great Wave off Kanagawa");
-  await secondMove.click();
-  await expect(currentNode).toHaveAttribute(
-    "data-map-node-id",
-    initialCurrentNodeId ?? "",
-  );
-  await expect(firstMove).toHaveAttribute("aria-pressed", "false");
-  await expect(secondMove).toHaveAttribute("aria-pressed", "true");
-  await expect(
-    secondMove.locator("[data-mobile-choice-confirm]"),
-  ).toBeVisible();
-  await expect(routeDetail).toContainText("Thirty-six Views of Mount Fuji");
-  await firstMove.click();
-  await expect(currentNode).toHaveAttribute(
-    "data-map-node-id",
-    initialCurrentNodeId ?? "",
-  );
-  await expect(firstMove).toHaveAttribute("aria-pressed", "true");
-  await expect(routeDetail).toContainText("The Great Wave off Kanagawa");
-  await firstMove.click();
-  await expect(currentNode).not.toHaveAttribute(
-    "data-map-node-id",
-    initialCurrentNodeId ?? "",
-  );
-  await expect(routeDetail).toHaveCount(0);
-  await expect(currentNode).toBeInViewport();
-  const historyBoxes = await page
-    .locator(".map-history-node")
-    .evaluateAll((elements) =>
-      elements.map((element) => {
-        const bounds = element.getBoundingClientRect();
-        return { top: bounds.top, bottom: bounds.bottom };
-      }),
-    );
-  const [nextCurrentBox, nextRouteBox] = await Promise.all([
-    currentNode.boundingBox(),
-    page.locator("[data-map-near-focus]").first().boundingBox(),
-  ]);
-  expect(historyBoxes.length).toBeGreaterThan(0);
-  expect(nextCurrentBox).not.toBeNull();
-  expect(nextRouteBox).not.toBeNull();
-  expect(Math.max(...historyBoxes.map(({ bottom }) => bottom))).toBeLessThan(
-    nextCurrentBox?.y ?? 0,
-  );
-  expect(nextRouteBox?.y ?? 0).toBeGreaterThan(
-    (nextCurrentBox?.y ?? 0) + (nextCurrentBox?.height ?? 0),
-  );
-});
-
-test("desktop layout keeps HUD, map, and hints in one viewport", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1341, height: 868 });
-  await startSolo(page);
-
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-layout",
-    "horizontal",
-  );
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-presentation",
-    "cards",
-  );
-
-  const hintDock = page.locator(".hint-dock");
-  await expect(page.locator(".round-masthead")).toBeInViewport();
-  await expect(
-    page.getByRole("toolbar", { name: "Map view" }),
-  ).toBeInViewport();
-  await expect(hintDock).toBeInViewport();
-  await expectVerticalHintRail(page);
-
-  const compass = page.getByRole("button", {
-    name: /Compass hint.*75 point penalty.*ready/i,
-  });
-  const compassHelp = page.getByRole("tooltip", {
-    name: "Check one route: promising, longer, or a dead end.",
-  });
-  await expect(compassHelp).toBeHidden();
-  await compass.focus();
-  await expect(compassHelp).toBeVisible();
-
-  const assertNoPageScroll = async (): Promise<void> => {
-    const viewportHeight = await page.evaluate(() => window.innerHeight);
-    const documentHeight = await page.evaluate(
-      () => document.documentElement.scrollHeight,
-    );
-    expect(documentHeight).toBeLessThanOrEqual(viewportHeight);
-  };
-
-  await assertNoPageScroll();
-  const mapBoxBeforeHint = await page.locator(".game-map").boundingBox();
-  await page.getByRole("button", { name: /Lens hint.*ready/i }).click();
-  await expect(page.locator(".hint-dock__message")).toBeInViewport();
-  const mapBoxAfterHint = await page.locator(".game-map").boundingBox();
-  expect(mapBoxBeforeHint).not.toBeNull();
-  expect(mapBoxAfterHint).not.toBeNull();
-  expect(mapBoxAfterHint!.width).toBe(mapBoxBeforeHint!.width);
-  expect(mapBoxAfterHint!.height).toBe(mapBoxBeforeHint!.height);
-  await assertNoPageScroll();
-  await page.mouse.wheel(0, 500);
-  expect(await page.evaluate(() => window.scrollY)).toBe(0);
-});
-
-test("tablet layout uses the compact vertical hint rail", async ({ page }) => {
-  await page.setViewportSize({ width: 801, height: 1112 });
-  await startSolo(page);
-
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-layout",
-    "horizontal",
-  );
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-presentation",
-    "cards",
-  );
-  await expectVerticalHintRail(page);
-  await expect(page.locator(".hint-dock")).toBeInViewport();
-  await expect(
-    page.getByRole("toolbar", { name: "Map view" }),
-  ).toBeInViewport();
-
-  const currentNode = page.locator(".map-position--current:not([inert])");
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-layout",
-    "vertical",
-  );
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-presentation",
-    "constellation",
-  );
-  await expect(page.getByText("Live", { exact: true })).toBeHidden();
-  await expect(page.getByText("Round active", { exact: true })).toBeHidden();
-  await expect(page.locator(".game-metrics__target dd")).toHaveText(
-    "United Kingdom",
-  );
-  const tallPhoneMapPrompt = page.getByRole("heading", {
-    name: "Where do you go next?",
-  });
-  await expect(tallPhoneMapPrompt).toBeVisible();
-  await expect(tallPhoneMapPrompt).toHaveCSS("clip-path", "none");
-  const [tallPhoneHeaderBox, tallPhoneMastheadBox, tallPhoneMapHeaderBox] =
-    await Promise.all([
-      page.locator(".site-header").boundingBox(),
-      page.locator(".round-masthead").boundingBox(),
-      page.locator(".game-map__header").boundingBox(),
-    ]);
-  expect(tallPhoneHeaderBox?.height ?? 0).toBeGreaterThan(49);
-  expect(
-    tallPhoneMastheadBox?.height ?? Number.POSITIVE_INFINITY,
-  ).toBeLessThanOrEqual(64);
-  expect(tallPhoneMapHeaderBox?.height ?? 0).toBeGreaterThan(49);
-  await expect(currentNode).toBeInViewport();
-  await page.locator("[data-mobile-choice-node]").first().click();
-  await expect(page.locator("[data-mobile-choice-detail]")).toBeVisible();
-
-  await page.setViewportSize({ width: 801, height: 1112 });
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-layout",
-    "horizontal",
-  );
-  await expect(page.locator(".game-map__viewport")).toHaveAttribute(
-    "data-map-presentation",
-    "cards",
-  );
-  await expect(page.locator("[data-mobile-choice-detail]")).toHaveCount(0);
-  await expect(currentNode).toBeInViewport();
 });

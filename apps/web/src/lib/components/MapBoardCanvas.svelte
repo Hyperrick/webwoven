@@ -25,12 +25,14 @@
     transition,
     view,
     redrawKey = "",
+    markerScale = 1,
     class: className = "",
   }: {
     board: MapBoard;
     transition: MapTransition;
     view: MapCameraView;
     redrawKey?: string;
+    markerScale?: number;
     class?: string;
   } = $props();
 
@@ -134,6 +136,7 @@
       camera.world_height,
       reducedMotion,
       transition,
+      markerScale,
     );
     renderer?.setCameraView(camera);
   });
@@ -176,7 +179,7 @@
         {/if}
       {/each}
       {#each board.nodes as node (node.id)}
-        {@const token = mapNodeTokenPresentation(node)}
+        {@const token = mapNodeTokenPresentation(node, markerScale)}
         {#if token}
           {@const radius = token.radius}
           {@const cx = node.position.x * view.world_width}

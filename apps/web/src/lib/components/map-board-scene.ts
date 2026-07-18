@@ -55,6 +55,7 @@ export class AtlasBoardScene {
     links: readonly MapBoardLink[],
     worldWidth: number,
     worldHeight: number,
+    markerScale = 1,
   ) {
     this.#worldWidth = worldWidth;
     this.#worldHeight = worldHeight;
@@ -68,7 +69,7 @@ export class AtlasBoardScene {
         this.root.add(this.#createPath(link, source, target));
     }
     for (const node of nodes) {
-      const presentation = mapNodeTokenPresentation(node);
+      const presentation = mapNodeTokenPresentation(node, markerScale);
       if (!presentation) continue;
       const marker = this.#createNodeMarker(node, presentation);
       this.root.add(marker);

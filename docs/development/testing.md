@@ -26,12 +26,15 @@ flows also verify that the immediately previous node is the sole inline Back tar
 activation only arms its visible and accessible Back state, and the second activation submits the
 same Back command while preserving route-history reconstruction. After a confirmed phone move, the
 camera keeps that target, the current stage, and every newly available frontier node visible.
-Short-phone coverage at the combined 32rem-width and 42rem-height
-breakpoint verifies the 3rem inner-route header, single-row HUD, visible Live/Time/Moves/Par/Score
-summary, accessible full status and mode text, 44px Back and header controls, and the canvas height
-recovered from the compact interface bands. It also locks the one-line visible **Your move** map
-prompt, the retained accessible question, the 49px map-header ceiling, and a minimum 330px node
-canvas. Tall-phone coverage verifies that the complete visible question remains unchanged.
+Phone coverage at the 32rem vertical-map breakpoint verifies one unclipped HUD row with Time, Moves,
+and the complete wrapping Target; Score, the map header, the canvas toolbar, and a disabled Back
+action remain hidden. Available Back and the compact icon-plus-penalty hint controls retain at least
+44px touch targets while the recovered height belongs to the node canvas. The initial current card
+opens close beneath the HUD, and post-move fitting retains the inline Back target, current stage, and
+complete frontier. Additional assertions lock the 40px visible choice pin inside its larger semantic
+control, the 90% decorative token scale, complete row-equalized labels, and a centered multi-line
+distant goal. Desktop and phone completion flows share the continuous reachable-goal heartbeat;
+system and in-app reduced-motion coverage verifies its suppression.
 
 Cycle regressions use a deliberately bidirectional graph. They verify that inverse edges remain in
 the shared data bundle, targets already present in the active route disappear before frontier

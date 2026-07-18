@@ -19,7 +19,7 @@
   background: transparent;
   box-shadow: none;
   text-align: center;
-  transform: translate(-50%, -1.375rem);
+  transform: translate(-50%, -1.25rem);
   animation: none;
 }
 
@@ -31,15 +31,16 @@
   .mobile-map-choice-node:not(:disabled):focus-visible {
   color: var(--color-ink);
   background: transparent;
-  transform: translate(-50%, -1.375rem);
+  transform: translate(-50%, -1.25rem);
 }
 
 .mobile-map-choice-node__marker {
+  position: relative;
   display: grid;
   flex: 0 0 auto;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 2px solid var(--color-ink);
   border-radius: 50%;
   color: var(--relation-icon-color);
@@ -116,7 +117,25 @@
 }
 
 .mobile-map-choice-node--goal .mobile-map-choice-node__marker {
+  --goal-heartbeat-primary-scale: 1.24;
+  --goal-heartbeat-secondary-scale: 1.14;
+
+  border-width: 3px;
   border-color: var(--color-ochre);
+  transform-origin: center;
+  animation: reachable-goal-heartbeat 1.05s ease-in-out infinite;
+}
+
+html[data-motion="reduced"]
+  .mobile-map-choice-node--goal
+  .mobile-map-choice-node__marker {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-map-choice-node--goal .mobile-map-choice-node__marker {
+    animation: none;
+  }
 }
 
 .game-map--vertical-flow .map-history-node {
@@ -154,7 +173,10 @@
 }
 
 .game-map--vertical-flow .game-map__surface .map-position--mobile-goal {
+  box-sizing: border-box;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
   justify-items: center;
   width: 7rem;
   min-height: auto;
@@ -167,13 +189,24 @@
   transform: translate(-50%, 1.35rem);
 }
 
+.game-map--vertical-flow
+  .map-position--mobile-goal
+  :is(.map-position__kicker, h3) {
+  inline-size: 100%;
+  text-align: center;
+}
+
 .game-map--vertical-flow .map-position--mobile-goal h3 {
-  overflow: hidden;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  overflow: visible;
   font-size: var(--text-14);
   line-height: 1.05;
+  overflow-wrap: anywhere;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .game-map--vertical-flow .map-position--mobile-goal .map-position__kicker {
