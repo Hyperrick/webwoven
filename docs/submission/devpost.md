@@ -123,7 +123,7 @@ output hash, validation result, approval state, and truthful generator label.
 - Single player, Daily, and synchronized Multiplayer are all real, tested modes rather than demo
   toggles.
 - The complete production loop works without an AI key or runtime AI dependency.
-- The current gate covers 139 web tests, 348 Python tests, and 32 desktop/mobile Playwright flows,
+- The current gate covers 139 web tests, 349 Python tests, and 32 desktop/mobile Playwright flows,
   plus formatting, linting, type checks, strict docs, data validation, and container builds.
 - The public build journal records product decisions, failed approaches, data provenance, and the
   line between Codex acceleration and human approval.
@@ -140,10 +140,10 @@ each move surprising and memorable.
 
 ### What's next
 
-Next I would expand the reviewed route pool, add optional private accounts for cross-device history,
-and build classroom-friendly shared expeditions where a teacher can pin a topic without changing
-the source-backed game rules. The immediate goal is simpler: watch new players, identify where the
-first round still needs explanation, and keep improving the completely open-source game in public.
+Next I would add optional private accounts for cross-device history and build classroom-friendly
+shared expeditions where a teacher can pin a topic without changing the source-backed game rules.
+The immediate goal is simpler: watch new players, measure route variety, identify where the first
+round still needs explanation, and keep improving the completely open-source game in public.
 
 ## Built with tags
 
