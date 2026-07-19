@@ -148,9 +148,12 @@ tokens and visible choice pins are slightly smaller than their desktop counterpa
 semantic controls keep full touch targets. One or two choices receive more breathing room; larger
 frontiers add rows without stacking six full cards down the canvas. A reachable goal joins the same
 compact choice constellation and reveals its Finish action in the detail tray and beside the
-selected bubble. Choice names always wrap in full rather than using an ellipsis. Each two-node row
-uses the tallest measured label block in that row, vertically centers a shorter neighbor inside the
-shared height, and adds only that row's required extra spacing before the next row. The first
+selected bubble. Every phone node name—history, discarded, current, choice, distant goal, and the
+selected route-preview title—wraps in full rather than using an ellipsis. Each two-node row uses the
+tallest measured label block in that row, vertically centers a shorter neighbor inside the shared
+height, and adds only that row's required extra spacing before the next row. History and current
+labels that grow above a marker reserve incoming space; a distant goal expands the bottom extent.
+The first
 activation previews any compact choice; a second activation of that same choice confirms it, while
 activating another choice switches the preview without moving. Crossing the phone breakpoint clears
 ephemeral preview state, selects the appropriate card or constellation presentation, and refits the

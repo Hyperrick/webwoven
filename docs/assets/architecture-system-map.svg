@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title description">
+  <title id="title">Webwoven production architecture</title>
+  <desc id="description">The production request path and the offline knowledge-atlas build pipeline.</desc>
+  <style>
+    .background { fill: #f3ecde; }
+    .panel { fill: #f8f2e7; stroke: #1c2924; stroke-width: 2; }
+    .runtime { fill: #dce7df; }
+    .build { fill: #ead9b8; }
+    .store { fill: #f1e0d6; }
+    .title { font: 700 30px Georgia, serif; fill: #17231f; }
+    .section { font: 700 15px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 2px; fill: #c94931; }
+    .name { font: 700 21px Georgia, serif; fill: #17231f; }
+    .copy { font: 14px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #526059; }
+    .arrow { fill: none; stroke: #52766d; stroke-width: 3; marker-end: url(#arrow); }
+    .boundary { fill: none; stroke: #b17b20; stroke-width: 2; stroke-dasharray: 8 8; }
+    .label { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; fill: #7a5b25; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#52766d"/>
+    </marker>
+  </defs>
+
+  <rect class="background" width="1440" height="820"/>
+  <text class="title" x="64" y="60">Webwoven system map</text>
+  <text class="copy" x="64" y="88">Build Week release · production runtime above · reviewed atlas pipeline below</text>
+
+  <text class="section" x="64" y="140">PRODUCTION REQUEST PATH</text>
+  <rect class="panel runtime" x="64" y="166" width="210" height="118" rx="8"/>
+  <text class="name" x="89" y="207">Player</text>
+  <text class="copy" x="89" y="235">Browser UI</text>
+  <text class="copy" x="89" y="258">HTTPS only</text>
+
+  <rect class="panel runtime" x="340" y="166" width="210" height="118" rx="8"/>
+  <text class="name" x="365" y="207">Caddy</text>
+  <text class="copy" x="365" y="235">TLS + static client</text>
+  <text class="copy" x="365" y="258">/api + /docs proxy</text>
+
+  <rect class="panel runtime" x="616" y="166" width="210" height="118" rx="8"/>
+  <text class="name" x="641" y="207">FastAPI</text>
+  <text class="copy" x="641" y="235">sessions + rules</text>
+  <text class="copy" x="641" y="258">score + Daily + rooms</text>
+
+  <rect class="panel store" x="892" y="126" width="210" height="90" rx="8"/>
+  <text class="name" x="917" y="164">SQLite atlas</text>
+  <text class="copy" x="917" y="190">immutable, read-only</text>
+  <rect class="panel store" x="892" y="236" width="210" height="90" rx="8"/>
+  <text class="name" x="917" y="274">PostgreSQL</text>
+  <text class="copy" x="917" y="300">durable game state</text>
+  <rect class="panel store" x="1168" y="236" width="208" height="90" rx="8"/>
+  <text class="name" x="1193" y="274">Valkey</text>
+  <text class="copy" x="1193" y="300">live room state</text>
+  <rect class="panel store" x="1168" y="126" width="208" height="90" rx="8"/>
+  <text class="name" x="1193" y="164">Umami</text>
+  <text class="copy" x="1193" y="190">coarse, cookie-free</text>
+
+  <path class="arrow" d="M274 225 H340"/>
+  <path class="arrow" d="M550 225 H616"/>
+  <path class="arrow" d="M826 205 C852 205 856 171 892 171"/>
+  <path class="arrow" d="M826 245 C852 245 856 281 892 281"/>
+  <path class="arrow" d="M1102 281 H1168"/>
+  <path class="arrow" d="M274 187 C600 100 890 102 1168 171"/>
+  <text class="label" x="716" y="104">fixed page views + five aggregate events</text>
+
+  <path class="boundary" d="M45 366 H1395"/>
+  <text class="label" x="1187" y="356">NO RUNTIME WIKIMEDIA OR AI CALLS</text>
+
+  <text class="section" x="64" y="424">REVIEWED BUILD-TIME ATLAS PIPELINE</text>
+  <rect class="panel build" x="64" y="454" width="210" height="118" rx="8"/>
+  <text class="name" x="89" y="495">Open sources</text>
+  <text class="copy" x="89" y="523">Wikidata dumps</text>
+  <text class="copy" x="89" y="546">Commons metadata</text>
+
+  <rect class="panel build" x="340" y="454" width="210" height="118" rx="8"/>
+  <text class="name" x="365" y="495">Acquire</text>
+  <text class="copy" x="365" y="523">version + checksum</text>
+  <text class="copy" x="365" y="546">preserve provenance</text>
+
+  <rect class="panel build" x="616" y="454" width="210" height="118" rx="8"/>
+  <text class="name" x="641" y="495">Normalize</text>
+  <text class="copy" x="641" y="523">relations + licenses</text>
+  <text class="copy" x="641" y="546">direction-stable facts</text>
+
+  <rect class="panel build" x="892" y="454" width="210" height="118" rx="8"/>
+  <text class="name" x="917" y="495">Validate</text>
+  <text class="copy" x="917" y="523">candidate routes</text>
+  <text class="copy" x="917" y="546">policy + quality gates</text>
+
+  <rect class="panel build" x="1168" y="454" width="208" height="118" rx="8"/>
+  <text class="name" x="1193" y="495">Compile</text>
+  <text class="copy" x="1193" y="523">SQLite + manifest</text>
+  <text class="copy" x="1193" y="546">local media bundle</text>
+
+  <path class="arrow" d="M274 513 H340"/>
+  <path class="arrow" d="M550 513 H616"/>
+  <path class="arrow" d="M826 513 H892"/>
+  <path class="arrow" d="M1102 513 H1168"/>
+  <path class="arrow" d="M1272 572 V704 H1102"/>
+  <path class="arrow" d="M721 650 V284"/>
+
+  <rect class="panel" x="340" y="650" width="762" height="108" rx="8"/>
+  <text class="name" x="365" y="692">Immutable release artifact</text>
+  <text class="copy" x="365" y="720">3,970 entities · 22,402 relationships · 100 start/goal rounds</text>
+  <text class="copy" x="365" y="744">source, license, graph-build, prompt, and generator provenance preserved</text>
+</svg>

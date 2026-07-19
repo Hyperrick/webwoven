@@ -29,17 +29,27 @@ clear brief, testable decisions, and visible human judgment.
 The documentation is maintained with the implementation. It records architecture, data
 provenance, AI boundaries, tests, operations, and concise Build Week milestones.
 
-## Current milestone
+## Current release
 
-Webwoven is live at [www.webwoven.org](https://www.webwoven.org) halfway through Build Week. Single
-player, Daily challenge, synchronized Multiplayer, responsive route exploration, source inspection,
-and privacy-minimized reporting all run against an immutable, release-scale Wikidata bundle with
-locally served, policy-checked Commons media for every graph entity.
-The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated, published
-choice-first routes, and ten categories. Every category offers four Easy, four Normal, and two Hard
-routes. The synthetic smoke graph remains test-only.
-The remaining release work is accessibility, security and load verification, content review, demo
-recording, and submission packaging.
+Webwoven's complete Build Week release is live at
+[www.webwoven.org](https://www.webwoven.org). Single player, Daily challenge, and synchronized
+Multiplayer Lobbies all run against an immutable, release-scale Wikidata bundle with locally served,
+policy-checked Commons media for every graph entity. Multiplayer includes deep-link invitations
+with explicit confirmation, reconnect, an authoritative 30-second grace countdown, and same-Lobby
+rematch voting.
+
+The active atlas contains 3,970 entities, 22,402 named relationships, 100 validated, published round
+definitions, and ten categories. A round definition fixes its curated start/goal pair, category,
+difficulty, and scoring distance—not the path the player must take. Every category offers four Easy,
+four Normal, and two Hard assignments. Route-aware frontier projection retains a target-reaching
+choice when one exists and turns an exhausted frontier into Back instead of presenting false
+choices. The responsive map keeps complete labels, the active target, and recovery actions usable
+on desktop and phone. The synthetic smoke graph remains test-only.
+
+The current repository gate passes 164 web tests, 363 Python tests, 48 desktop/mobile Playwright flows,
+both Remotion composition checks, and the repository's strict code, data, documentation, and
+container checks. The public demo and Devpost draft are prepared; rights confirmation, final owner
+review, and submission remain outside the repository.
 
 Start with the [game rules](product/game-rules.md), [system map](architecture/system-map.md),
 [architecture](architecture/overview.md),

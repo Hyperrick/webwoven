@@ -20,11 +20,17 @@ export const CodexScene = ({
   durationInFrames: number;
 }) => {
   const frame = useCurrentFrame();
-  const introOpacity = interpolate(frame, [0, 330, 390], [1, 1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  const systemOpacity = interpolate(frame, [350, 410], [0, 1], {
+  const systemRevealFrame = 585;
+  const introOpacity = interpolate(
+    frame,
+    [0, 540, systemRevealFrame],
+    [1, 1, 0],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
+  const systemOpacity = interpolate(frame, [systemRevealFrame, 630], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -73,7 +79,7 @@ export const CodexScene = ({
           <div className="codex-system-heading">
             <SceneNumber value="04" />
             <Eyebrow>One idea, focused domains</Eyebrow>
-            <AnimatedTitle delay={370} className="scene-title">
+            <AnimatedTitle delay={610} className="scene-title">
               Codex made the build faster without hiding the decisions.
             </AnimatedTitle>
           </div>
@@ -87,7 +93,7 @@ export const CodexScene = ({
             {workstreams.map(([label, path, copy], index) => {
               const progress = interpolate(
                 frame,
-                [460 + index * 55, 500 + index * 55],
+                [650 + index * 55, 690 + index * 55],
                 [0, 1],
                 {
                   extrapolateLeft: "clamp",

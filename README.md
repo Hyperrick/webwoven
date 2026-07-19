@@ -17,15 +17,20 @@ The project is also an open Build Week case study for a simple belief:
 > Everyone with an idea can become a game developer.
 
 Codex turns the product brief into a modular, tested game, a validated knowledge atlas, and a
-living public build journal. Gameplay, routes, scores, and winners remain deterministic and
-server-authoritative.
+living public build journal. Game rules, visible-choice projection, scores, and winners remain
+deterministic and server-authoritative; Solo and Lobby assignments are random but history-aware,
+while the shared Daily is pinned deterministically.
 
-## Build Week midpoint
+## Build Week release
 
-The full product loop is live: Single player, a shared Daily challenge, synchronized Multiplayer,
-responsive graph exploration, source inspection, deterministic hints, and cookie-free aggregate
-reporting. The second half of Build Week is focused on accessibility, security and load validation,
-content review, demo recording, and submission polish—not rebuilding the core game.
+The complete Build Week release is live: Single player, a shared Daily challenge, synchronized
+Multiplayer Lobbies, responsive graph exploration, source inspection, deterministic hints, and
+cookie-free aggregate reporting. The production atlas publishes 100 validated round definitions:
+curated start/goal pairs rather than fixed paths through the graph. The final playtest pass added
+shareable Lobby links and same-Lobby rematches, complete mobile labels and a compact phone HUD, a
+reachable-target heartbeat, completion confetti, and route-aware dead-end recovery. The public
+repository, narrated demo, judge path, and Devpost draft are prepared; the final submission remains
+an explicit owner action.
 
 ## Built with Codex and GPT-5.6
 
@@ -52,37 +57,44 @@ reproducible data build and tested production stack.
 
 - **Single player** — choose a difficulty and find a route at your own pace.
 - **Daily challenge** — solve the same connection as everyone else and compare scores.
-- **Multiplayer** — race a synchronized route live with two to four players, including reconnect.
+- **Multiplayer** — race live with two to four players using shareable Lobby links, reconnect, a
+  30-second grace countdown, and same-Lobby rematch voting.
 
 Solo players and Multiplayer hosts can leave the whole atlas open or filter the start and goal to
 one of ten topics. The connecting route may still cross categories, preserving the graph's
 surprising bridges. Daily category and difficulty remain shared, curated assignments.
 
-A round reveals a start, a goal, category, difficulty, and known par. Each move follows one
-documented graph relationship. Players can inspect the underlying fact, documentary image,
-attribution, and preferred Wikipedia article without changing position. Efficient routes score
-best; three deterministic hint tools trade points for guidance.
+A round reveals a start, a goal, category, and difficulty. The server retains the known shortest
+distance for scoring without presenting a Par field during play. Each move follows one documented
+graph relationship. Players can inspect the underlying fact, documentary image, attribution, and
+preferred Wikipedia article without changing position. Efficient routes score best; three
+deterministic hint tools trade points for guidance.
 
 Automatic Single player, Multiplayer, and new Daily assignments begin with at least two distinct
-destinations. Explicit replay IDs and already-pinned Daily assignments remain reproducible.
+destinations. During play, route-aware reachability prevents a decision from presenting only false
+dead ends when a target-reaching continuation exists. Explicit replay IDs and already-pinned Daily
+assignments remain reproducible.
 
 The route atlas expands as you play: desktop and tablet preserve a left-to-right map with navigation
 and hints in a lightweight side rail, while phones project the same deterministic graph into a
-top-to-bottom two-column constellation. Phone choices preview on the first tap and confirm on the
-second; on every layout, activating the immediately previous node twice performs Back. Earlier
-branches remain visible and inspectable without placing controls over the node canvas.
+top-to-bottom two-column constellation. Phone labels wrap without ellipses and share the tallest
+label height within each row. Choices preview on the first tap and confirm on the second; on every
+layout, activating the immediately previous node twice performs Back. Earlier branches remain
+visible and inspectable without placing controls over the node canvas, and a reachable goal uses a
+reduced-motion-aware heartbeat on desktop and mobile.
 
 ![A live Webwoven Solo map using the real Compose atlas](docs/assets/screenshots/solo-map.webp)
 
 ### The same atlas on a phone
 
-![A selected route preview in Webwoven's phone constellation](docs/assets/screenshots/mobile-route-preview.webp)
+![Webwoven's compact phone constellation with a complete six-choice frontier](docs/assets/screenshots/mobile-route-preview.webp)
 
 ## The current atlas
 
 - 3,970 playable Wikidata entities and 22,402 directed, named relationships
 - ten readable knowledge categories
-- 100 validated, published choice-first routes: 4 Easy, 4 Normal, and 2 Hard per category
+- 100 validated, published round definitions (start/goal pairs): 4 Easy, 4 Normal, and 2 Hard per
+  category; the path between each pair remains open
 - fact-aware, direction-stable relationship sentences with source ranks preserved when present
 - local, policy-checked Commons media for every entity through 3,621 attributed source files
 - 3,778 preferred Wikipedia article links
@@ -93,23 +105,23 @@ and fails visibly if one is unavailable.
 
 ## How it is built
 
-| Layer                  | Responsibility                                                                   |
-| ---------------------- | -------------------------------------------------------------------------------- |
-| Svelte 5 + TypeScript  | Accessible game UI, responsive modes, and semantic controls                      |
-| Three.js               | Decorative atlas paper, paths, and tokens; gameplay remains usable without WebGL |
+| Layer                  | Responsibility                                                                         |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| Svelte 5 + TypeScript  | Accessible game UI, responsive modes, and semantic controls                            |
+| Three.js               | Decorative atlas paper, paths, and tokens; gameplay remains usable without WebGL       |
 | FastAPI                | Authoritative sessions, route projection, hints, scoring, Daily, and Multiplayer rules |
-| SQLite atlas           | Immutable compiled Wikidata entities, relationships, rounds, and media records   |
-| PostgreSQL + Valkey    | Durable player state and low-latency multiplayer coordination                    |
-| Python pipeline        | Versioned Wikidata acquisition, Commons licensing, validation, and compilation   |
-| Caddy + Docker Compose | TLS, same-origin routing, health-checked production releases, and backups        |
-| Self-hosted Umami      | Cookie-free page views and five allowlisted aggregate product events             |
+| SQLite atlas           | Immutable compiled Wikidata entities, relationships, rounds, and media records         |
+| PostgreSQL + Valkey    | Durable player state and low-latency multiplayer coordination                          |
+| Python pipeline        | Versioned Wikidata acquisition, Commons licensing, validation, and compilation         |
+| Caddy + Docker Compose | TLS, same-origin routing, health-checked production releases, and backups              |
+| Self-hosted Umami      | Cookie-free page views and five allowlisted aggregate product events                   |
 
 Runtime boundaries keep the network, persistence, UI, and game domains separate. See the
 [architecture overview](docs/architecture/overview.md) and
-[midpoint system map](docs/architecture/system-map.md), then the detailed
+[production system map](docs/architecture/system-map.md), then the detailed
 [responsibility map](docs/development/responsibility-map.md).
 
-![Webwoven production runtime and build-time atlas pipeline](docs/assets/architecture-midpoint.svg)
+![Webwoven production runtime and build-time atlas pipeline](docs/assets/architecture-system-map.svg)
 
 ## Run locally
 
@@ -155,15 +167,16 @@ just check
 pnpm test:e2e
 ```
 
-The gate covers formatting, linting, type checking, Python and web tests, file-size limits, strict
-documentation builds, desktop/mobile browser flows, deterministic data validation, and container
-builds in CI.
+The current repository gate passes 164 web tests, 363 Python tests, 48 desktop/mobile Playwright flows, and
+both Remotion composition checks. The complete gate also covers formatting, linting, type checking,
+file-size limits, strict documentation builds, deterministic data validation, and container builds
+in CI.
 
 ## Documentation
 
 - [Game rules](docs/product/game-rules.md)
 - [Architecture](docs/architecture/overview.md)
-- [Midpoint system map](docs/architecture/system-map.md)
+- [Production system map](docs/architecture/system-map.md)
 - [Data pipeline and provenance](docs/data/pipeline.md)
 - [Local setup and testing surfaces](docs/development/setup.md)
 - [Build Week journal](docs/build-log/2026-07-19.md)

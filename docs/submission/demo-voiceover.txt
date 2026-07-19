@@ -1,15 +1,15 @@
 What if a game did not only test what you know, but showed how the world fits together? This is Webwoven, a game about finding paths through real, named connections.
 
-In Single player, I pick an easy, normal, or hard route. I can leave the map open, or choose one of ten topics. Each round gives me a start, a goal, and a best distance. Now I find my own path.
+In Single player, I choose Easy, Normal, or Hard. I can use the whole atlas, or choose one of ten topics for the start and goal. The game fixes those two points, but not the path between them. I build the path one real connection at a time.
 
-Each card is a place I can go next. When I move, the map grows. It keeps my path and the choices I left behind. Three hints can help, but each costs points. Each card also explains its connection. Here, Lionel Messi connects to Rosario because he was born there. I can read the fact, see its picture, and check the source before I move.
+Each card is a place I can go next. When I move, the map grows and keeps my path and the choices I left behind. If a branch ends, Back takes me one step back. Three hints can help, but each costs points. Every card explains its connection. Lionel Messi connects to Rosario because he was born there. I can inspect the fact and source before I move.
 
-Webwoven has three play modes. Single player lets me explore at my own speed. The Daily challenge gives everyone the same route and scoreboard. Multiplayer lets two to four people race on the same map. Players can leave and return without losing the room.
+Webwoven has three play modes. Single player lets me explore at my own speed. The Daily challenge gives everyone the same round and leaderboard. In Multiplayer, two to four people race together. A share link opens the Lobby. Players can reconnect, and the group can vote for another round.
 
-I started with a game idea, but no working product. I built the main product with Codex, using GPT-5.6 Sol. I gave Codex the goals, visual style, and play-test feedback. Codex helped build the app, server, data tools, tests, and public documents. It split large jobs into focused tasks for the web, server, data, security, and review. This saved time while keeping each part clear.
+I started with an idea, but no working game. I built the product with Codex and GPT-5.6 Sol. I gave Codex goals, visual style, and play-test feedback. Codex helped build the app, server, data tools, tests, and public documents. It split the work into focused tasks for web, server, data, security, and review. This saved time while keeping each part clear.
 
-I kept using GPT-5.6 after the first draft. I played on desktop and phone, found problems, and gave them back to Codex. We made the play modes easier to find, removed unfair loops, improved the fact text, and rebuilt the phone map for touch. I made the final product, design, data, and release choices.
+I kept using GPT-5.6 after the first draft. I tested on desktop and phone, then gave every problem back to Codex. We made the modes easier to find, removed unfair loops and false dead ends, simplified the phone screen, kept long labels readable, and made the target pulse when it comes within reach. I made the final product and release choices.
 
-AI helped build Webwoven, but it does not play for you. During a round, there are no calls to AI or Wikidata. Rules, moves, hints, scores, and winners come from one checked local map. It contains three thousand nine hundred and seventy things and more than twenty-two thousand named connections.
+AI helped build Webwoven, but it does not play for you. During a round, the game makes no calls to AI, Wikidata, Commons, or Wikipedia. Rules, moves, hints, scores, and winners come from one checked local atlas. It contains 3,970 entities, 22,402 named connections, and 100 checked start-and-goal rounds.
 
 Webwoven is live, works on desktop and mobile, needs no account, and is completely open-source. Connect anything, and discover why it is connected.

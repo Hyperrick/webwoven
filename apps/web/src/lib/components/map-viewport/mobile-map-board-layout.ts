@@ -11,6 +11,7 @@ const RIGHT_CHOICE_UNITS = WORLD_WIDTH_UNITS - LEFT_CHOICE_UNITS;
 const CHOICE_ROW_GAP_UNITS = 5.5;
 const DEFAULT_CHOICE_LABEL_LINES = 2;
 const CHOICE_LABEL_LINE_HEIGHT_UNITS = 0.95;
+const ABOVE_ANCHOR_LABEL_LINE_HEIGHT_UNITS = 1.05;
 const STAGE_GAP_UNITS = 6;
 const GOAL_STAGE_GAP_UNITS = 7;
 const BOTTOM_CLEARANCE_UNITS = 10;
@@ -21,12 +22,12 @@ interface MobileAnchor {
   y: number;
 }
 
-export type MobileChoiceLabelLineCounts = ReadonlyMap<string, number>;
+export type MobileNodeLabelLineCounts = ReadonlyMap<string, number>;
 
 /** Project the deterministic board into a phone-readable top-to-bottom flow. */
 export function projectMobileMapBoard(
   board: MapBoard,
-  labelLineCounts: MobileChoiceLabelLineCounts = new Map(),
+  labelLineCounts: MobileNodeLabelLineCounts = new Map(),
 ): MapBoard {
   const stages = groupNodesByStage(board.nodes);
   const anchors = new Map<string, MobileAnchor>();
@@ -34,23 +35,24 @@ export function projectMobileMapBoard(
   let lastAnchorY = cursorY;
 
   stages.forEach((nodes, stageIndex) => {
-    if (stageIndex > 0) {
-      cursorY += isDistantGoalStage(nodes, board)
-        ? GOAL_STAGE_GAP_UNITS
-        : STAGE_GAP_UNITS;
-    }
     const orderedNodes = [...nodes].sort(compareStageNodes);
     const routeNodes = orderedNodes.filter(isRouteNode);
     const distantGoalNodes = orderedNodes.filter(isDistantGoalNode);
     const constellationNodes = orderedNodes.filter(
       (node) => !isRouteNode(node) && !isDistantGoalNode(node),
     );
+    if (stageIndex > 0) {
+      cursorY += isDistantGoalStage(nodes, board)
+        ? GOAL_STAGE_GAP_UNITS
+        : STAGE_GAP_UNITS;
+    }
 
     if (constellationNodes.length > 0) {
       const rows = chunkRows(constellationNodes);
       rows.forEach((row, rowIndex) => {
+        cursorY += aboveAnchorRowLabelOverflow(row, labelLineCounts);
         const rowY = cursorY;
-        const rowLabelLines = maximumLabelLines(row, labelLineCounts);
+        const rowLabelLines = maximumChoiceLabelLines(row, labelLineCounts);
         row.forEach((node, columnIndex) => {
           anchors.set(node.id, {
             x: constellationX(node, row.length, columnIndex, routeNodes.length),
@@ -69,6 +71,7 @@ export function projectMobileMapBoard(
       if (constellationNodes.length > 0) cursorY += ROUTE_NODE_CLEARANCE_UNITS;
       routeNodes.forEach((node, index) => {
         if (index > 0) cursorY += ROUTE_NODE_CLEARANCE_UNITS;
+        cursorY += aboveAnchorLabelOverflow(node, labelLineCounts);
         anchors.set(node.id, { x: WORLD_CENTER_UNITS, y: cursorY });
         lastAnchorY = cursorY;
       });
@@ -78,14 +81,22 @@ export function projectMobileMapBoard(
       if (constellationNodes.length > 0 || routeNodes.length > 0)
         cursorY += GOAL_STAGE_GAP_UNITS;
       distantGoalNodes.forEach((node, index) => {
-        if (index > 0) cursorY += ROUTE_NODE_CLEARANCE_UNITS;
+        if (index > 0) {
+          cursorY +=
+            ROUTE_NODE_CLEARANCE_UNITS +
+            belowAnchorLabelOverflow(
+              distantGoalNodes[index - 1],
+              labelLineCounts,
+            );
+        }
         anchors.set(node.id, { x: WORLD_CENTER_UNITS, y: cursorY });
         lastAnchorY = cursorY;
       });
+      cursorY += belowAnchorLabelOverflow(
+        distantGoalNodes[distantGoalNodes.length - 1],
+        labelLineCounts,
+      );
     }
-
-    if (routeNodes.length > 0 || distantGoalNodes.length > 0)
-      cursorY = lastAnchorY;
   });
 
   const heightUnits = Math.max(
@@ -121,9 +132,9 @@ export function projectMobileMapBoard(
 }
 
 /** Give every choice label in a two-node row the row's tallest measured line count. */
-export function mobileChoiceRowLabelLines(
+export function mobileNodeRowLabelLines(
   board: MapBoard,
-  labelLineCounts: MobileChoiceLabelLineCounts,
+  labelLineCounts: MobileNodeLabelLineCounts,
 ): Map<string, number> {
   const rowLineCounts = new Map<string, number>();
   for (const nodes of groupNodesByStage(board.nodes)) {
@@ -131,7 +142,7 @@ export function mobileChoiceRowLabelLines(
       .sort(compareStageNodes)
       .filter((node) => !isRouteNode(node) && !isDistantGoalNode(node));
     for (const row of chunkRows(constellationNodes)) {
-      const rowLabelLines = maximumLabelLines(row, labelLineCounts);
+      const rowLabelLines = maximumNodeLabelLines(row, labelLineCounts);
       for (const node of row) rowLineCounts.set(node.id, rowLabelLines);
     }
   }
@@ -168,9 +179,9 @@ function chunkRows(nodes: MapBoardNode[]): MapBoardNode[][] {
   return rows;
 }
 
-function maximumLabelLines(
+function maximumChoiceLabelLines(
   nodes: MapBoardNode[],
-  labelLineCounts: MobileChoiceLabelLineCounts,
+  labelLineCounts: MobileNodeLabelLineCounts,
 ): number {
   return Math.max(
     ...nodes.map((node) =>
@@ -178,6 +189,16 @@ function maximumLabelLines(
         ? normalizeLabelLines(labelLineCounts.get(node.id))
         : DEFAULT_CHOICE_LABEL_LINES,
     ),
+  );
+}
+
+function maximumNodeLabelLines(
+  nodes: MapBoardNode[],
+  labelLineCounts: MobileNodeLabelLineCounts,
+): number {
+  return Math.max(
+    DEFAULT_CHOICE_LABEL_LINES,
+    ...nodes.map((node) => normalizeLabelLines(labelLineCounts.get(node.id))),
   );
 }
 
@@ -195,6 +216,58 @@ function choiceLabelOverflow(labelLines: number): number {
   return (
     Math.max(0, labelLines - DEFAULT_CHOICE_LABEL_LINES) *
     CHOICE_LABEL_LINE_HEIGHT_UNITS
+  );
+}
+
+function aboveAnchorRowLabelOverflow(
+  nodes: MapBoardNode[],
+  labelLineCounts: MobileNodeLabelLineCounts,
+): number {
+  return Math.max(
+    0,
+    ...nodes.map((node) =>
+      isAboveAnchorLabel(node)
+        ? aboveAnchorLabelOverflow(node, labelLineCounts)
+        : 0,
+    ),
+  );
+}
+
+function aboveAnchorLabelOverflow(
+  node: MapBoardNode,
+  labelLineCounts: MobileNodeLabelLineCounts,
+): number {
+  if (!isAboveAnchorLabel(node)) return 0;
+  return labelOverflow(
+    labelLineCounts.get(node.id),
+    ABOVE_ANCHOR_LABEL_LINE_HEIGHT_UNITS,
+  );
+}
+
+function belowAnchorLabelOverflow(
+  node: MapBoardNode,
+  labelLineCounts: MobileNodeLabelLineCounts,
+): number {
+  if (!isDistantGoalNode(node)) return 0;
+  return labelOverflow(
+    labelLineCounts.get(node.id),
+    ABOVE_ANCHOR_LABEL_LINE_HEIGHT_UNITS,
+  );
+}
+
+function labelOverflow(
+  lineCount: number | undefined,
+  lineHeightUnits: number,
+): number {
+  return (
+    Math.max(0, normalizeLabelLines(lineCount) - DEFAULT_CHOICE_LABEL_LINES) *
+    lineHeightUnits
+  );
+}
+
+function isAboveAnchorLabel(node: MapBoardNode): boolean {
+  return node.roles.some((role) =>
+    ["trail", "current", "discarded"].includes(role),
   );
 }
 

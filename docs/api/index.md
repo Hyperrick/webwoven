@@ -27,15 +27,16 @@ snapshot. `POST /api/v1/sessions/{id}/commands` accepts one of three commands:
 Duplicate `client_command_id` values return the original result. A stale
 `expected_state_version` returns `409` with the latest authoritative snapshot.
 
-Session snapshots expose the round's `optimal_distance` so clients present the same par used by
-server scoring. Each relation group retains its semantic Wikidata `property_id` and also receives a
-stable `group_id` derived from property, direction, and label; clients use `group_id` for interface
-identity and `property_id` for graph and hint semantics. Direction is explicitly `outgoing` or
-`incoming`. For dense entities, the snapshot includes at most six distinct target entities. A
-pure route-safe selector uses precompiled distances to retain a distance-reducing destination
-whenever one remains available while varying the visible relation types; it never changes graph
-truth or accepts a move that is not a stored edge. A legitimately exhausted branch remains empty so
-the client can present the Back recovery action.
+Session snapshots expose the round's `optimal_distance` as the server-owned scoring input. The
+active interface no longer presents it as a Par field. Each relation group retains its semantic
+Wikidata `property_id` and also receives a stable `group_id` derived from property, direction, and
+label; clients use `group_id` for interface identity and `property_id` for graph and hint semantics.
+Direction is explicitly `outgoing` or `incoming`. For dense entities, the snapshot includes at most
+six distinct target entities. A deterministic route-aware search finds a target-reaching first move
+without revisiting the active route. Choice projection retains that safe move even beyond the
+six-destination display cap, then uses precompiled distance and relation diversity for ordering; it
+never changes graph truth or accepts a move that is not a stored edge. A legitimately exhausted
+branch remains empty so the client can present the Back recovery action.
 
 Snapshots also expose `navigation_stack` and `decision_history`. The navigation stack is the
 current reversible route. Decision history is the immutable exploration record used by the
@@ -51,15 +52,15 @@ empty history, while new sessions round-trip it through persistence and reconnec
 The API retains the `rooms` resource name while the user-facing product calls each room a Lobby.
 Rooms use six-character Crockford Base32 codes and accept two to four active guests.
 
-| Method | Path                            | Purpose |
-| ------ | ------------------------------- | ------- |
-| `POST` | `/api/v1/rooms`                 | Create a Lobby and pin its route filters. |
-| `GET`  | `/api/v1/rooms/{code}/invite`   | Read the minimal invitation preview before confirmation. |
-| `POST` | `/api/v1/rooms/{code}/join`     | Join a still-open Lobby. |
-| `POST` | `/api/v1/rooms/{code}/ready`    | Change the current participant's ready state. |
-| `POST` | `/api/v1/rooms/{code}/start`    | Let the host create synchronized sessions and start the countdown. |
-| `POST` | `/api/v1/rooms/{code}/rematch`  | Submit the current participant's yes/no rematch vote. |
-| `GET`  | `/api/v1/rooms/{code}`          | Return the current member's reconnectable Lobby snapshot. |
+| Method | Path                           | Purpose                                                            |
+| ------ | ------------------------------ | ------------------------------------------------------------------ |
+| `POST` | `/api/v1/rooms`                | Create a Lobby and pin its route filters.                          |
+| `GET`  | `/api/v1/rooms/{code}/invite`  | Read the minimal invitation preview before confirmation.           |
+| `POST` | `/api/v1/rooms/{code}/join`    | Join a still-open Lobby.                                           |
+| `POST` | `/api/v1/rooms/{code}/ready`   | Change the current participant's ready state.                      |
+| `POST` | `/api/v1/rooms/{code}/start`   | Let the host create synchronized sessions and start the countdown. |
+| `POST` | `/api/v1/rooms/{code}/rematch` | Submit the current participant's yes/no rematch vote.              |
+| `GET`  | `/api/v1/rooms/{code}`         | Return the current member's reconnectable Lobby snapshot.          |
 
 `POST /api/v1/rooms` requires `difficulty` and accepts an optional canonical `category`; when
 present, both round endpoints match that category. Omitting it selects from every eligible

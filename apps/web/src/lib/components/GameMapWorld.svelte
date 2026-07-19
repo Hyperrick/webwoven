@@ -10,6 +10,7 @@
   import AtlasIcon from "./AtlasIcon.svelte";
   import EndpointArtwork from "./EndpointArtwork.svelte";
   import MobileMapChoiceNode from "./MobileMapChoiceNode.svelte";
+  import { observeMobileNodeLabel } from "./map-viewport/mobile-node-label-measure";
 
   let {
     board,
@@ -21,10 +22,11 @@
     selectedChoiceId = null,
     backTargetNodeId = null,
     selectedBackNodeId = null,
-    mobileChoiceRowLabelLines = new Map(),
+    mobileNodeLabelLines = new Map(),
+    mobileNodeRowLabelLines = new Map(),
     onChoose,
     onSelectChoice,
-    onMobileChoiceLabelMeasure,
+    onMobileNodeLabelMeasure,
     onBackNodeActivate,
     onBack,
     backDestinationLabel,
@@ -39,10 +41,11 @@
     selectedChoiceId?: string | null;
     backTargetNodeId?: string | null;
     selectedBackNodeId?: string | null;
-    mobileChoiceRowLabelLines?: ReadonlyMap<string, number>;
+    mobileNodeLabelLines?: ReadonlyMap<string, number>;
+    mobileNodeRowLabelLines?: ReadonlyMap<string, number>;
     onChoose: (choice: MapMoveChoice) => void;
     onSelectChoice: (choice: MapMoveChoice) => void;
-    onMobileChoiceLabelMeasure: (nodeId: string, lineCount: number) => void;
+    onMobileNodeLabelMeasure: (nodeId: string, lineCount: number) => void;
     onBackNodeActivate: (nodeId: string) => void;
     onBack: () => void;
     backDestinationLabel?: string;
@@ -84,6 +87,27 @@
 
   function choicePositionStyle(choice: MapMoveChoice): string {
     return positionStyle(nodesById.get(choice.target_node_id));
+  }
+
+  function mobileLabelLines(nodeId: string): number {
+    return (
+      mobileNodeRowLabelLines.get(nodeId) ??
+      mobileNodeLabelLines.get(nodeId) ??
+      2
+    );
+  }
+
+  function historyPositionStyle(node: MapBoardNode): string {
+    return `${positionStyle(node)}; --mobile-history-label-lines: ${mobileLabelLines(node.id)}`;
+  }
+
+  function measureMobileNodeLabel(
+    node: HTMLElement,
+    nodeId: string,
+  ): { destroy: () => void } {
+    return observeMobileNodeLabel(node, (lineCount) =>
+      onMobileNodeLabelMeasure(nodeId, lineCount),
+    );
   }
 
   function hintLabel(hint: MapMoveChoice["relation"]["hint"]): string {
@@ -153,13 +177,14 @@
         transition.from_node_id === node.id}
       class:map-history-node--back-target={backTarget}
       class:map-history-node--back-ready={backReady}
-      style={positionStyle(node)}
+      style={historyPositionStyle(node)}
       disabled={busy && backTarget}
       data-map-node
       data-map-node-id={node.id}
       data-map-route={taken ? "true" : undefined}
       data-map-back-target={backTarget ? "true" : undefined}
       data-map-interactive={backTarget ? "back" : "inspect"}
+      data-mobile-label-lines={mobileLabelLines(node.id)}
       aria-pressed={backTarget ? backReady : undefined}
       aria-label={backTarget
         ? `${backReady ? "Back" : "Preview Back"} to ${node.label}`
@@ -185,7 +210,7 @@
             Not taken
           {/if}
         </span>
-        <strong>{node.label}</strong>
+        <strong use:measureMobileNodeLabel={node.id}>{node.label}</strong>
       </span>
       {#if backReady}
         <span class="map-history-node__back-confirm" aria-hidden="true">
@@ -207,6 +232,7 @@
       data-map-node-id={currentNode.id}
       data-map-current="true"
       data-map-focus="current"
+      data-mobile-label-lines={mobileLabelLines(currentNode.id)}
       role="status"
       aria-live="polite"
       in:fade={{
@@ -233,7 +259,7 @@
         />
       {/if}
       <span class="map-position__kicker">You are here</span>
-      <h3>{currentNode.label}</h3>
+      <h3 use:measureMobileNodeLabel={currentNode.id}>{currentNode.label}</h3>
       <span class="map-position__inspect-button" aria-hidden="true">
         Inspect
       </span>
@@ -311,10 +337,11 @@
       data-map-node
       data-map-node-id={goalNode.id}
       data-map-goal="true"
+      data-mobile-label-lines={mobileLabelLines(goalNode.id)}
     >
       {#if compactChoices}
         <span class="map-position__kicker">Goal</span>
-        <h3>{goalNode.label}</h3>
+        <h3 use:measureMobileNodeLabel={goalNode.id}>{goalNode.label}</h3>
       {:else}
         {#if goalNode.summary}
           <EndpointArtwork
@@ -325,7 +352,7 @@
           />
         {/if}
         <span class="map-position__kicker">Your goal</span>
-        <h3>{goalNode.label}</h3>
+        <h3 use:measureMobileNodeLabel={goalNode.id}>{goalNode.label}</h3>
         <span class="map-position__distance">Find a route to this marker</span>
       {/if}
     </div>
@@ -347,10 +374,9 @@
           : undefined}
         ariaLabel={compactChoiceLabel(choice)}
         confirmIcon={compassSelecting ? "compass" : "arrow"}
-        rowLabelLines={mobileChoiceRowLabelLines.get(choice.target_node_id) ??
-          2}
+        rowLabelLines={mobileNodeRowLabelLines.get(choice.target_node_id) ?? 2}
         onActivate={activateCompactChoice}
-        onLabelMeasure={onMobileChoiceLabelMeasure}
+        onLabelMeasure={onMobileNodeLabelMeasure}
       />
     {/each}
   {:else}

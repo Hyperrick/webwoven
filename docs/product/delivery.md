@@ -6,7 +6,7 @@ submission remain explicit human decisions.
 
 The [OpenAI Build Week page](https://openai.com/build-week/),
 [Devpost overview](https://openai.devpost.com/), [official rules](https://openai.devpost.com/rules),
-and [FAQ](https://openai.devpost.com/details/faqs) were rechecked on 2026-07-18. The current judging
+and [FAQ](https://openai.devpost.com/details/faqs) were rechecked on 2026-07-19. The current judging
 criteria are technological implementation, design, potential impact, and quality of the idea.
 Rules and submission fields must still be checked immediately before submission because the
 organizers may update them during the event.
@@ -17,7 +17,7 @@ The current official requirements call for:
 
 - one working project built meaningfully with Codex and GPT-5.6 in a single best-fit track;
 - an English project description that explains the features and functionality;
-- a public YouTube demonstration with audio, no longer than three minutes, showing the working
+- a public YouTube demonstration with audio, under three minutes, showing the working
   project and specifically explaining how Codex and GPT-5.6 were used;
 - a public, appropriately licensed repository with setup and testing instructions plus a README
   that distinguishes Codex acceleration from the creator's key decisions;
@@ -29,48 +29,52 @@ live-access, dated-history, and GPT-5.6 evidence gates. The prepared
 [Devpost draft](../submission/devpost.md) uses the **Education** track and includes the story,
 testing path, upload-ready media, and a timed demo script.
 
-The primary `/feedback` Session ID has been recorded, the 2:31 narrated demo is public on YouTube,
-and the project owner has approved the final video and confirmed individual entrant eligibility.
-The remaining human-controlled gates are the final third-party-rights declaration, review of the
-completed Devpost draft, any CAPTCHA or legal acceptance Devpost requires, and the final submit
-action.
+The primary `/feedback` Session ID has been recorded and the project owner has confirmed individual
+entrant eligibility. A replacement narrated demo with the final interface and release metrics is
+being rendered after the earlier YouTube upload was removed. The Devpost thumbnail and two product
+gallery images are uploaded. The remaining human-controlled gates are approval and upload of the
+replacement video, synchronization of its URL and refreshed story to the saved draft, a final rules
+and form check, the third-party-rights and terms declarations, and the final submit action.
 
 ## Build Week milestones
 
-The project reached its midpoint with the core playable scope already deployed: all three modes,
-the production atlas, responsive map layouts, attribution, multiplayer reconnect, and
-privacy-minimized reporting are live. The dated plan below remains the delivery baseline; completed
-later-stage items were intentionally pulled forward when their dependencies were ready.
+The complete playable scope and submission package are now prepared: all three modes, the production
+atlas, responsive map layouts, attribution, Multiplayer continuity, and privacy-minimized reporting
+are live. The replacement narrated demo is the remaining media gate. The dated history below summarizes the delivered milestones;
+the approval row is intentionally outside the automated build.
 
-| Date    | Outcome                                                                                             |
-| ------- | --------------------------------------------------------------------------------------------------- |
-| July 13 | Repository, living documentation, design tokens, quality gates, and first playable foundation.      |
-| July 14 | Versioned Wikidata and Commons acquisition, relation registry, provenance, and smoke graph.         |
-| July 15 | Indexed graph, 100 candidates, 40 automatically validated rounds, and pure game engine.             |
-| July 16 | API contracts, guest sessions, scoring, hints, and Solo.                                            |
-| July 17 | Daily, leaderboard, attribution, Cartographer pipeline, and visual pass.                            |
-| July 18 | Multiplayer lobby, countdown, room streams, expiry, and reconnect.                                  |
-| July 19 | Generate, validate, manually review, and approve the Codex-assisted content pack and illustrations. |
-| July 20 | Accessibility, security, data, browser, visual, and load verification; deployment images.           |
-| July 21 | Approved deployment, demo recording, documentation freeze, and submission materials.                |
+| Date     | Outcome                                                                                                                                                                                 |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| July 13  | Repository, living documentation, design tokens, quality gates, and first playable foundation.                                                                                          |
+| July 14  | Versioned Wikidata and Commons acquisition, relation registry, provenance, and smoke graph.                                                                                             |
+| July 15  | Indexed graph, 100 candidates, 40 automatically validated rounds, and pure game engine.                                                                                                 |
+| July 16  | API contracts, guest sessions, scoring, hints, and Solo.                                                                                                                                |
+| July 17  | Daily, leaderboard, attribution, Cartographer pipeline, and visual pass.                                                                                                                |
+| July 18  | Publish all 100 start/goal round definitions, add completion confetti, package the narrated demo and Devpost draft, finish mobile labels, and complete the Multiplayer Lobby lifecycle. |
+| July 19  | Compact phone chrome, add the target heartbeat, contain desktop/mobile endpoints, add route-aware frontier recovery, and pass the release gate.                                         |
+| Approval | Owner review of the repository, live judge path, rights, and terms, followed by the final submit action.                                                                                |
 
-## Midpoint focus
+## Final owner gate
 
-The remaining half of the week concentrates on evidence and finish quality:
+Engineering and submission materials are ready for owner review. The remaining steps intentionally
+require the entrant rather than an automated repository workflow:
 
-- accessibility, keyboard, reduced-motion, and assistive-technology verification;
-- security, load, backup-restore, and production recovery checks;
-- final review of Codex-assisted content and provenance records;
-- demo capture, submission copy, and a documentation freeze.
+- approve the current repository content and live judge path;
+- approve and upload the replacement narrated video, then provide its public YouTube URL;
+- synchronize the refreshed story and final map images to the saved Devpost draft;
+- recheck the official rules and any Devpost form changes;
+- complete the third-party-rights and terms declarations;
+- recheck the final Devpost preview if any form content changes; and
+- perform the final submit action before the internal freeze.
 
 ## Release acceptance
 
-The game needs 2,500–10,000 playable entities, ten categories, 100 round candidates, 40
-automatically validated production rounds, three deterministic hints, and passing Solo, Daily, and
-Multiplayer browser flows. Every
-published media record needs complete provenance and attribution. Gameplay must make no Wikidata,
-Commons, or AI request.
+Release acceptance is met with 3,970 playable entities, ten categories, 100 validated published
+start/goal round definitions, three deterministic hints, and passing Single player, Daily, and
+Multiplayer browser flows. Every published atlas media record has provenance and attribution, and
+gameplay makes no Wikidata, Commons, Wikipedia, or AI request.
 
-The credential-free Compose stack must produce the web client, API, documentation, PostgreSQL,
-Valkey, and a healthy local graph. The submission is AI-complete when approved Codex-assisted
-artifacts, validation records, and the provenance manifest exist.
+The credential-free Compose stack produces the web client, API, documentation, PostgreSQL, Valkey,
+and a healthy local graph. The current gate passes 164 web tests, 363 Python tests, 48
+desktop/mobile Playwright flows, both Remotion composition checks, and the strict repository checks.
+Approved Codex-assisted artifacts, validation records, and the provenance manifest are versioned.

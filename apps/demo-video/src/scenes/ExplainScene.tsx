@@ -1,6 +1,5 @@
 import { Sequence, interpolate, useCurrentFrame } from "remotion";
 import { BrandCanvas } from "../components/BrandCanvas";
-import { NodePulse } from "../components/NodePulse";
 import { Screen } from "../components/Screen";
 import { VideoScreen } from "../components/VideoScreen";
 import {
@@ -45,15 +44,6 @@ export const ExplainScene = ({
               className="explain-screen"
             />
           </Sequence>
-          <NodePulse x={410} y={565} delay={20} label="current node" />
-          <NodePulse
-            x={820}
-            y={420}
-            delay={48}
-            color="#2d6574"
-            label="named fact"
-          />
-          <NodePulse x={1285} y={560} delay={76} color="#b68532" label="goal" />
         </div>
         <div className="mobile-proof" style={{ opacity: mobileOpacity }}>
           <Screen
@@ -81,7 +71,7 @@ export const ExplainScene = ({
             </div>
           </div>
         </div>
-        <Sequence from={120} durationInFrames={390}>
+        <Sequence from={500} durationInFrames={190}>
           <div className="fact-card">
             <span>Rosario</span>
             Lionel Messi was born in Rosario.

@@ -21,10 +21,10 @@ indicator, second-tap confirmation through the same command as the explicit deta
 preview switching without movement, compact reachable-goal handling, and refitting between phone
 and desktop/tablet presentations. Desktop opening-stage coverage measures the complete start and
 distant-goal cards against the actual map viewport after the endpoint reveal has closed, preventing
-the intro-to-round camera transition from clipping either endpoint. Long-label coverage uses a real
-production entity name at 320×568
-and 390×844 to verify full natural wrapping, equal label-block heights within each two-node row,
-vertical centering, adaptive row spacing, and the absence of clipping or ellipses. Desktop and phone
+the intro-to-round camera transition from clipping either endpoint. Long-label coverage uses the
+121-character longest published entity name at 320×568 and 390×844 to verify full natural wrapping
+for history and route-preview labels, equal label-block heights within each two-node row, vertical
+centering, adaptive projection spacing, and the absence of clipping, overlap, or ellipses. Desktop and phone
 flows also verify that the immediately previous node is the sole inline Back target, the first
 activation only arms its visible and accessible Back state, and the second activation submits the
 same Back command while preserving route-history reconstruction. After a confirmed phone move, the

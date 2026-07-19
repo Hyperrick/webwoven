@@ -18,7 +18,7 @@
   import type { MapInspectorAnchor } from "./map-inspector-position";
   import {
     MOBILE_MAP_LAYOUT_MEDIA_QUERY,
-    mobileChoiceRowLabelLines as deriveMobileChoiceRowLabelLines,
+    mobileNodeRowLabelLines as deriveMobileNodeRowLabelLines,
     projectMobileMapBoard,
   } from "./map-viewport/mobile-map-board-layout";
   import MapNavigationHelp from "./map-viewport/MapNavigationHelp.svelte";
@@ -52,7 +52,7 @@
   let inspectorAnchor = $state<MapInspectorAnchor | null>(null);
   let selectedMobileChoiceId = $state<string | null>(null);
   let selectedBackNodeId = $state<string | null>(null);
-  let mobileChoiceLabelLines = $state(new Map<string, number>());
+  let mobileNodeLabelLines = $state(new Map<string, number>());
   let mobileVerticalFlow = $state(
     typeof window !== "undefined" &&
       window.matchMedia(MOBILE_MAP_LAYOUT_MEDIA_QUERY).matches,
@@ -60,12 +60,12 @@
   let board = $derived(buildMapBoard(session));
   let presentationBoard = $derived(
     mobileVerticalFlow
-      ? projectMobileMapBoard(board, mobileChoiceLabelLines)
+      ? projectMobileMapBoard(board, mobileNodeLabelLines)
       : board,
   );
-  let mobileChoiceRowLabelLines = $derived(
+  let mobileNodeRowLabelLines = $derived(
     mobileVerticalFlow
-      ? deriveMobileChoiceRowLabelLines(board, mobileChoiceLabelLines)
+      ? deriveMobileNodeRowLabelLines(board, mobileNodeLabelLines)
       : new Map<string, number>(),
   );
   let previousSession: SessionSnapshot | undefined;
@@ -115,12 +115,9 @@
     selectedMobileChoiceId = choice.id;
   }
 
-  function measureMobileChoiceLabel(nodeId: string, lineCount: number): void {
-    if (mobileChoiceLabelLines.get(nodeId) === lineCount) return;
-    mobileChoiceLabelLines = new Map(mobileChoiceLabelLines).set(
-      nodeId,
-      lineCount,
-    );
+  function measureMobileNodeLabel(nodeId: string, lineCount: number): void {
+    if (mobileNodeLabelLines.get(nodeId) === lineCount) return;
+    mobileNodeLabelLines = new Map(mobileNodeLabelLines).set(nodeId, lineCount);
   }
 
   function activateBackNode(nodeId: string): void {
@@ -278,12 +275,13 @@
         {backDestinationLabel}
         compactChoices={mobileVerticalFlow}
         selectedChoiceId={selectedMobileChoiceId}
-        {mobileChoiceRowLabelLines}
+        {mobileNodeLabelLines}
+        {mobileNodeRowLabelLines}
         {backTargetNodeId}
         {selectedBackNodeId}
         onChoose={choose}
         onSelectChoice={selectMobileChoice}
-        onMobileChoiceLabelMeasure={measureMobileChoiceLabel}
+        onMobileNodeLabelMeasure={measureMobileNodeLabel}
         onBackNodeActivate={activateBackNode}
         onInspect={inspect}
       />

@@ -6,7 +6,7 @@ import { Eyebrow, SceneNumber } from "../components/Typography";
 const modes = [
   {
     start: -18,
-    end: 174,
+    end: 188,
     number: "01",
     title: "Single player",
     copy: "Explore the atlas at your own speed.",
@@ -14,21 +14,39 @@ const modes = [
     accent: "signal",
   },
   {
-    start: 156,
-    end: 291,
+    start: 170,
+    end: 340,
     number: "02",
     title: "Daily challenge",
-    copy: "One shared route with a live score board.",
+    copy: "One shared round with a live leaderboard.",
     asset: "images/daily-results-current.png",
     accent: "ochre",
   },
   {
-    start: 273,
-    end: 510,
+    start: 322,
+    end: 450,
     number: "03",
     title: "Multiplayer",
-    copy: "Two to four explorers race on the same map.",
+    copy: "Two to four explorers race together.",
     asset: "images/relay-live-current.png",
+    accent: "moss",
+  },
+  {
+    start: 432,
+    end: 522,
+    number: "03",
+    title: "Share the Lobby",
+    copy: "One link opens a join-ready Lobby.",
+    asset: "images/relay-lobby-current.png",
+    accent: "moss",
+  },
+  {
+    start: 504,
+    end: 630,
+    number: "03",
+    title: "Race again",
+    copy: "Reconnect and vote for another round.",
+    asset: "images/multiplayer-rematch-current.png",
     accent: "moss",
   },
 ] as const;
@@ -51,7 +69,7 @@ export const ModesScene = ({
       {modes.map((mode) => (
         <div
           className="mode-phase"
-          key={mode.title}
+          key={mode.asset}
           style={{ opacity: phaseOpacity(frame, mode.start, mode.end) }}
         >
           <Screen

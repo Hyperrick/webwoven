@@ -29,10 +29,12 @@ export const BrandCanvas = ({
   return (
     <AbsoluteFill
       className={dark ? "brand-canvas brand-canvas--dark" : "brand-canvas"}
-      style={{ opacity, ...style }}
+      style={style}
     >
-      <RouteField color={dark ? colors.paper : colors.ink} />
-      {children}
+      <AbsoluteFill style={{ opacity }}>
+        <RouteField color={dark ? colors.paper : colors.ink} />
+        {children}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

@@ -25,7 +25,8 @@ plates remain only as an explicit compatibility fallback for synthetic tests and
 
 The active July 16 ten-category atlas maps all 3,970 graph entities to 3,621 distinct Commons
 source files, stored locally by content hash, and carries 3,778 preferred Wikipedia article URLs.
-It compiles 22,402 directed relationships and 100 validated, published routes. The July 18
+It compiles 22,402 directed relationships and 100 validated, published start/goal round
+definitions. The July 18
 publication-policy rebuild makes the full validated pool playable without changing the underlying
 snapshot or its media. The preceding July 15 atlas remains a reusable acquisition source with 5,482 entities and
 5,062 distinct Commons files. Reuse preserves the original retrieval record and license evidence;

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title description">
-  <title id="title">Webwoven midpoint architecture</title>
+  <title id="title">Webwoven production architecture</title>
   <desc id="description">The production request path and the offline knowledge-atlas build pipeline.</desc>
   <style>
     .background { fill: #f3ecde; }
@@ -23,7 +23,7 @@
 
   <rect class="background" width="1440" height="820"/>
   <text class="title" x="64" y="60">Webwoven system map</text>
-  <text class="copy" x="64" y="88">Build Week midpoint · production runtime above · reviewed atlas pipeline below</text>
+  <text class="copy" x="64" y="88">Production runtime above · reviewed atlas pipeline below</text>
 
   <text class="section" x="64" y="140">PRODUCTION REQUEST PATH</text>
   <rect class="panel runtime" x="64" y="166" width="210" height="118" rx="8"/>
@@ -39,7 +39,7 @@
   <rect class="panel runtime" x="616" y="166" width="210" height="118" rx="8"/>
   <text class="name" x="641" y="207">FastAPI</text>
   <text class="copy" x="641" y="235">sessions + rules</text>
-  <text class="copy" x="641" y="258">score + Daily + rooms</text>
+  <text class="copy" x="641" y="258">score + Daily + Lobbies</text>
 
   <rect class="panel store" x="892" y="126" width="210" height="90" rx="8"/>
   <text class="name" x="917" y="164">SQLite atlas</text>
@@ -49,7 +49,7 @@
   <text class="copy" x="917" y="300">durable game state</text>
   <rect class="panel store" x="1168" y="236" width="208" height="90" rx="8"/>
   <text class="name" x="1193" y="274">Valkey</text>
-  <text class="copy" x="1193" y="300">live room state</text>
+  <text class="copy" x="1193" y="300">live Lobby state</text>
   <rect class="panel store" x="1168" y="126" width="208" height="90" rx="8"/>
   <text class="name" x="1193" y="164">Umami</text>
   <text class="copy" x="1193" y="190">coarse, cookie-free</text>
@@ -100,6 +100,6 @@
 
   <rect class="panel" x="340" y="650" width="762" height="108" rx="8"/>
   <text class="name" x="365" y="692">Immutable release artifact</text>
-  <text class="copy" x="365" y="720">3,970 entities · 22,402 relationships · 100 validated, playable routes</text>
+  <text class="copy" x="365" y="720">3,970 entities · 22,402 relationships · 100 checked start/goal rounds</text>
   <text class="copy" x="365" y="744">source, license, graph-build, prompt, and generator provenance preserved</text>
 </svg>

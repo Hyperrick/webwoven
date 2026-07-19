@@ -25,9 +25,10 @@ nav:
       - Delivery and acceptance: product/delivery.md
       - Devpost submission draft: submission/devpost.md
       - Demo video plan: submission/demo-video.md
+      - YouTube upload package: submission/youtube-upload.md
   - Architecture:
       - Overview: architecture/overview.md
-      - Midpoint system map: architecture/system-map.md
+      - Production system map: architecture/system-map.md
       - State machines: architecture/state-machines.md
       - Security model: architecture/security.md
   - Public API: api/index.md

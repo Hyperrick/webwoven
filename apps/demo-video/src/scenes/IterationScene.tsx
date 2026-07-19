@@ -1,5 +1,6 @@
 import { BrandCanvas } from "../components/BrandCanvas";
 import { Screen } from "../components/Screen";
+import { VideoScreen } from "../components/VideoScreen";
 import {
   AnimatedTitle,
   Eyebrow,
@@ -29,20 +30,16 @@ export const IterationScene = ({
           fromScale={1.02}
           toScale={1.06}
         />
-        <Screen
-          asset="images/mobile-preview-current.png"
-          alt="Webwoven phone node map"
+        <VideoScreen
+          asset="captures/mobile-heartbeat.mp4"
           className="device-phone"
-          fit="contain"
-          fromScale={1}
-          toScale={1.015}
         />
       </div>
       <div className="iteration-chips">
         <ProofChip tone="signal">Play modes became obvious</ProofChip>
-        <ProofChip tone="ochre">Unfair loops were removed</ProofChip>
-        <ProofChip tone="moss">Fact text became clearer</ProofChip>
-        <ProofChip tone="ink">The phone map became touch-first</ProofChip>
+        <ProofChip tone="ochre">False dead ends became Back</ProofChip>
+        <ProofChip tone="moss">Long labels stay complete</ProofChip>
+        <ProofChip tone="ink">The reachable target pulses</ProofChip>
       </div>
     </div>
   </BrandCanvas>

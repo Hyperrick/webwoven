@@ -1,9 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { startSolo } from "./helpers";
+import { followTo, startSolo } from "./helpers";
 
 const LONG_PRODUCTION_LABEL =
   "doctor honoris causa from the University of Lyon";
+const LONGEST_RELEASE_LABEL =
+  "The Church of the Immaculate Conception (The Oratory), the Oratory Priests' House and the Former Oratory School Buildings";
 
 for (const viewport of [
   { width: 320, height: 568 },
@@ -216,6 +218,108 @@ for (const viewport of [
     expect(geometry.documentScrollWidth).toBeLessThanOrEqual(
       geometry.documentWidth,
     );
+  });
+}
+
+for (const viewport of [
+  { width: 320, height: 568 },
+  { width: 390, height: 844 },
+]) {
+  test(`mobile history and preview labels never ellipsize at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    test.setTimeout(60_000);
+    await page.setViewportSize(viewport);
+    await startSolo(page);
+    for (const entity of [
+      "The Great Wave off Kanagawa",
+      "British Museum",
+      "London",
+    ]) {
+      await followTo(page, entity);
+    }
+
+    const history = page.locator(".map-history-node").first();
+    const historyLabel = history.locator("strong");
+    await historyLabel.evaluate((element, label) => {
+      element.textContent = label;
+    }, LONGEST_RELEASE_LABEL);
+    await expect
+      .poll(async () =>
+        Number(await history.getAttribute("data-mobile-label-lines")),
+      )
+      .toBeGreaterThanOrEqual(6);
+
+    const historyGeometry = await history.evaluate((element, expected) => {
+      const label = element.querySelector<HTMLElement>("strong");
+      const world = element.closest<HTMLElement>(".map-viewport__world");
+      if (!label || !world)
+        throw new Error("Mobile history fixture is incomplete");
+      const bounds = element.getBoundingClientRect();
+      const style = getComputedStyle(label);
+      const peers = [
+        ...world.querySelectorAll<HTMLElement>(
+          ".map-history-node, [data-map-current], [data-mobile-choice-node], .map-position--mobile-goal",
+        ),
+      ].filter((peer) => peer !== element);
+      const overlapsPeer = peers.some((peer) => {
+        const peerBounds = peer.getBoundingClientRect();
+        return (
+          bounds.left < peerBounds.right - 1 &&
+          bounds.right > peerBounds.left + 1 &&
+          bounds.top < peerBounds.bottom - 1 &&
+          bounds.bottom > peerBounds.top + 1
+        );
+      });
+      return {
+        text: label.textContent,
+        overflow: style.overflow,
+        textOverflow: style.textOverflow,
+        whiteSpace: style.whiteSpace,
+        fitsWidth: label.scrollWidth <= label.clientWidth + 1,
+        fitsHeight: label.scrollHeight <= label.clientHeight + 1,
+        overlapsPeer,
+      };
+    }, LONGEST_RELEASE_LABEL);
+
+    expect(historyGeometry).toMatchObject({
+      text: LONGEST_RELEASE_LABEL,
+      overflow: "visible",
+      textOverflow: "clip",
+      whiteSpace: "normal",
+      fitsWidth: true,
+      fitsHeight: true,
+      overlapsPeer: false,
+    });
+
+    const previewChoice = page
+      .locator(".mobile-map-choice-node:not(.mobile-map-choice-node--goal)")
+      .first();
+    await previewChoice.click();
+    const previewTitle = page.locator(".mobile-map-choice-detail__copy strong");
+    await expect(previewTitle).toBeVisible();
+    await previewTitle.evaluate((element, label) => {
+      element.textContent = label;
+    }, LONGEST_RELEASE_LABEL);
+    const previewGeometry = await previewTitle.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        text: element.textContent,
+        overflow: style.overflow,
+        textOverflow: style.textOverflow,
+        whiteSpace: style.whiteSpace,
+        fitsWidth: element.scrollWidth <= element.clientWidth + 1,
+        fitsHeight: element.scrollHeight <= element.clientHeight + 1,
+      };
+    });
+    expect(previewGeometry).toMatchObject({
+      text: LONGEST_RELEASE_LABEL,
+      overflow: "visible",
+      textOverflow: "clip",
+      whiteSpace: "normal",
+      fitsWidth: true,
+      fitsHeight: true,
+    });
   });
 }
 

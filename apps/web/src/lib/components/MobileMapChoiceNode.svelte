@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { MapMoveChoice } from "../domain/map-board";
   import AtlasIcon from "./AtlasIcon.svelte";
-  import { observeMobileChoiceLabel } from "./map-viewport/mobile-choice-label-measure";
+  import { observeMobileNodeLabel } from "./map-viewport/mobile-node-label-measure";
 
   let {
     choice,
@@ -32,7 +32,7 @@
   } = $props();
 
   function measureLabel(node: HTMLElement): { destroy: () => void } {
-    return observeMobileChoiceLabel(node, (lineCount) =>
+    return observeMobileNodeLabel(node, (lineCount) =>
       onLabelMeasure(choice.target_node_id, lineCount),
     );
   }

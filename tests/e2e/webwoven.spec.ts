@@ -364,6 +364,7 @@ test("an exhausted branch offers a contextual Back action", async ({
 test("Hard selection reveals its category and endpoints before controls unlock", async ({
   page,
 }) => {
+  await page.clock.install({ time: new Date("2026-07-19T12:00:00Z") });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/play/solo");
   await confirmSolo(page, "Hard");
@@ -380,6 +381,7 @@ test("Hard selection reveals its category and endpoints before controls unlock",
   await expect(artworkImages).toHaveCount(2);
   await expect(artworkImages.first()).toHaveCSS("object-fit", "contain");
   await expect(artworkImages.nth(1)).toHaveCSS("object-fit", "contain");
+  await page.clock.fastForward(5_100);
   await expect(page.locator(".round-intro")).toBeHidden({ timeout: 20_000 });
   await expect(page.locator(".game-page__play")).not.toHaveAttribute(
     "inert",

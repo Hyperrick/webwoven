@@ -1,7 +1,8 @@
 # OpenAI Build Week Devpost draft
 
 This is the copy-ready submission package. It was prepared against the official OpenAI Build Week
-rules and FAQ on July 18, 2026. It is a draft, not proof that the project has been submitted.
+rules and FAQ and last rechecked on July 19, 2026. It is a draft, not proof that the project has
+been submitted.
 
 ## Project overview
 
@@ -27,7 +28,7 @@ and repository implementation were created during the submission period.
 **License:** MIT for project-authored source and documentation. Wikidata data is CC0; Wikimedia
 Commons assets retain their recorded licenses and attribution.
 
-**Demo video:** [https://youtu.be/TzIuJh-kdGc](https://youtu.be/TzIuJh-kdGc)
+**Demo video:** Verified 2:58 1080p render ready; YouTube upload pending
 
 **Primary Codex Session ID:** `019f5c2a-d9b1-7e11-b671-5868c93b8241`
 
@@ -35,8 +36,9 @@ Commons assets retain their recorded licenses and attribution.
 
 **YouTube thumbnail:** `docs/assets/submission/youtube-thumbnail.png`
 
-**Gallery:** `docs/assets/submission/frontispiece.png` and
-`docs/assets/submission/mobile-route-preview.png`
+**Gallery:** Three new native 3:2 desktop captures under
+`docs/assets/submission/screenshots/`: `01-start-screen.png`, `02-active-game.png`, and
+`03-results-screen.png`
 
 ## Project story
 
@@ -63,15 +65,20 @@ There are three complete ways to play:
   knowledge topics.
 - **Daily challenge** gives everyone the same connection and a shared leaderboard.
 - **Multiplayer** synchronizes a route for two to four players, including live progress and
-  reconnect.
+  reconnect. A host can share a Lobby join link that asks guests to confirm before joining, the
+  first finisher opens a visible 30-second grace countdown, and accepted players can vote for
+  another round without making a new Lobby.
 
 The production atlas contains 3,970 playable entities, 22,402 directed named relationships, and
-100 validated, published routes. It works on desktop and mobile, needs no account,
-and is live at [www.webwoven.org](https://www.webwoven.org).
+100 validated, published round definitions. Each definition fixes a curated start/goal pair,
+category, difficulty, and scoring distance—not the path the player must take through the graph. It
+works on desktop and mobile, needs no account, and is live at
+[www.webwoven.org](https://www.webwoven.org). Phone labels wrap in full, the compact HUD keeps the
+target visible, and a reachable goal pulses without overriding reduced-motion preferences.
 
-A final playtest after the demo recording expanded the validated route rotation from 40 to all
-100 candidates. The brief architecture card in the video therefore shows the earlier release
-count; the voiceover and product walkthrough are unchanged.
+The replacement demo records this final release directly: it uses **Multiplayer** and **Lobby**,
+keeps Target visible without a Par field, simplifies the phone HUD, wraps every label in full,
+shows the reachable-target cue, and reports all 100 checked start/goal rounds.
 
 ### How I built it
 
@@ -90,10 +97,11 @@ system, source inspection on every move, privacy-minimized analytics, and no AI 
 gameplay.
 
 GPT-5.6 was also used iteratively rather than only for scaffolding. Hands-on desktop and phone
-playtests exposed unclear play modes, cyclic routes, dense maps, ambiguous relationship wording,
-and touch interactions that looked correct but felt wrong. I fed those observations back into
-Codex; it traced each issue to its owning domain, implemented focused changes, added regression
-coverage, rebuilt the real Compose surface, and rechecked the result.
+playtests exposed unclear play modes, repeated filtered routes, cyclic and all-terminal decisions,
+ambiguous relationship wording, crowded mobile chrome and labels, race-timing edge cases, and touch
+interactions that looked correct but felt wrong. I fed those observations back into Codex; it
+traced each issue to its owning domain, implemented focused changes, added regression coverage,
+rebuilt the real Compose surface, and rechecked the result.
 
 The AI boundary is deliberate. GPT-5.6 and Codex built the product and can create reviewed,
 provenance-labelled build artifacts. They do not choose a player's legal moves, hints, score,
@@ -106,16 +114,19 @@ The hardest part was turning a huge public graph into a readable game. Real enti
 dozens of neighbors, inverse facts can create trivial loops, and a technically correct statement
 can still sound false when rendered in the wrong direction. Webwoven solves that with a
 deterministic six-destination frontier, cycle-free active routes with explicit Back behavior,
-source-neutral relationship semantics, and automated publication checks for every round.
+route-aware reachability that retains a target-reaching choice when one exists and turns an
+exhausted frontier into Back instead of presenting false choices, source-neutral relationship
+semantics, and automated publication checks for every round.
 
 The second challenge was making one graph feel native on both a wide desktop and a narrow phone.
 Desktop uses a left-to-right atlas with a compact utility rail. Phones project the same state into
-a top-to-bottom two-column constellation with preview-then-confirm touch behavior. Both layouts
-consume the same domain projection and server commands.
+a top-to-bottom two-column constellation with preview-then-confirm touch behavior, complete
+row-equalized labels, and only the essential game chrome. Both layouts consume the same domain
+projection and server commands.
 
-The final challenge was provenance. Every published image has a source, creator, license, URL,
-retrieval record, and content hash. Every Codex-assisted content artifact has a prompt, fact hash,
-output hash, validation result, approval state, and truthful generator label.
+The final challenge was provenance. Every published atlas image has a source, creator, license,
+URL, retrieval record, and content hash. Every Codex-assisted content artifact has a prompt, fact
+hash, output hash, validation result, approval state, and truthful generator label.
 
 ### Accomplishments I am proud of
 
@@ -123,8 +134,9 @@ output hash, validation result, approval state, and truthful generator label.
 - Single player, Daily, and synchronized Multiplayer are all real, tested modes rather than demo
   toggles.
 - The complete production loop works without an AI key or runtime AI dependency.
-- The current gate covers 139 web tests, 349 Python tests, and 32 desktop/mobile Playwright flows,
-  plus formatting, linting, type checks, strict docs, data validation, and container builds.
+- The current gate covers 164 web tests, 363 Python tests, 48 desktop/mobile Playwright flows, and
+  both Remotion composition checks, plus formatting, linting, type checks, strict docs, data
+  validation, and container builds.
 - The public build journal records product decisions, failed approaches, data provenance, and the
   line between Codex acceleration and human approval.
 
@@ -148,7 +160,7 @@ round still needs explanation, and keep improving the completely open-source gam
 ## Built with tags
 
 Codex, GPT-5.6, Svelte, TypeScript, Three.js, FastAPI, Python, SQLite, PostgreSQL, Valkey, Wikidata,
-Wikimedia Commons, Docker Compose, Caddy, Playwright, MkDocs, Umami
+Wikimedia Commons, Docker Compose, Caddy, Playwright, Remotion, MkDocs, Umami
 
 ## Judge testing instructions
 
@@ -159,7 +171,8 @@ The fastest path requires no account, install, or test data:
 3. Follow a named connection and inspect its complete fact and source without moving.
 4. Use **Fit map** to see the preserved route and discarded branches.
 5. Return home and open **Daily challenge** to see the shared round and leaderboard.
-6. For Multiplayer, create a lobby and open its join URL in a second browser or private window.
+6. For Multiplayer, create a Lobby, use **Share**, open its join URL in a second browser or private
+   window, and confirm the invitation.
 
 The live instance is free and needs no credentials. The public repository contains full setup,
 testing, data-build, architecture, and deployment instructions. Building the complete Wikidata and
@@ -170,8 +183,8 @@ the real pack immediately on the live instance without rebuilding it.
 
 The plain-English TTS script is in [`demo-voiceover.txt`](demo-voiceover.txt). The matching
 [production plan](demo-video.md) records the measured narration timing, final Remotion storyboard,
-caption checks, and visual safety rules. The published 2:31 narrated video is available at
-[https://youtu.be/TzIuJh-kdGc](https://youtu.be/TzIuJh-kdGc), safely below the three-minute limit.
+caption checks, and visual safety rules. The 2:58 replacement render remains below the three-minute
+limit; its public YouTube URL will be added after owner review and upload.
 
 ## Final form checklist
 
@@ -179,13 +192,17 @@ caption checks, and visual safety rules. The published 2:31 narrated video is av
 - [ ] Recheck the official rules and any Devpost form changes on submission day.
 - [x] Run `/feedback` in the primary **Implement Webwoven game** task and save the returned Session
       ID in the form.
-- [x] Record and publish the narrated demo with GPT-5.6/Codex evidence.
-- [x] Save the overview, Education track, story, built-with tags, live URL, repository URL, YouTube
-      URL, judge instructions, and feedback ID in the Devpost draft.
-- [x] Verify the public repository, live product, and embedded public YouTube video.
-- [x] Preview the saved draft on desktop and at 412x915; the copy and links render, while Devpost's
-      narrow layout clips the embedded YouTube player horizontally.
-- [ ] Upload the 3:2 thumbnail and two gallery images after Chrome file access is available.
+- [x] Approve the final local narrated demo with GPT-5.6/Codex evidence.
+- [ ] Publish the replacement demo on YouTube and verify its public playback and captions.
+- [ ] Save the replacement YouTube URL with the overview, Education track, story, built-with tags,
+      live URL, repository URL, judge instructions, and feedback ID in the Devpost draft.
+- [ ] Verify the public repository, live product, and replacement embedded YouTube video.
+- [ ] Preview the updated saved draft on desktop and at 412x915; Devpost's narrow embedded-player
+      layout must be rechecked with the replacement upload.
+- [x] Upload the initial product-map thumbnail and two gallery images; keep the synthetic Messi
+      artwork YouTube-only.
 - [ ] Review third-party media and complete the final rights and terms declarations.
-- [ ] Recheck the completed page on desktop and mobile after media upload.
+- [ ] Approve the current repository content and live release for judging.
+- [ ] Sync this refreshed story, product-map thumbnail, and mobile gallery image to the saved draft,
+      then recheck its completed desktop and mobile previews.
 - [ ] Submit before the internal July 21, 22:00 CEST freeze.

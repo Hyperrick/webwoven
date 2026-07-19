@@ -5,7 +5,7 @@ import type {
   MapBoardNodeRole,
 } from "../src/lib/domain/map-board";
 import {
-  mobileChoiceRowLabelLines,
+  mobileNodeRowLabelLines,
   projectMobileMapBoard,
 } from "../src/lib/components/map-viewport/mobile-map-board-layout";
 
@@ -174,17 +174,56 @@ describe("mobile map board layout", () => {
       ["choice-b", 4],
       ["choice-c", 2],
     ]);
-    const rowLines = mobileChoiceRowLabelLines(source, measuredLines);
+    const rowLines = mobileNodeRowLabelLines(source, measuredLines);
     const projected = projectMobileMapBoard(source, measuredLines);
     const choiceA = absolutePoint(projected, "choice-a");
     const choiceB = absolutePoint(projected, "choice-b");
     const choiceC = absolutePoint(projected, "choice-c");
 
-    expect(rowLines.get("discarded")).toBe(2);
+    expect(rowLines.get("discarded")).toBe(6);
     expect(rowLines.get("choice-a")).toBe(4);
     expect(rowLines.get("choice-b")).toBe(4);
     expect(rowLines.get("choice-c")).toBe(2);
     expect(choiceA.y).toBeCloseTo(choiceB.y);
     expect(choiceC.y - choiceA.y).toBeCloseTo(7.4);
+  });
+
+  it("reserves measured space above history and current labels and below the goal", () => {
+    const source = board();
+    source.start_node_id = "start";
+    source.current_node_id = "current";
+    source.nodes = [
+      node("start", 0, ["start", "trail"], 0.5),
+      node("current", 1, ["trail", "current"], 0.5),
+      node("goal", 2, ["goal"], 0.5),
+    ];
+
+    const baseline = projectMobileMapBoard(source);
+    const expanded = projectMobileMapBoard(
+      source,
+      new Map([
+        ["start", 6],
+        ["current", 8],
+        ["goal", 9],
+      ]),
+    );
+    const baselineStart = absolutePoint(baseline, "start");
+    const baselineCurrent = absolutePoint(baseline, "current");
+    const expandedStart = absolutePoint(expanded, "start");
+    const expandedCurrent = absolutePoint(expanded, "current");
+    const expandedGoal = absolutePoint(expanded, "goal");
+
+    expect(expandedStart.y - baselineStart.y).toBeCloseTo(4 * 1.05);
+    expect(
+      expandedCurrent.y -
+        expandedStart.y -
+        (baselineCurrent.y - baselineStart.y),
+    ).toBeCloseTo(6 * 1.05);
+    expect(expanded.layout.height_units).toBeGreaterThan(
+      baseline.layout.height_units,
+    );
+    expect(expanded.layout.height_units - expandedGoal.y).toBeCloseTo(
+      10 + 7 * 1.05,
+    );
   });
 });

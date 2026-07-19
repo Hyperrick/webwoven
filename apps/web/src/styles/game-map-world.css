@@ -112,12 +112,14 @@
 }
 
 .map-history-node strong {
-  overflow: hidden;
+  overflow: visible;
   font-family: var(--font-display);
   font-size: var(--text-14);
   font-weight: 600;
   line-height: 1.1;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .map-history-node__kicker {
@@ -485,10 +487,6 @@
   .map-history-node {
     width: min(7.5rem, 38vw);
     padding: var(--space-1) var(--space-2);
-  }
-
-  .map-history-node strong {
-    white-space: nowrap;
   }
 
   .game-map__last-move {

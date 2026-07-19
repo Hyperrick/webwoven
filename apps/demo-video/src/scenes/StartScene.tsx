@@ -18,9 +18,11 @@ export const StartScene = ({
         <SceneNumber value="01" />
         <Eyebrow>Start a route</Eyebrow>
         <AnimatedTitle className="scene-title">
-          Choose the kind of
+          Choose the
           <br />
-          path you want.
+          kind of path
+          <br />
+          you want
         </AnimatedTitle>
         <p className="scene-body">
           Pick a difficulty, keep the whole atlas open, or focus the start and
@@ -29,7 +31,7 @@ export const StartScene = ({
         <div className="chip-stack">
           <ProofChip tone="signal">Easy · Normal · Hard</ProofChip>
           <ProofChip tone="ochre">10 optional topics</ProofChip>
-          <ProofChip tone="moss">Start · Goal · Best distance</ProofChip>
+          <ProofChip tone="moss">Start · Goal · Open path</ProofChip>
         </div>
       </div>
       <Screen

@@ -30,11 +30,15 @@ export const TrustScene = ({
       <div className="trust-stats">
         <div>
           <strong>3,970</strong>
-          <span>playable things</span>
+          <span>playable entities</span>
         </div>
         <div>
           <strong>22,402</strong>
           <span>named connections</span>
+        </div>
+        <div>
+          <strong>100</strong>
+          <span>checked rounds</span>
         </div>
         <div>
           <strong>0</strong>

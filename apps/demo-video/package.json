@@ -13,8 +13,9 @@
     "render:teaser:quick": "remotion render src/index.ts WebwovenTeaser ../../output/webwoven-teaser-preview.mp4 --codec=h264 --crf=23 --scale=0.5",
     "render:demo": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo.mp4 --codec=h264 --crf=18",
     "render:demo:quick": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-preview.mp4 --codec=h264 --crf=23 --scale=0.5",
-    "render:demo:narrated": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-narrated.mp4 --codec=h264 --crf=18 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\"}'",
-    "render:demo:narrated:quick": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-narrated-preview.mp4 --codec=h264 --crf=23 --scale=0.5 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\"}'"
+    "render:demo:narrated": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-v2.mp4 --codec=h264 --crf=18 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\",\"musicFile\":\"audio/background-music.mp3\",\"musicVolume\":0.055}'",
+    "render:demo:narrated:quick": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-v2-preview.mp4 --codec=h264 --crf=23 --scale=0.5 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\",\"musicFile\":\"audio/background-music.mp3\",\"musicVolume\":0.055}'",
+    "render:demo:narrated:rough": "remotion render src/index.ts WebwovenDemo ../../output/webwoven-build-week-demo-v2-rough-preview.mp4 --codec=h264 --crf=32 --scale=0.25 --props='{\"voiceoverFile\":\"audio/voiceover.mp3\",\"musicFile\":\"audio/background-music.mp3\",\"musicVolume\":0.055}'"
   },
   "dependencies": {
     "@fontsource-variable/ibm-plex-sans": "5.2.8",

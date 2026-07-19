@@ -1,19 +1,22 @@
 # Product screenshot provenance
 
-These screenshots were captured from **Compose acceptance** at `http://localhost` on 2026-07-17,
-after rebuilding the Caddy image. They document the product UI; they are not synthetic mockups or
-captures from the Playwright demo server.
+These are real product captures, not synthetic mockups or captures from the Playwright demo server.
+The frontispiece was captured from **Compose acceptance** at `http://localhost` on 2026-07-17. The
+desktop map was refreshed from the rebuilt Compose bundle on 2026-07-19, and the phone map was
+refreshed from the matching public production release at
+`https://www.webwoven.org` on 2026-07-19.
 
-| File                        | Surface            | Content                                                                                              |
-| --------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------- |
-| `frontispiece.webp`         | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed.  |
-| `solo-map.webp`             | Compose acceptance | A real desktop Solo session using the active July 17 Wikidata and Commons atlas.                     |
-| `mobile-route-preview.webp` | Compose acceptance | The same real Solo session at 390×844 with Brazil selected in the phone route-preview constellation. |
+| File                        | Surface            | Content                                                                                                                |
+| --------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `frontispiece.webp`         | Compose acceptance | Project-authored frontispiece and the three play-mode choices; no third-party artwork is displayed.                    |
+| `solo-map.webp`             | Compose acceptance | Final desktop Solo opening with Target in the HUD, no Par field, six choices, and both endpoints contained.            |
+| `mobile-route-preview.webp` | Public production  | Final 390×844 phone constellation with compact HUD, complete six-choice frontier, full labels, and no overlay toolbar. |
 
 The Devpost preparation assets under `docs/assets/submission/` are PNG conversions of these
 captures. `devpost-thumbnail.png` places `solo-map.webp` unchanged on a 3:2 project-authored paper
-frame; `frontispiece.png` and `mobile-route-preview.png` are format-only copies. They inherit the
-same capture surface and source attribution recorded below.
+frame; `frontispiece.png` and `mobile-route-preview.png` are format-only copies. The refreshed map
+and phone assets must be synchronized to the saved Devpost draft after owner approval. They inherit
+the same capture surfaces and source attribution recorded below.
 
 `docs/assets/submission/youtube-thumbnail.png` is separate promotional artwork, not a product
 capture and not one of the Devpost gallery images. The project owner supplied and approved this
@@ -25,16 +28,22 @@ final personality, publicity, and platform-rights review for that artwork.
 
 The desktop and phone Solo captures include reduced documentary images served from the immutable
 local bundle.
-Complete machine-readable attribution is preserved in `data/builds/current/attribution.json` and
-the in-game Sources drawer. The visible records include:
 
-| Entity | Creator or credit                                        | License                                                             | Source                                                                                                                                                                                                                                                         |
-| ------ | -------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Q1065  | U.S. Department of State from United States              | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](<https://commons.wikimedia.org/wiki/File:Secretary_Kerry_Addresses_Delegates_Before_Signing_the_COP21_Climate_Change_Agreement_on_Earth_Day_in_New_York_(26514585581).jpg>)                                                                          |
-| Q8683  | U.S. Army photo Photo Credit: USAMHI                     | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](https://commons.wikimedia.org/wiki/File:US_Army_tanks_face_off_against_Soviet_tanks,_Berlin_1961.jpg)                                                                                                                                                |
-| Q155   | Rafael Rabello de Barros                                 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)      | [Commons](https://commons.wikimedia.org/wiki/File:Cidade_Maravilhosa.jpg)                                                                                                                                                                                      |
-| Q298   | Natalia Reyes Escobar                                    | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)      | [Commons](https://commons.wikimedia.org/wiki/File:Macizo_Paine_al_Amanecer_Torres_del_Paine.jpg)                                                                                                                                                               |
-| Q414   | Marina Balasini & Juan Montiel from Argentina, Argentina | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)            | [Commons](https://commons.wikimedia.org/wiki/File:Argentina_Banner_5.jpg)                                                                                                                                                                                      |
-| Q739   | Julien H                                                 | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0)      | [Commons](<https://commons.wikimedia.org/wiki/File:El_Desierto_de_Tatacoah_(Colombia)_banner.jpg>)                                                                                                                                                             |
-| Q801   | vivali                                                   | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0)            | [Commons](https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D1%8F_%D0%B1%D0%B0%D1%88%D0%BD%D1%8F_%D1%81%D1%83%D0%BB%D1%82%D0%B0%D0%BD%D0%B0_%D0%90%D0%B1%D0%B4%D1%83%D0%BB_%D0%A5%D0%B0%D0%BC%D0%B8%D0%B4%D0%B0_II_-_panoramio.jpg) |
-| Q96    | Alejandro Islas Photograph AC                            | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)            | [Commons](https://commons.wikimedia.org/wiki/File:Ciudad.de.Mexico.City.Distrito.Federal.DF.Paseo.Reforma.Skyline.jpg)                                                                                                                                         |
+The final Devpost gallery set under `docs/assets/submission/screenshots/` was captured separately
+from the real Compose product on 2026-07-19 at a native 1620×1080 browser viewport. The three PNGs
+show the current frontispiece, a newly started Desmond Tutu to Eleanor Roosevelt Solo round, and the
+result of completing that same round through Nobel Peace Prize and United Nations. Each file is a
+native 3:2 viewport capture and is below Devpost's 5 MB image limit.
+Complete machine-readable attribution is preserved in `data/builds/current/attribution.json` and
+the in-game Sources drawer. Representative records visible across the refreshed captures include:
+
+| Entity  | Creator or credit         | License                                                             | Source                                                                                                                                               |
+| ------- | ------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q517    | Jacques-Louis David       | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](https://commons.wikimedia.org/wiki/File:Jacques-Louis_David_-_The_Emperor_Napoleon_in_His_Study_at_the_Tuileries_-_Google_Art_Project.jpg) |
+| Q1001   | Elliott & Fry             | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](https://commons.wikimedia.org/wiki/File:Mahatma-Gandhi,_studio,_1931.jpg)                                                                  |
+| Q6691   | NikonZ7II                 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)      | [Commons](<https://commons.wikimedia.org/wiki/File:Homer_bust,_Farnese_collection_(Naples).jpg>)                                                     |
+| Q131149 | B. D. Maxham              | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](https://commons.wikimedia.org/wiki/File:Benjamin_D._Maxham_-_Henry_David_Thoreau_-_Restored_-_greyscale_-_straightened.jpg)                |
+| Q1398   | Armando Mancini           | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](<https://commons.wikimedia.org/wiki/File:Parco_della_Grotta_di_Posillipo5_(crop).jpg>)                                                     |
+| Q859    | Marie-Lan Nguyen          | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5)            | [Commons](https://commons.wikimedia.org/wiki/File:Plato_Silanion_Musei_Capitolini_MC1377.jpg)                                                        |
+| Q909    | Grete Stern               | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](<https://commons.wikimedia.org/wiki/File:Jorge_Luis_Borges_1951,_by_Grete_Stern_(full).jpg>)                                               |
+| Q692    | Attributed to John Taylor | [Public Domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Commons](https://commons.wikimedia.org/wiki/File:Shakespeare.jpg)                                                                                   |
