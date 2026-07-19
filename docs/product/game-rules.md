@@ -66,8 +66,11 @@ The expanding atlas is a free spatial canvas rather than a one-directional strip
 the background to pan in both directions, pinch or scroll around a pointer to zoom, fit the entire
 explored map, or return to the current position. Arrow keys pan when the canvas is focused; `+` and
 `-` zoom, `0` fits the map, and `Home` returns to the current node. A newly resolved move preserves
-the player's zoom. Desktop and tablet pan the newest current stage into the left third of the
-viewport, leaving the new frontier visible to its right; phones place it toward the upper portion,
+the player's zoom. The initial desktop camera contains the complete start card, active frontier,
+and distant goal card; finishing the endpoint reveal refits that same opening stage rather than
+letting normal stage-follow panning cut off either endpoint. Desktop and tablet pan later current
+stages into the left third of the viewport, leaving the new frontier visible to its right; phones
+place it toward the upper portion,
 leaving the new frontier visible below. The camera and decorative renderer move together over 320ms;
 reduced-motion mode updates immediately. Hint-only updates do not pull the camera away from an older
 branch being inspected. On phones, the current card, compact constellation, and selected detail tray
@@ -155,13 +158,16 @@ active stage. Node identities, links, commands, scoring, and the desktop and tab
 do not change; desktop and tablet continue to use direct full cards. After a phone move, camera
 fitting includes the immediately previous node, current entity, and every active frontier choice so
 the complete next decision and inline Back target remain reachable without manual panning.
+Returning from an exhausted branch keeps the desktop camera stationary. On phones, the same recovery
+preserves the zoom but applies the smallest necessary vertical correction so the taller recovered
+current card cannot sit behind the HUD and its new choices remain inside the map viewport.
 
-Before presenting a frontier with only one distinct destination, the server follows that forced
-continuation through the stored graph. If it reaches neither the round target nor a node with at
-least two route-safe destinations, the current node is treated as exhausted. This stops the player
-at the entrance to a terminal corridor, so one Back returns to the genuine decision node instead of
-inviting repeated moves into the same dead end. Direct one-move dead ends remain valid choices when
-they are presented alongside real alternatives.
+Before presenting a frontier, the server searches the pinned graph for a path to the round target
+that does not revisit any entity in the active route. If no such path remains, the current node is
+treated as exhausted and exposes no false choice, so one Back returns to the last decision that can
+still lead forward. A direct dead-end decoy remains valid when it appears beside at least one
+route-safe target path. When dense ranking limits the frontier to six destinations, the first move
+of that safe path is retained even if global distance ranking would otherwise hide it.
 
 The timer is visually prominent but is not a live region, preventing screen readers from
 announcing every second. Interactive nodes remain semantic DOM controls with full labels and fact

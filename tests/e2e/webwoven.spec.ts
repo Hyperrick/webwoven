@@ -329,14 +329,35 @@ test("an exhausted branch offers a contextual Back action", async ({
       .locator(".map-history-node--backtracked")
       .filter({ hasText: "Thirty-six Views of Mount Fuji" }),
   ).toHaveCount(0);
-  await expect
-    .poll(() =>
-      mapWorld.evaluate((element) => getComputedStyle(element).transform),
-    )
-    .toBe(cameraBeforeRecovery);
   await expect(
     page.locator(".map-position--current").filter({ hasText: "Hokusai" }),
   ).toBeVisible();
+  if ((page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= 512) {
+    await expect
+      .poll(async () => {
+        const [viewportBounds, currentBounds] = await Promise.all([
+          page.locator(".game-map__viewport").boundingBox(),
+          page
+            .locator(".map-position--current")
+            .filter({ hasText: "Hokusai" })
+            .boundingBox(),
+        ]);
+        return Boolean(
+          viewportBounds &&
+            currentBounds &&
+            currentBounds.y >= viewportBounds.y - 1 &&
+            currentBounds.y + currentBounds.height <=
+              viewportBounds.y + viewportBounds.height + 1,
+        );
+      })
+      .toBe(true);
+  } else {
+    await expect
+      .poll(() =>
+        mapWorld.evaluate((element) => getComputedStyle(element).transform),
+      )
+      .toBe(cameraBeforeRecovery);
+  }
   await expect(page.locator(".game-map__dead-end")).toHaveCount(0);
 });
 

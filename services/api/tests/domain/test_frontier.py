@@ -1,5 +1,7 @@
 """Playable frontiers own active-route exclusion before choice ranking."""
 
+from collections import deque
+
 from webwoven_api.domain.navigation import NavigationState, follow_edge, start_navigation
 from webwoven_api.domain.scoring import Difficulty
 from webwoven_api.graph.contracts import Entity, GraphEdge, Round
@@ -97,7 +99,7 @@ def test_frontier_keeps_a_forced_corridor_that_reaches_the_target() -> None:
     assert {edge.target_id for edge in visible} == {"Q3"}
 
 
-def test_frontier_keeps_a_forced_corridor_that_reaches_a_real_choice() -> None:
+def test_frontier_rejects_a_branch_when_none_of_its_choices_reach_the_target() -> None:
     graph, round_ = _graph(
         (
             ("Q1", "Q2"),
@@ -119,18 +121,72 @@ def test_frontier_keeps_a_forced_corridor_that_reaches_a_real_choice() -> None:
 
     visible = playable_edges_for(graph, round_, navigation)
 
-    assert {edge.target_id for edge in visible} == {"Q3"}
+    assert visible == ()
+
+
+def test_frontier_stops_when_every_choice_is_an_immediate_dead_end() -> None:
+    graph, round_ = _graph(
+        (("Q1", "Q2"), ("Q1", "Q3")),
+        target_id="Q9",
+    )
+
+    visible = playable_edges_for(graph, round_, start_navigation("Q1"))
+
+    assert visible == ()
+
+
+def test_frontier_stops_when_every_choice_is_a_terminal_corridor() -> None:
+    graph, round_ = _graph(
+        (
+            ("Q1", "Q2"),
+            ("Q2", "Q4"),
+            ("Q1", "Q3"),
+            ("Q3", "Q5"),
+            ("Q5", "Q6"),
+        ),
+        target_id="Q9",
+    )
+
+    visible = playable_edges_for(graph, round_, start_navigation("Q1"))
+
+    assert visible == ()
 
 
 def test_frontier_keeps_a_one_move_dead_end_among_real_choices() -> None:
     graph, round_ = _graph(
-        (("Q1", "Q2"), ("Q1", "Q3"), ("Q3", "Q4")),
+        (("Q1", "Q2"), ("Q1", "Q3"), ("Q3", "Q4"), ("Q4", "Q9")),
         target_id="Q9",
     )
 
     visible = playable_edges_for(graph, round_, start_navigation("Q1"))
 
     assert {edge.target_id for edge in visible} == {"Q2", "Q3"}
+
+
+def test_frontier_keeps_a_route_safe_choice_beyond_the_visible_cap() -> None:
+    graph, round_ = _graph(
+        (
+            ("Q0", "Q1"),
+            ("Q0", "Q9"),
+            *(("Q1", f"Q{index}") for index in range(2, 9)),
+            *((f"Q{index}", "Q0") for index in range(2, 8)),
+            ("Q8", "Q10"),
+            ("Q10", "Q9"),
+        ),
+        target_id="Q9",
+    )
+    navigation = NavigationState(
+        stack=("Q0", "Q1"),
+        trail=("Q0", "Q1"),
+        moves=1,
+    )
+
+    visible = playable_edges_for(graph, round_, navigation)
+    visible_targets = {edge.target_id for edge in visible}
+
+    assert len(visible_targets) == MAX_VISIBLE_TARGETS
+    assert "Q8" in visible_targets
+    assert "Q7" not in visible_targets
 
 
 def _dense_graph() -> tuple[MemoryGraphReader, Round]:
@@ -218,4 +274,26 @@ def _graph(
         time_window=180,
         published=True,
     )
-    return MemoryGraphReader(entities, edges, (round_,), {}), round_
+    distances = _distances_to_target(round_.id, target_id, edge_pairs)
+    return MemoryGraphReader(entities, edges, (round_,), distances), round_
+
+
+def _distances_to_target(
+    round_id: str,
+    target_id: str,
+    edge_pairs: tuple[tuple[str, str], ...],
+) -> dict[tuple[str, str], int]:
+    reverse_edges: dict[str, set[str]] = {}
+    for source_id, edge_target_id in edge_pairs:
+        reverse_edges.setdefault(edge_target_id, set()).add(source_id)
+
+    distances = {target_id: 0}
+    queue = deque([target_id])
+    while queue:
+        target = queue.popleft()
+        for source_id in sorted(reverse_edges.get(target, ())):
+            if source_id in distances:
+                continue
+            distances[source_id] = distances[target] + 1
+            queue.append(source_id)
+    return {(round_id, entity_id): distance for entity_id, distance in distances.items()}

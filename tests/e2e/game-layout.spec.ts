@@ -308,7 +308,7 @@ test("short phone layout keeps HUD, map, and hints in one viewport", async ({
   );
 });
 
-test("desktop layout keeps HUD, map, and hints in one viewport", async ({
+test("desktop layout keeps HUD, endpoints, map, and hints in one viewport", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1341, height: 868 });
@@ -322,6 +322,25 @@ test("desktop layout keeps HUD, map, and hints in one viewport", async ({
     "data-map-presentation",
     "cards",
   );
+
+  const [mapViewportBox, startBox, goalBox] = await Promise.all([
+    page.locator(".game-map__viewport").boundingBox(),
+    page.locator(".map-position--current:not([inert])").boundingBox(),
+    page.locator('[data-map-goal="true"]').boundingBox(),
+  ]);
+  expect(mapViewportBox).not.toBeNull();
+  expect(startBox).not.toBeNull();
+  expect(goalBox).not.toBeNull();
+  for (const endpointBox of [startBox!, goalBox!]) {
+    expect(endpointBox.x).toBeGreaterThanOrEqual(mapViewportBox!.x - 1);
+    expect(endpointBox.x + endpointBox.width).toBeLessThanOrEqual(
+      mapViewportBox!.x + mapViewportBox!.width + 1,
+    );
+    expect(endpointBox.y).toBeGreaterThanOrEqual(mapViewportBox!.y - 1);
+    expect(endpointBox.y + endpointBox.height).toBeLessThanOrEqual(
+      mapViewportBox!.y + mapViewportBox!.height + 1,
+    );
+  }
 
   const hintDock = page.locator(".hint-dock");
   await expect(page.locator(".round-masthead")).toBeInViewport();

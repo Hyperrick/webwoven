@@ -19,13 +19,18 @@ dead-end recovery, and narrow-phone containment. Phone regressions additionally 
 two-column constellation packing, first-tap preview without a command, the selected marker's action
 indicator, second-tap confirmation through the same command as the explicit detail-tray action,
 preview switching without movement, compact reachable-goal handling, and refitting between phone
-and desktop/tablet presentations. Long-label coverage uses a real production entity name at 320×568
+and desktop/tablet presentations. Desktop opening-stage coverage measures the complete start and
+distant-goal cards against the actual map viewport after the endpoint reveal has closed, preventing
+the intro-to-round camera transition from clipping either endpoint. Long-label coverage uses a real
+production entity name at 320×568
 and 390×844 to verify full natural wrapping, equal label-block heights within each two-node row,
 vertical centering, adaptive row spacing, and the absence of clipping or ellipses. Desktop and phone
 flows also verify that the immediately previous node is the sole inline Back target, the first
 activation only arms its visible and accessible Back state, and the second activation submits the
 same Back command while preserving route-history reconstruction. After a confirmed phone move, the
 camera keeps that target, the current stage, and every newly available frontier node visible.
+Exhausted-branch recovery additionally requires the complete returned current card to sit inside the
+phone map viewport after Back, while desktop retains its stationary collapse camera.
 Phone coverage at the 32rem vertical-map breakpoint verifies one unclipped HUD row with Time, Moves,
 and the complete wrapping Target; Score, the map header, the canvas toolbar, and a disabled Back
 action remain hidden. Available Back and the compact icon-plus-penalty hint controls retain at least
@@ -41,6 +46,10 @@ the shared data bundle, targets already present in the active route disappear be
 ranking and hint selection, direct cyclic commands are rejected without mutation, and Back pops
 the route so a deliberate retry becomes available again. The Albert Einstein → Czech Republic →
 UNESCO → Austria real-data path is also exercised in a browser smoke check.
+Frontier regressions separately cover one forced corridor, several immediate dead ends, several
+longer terminal corridors, a branch whose children are all terminal, a corridor that reaches the
+target, a direct dead end retained beside a genuine target-reaching alternative, and a route-safe
+choice retained beyond the six-choice display cap.
 
 Round-selection regressions cover forced-opening exclusion for Solo, multiplayer-lobby, and new Daily
 assignments while preserving explicit and already-pinned replay. They also lock the four/four/two

@@ -22,6 +22,7 @@ def select_visible_edges(
     *,
     current_distance: int | None,
     limit: int = MAX_VISIBLE_TARGETS,
+    required_target_id: str | None = None,
 ) -> tuple[GraphEdge, ...]:
     """Keep a small, diverse set that always exposes a route toward the goal."""
     if limit < 1:
@@ -51,7 +52,15 @@ def select_visible_edges(
         ),
         key=rank,
     )
-    selected_targets = {choice.target_id for choice in ordered[:limit]}
+    selected = ordered[:limit]
+    selected_targets = {choice.target_id for choice in selected}
+    if (
+        required_target_id is not None
+        and required_target_id not in selected_targets
+        and any(choice.target_id == required_target_id for choice in ordered)
+    ):
+        selected_targets = {choice.target_id for choice in selected[: max(0, limit - 1)]}
+        selected_targets.add(required_target_id)
     return tuple(edge for edge in edges if edge.target_id in selected_targets)
 
 

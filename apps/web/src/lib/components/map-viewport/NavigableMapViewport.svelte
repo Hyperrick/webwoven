@@ -237,9 +237,17 @@
   }
 
   function panToActiveStage(nextTransition: MapTransition): void {
+    if (nextTransition.kind === "initial") {
+      fitActive();
+      return;
+    }
     const currentBounds = currentBoundsFor(nextTransition.to_node_id);
     if (!currentBounds) return;
-    if (nextTransition.kind === "dead_end_back") return;
+    if (nextTransition.kind === "dead_end_back") {
+      if (!verticalFlow) return;
+      animateCameraTo(ensureVerticalActiveStageVisible(camera), 220);
+      return;
+    }
     if (nextTransition.kind === "back") {
       const worldPoint = {
         x: (currentBounds.left + currentBounds.right) / 2,
@@ -426,7 +434,7 @@
   function initialFocusSelector(): string {
     return isNarrowViewport()
       ? "[data-map-current], [data-map-near-focus]"
-      : "[data-map-focus]";
+      : "[data-map-focus], [data-map-goal]";
   }
 
   function isNarrowViewport(): boolean {
