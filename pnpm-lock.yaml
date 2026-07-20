@@ -42,8 +42,8 @@ importers:
         specifier: 4.0.490
         version: 4.0.490(postcss@8.5.19)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@remotion/media':
-        specifier: 4.0.490
-        version: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: 4.0.494
+        version: 4.0.494(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -529,8 +529,8 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@remotion/media@4.0.490':
-    resolution: {integrity: sha512-grB7t0ccWDB5Yj2ajAugMEHf/mG5Qe99j60q1b2LPb3JvRAiE1/t7XsyRu+Jtlf3hniUYerZ01VYz+0O4IIyHw==}
+  '@remotion/media@4.0.494':
+    resolution: {integrity: sha512-Gj0ZGZPFL+PxT3wYc4LjhrMPSkcNb1zg47odog19pn4VirYoPOxBRlKWp/yta3x6ruuQrYF/tKLqwlCdN0cSwg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -924,6 +924,9 @@ packages:
 
   '@types/dom-webcodecs@0.1.13':
     resolution: {integrity: sha512-O5hkiFIcjjszPIYyUSyvScyvrBoV3NOEEZx/pMlsu44TKzWNkLVBBxnxJz42in5n3QIolYOcBYFCPZZ0h8SkwQ==}
+
+  '@types/dom-webcodecs@0.1.18':
+    resolution: {integrity: sha512-vAvE8C9DGWR+tkb19xyjk1TSUlJ7RUzzp4a9Anu7mwBT+fpyePWK1UxmH14tMO5zHmrnrRIMg5NutnnDztLxgg==}
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -1914,6 +1917,12 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
+  remotion@4.0.494:
+    resolution: {integrity: sha512-WiAUJ5rjhoYvBJzwp8ZLybhJZLe6VAwWk7pbs9Jv1yYLbHAV9RraUaNHuegaIKbbmgW2c9UDPgKjdZ9k9XjTyA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   require-from-string@2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
@@ -2801,12 +2810,12 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
       remotion: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
 
-  '@remotion/media@4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@remotion/media@4.0.494(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       mediabunny: 1.50.8
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-      remotion: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      remotion: 4.0.494(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       zod: 4.3.6
 
   '@remotion/player@4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
@@ -3142,9 +3151,11 @@ snapshots:
 
   '@types/dom-mediacapture-transform@0.1.12':
     dependencies:
-      '@types/dom-webcodecs': 0.1.13
+      '@types/dom-webcodecs': 0.1.18
 
   '@types/dom-webcodecs@0.1.13': {}
+
+  '@types/dom-webcodecs@0.1.18': {}
 
   '@types/eslint-scope@3.7.7':
     dependencies:
@@ -4033,6 +4044,11 @@ snapshots:
       tslib: 2.8.1
 
   remotion@4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+
+  remotion@4.0.494(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
