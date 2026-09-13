@@ -77,7 +77,7 @@ jobs:
     needs: [python, web, browser, docs-and-data]
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
       - run: docker compose config --quiet
       - name: Validate production Compose override
         env:
