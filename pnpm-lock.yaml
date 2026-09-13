@@ -22,10 +22,10 @@ importers:
         version: 4.1.1(prettier@3.9.5)(svelte@5.56.4)
       stylelint:
         specifier: ^17.15.0
-        version: 17.15.0(typescript@5.9.3)
+        version: 17.15.0(supports-color@10.2.2)(typescript@5.9.3)
       stylelint-config-standard:
         specifier: ^40.0.0
-        version: 40.0.0(stylelint@17.15.0(typescript@5.9.3))
+        version: 40.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
 
   apps/demo-video:
     dependencies:
@@ -42,8 +42,8 @@ importers:
         specifier: 4.0.490
         version: 4.0.490(postcss@8.5.28)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@remotion/media':
-        specifier: 4.0.490
-        version: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: 4.0.523
+        version: 4.0.523(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -523,8 +523,8 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@remotion/media@4.0.490':
-    resolution: {integrity: sha512-grB7t0ccWDB5Yj2ajAugMEHf/mG5Qe99j60q1b2LPb3JvRAiE1/t7XsyRu+Jtlf3hniUYerZ01VYz+0O4IIyHw==}
+  '@remotion/media@4.0.523':
+    resolution: {integrity: sha512-QHOqaDFNzXHc2sIc/q+S8r/mMtqglmtu0Yw6arkJBrclT6//zKvRthqvsFdfD5SEgvuKdi1/MfFvrzxNYdPRZg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -919,6 +919,9 @@ packages:
 
   '@types/dom-webcodecs@0.1.13':
     resolution: {integrity: sha512-O5hkiFIcjjszPIYyUSyvScyvrBoV3NOEEZx/pMlsu44TKzWNkLVBBxnxJz42in5n3QIolYOcBYFCPZZ0h8SkwQ==}
+
+  '@types/dom-webcodecs@0.1.19':
+    resolution: {integrity: sha512-+yFUIDUaASFz0vQpWBErPxun/Lb+F0TdrlTsj50gm7K797YzEx2TmV6fEiwciHyFNghlZYPgQXH5qRcwMHcJFQ==}
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -1671,6 +1674,9 @@ packages:
   mediabunny@1.50.8:
     resolution: {integrity: sha512-LgykLyQzhdpo0V2yw3UXmOpj+b4JAGdpHBwsPE6kjSt8Za0d1VllD+FV7EGHBcdV4+oHUAo+yrqbVAWxNSDCPQ==}
 
+  mediabunny@1.55.5:
+    resolution: {integrity: sha512-m0v6y8FGXiK+HKOc3AZqU+kJPLYsSKaLitmQNQIIHZKIGlTwQ34OF+X6Ul0K8iV4b03oPse10apwuoqbvmKeAA==}
+
   memfs@3.4.3:
     resolution: {integrity: sha512-eivjfi7Ahr6eQTn44nvTnR60e4a1Fs1Via2kCR5lHo/kyNoiMWaXCNJ/GpSd0ilXas2JSOl9B5FTIhflXu0hlg==}
     engines: {node: '>= 4.0.0'}
@@ -1905,6 +1911,12 @@ packages:
 
   remotion@4.0.490:
     resolution: {integrity: sha512-acyJNHljJvH7+I9kXJAK5bVVN7FAyM3tILGhnwZKJoB27Xp2WQ3cMyGIh8XFwlR66/ZESWkw74s49GItHejOWQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  remotion@4.0.523:
+    resolution: {integrity: sha512-dtDmkgFNsy9Dbh4EdyFwa53/UC3EpAhV1VvAPjzNbijqaEDCuALF7jnycOe/grex8DKB64NGUP6PaCrs5dcDOw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -2402,6 +2414,9 @@ packages:
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
+  zod@4.5.4:
+    resolution: {integrity: sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==}
+
 snapshots:
 
   '@babel/code-frame@7.29.7':
@@ -2789,13 +2804,13 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
       remotion: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
 
-  '@remotion/media@4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@remotion/media@4.0.523(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      mediabunny: 1.50.8
+      mediabunny: 1.55.5
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-      remotion: 4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      zod: 4.3.6
+      remotion: 4.0.523(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      zod: 4.5.4
 
   '@remotion/player@4.0.490(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
@@ -3126,9 +3141,11 @@ snapshots:
 
   '@types/dom-mediacapture-transform@0.1.12':
     dependencies:
-      '@types/dom-webcodecs': 0.1.13
+      '@types/dom-webcodecs': 0.1.19
 
   '@types/dom-webcodecs@0.1.13': {}
+
+  '@types/dom-webcodecs@0.1.19': {}
 
   '@types/eslint-scope@3.7.7':
     dependencies:
@@ -3824,6 +3841,11 @@ snapshots:
       '@types/dom-mediacapture-transform': 0.1.12
       '@types/dom-webcodecs': 0.1.13
 
+  mediabunny@1.55.5:
+    dependencies:
+      '@types/dom-mediacapture-transform': 0.1.12
+      '@types/dom-webcodecs': 0.1.13
+
   memfs@3.4.3:
     dependencies:
       fs-monkey: 1.0.3
@@ -4018,6 +4040,11 @@ snapshots:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
 
+  remotion@4.0.523(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+
   require-from-string@2.0.2: {}
 
   resolve-from@4.0.0: {}
@@ -4169,16 +4196,16 @@ snapshots:
     dependencies:
       webpack: 5.105.0(esbuild@0.28.1)(postcss@8.5.28)
 
-  stylelint-config-recommended@18.0.0(stylelint@17.15.0(typescript@5.9.3)):
+  stylelint-config-recommended@18.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3)):
     dependencies:
-      stylelint: 17.15.0(typescript@5.9.3)
+      stylelint: 17.15.0(supports-color@10.2.2)(typescript@5.9.3)
 
-  stylelint-config-standard@40.0.0(stylelint@17.15.0(typescript@5.9.3)):
+  stylelint-config-standard@40.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3)):
     dependencies:
-      stylelint: 17.15.0(typescript@5.9.3)
-      stylelint-config-recommended: 18.0.0(stylelint@17.15.0(typescript@5.9.3))
+      stylelint: 17.15.0(supports-color@10.2.2)(typescript@5.9.3)
+      stylelint-config-recommended: 18.0.0(stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3))
 
-  stylelint@17.15.0(typescript@5.9.3):
+  stylelint@17.15.0(supports-color@10.2.2)(typescript@5.9.3):
     dependencies:
       '@csstools/css-calc': 3.3.0(@csstools/css-parser-algorithms@4.0.0(@csstools/css-tokenizer@4.0.0))(@csstools/css-tokenizer@4.0.0)
       '@csstools/css-parser-algorithms': 4.0.0(@csstools/css-tokenizer@4.0.0)
@@ -4519,3 +4546,5 @@ snapshots:
   zimmerframe@1.1.4: {}
 
   zod@4.3.6: {}
+
+  zod@4.5.4: {}
