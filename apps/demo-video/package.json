@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@fontsource-variable/ibm-plex-sans": "5.3.0",
-    "@fontsource-variable/newsreader": "5.2.10",
+    "@fontsource-variable/newsreader": "5.3.0",
     "@fontsource/ibm-plex-mono": "5.2.7",
     "@remotion/cli": "4.0.490",
     "@remotion/media": "4.0.523",
