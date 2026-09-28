@@ -19,7 +19,7 @@
     "files:check": "python3 scripts/check_file_size.py"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.0",
+    "@playwright/test": "^1.63.0",
     "openapi-typescript": "^7.8.0",
     "prettier": "^3.5.0",
     "prettier-plugin-svelte": "^4.1.1",
