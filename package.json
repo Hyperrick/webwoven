@@ -21,7 +21,7 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "openapi-typescript": "^7.8.0",
-    "prettier": "^3.5.0",
+    "prettier": "^3.9.9",
     "prettier-plugin-svelte": "^4.1.1",
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0"
