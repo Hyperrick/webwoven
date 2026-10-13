@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "7.3.1",
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.5",
     "@types/three": "0.186.0",
     "svelte-check": "^4.7.6",
     "typescript": "^5.9.0",
