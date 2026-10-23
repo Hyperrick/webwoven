@@ -51,8 +51,8 @@ importers:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
       remotion:
-        specifier: 4.0.535
-        version: 4.0.535(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: 4.0.537
+        version: 4.0.537(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
     devDependencies:
       '@types/react':
         specifier: ^19.2.0
@@ -1954,6 +1954,12 @@ packages:
 
   remotion@4.0.535:
     resolution: {integrity: sha512-BfrVKlgo2+g3VcjFoHMhkLrJgwyX+IgEbljwKiZ6M+UCJlvpHhXkfT968iYfr+1VDvH5JWQUIUmHQhoU9PLCEw==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  remotion@4.0.537:
+    resolution: {integrity: sha512-chlB4+lnCWnDr6Pk+fDh3vWgac/ntGduq4VUpDsXzY1Pzu6URdnl40LUClK4ZlS3mwMv2U0oflE7qjZ9LGpVWg==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -4195,6 +4201,11 @@ snapshots:
       react-dom: 19.3.0(react@19.3.0)
 
   remotion@4.0.535(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+      react-dom: 19.3.0(react@19.3.0)
+
+  remotion@4.0.537(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
